@@ -1,0 +1,30 @@
+[
+  {
+    "campaign": "Example Campaign Name",
+    "brand": "Brand Name",
+    "year": 2025,
+    "headline": "Main Headline or Tagline",
+    "rhetoricalDevices": [
+      "Primary Device",
+      "Secondary Device"
+    ],
+    "rationale": "Strategic explanation of why this campaign works and its core insight",
+    "outcome": "Measurable results, awards won, or cultural impact achieved",
+    "whenToUse": "Specific scenarios where this approach would be effective",
+    "whenNotToUse": "Situations where this strategy should be avoided"
+  },
+  {
+    "campaign": "Another Example",
+    "brand": "Different Brand",
+    "year": 2025,
+    "headline": "Second Example Headline",
+    "rhetoricalDevices": [
+      "Metaphor",
+      "Anaphora"
+    ],
+    "rationale": "Different strategic approach demonstrating variety in the corpus",
+    "outcome": "Different type of success metric or recognition",
+    "whenToUse": "Alternative usage scenario",
+    "whenNotToUse": "Different avoidance scenario"
+  }
+]

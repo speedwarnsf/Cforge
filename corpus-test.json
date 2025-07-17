@@ -1,0 +1,73 @@
+{
+  "campaigns": [
+    {
+      "campaign": "The Fun Theory",
+      "brand": "Volkswagen",
+      "year": 2009,
+      "headline": "Fun Can Change Behaviour for the Better.",
+      "rhetoricalDevices": [
+        "Juxtaposition",
+        "Personification"
+      ],
+      "rationale": "Showed how adding fun motivates positive choices.",
+      "outcome": "Won Cannes Grand Prix.",
+      "whenToUse": "When promoting behavior change.",
+      "whenNotToUse": "When seriousness is critical."
+    },
+    {
+      "campaign": "Hello Tomorrow",
+      "brand": "Air France",
+      "year": 2012,
+      "headline": "Make the Sky the Best Place on Earth.",
+      "rhetoricalDevices": [
+        "Hyperbole",
+        "Metaphor"
+      ],
+      "rationale": "Elevated air travel beyond transportation.",
+      "outcome": "Repositioned brand luxury image.",
+      "whenToUse": "When elevating everyday experiences.",
+      "whenNotToUse": "When practical benefits are the focus."
+    },
+    {
+      "campaign": "Shot on iPhone",
+      "brand": "Apple",
+      "year": 2015,
+      "headline": "Everyday, More Photos are Taken on iPhone.",
+      "rhetoricalDevices": [
+        "Appeal to Popularity"
+      ],
+      "rationale": "Showed social proof and ubiquity.",
+      "outcome": "Became an iconic global campaign.",
+      "whenToUse": "When demonstrating wide adoption.",
+      "whenNotToUse": "When niche positioning is important."
+    },
+    {
+      "campaign": "This Girl Can",
+      "brand": "Sport England",
+      "year": 2015,
+      "headline": "Sweating Like a Pig, Feeling Like a Fox.",
+      "rhetoricalDevices": [
+        "Metaphor",
+        "Contrast"
+      ],
+      "rationale": "Challenged stereotypes about women and fitness.",
+      "outcome": "Inspired millions of women to get active.",
+      "whenToUse": "When empowering underrepresented groups.",
+      "whenNotToUse": "When tone must remain neutral."
+    },
+    {
+      "campaign": "Like a Girl",
+      "brand": "Always",
+      "year": 2014,
+      "headline": "Rewrite the Rules.",
+      "rhetoricalDevices": [
+        "Imperative",
+        "Metaphor"
+      ],
+      "rationale": "Reclaimed 'like a girl' as empowering.",
+      "outcome": "Won multiple Cannes Lions.",
+      "whenToUse": "When reclaiming negative language.",
+      "whenNotToUse": "When tone is celebratory without critique."
+    }
+  ]
+}

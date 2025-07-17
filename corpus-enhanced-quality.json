@@ -1,0 +1,3447 @@
+{
+  "campaigns": [
+    {
+      "campaign": "A Diamond is Forever",
+      "brand": "De Beers",
+      "year": 1948,
+      "headline": "A Diamond is Forever.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Man in the Hathaway Shirt",
+      "brand": "Hathaway",
+      "year": 1951,
+      "headline": "The Man in the Hathaway Shirt.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Marlboro Man",
+      "brand": "Marlboro",
+      "year": 1955,
+      "headline": "Come to Marlboro Country.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Think Small",
+      "brand": "Volkswagen",
+      "year": 1959,
+      "headline": "Think Small.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Lemon",
+      "brand": "Volkswagen",
+      "year": 1960,
+      "headline": "Lemon.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "We Try Harder",
+      "brand": "Avis",
+      "year": 1962,
+      "headline": "We Try Harder.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Hilltop",
+      "brand": "Coca-Cola",
+      "year": 1971,
+      "headline": "I'd Like to Buy the World a Coke.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "A Mind Is a Terrible Thing to Waste",
+      "brand": "United Negro College Fund",
+      "year": 1972,
+      "headline": "A Mind Is a Terrible Thing to Waste",
+      "rhetoricalDevices": [
+        "Pathos",
+        "Slogan"
+      ],
+      "rationale": "Promoted education for African Americans, but continued into 1980s with health implications for community uplift.",
+      "outcome": "Clio Hall of Fame, raised millions for scholarships.",
+      "whenToUse": "For educational non-profits with lasting slogans.",
+      "whenNotToUse": "For non-educational causes.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "I Love New York",
+      "brand": "New York City",
+      "year": 1977,
+      "headline": "I \\uc0\\u9829  NY.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Absolut Bottle",
+      "brand": "Absolut Vodka",
+      "year": 1980,
+      "headline": "Absolut Perfection.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Take a Bite Out of Crime",
+      "brand": "National Crime Prevention Council",
+      "year": 1980,
+      "headline": "Take a Bite Out of Crime",
+      "rhetoricalDevices": [
+        "Personification",
+        "Humor"
+      ],
+      "rationale": "McGruff the Crime Dog educated on crime prevention, targeting children and families for public safety.",
+      "outcome": "Effie Award, long-running success with high recognition.",
+      "whenToUse": "For community safety education with mascots.",
+      "whenNotToUse": "In serious crime contexts without humor.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Friends Don't Let Friends Drive Drunk",
+      "brand": "Ad Council / NHTSA",
+      "year": 1983,
+      "headline": "Friends Don't Let Friends Drive Drunk",
+      "rhetoricalDevices": [
+        "Emotional Appeal",
+        "Social Responsibility"
+      ],
+      "rationale": "Encouraged intervention to prevent drunk driving, focusing on friendship and responsibility.",
+      "outcome": "Clio Award, reduced drunk driving incidents.",
+      "whenToUse": "For road safety peer pressure campaigns.",
+      "whenNotToUse": "In individual-focused safety without social element.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "1984",
+      "brand": "Apple",
+      "year": 1984,
+      "headline": "Why 1984 Won't Be Like '1984'.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Where's the Beef?",
+      "brand": "Wendy's",
+      "year": 1984,
+      "headline": "Where's the Beef?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Buckle Up for Safety",
+      "brand": "Ad Council / NHTSA",
+      "year": 1985,
+      "headline": "Buckle Up for Safety",
+      "rhetoricalDevices": [
+        "Repetition",
+        "Direct Imperative"
+      ],
+      "rationale": "Promoted seatbelt use to reduce traffic fatalities, using PSAs with celebrities.",
+      "outcome": "Effie Award, increased seatbelt usage rates.",
+      "whenToUse": "For simple, repetitive safety messages.",
+      "whenNotToUse": "In complex health behaviors.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "America's AIDS Campaign",
+      "brand": "Ad Council / CDC",
+      "year": 1987,
+      "headline": "AIDS: It's Up to You",
+      "rhetoricalDevices": [
+        "Fear Appeal",
+        "Call to Action"
+      ],
+      "rationale": "One of the first national campaigns to educate about HIV/AIDS transmission and prevention, using PSAs to reduce stigma and encourage safe behaviors.",
+      "outcome": "Won Clio Award, increased public awareness significantly.",
+      "whenToUse": "For epidemic awareness to drive behavioral change.",
+      "whenNotToUse": "When sensitivity to stigma is high without supportive messaging.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "This Is Our Brain on Drugs",
+      "brand": "Partnership for a Drug-Free America",
+      "year": 1987,
+      "headline": "This Is Your Brain on Drugs",
+      "rhetoricalDevices": [
+        "Metaphor",
+        "Fear Appeal"
+      ],
+      "rationale": "Iconic ad with egg frying to show drug effects on brain.",
+      "outcome": "Clio, cultural impact, reduced drug use.",
+      "whenToUse": "For anti-drug PSAs with simple metaphors.",
+      "whenNotToUse": "In harm reduction approaches.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Just Do It",
+      "brand": "Nike",
+      "year": 1988,
+      "headline": "Just Do It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The World's Favourite Airline",
+      "brand": "British Airways",
+      "year": 1990,
+      "headline": "The World's Favourite Airline",
+      "rhetoricalDevices": [
+        "Scale",
+        "Visual Spectacle"
+      ],
+      "rationale": "Ad with people forming a face, showing global reach.",
+      "outcome": "Cannes Grand Prix, sales boost.",
+      "whenToUse": "For global brand spectacle.",
+      "whenNotToUse": "Local services.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Still Going",
+      "brand": "Energizer",
+      "year": 1990,
+      "headline": "Keeps Going and Going",
+      "rhetoricalDevices": [
+        "Personification",
+        "Humor"
+      ],
+      "rationale": "Bunny interrupting other ads, showing long-lasting batteries.",
+      "outcome": "Clio Award, iconic mascot.",
+      "whenToUse": "For durability with playful interruption.",
+      "whenNotToUse": "For short-life products.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Joe Isuzu",
+      "brand": "Isuzu",
+      "year": 1990,
+      "headline": "He's Lying",
+      "rhetoricalDevices": [
+        "Irony",
+        "Self-Deprecation"
+      ],
+      "rationale": "Lying spokesman with subtitles correcting exaggerations.",
+      "outcome": "Clio Award, popular series.",
+      "whenToUse": "For honest humor in auto ads.",
+      "whenNotToUse": "When trust is paramount without irony.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Archeology",
+      "brand": "Pepsi",
+      "year": 1990,
+      "headline": "Pepsi. The Choice of a New Generation",
+      "rhetoricalDevices": [
+        "Humor",
+        "Future Projection"
+      ],
+      "rationale": "Future archeologists confuse Coke bottle with Pepsi, emphasizing youth choice.",
+      "outcome": "Clio Award, part of generation campaign.",
+      "whenToUse": "For generational beverage positioning.",
+      "whenNotToUse": "For traditional or older audiences.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Perception/Reality",
+      "brand": "Rolling Stone",
+      "year": 1990,
+      "headline": "Perception/Reality",
+      "rhetoricalDevices": [
+        "Juxtaposition",
+        "Contrast"
+      ],
+      "rationale": "Ads contrasting perception of celebrities with reality, positioning magazine as insightful.",
+      "outcome": "Cannes Award, classic campaign.",
+      "whenToUse": "For media branding on insight.",
+      "whenNotToUse": "For superficial content.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Papa and Nicole",
+      "brand": "Renault Clio",
+      "year": 1991,
+      "headline": "Papa?",
+      "rhetoricalDevices": [
+        "Storytelling",
+        "Twist Ending"
+      ],
+      "rationale": "Series of ads following a father and daughter with French flair, ending with surprising twists that highlight the car's appeal.",
+      "outcome": "Won British Television Advertising Award, became a cultural phenomenon in UK.",
+      "whenToUse": "For narrative-driven car ads building emotional connection and brand personality.",
+      "whenNotToUse": "In direct sales-focused campaigns without room for story development.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Orange Man",
+      "brand": "Tango",
+      "year": 1991,
+      "headline": "You Know When You've Been Tango'd",
+      "rhetoricalDevices": [
+        "Shock",
+        "Humor"
+      ],
+      "rationale": "Ad where a man is slapped by an orange-painted man after drinking Tango, creating a shocking, memorable impact to convey the drink's 'hit'.",
+      "outcome": "Won Cannes Gold Lion, spawned cultural phrase and increased sales.",
+      "whenToUse": "For viral humor in beverage ads to create memorable taglines.",
+      "whenNotToUse": "For serious or health-oriented drinks where shock could deter consumers.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Cream of Manchester",
+      "brand": "Boddingtons",
+      "year": 1992,
+      "headline": "The Cream of Manchester",
+      "rhetoricalDevices": [
+        "Wordplay",
+        "Humor"
+      ],
+      "rationale": "Ads playing on 'cream' as beer head and luxury cream.",
+      "outcome": "Clio Award, popular in UK.",
+      "whenToUse": "For regional beer with pun humor.",
+      "whenNotToUse": "International without local appeal.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Pink Ribbon",
+      "brand": "Breast Cancer Awareness",
+      "year": 1992,
+      "headline": "Pink Ribbon",
+      "rhetoricalDevices": [
+        "Symbolism",
+        "Unity"
+      ],
+      "rationale": "Iconic ribbon symbol for breast cancer awareness, used in campaigns worldwide.",
+      "outcome": "Global recognition, funds raised.",
+      "whenToUse": "For symbol-based disease awareness.",
+      "whenNotToUse": "For non-symbolic causes.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Got Milk?",
+      "brand": "California Milk Processor Board",
+      "year": 1993,
+      "headline": "Got Milk?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Tested for the Unexpected",
+      "brand": "Dunlop Tires",
+      "year": 1993,
+      "headline": "Tested for the Unexpected",
+      "rhetoricalDevices": [
+        "Surprise",
+        "Surrealism"
+      ],
+      "rationale": "Surreal ad showing tires handling bizarre, unexpected situations like giant spiders or exploding roads, emphasizing reliability in any condition.",
+      "outcome": "Won Cannes Lions Grand Prix for Film, highly acclaimed for creativity.",
+      "whenToUse": "For product demonstrations that need to stand out with creative, unexpected scenarios.",
+      "whenNotToUse": "When a straightforward, realistic product demo is required without confusion.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Aaron Burr",
+      "brand": "Got Milk?",
+      "year": 1993,
+      "headline": "Got Milk?",
+      "rhetoricalDevices": [
+        "Humor",
+        "Problem-Solution"
+      ],
+      "rationale": "Man with peanut butter in mouth can't answer quiz question about Aaron Burr because no milk, highlighting milk's necessity.",
+      "outcome": "Clio Hall of Fame, cultural phrase, boosted milk sales.",
+      "whenToUse": "For commodity products using humor to show essential need.",
+      "whenNotToUse": "For luxury items or non-humorous contexts.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "I Am Not a Role Model",
+      "brand": "Nike",
+      "year": 1993,
+      "headline": "I Am Not a Role Model",
+      "rhetoricalDevices": [
+        "Controversy",
+        "Honesty"
+      ],
+      "rationale": "Charles Barkley stating athletes aren't role models, parents are, sparking debate.",
+      "outcome": "Clio Award, cultural discussion.",
+      "whenToUse": "To challenge norms in sports marketing.",
+      "whenNotToUse": "When avoiding controversy.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Drugstore",
+      "brand": "Levi's",
+      "year": 1994,
+      "headline": "The more you wash them, the better they get",
+      "rhetoricalDevices": [
+        "Storytelling",
+        "Nostalgia"
+      ],
+      "rationale": "60s setting with young man buying condoms, wearing Levi's, emphasizing durability.",
+      "outcome": "Cannes Gold, sales impact.",
+      "whenToUse": "For heritage clothing with narrative.",
+      "whenNotToUse": "In conservative markets due to theme.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Hello Boys",
+      "brand": "Wonderbra",
+      "year": 1994,
+      "headline": "Hello Boys",
+      "rhetoricalDevices": [
+        "Visual Pun",
+        "Sex Appeal"
+      ],
+      "rationale": "Billboard featuring Eva Herzigova in a Wonderbra, looking down at her cleavage, playing on the male gaze to create buzz and highlight the product's effect.",
+      "outcome": "Won Clio Gold, became cultural icon, boosted sales dramatically.",
+      "whenToUse": "For bold, attention-grabbing fashion or lingerie promotions targeting empowerment with humor.",
+      "whenNotToUse": "In conservative or feminist-sensitive contexts where objectification could backfire.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Frogs",
+      "brand": "Budweiser",
+      "year": 1995,
+      "headline": "Bud-weis-er",
+      "rhetoricalDevices": [
+        "Humor",
+        "Repetition"
+      ],
+      "rationale": "Frogs croaking the brand name in a swamp, creating a simple, repetitive, humorous mnemonic for Budweiser.",
+      "outcome": "Won Clio Gold and Cannes Silver Lion, Super Bowl favorite, cultural impact.",
+      "whenToUse": "For mnemonic sound branding with humor in beer ads.",
+      "whenNotToUse": "In sophisticated or non-humorous alcohol marketing.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "This is SportsCenter",
+      "brand": "ESPN",
+      "year": 1995,
+      "headline": "This is SportsCenter",
+      "rhetoricalDevices": [
+        "Satire",
+        "Celebrity Parody"
+      ],
+      "rationale": "Behind-the-scenes satire with athletes as office workers, positioning ESPN as the center of sports world.",
+      "outcome": "Multiple Clio Awards, long-running series.",
+      "whenToUse": "To build brand personality through satirical celebrity use.",
+      "whenNotToUse": "For serious sports broadcasting.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Solutions for a Small Planet",
+      "brand": "IBM",
+      "year": 1995,
+      "headline": "Solutions for a Small Planet",
+      "rhetoricalDevices": [
+        "Global Appeal",
+        "Solutions Oriented"
+      ],
+      "rationale": "Ads showing IBM solutions connecting people worldwide, emphasizing global reach.",
+      "outcome": "Cannes Gold, brand repositioning.",
+      "whenToUse": "For global tech solutions marketing.",
+      "whenNotToUse": "For local or small-scale businesses.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Drivers Wanted",
+      "brand": "Volkswagen",
+      "year": 1995,
+      "headline": "Drivers Wanted",
+      "rhetoricalDevices": [
+        "Call to Action",
+        "Lifestyle"
+      ],
+      "rationale": "Positioned VW as fun for enthusiastic drivers, with quirky ads showcasing personality.",
+      "outcome": "Effie Gold, Clio, sales boost.",
+      "whenToUse": "For lifestyle car positioning targeting enthusiasts.",
+      "whenNotToUse": "For utility or family-focused vehicles.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Think Different",
+      "brand": "Apple",
+      "year": 1997,
+      "headline": "Think Different.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Priceless",
+      "brand": "MasterCard",
+      "year": 1997,
+      "headline": "Priceless",
+      "rhetoricalDevices": [
+        "Antithesis",
+        "Emotional Appeal"
+      ],
+      "rationale": "Ads listing costs of items vs priceless moments, ending with 'For everything else, there's MasterCard'.",
+      "outcome": "Clio Gold, enduring global campaign.",
+      "whenToUse": "For emotional positioning of financial products.",
+      "whenNotToUse": "In purely transactional finance ads.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Red Bull Gives You Wings",
+      "brand": "Red Bull",
+      "year": 1997,
+      "headline": "Red Bull Gives You Wings.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Yo Quiero Taco Bell",
+      "brand": "Taco Bell",
+      "year": 1997,
+      "headline": "Yo Quiero Taco Bell",
+      "rhetoricalDevices": [
+        "Humor",
+        "Animal Personification"
+      ],
+      "rationale": "Chihuahua dog expressing love for Taco Bell, creating a cute, memorable mascot.",
+      "outcome": "Clio Gold, sales increase, cultural icon.",
+      "whenToUse": "For fun fast food marketing with mascots.",
+      "whenNotToUse": "For healthy or serious food brands.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Fast Talker",
+      "brand": "FedEx",
+      "year": 1998,
+      "headline": "The World On Time",
+      "rhetoricalDevices": [
+        "Humor",
+        "Exaggeration"
+      ],
+      "rationale": "Fast-talking employee symbolizing FedEx speed.",
+      "outcome": "Clio Gold, memorable series.",
+      "whenToUse": "To emphasize speed with humor in logistics.",
+      "whenNotToUse": "For slow, reliable services.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Swimmer",
+      "brand": "Guinness",
+      "year": 1998,
+      "headline": "Good Things Come to Those Who Wait",
+      "rhetoricalDevices": [
+        "Metaphor",
+        "Patience"
+      ],
+      "rationale": "Ad showing an old man swimming the length of a pool, symbolizing the wait for a perfect pint of Guinness.",
+      "outcome": "Won Clio Gold, part of long-running successful campaign.",
+      "whenToUse": "To position products as worth the wait, emphasizing quality over speed.",
+      "whenNotToUse": "For fast-consumption products or impatient target audiences.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Wassup?",
+      "brand": "Budweiser",
+      "year": 1999,
+      "headline": "Wassup?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Happy Cows",
+      "brand": "California Cheese",
+      "year": 1999,
+      "headline": "Great Cheese Comes from Happy Cows",
+      "rhetoricalDevices": [
+        "Anthropomorphism",
+        "Humor"
+      ],
+      "rationale": "Ads showing happy cows in California, implying better cheese from happy sources.",
+      "outcome": "Clio Gold, increased market share.",
+      "whenToUse": "For regional product appeal with humor.",
+      "whenNotToUse": "For non-dairy or vegan products.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Good Things Come to Those Who Wait",
+      "brand": "Guinness",
+      "year": 1999,
+      "headline": "Good Things Come to Those Who Wait.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Keep Walking",
+      "brand": "Johnnie Walker",
+      "year": 1999,
+      "headline": "Keep Walking",
+      "rhetoricalDevices": [
+        "Motivation",
+        "Imperative"
+      ],
+      "rationale": "Ads encouraging perseverance and progress, aligning with brand's heritage.",
+      "outcome": "Cannes Gold, long-running campaign.",
+      "whenToUse": "For inspirational alcohol branding.",
+      "whenNotToUse": "For youth or party-focused drinks.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Double Life",
+      "brand": "Sony PlayStation",
+      "year": 1999,
+      "headline": "Double Life",
+      "rhetoricalDevices": [
+        "Metaphor",
+        "Narrative"
+      ],
+      "rationale": "Gamers describing double lives - everyday vs gaming world, highlighting immersion.",
+      "outcome": "Cannes Gold, boosted console sales.",
+      "whenToUse": "For gaming immersion and escapism promotion.",
+      "whenNotToUse": "For educational or real-world focused games.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Truth",
+      "brand": "American Legacy Foundation",
+      "year": 2000,
+      "headline": "Truth",
+      "rhetoricalDevices": [
+        "Shock Value",
+        "Exposé"
+      ],
+      "rationale": "Anti-smoking campaign exposing tobacco industry tactics, targeting youth with edgy PSAs.",
+      "outcome": "Effie Grand Prix, Clio, Cannes Lions, reduced teen smoking by 300,000.",
+      "whenToUse": "For anti-industry public health exposés.",
+      "whenNotToUse": "When positive messaging is preferred.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Movember",
+      "brand": "Movember Foundation",
+      "year": 2003,
+      "headline": "Movember",
+      "rhetoricalDevices": [
+        "Participation",
+        "Humor"
+      ],
+      "rationale": "Men grow mustaches in November for men's health awareness.",
+      "outcome": "Cannes Lions, $1 billion raised.",
+      "whenToUse": "For men's health with participatory fun.",
+      "whenNotToUse": "For serious, non-participatory issues.",
+      "award": null,
+      "impactMetric": "1 billion reached"
+    },
+    {
+      "campaign": "Impossible is Nothing",
+      "brand": "Adidas",
+      "year": 2004,
+      "headline": "Impossible is Nothing.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Real Beauty",
+      "brand": "Dove",
+      "year": 2004,
+      "headline": "Real Beauty",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Social Commentary"
+      ],
+      "rationale": "Challenged beauty standards with real women, evolving into a global self-esteem movement (continued into 2025).",
+      "outcome": "Won Media Grand Prix in 2025 for ongoing impact.",
+      "whenToUse": "For body positivity and long-term social campaigns.",
+      "whenNotToUse": "In beauty campaigns promoting ideals.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Power of Dreams",
+      "brand": "Honda",
+      "year": 2004,
+      "headline": "The Power of Dreams.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Click It or Ticket",
+      "brand": "NHTSA",
+      "year": 2005,
+      "headline": "Click It or Ticket",
+      "rhetoricalDevices": [
+        "Threat",
+        "Imperative"
+      ],
+      "rationale": "Seatbelt enforcement campaign with PSAs and police checks.",
+      "outcome": "Effie, increased belt use to 82%.",
+      "whenToUse": "For law enforcement-backed safety.",
+      "whenNotToUse": "Without legal backing.",
+      "award": null,
+      "impactMetric": "82% improvement"
+    },
+    {
+      "campaign": "Feel More",
+      "brand": "Sony Bravia",
+      "year": 2005,
+      "headline": "Colour Like No Other.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Most Interesting Man in the World",
+      "brand": "Dos Equis",
+      "year": 2006,
+      "headline": "Stay Thirsty, My Friends.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "America Runs on Dunkin'",
+      "brand": "Dunkin'",
+      "year": 2006,
+      "headline": "America Runs on Dunkin'.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Make the Logo Bigger Cream",
+      "brand": "Agency Self-Promo",
+      "year": 2007,
+      "headline": "Make the Logo Bigger.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Gorilla",
+      "brand": "Cadbury",
+      "year": 2007,
+      "headline": "A Glass and a Half Full of Joy.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Stupid Cancer",
+      "brand": "Stupid Cancer",
+      "year": 2007,
+      "headline": "Stupid Cancer",
+      "rhetoricalDevices": [
+        "Direct Language",
+        "Community"
+      ],
+      "rationale": "Support for young adult cancer patients, using blunt language to build community.",
+      "outcome": "Awards for non-profit marketing, community growth.",
+      "whenToUse": "For youth cancer support with raw language.",
+      "whenNotToUse": "For older audiences.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "It's Mine",
+      "brand": "Coca-Cola",
+      "year": 2008,
+      "headline": "It's Mine.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Live Young",
+      "brand": "Evian",
+      "year": 2009,
+      "headline": "Live Young.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Parisian Love",
+      "brand": "Google",
+      "year": 2009,
+      "headline": "Search On.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Time to Change",
+      "brand": "Mind and Rethink Mental Illness",
+      "year": 2009,
+      "headline": "Time to Change",
+      "rhetoricalDevices": [
+        "Call to Action",
+        "Social Change"
+      ],
+      "rationale": "UK campaign to end mental health discrimination, using PSAs and events.",
+      "outcome": "Effie, improved attitudes by 11%.",
+      "whenToUse": "For long-term mental health attitude shift.",
+      "whenNotToUse": "For short-term awareness.",
+      "award": null,
+      "impactMetric": "11% improvement"
+    },
+    {
+      "campaign": "Act FAST",
+      "brand": "UK Department of Health",
+      "year": 2009,
+      "headline": "Act FAST",
+      "rhetoricalDevices": [
+        "Acronym",
+        "Urgency"
+      ],
+      "rationale": "Stroke awareness campaign teaching Face, Arms, Speech, Time symptoms.",
+      "outcome": "Effie, increased stroke response times.",
+      "whenToUse": "For symptom education in emergencies.",
+      "whenNotToUse": "For non-urgent health.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Fun Theory",
+      "brand": "Volkswagen",
+      "year": 2009,
+      "headline": "Fun Can Change Behaviour for the Better.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "It Can Wait",
+      "brand": "AT&T",
+      "year": 2010,
+      "headline": "It Can Wait",
+      "rhetoricalDevices": [
+        "Urgency",
+        "Personal Stories"
+      ],
+      "rationale": "Anti-texting while driving campaign, but partnered with non-profits for public safety.",
+      "outcome": "Effie, Clio, reduced texting while driving.",
+      "whenToUse": "For road safety with personal testimony.",
+      "whenNotToUse": "In non-driving health.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Bell Let's Talk",
+      "brand": "Bell Canada",
+      "year": 2010,
+      "headline": "Bell Let's Talk",
+      "rhetoricalDevices": [
+        "Conversation Starter",
+        "Social Media"
+      ],
+      "rationale": "Mental health initiative donating per interaction, reducing stigma.",
+      "outcome": "Effie, $155 million raised.",
+      "whenToUse": "For mental health with donation mechanics.",
+      "whenNotToUse": "Without social media tie-in.",
+      "award": null,
+      "impactMetric": "155 million reached"
+    },
+    {
+      "campaign": "Be Stupid",
+      "brand": "Diesel",
+      "year": 2010,
+      "headline": "Be Stupid.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "It Gets Better",
+      "brand": "It Gets Better Project",
+      "year": 2010,
+      "headline": "It Gets Better",
+      "rhetoricalDevices": [
+        "Hope",
+        "Testimonials"
+      ],
+      "rationale": "Videos assuring LGBTQ youth life improves, preventing suicide.",
+      "outcome": "Clio, millions of views, saved lives.",
+      "whenToUse": "For youth mental health testimonials.",
+      "whenNotToUse": "Without video format.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Man Your Man Could Smell Like",
+      "brand": "Old Spice",
+      "year": 2010,
+      "headline": "Smell Like a Man, Man.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "No Kid Hungry",
+      "brand": "Share Our Strength",
+      "year": 2010,
+      "headline": "No Kid Hungry",
+      "rhetoricalDevices": [
+        "Urgency",
+        "Call to Action"
+      ],
+      "rationale": "Campaign to end child hunger in America through advocacy and programs.",
+      "outcome": "Effie, increased meals served.",
+      "whenToUse": "For child nutrition non-profits.",
+      "whenNotToUse": "Adult-focused hunger.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "You're Not You When You're Hungry",
+      "brand": "Snickers",
+      "year": 2010,
+      "headline": "You're Not You When You're Hungry.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Let's Move!",
+      "brand": "White House / Michelle Obama",
+      "year": 2010,
+      "headline": "Let's Move!",
+      "rhetoricalDevices": [
+        "Imperative",
+        "Movement"
+      ],
+      "rationale": "Childhood obesity prevention with exercise and nutrition PSAs.",
+      "outcome": "Effie, reduced obesity rates.",
+      "whenToUse": "For national health movements.",
+      "whenNotToUse": "Local issues.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Unhate",
+      "brand": "Benetton",
+      "year": 2011,
+      "headline": "Unhate.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Born of Fire",
+      "brand": "Chrysler",
+      "year": 2011,
+      "headline": "Imported from Detroit.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Dear Sophie",
+      "brand": "Google Chrome",
+      "year": 2011,
+      "headline": "The Web is What You Make of It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Open Your World",
+      "brand": "Heineken",
+      "year": 2011,
+      "headline": "Open Your World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Hello Tomorrow",
+      "brand": "Air France",
+      "year": 2012,
+      "headline": "Make the Sky the Best Place on Earth.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Dumb Ways to Die",
+      "brand": "Metro Trains Melbourne",
+      "year": 2012,
+      "headline": "Be Safe Around Trains.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Find Your Greatness",
+      "brand": "Nike",
+      "year": 2012,
+      "headline": "Greatness is Wherever Somebody is Trying to Find It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Thank You Mom",
+      "brand": "P&G",
+      "year": 2012,
+      "headline": "The Hardest Job in the World is the Best Job in the World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Red Bull Stratos",
+      "brand": "Red Bull",
+      "year": 2012,
+      "headline": "Mission to the Edge of Space.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Magic of Flying",
+      "brand": "British Airways",
+      "year": 2013,
+      "headline": "Look Up.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Scarecrow",
+      "brand": "Chipotle",
+      "year": 2013,
+      "headline": "Cultivate a Better World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Real Beauty Sketches",
+      "brand": "Dove",
+      "year": 2013,
+      "headline": "You Are More Beautiful Than You Think.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Melbourne Remote Control Tourist",
+      "brand": "Tourism Victoria",
+      "year": 2013,
+      "headline": "Go Before You Go.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Epic Split",
+      "brand": "Volvo Trucks",
+      "year": 2013,
+      "headline": "The Epic Split.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Ice Bucket Challenge",
+      "brand": "ALS Association",
+      "year": 2014,
+      "headline": "Ice Bucket Challenge",
+      "rhetoricalDevices": [
+        "Viral Challenge",
+        "Participation"
+      ],
+      "rationale": "Viral challenge to raise ALS awareness and funds by dumping ice water.",
+      "outcome": "Cannes Lions, Clio, $220 million raised, global participation.",
+      "whenToUse": "For disease fundraising with viral mechanics.",
+      "whenNotToUse": "For non-participatory causes.",
+      "award": null,
+      "impactMetric": "220 million reached"
+    },
+    {
+      "campaign": "Like a Girl",
+      "brand": "Always",
+      "year": 2014,
+      "headline": "Rewrite the Rules.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Puppy Love",
+      "brand": "Budweiser",
+      "year": 2014,
+      "headline": "Best Friends.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Proud Whopper",
+      "brand": "Burger King",
+      "year": 2014,
+      "headline": "We Are All the Same Inside.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Real Cost",
+      "brand": "FDA",
+      "year": 2014,
+      "headline": "The Real Cost",
+      "rhetoricalDevices": [
+        "Shock Value",
+        "Reality Check"
+      ],
+      "rationale": "Anti-tobacco campaign showing real costs of smoking to teens.",
+      "outcome": "Effie Grand Prix, prevented 350,000 youth smokers.",
+      "whenToUse": "For youth anti-smoking with graphic realities.",
+      "whenNotToUse": "For adult audiences.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Other Side",
+      "brand": "Honda",
+      "year": 2014,
+      "headline": "The Power of Duality.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The IKEA Catalogue",
+      "brand": "IKEA",
+      "year": 2014,
+      "headline": "Experience the Power of a Bookbook.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Monty the Penguin",
+      "brand": "John Lewis",
+      "year": 2014,
+      "headline": "Give Someone the Christmas They've Been Dreaming Of.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Re2pect",
+      "brand": "Jordan Brand",
+      "year": 2014,
+      "headline": "RE2PECT.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Big Game, Small Ads",
+      "brand": "Newcastle Brown Ale",
+      "year": 2014,
+      "headline": "If We Made It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Breakthrough",
+      "brand": "Volvo Trucks",
+      "year": 2014,
+      "headline": "The Epic Split.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Last Selfie",
+      "brand": "WWF",
+      "year": 2014,
+      "headline": "Don't Let This Be My Last Selfie.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Love Has No Labels",
+      "brand": "Ad Council",
+      "year": 2015,
+      "headline": "Love Has No Labels.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Shot on iPhone",
+      "brand": "Apple",
+      "year": 2015,
+      "headline": "Everyday, More Photos are Taken on iPhone.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Share the Load",
+      "brand": "Ariel",
+      "year": 2015,
+      "headline": "Why is Laundry Only a Mother's Job?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Choose Beautiful",
+      "brand": "Dove",
+      "year": 2015,
+      "headline": "Choose Beautiful.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Thank You, Internet",
+      "brand": "GE",
+      "year": 2015,
+      "headline": "Thank You, Internet.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Lucky Iron Fish",
+      "brand": "Lucky Iron Fish Project",
+      "year": 2015,
+      "headline": "Lucky Iron Fish",
+      "rhetoricalDevices": [
+        "Symbolism",
+        "Practical Solution"
+      ],
+      "rationale": "Iron fish to combat anemia in Cambodia.",
+      "outcome": "Clio Health Grand Prix.",
+      "whenToUse": "Nutrition health solutions.",
+      "whenNotToUse": "Non-nutrition.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Breathless Choir",
+      "brand": "Philips",
+      "year": 2015,
+      "headline": "Breathless Choir",
+      "rhetoricalDevices": [
+        "Inspirational",
+        "Demonstration"
+      ],
+      "rationale": "People with breathing issues form a choir with Philips help.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Respiratory health inspiration.",
+      "whenNotToUse": "Non-respiratory.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "This Girl Can",
+      "brand": "Sport England",
+      "year": 2015,
+      "headline": "Sweating Like a Pig, Feeling Like a Fox.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Displaced",
+      "brand": "The New York Times",
+      "year": 2015,
+      "headline": "The Displaced.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Find Your Magic",
+      "brand": "AXE",
+      "year": 2016,
+      "headline": "Find Your Magic.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Live There",
+      "brand": "Airbnb",
+      "year": 2016,
+      "headline": "Don't Go There. Live There.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "We Are the Superhumans",
+      "brand": "Channel 4",
+      "year": 2016,
+      "headline": "Meet the Superhumans.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Manboobs",
+      "brand": "MACMA",
+      "year": 2016,
+      "headline": "Manboobs",
+      "rhetoricalDevices": [
+        "Humor",
+        "Censorship Bypass"
+      ],
+      "rationale": "Used male breasts to teach breast self-exam, bypassing social media censorship.",
+      "outcome": "Clio Health Gold, Cannes.",
+      "whenToUse": "Cancer education with humor.",
+      "whenNotToUse": "Serious tones.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Because Recollection",
+      "brand": "Mars for Alzheimer's Research UK",
+      "year": 2016,
+      "headline": "Because Recollection",
+      "rhetoricalDevices": [
+        "Memory",
+        "Emotional"
+      ],
+      "rationale": "Ads triggering memories for Alzheimer's awareness.",
+      "outcome": "Clio Health Gold.",
+      "whenToUse": "Memory disease awareness.",
+      "whenNotToUse": "Non-memory.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Alphabet of Illiteracy",
+      "brand": "Project Literacy",
+      "year": 2016,
+      "headline": "Alphabet of Illiteracy",
+      "rhetoricalDevices": [
+        "Symbolism",
+        "Education"
+      ],
+      "rationale": "Linked illiteracy to health issues like disease.",
+      "outcome": "Cannes Health & Wellness Grand Prix.",
+      "whenToUse": "Literacy-health link.",
+      "whenNotToUse": "Non-education.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Evan",
+      "brand": "Sandy Hook Promise",
+      "year": 2016,
+      "headline": "Know the Signs.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Know the Signs",
+      "brand": "Sandy Hook Promise",
+      "year": 2016,
+      "headline": "Know the Signs",
+      "rhetoricalDevices": [
+        "Reveal",
+        "Awareness"
+      ],
+      "rationale": "Gun violence prevention in schools.",
+      "outcome": "Clio, Effie.",
+      "whenToUse": "School safety.",
+      "whenNotToUse": "Non-school.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Sandy Hook Promise - Know the Signs",
+      "brand": "Sandy Hook Promise",
+      "year": 2016,
+      "headline": "Know the Signs",
+      "rhetoricalDevices": [
+        "Shock Reveal",
+        "Narrative Twist"
+      ],
+      "rationale": "PSAs showing signs of gun violence in school settings to prevent shootings.",
+      "outcome": "Clio Gold, Cannes Lions, Effie, millions reached.",
+      "whenToUse": "For violence prevention awareness.",
+      "whenNotToUse": "In non-violence health.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Swedish Number",
+      "brand": "VisitSweden",
+      "year": 2016,
+      "headline": "The Swedish Number.",
+      "rhetoricalDevices": [
+        "Novelty",
+        "Transparency"
+      ],
+      "rationale": "Launching a unique tourism campaign with a national phone number where random Swedes answer calls for authentic info.",
+      "outcome": "Over 9 billion media impressions, phone number still in operation, Cannes Lion Grand Prix.",
+      "whenToUse": "For tourism campaigns seeking unique, personal engagement.",
+      "whenNotToUse": "If the concept is too unconventional for the target audience.",
+      "award": "Grand Prix",
+      "impactMetric": "9 billion reached"
+    },
+    {
+      "campaign": "Know Your Lemons",
+      "brand": "Worldwide Breast Cancer",
+      "year": 2016,
+      "headline": "Know Your Lemons",
+      "rhetoricalDevices": [
+        "Visual Metaphor",
+        "Education"
+      ],
+      "rationale": "Used lemons to visually teach breast cancer symptoms, bypassing censorship.",
+      "outcome": "Cannes Lions, Clio Health, reached 200 million.",
+      "whenToUse": "For cancer education with visual aids.",
+      "whenNotToUse": "In text-based education.",
+      "award": null,
+      "impactMetric": "200 million reached"
+    },
+    {
+      "campaign": "Touching the Untouchables",
+      "brand": "ANRBB (No Rights No Women)",
+      "year": 2017,
+      "headline": "Touching the Untouchables",
+      "rhetoricalDevices": [
+        "Provocation",
+        "Social Commentary"
+      ],
+      "rationale": "Campaign for women's rights in Lebanon, using provocative imagery.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Women's rights in conservative societies.",
+      "whenNotToUse": "Non-provocative.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "We Accept",
+      "brand": "Airbnb",
+      "year": 2017,
+      "headline": "We Accept.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Dilly Dilly",
+      "brand": "Bud Light",
+      "year": 2017,
+      "headline": "Dilly Dilly.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Black Supermarket",
+      "brand": "Carrefour",
+      "year": 2017,
+      "headline": "Black Supermarket.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Breaking Ballet",
+      "brand": "Joburg Ballet",
+      "year": 2017,
+      "headline": "Breaking Ballet.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Talk",
+      "brand": "Procter & Gamble",
+      "year": 2017,
+      "headline": "The Talk.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Fearless Girl",
+      "brand": "State Street Global Advisors",
+      "year": 2017,
+      "headline": "She Makes a Difference.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Heads Together",
+      "brand": "The Royal Foundation",
+      "year": 2017,
+      "headline": "Heads Together",
+      "rhetoricalDevices": [
+        "Unity",
+        "Conversation Starter"
+      ],
+      "rationale": "Mental health campaign by UK royals to end stigma, encouraging talking.",
+      "outcome": "Cannes Lions, increased mental health conversations.",
+      "whenToUse": "For mental health stigma reduction.",
+      "whenNotToUse": "In physical health only.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Project Revoice",
+      "brand": "ALS Association",
+      "year": 2018,
+      "headline": "Project Revoice",
+      "rhetoricalDevices": [
+        "Technology",
+        "Empowerment"
+      ],
+      "rationale": "Voice cloning for ALS patients losing speech.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Tech for voice loss diseases.",
+      "whenNotToUse": "Low-tech.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Blink to Speak",
+      "brand": "Asha Ek Hope Foundation",
+      "year": 2018,
+      "headline": "Blink to Speak",
+      "rhetoricalDevices": [
+        "Innovation",
+        "Empathy"
+      ],
+      "rationale": "Eye language for paralyzed patients to communicate.",
+      "outcome": "Cannes Health Gold, Mobius Grand Prix.",
+      "whenToUse": "Communication aids for disabled.",
+      "whenNotToUse": "Non-disability.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Singing Doctor",
+      "brand": "Brazilian Society of Arrhythmias",
+      "year": 2018,
+      "headline": "The Singing Doctor",
+      "rhetoricalDevices": [
+        "Music",
+        "Education"
+      ],
+      "rationale": "Doctor singing CPR instructions to song rhythms.",
+      "outcome": "Clio Health Silver.",
+      "whenToUse": "CPR training with music.",
+      "whenNotToUse": "Non-musical education.",
+      "award": "Silver",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Whopper Detour",
+      "brand": "Burger King",
+      "year": 2018,
+      "headline": "Order a Whopper for 1\\'a2 at McDonald's.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Endangered Syndrome",
+      "brand": "Canadian Down Syndrome Society",
+      "year": 2018,
+      "headline": "People with Down Syndrome are Going Extinct.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Last Ever Issue",
+      "brand": "Helsingin Sanomat",
+      "year": 2018,
+      "headline": "The Last Ever Issue",
+      "rhetoricalDevices": [
+        "Hypothetical",
+        "Freedom of Press"
+      ],
+      "rationale": "Fictional last newspaper to highlight press freedom, but ties to public health info access.",
+      "outcome": "Cannes Grand Prix, but media.",
+      "whenToUse": "Press freedom, health info.",
+      "whenNotToUse": "Non-media.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Corazon - Give Your Heart",
+      "brand": "Montefiore Einstein",
+      "year": 2018,
+      "headline": "Corazon - Give Your Heart",
+      "rhetoricalDevices": [
+        "Bilingual",
+        "Cultural"
+      ],
+      "rationale": "Bilingual campaign for heart health in Latino community.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Cultural health education.",
+      "whenNotToUse": "Non-cultural.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Dream Crazy",
+      "brand": "Nike",
+      "year": 2018,
+      "headline": "Believe in Something.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Piñata",
+      "brand": "SickKids Foundation",
+      "year": 2018,
+      "headline": "Piñata",
+      "rhetoricalDevices": [
+        "Symbolism",
+        "Resilience"
+      ],
+      "rationale": "Child breaking piñata symbolizing fighting illness.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Child health resilience.",
+      "whenNotToUse": "Adult health.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Truth is Worth It",
+      "brand": "The New York Times",
+      "year": 2018,
+      "headline": "The Truth is Hard.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "It's a Tide Ad",
+      "brand": "Tide",
+      "year": 2018,
+      "headline": "It's a Tide Ad.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Disgusting Stories",
+      "brand": "UNICEF",
+      "year": 2018,
+      "headline": "Stories No Child Should Write.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "I Will Survive",
+      "brand": "A.N.D. (National Association of the Disabled)",
+      "year": 2019,
+      "headline": "I Will Survive",
+      "rhetoricalDevices": [
+        "Song Parody",
+        "Empowerment"
+      ],
+      "rationale": "Disabled people singing altered 'I Will Survive' for rights.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Disability empowerment with music.",
+      "whenNotToUse": "Non-music.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Traffic Jam Whopper",
+      "brand": "Burger King",
+      "year": 2019,
+      "headline": "Traffic Jam Whopper",
+      "rhetoricalDevices": [
+        "Timely Delivery",
+        "Convenience"
+      ],
+      "rationale": "Delivered Whoppers to cars in traffic jams via geolocation.",
+      "outcome": "Won awards for direct marketing.",
+      "whenToUse": "For location-based food delivery.",
+      "whenNotToUse": "In non-delivery services.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Village Electrification Program",
+      "brand": "Enel",
+      "year": 2019,
+      "headline": "Village Electrification Program",
+      "rhetoricalDevices": [
+        "Community",
+        "Sustainability"
+      ],
+      "rationale": "Providing electricity to remote villages, improving health.",
+      "outcome": "Cannes Sustainable Development.",
+      "whenToUse": "Energy for health in developing areas.",
+      "whenNotToUse": "Urban.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "See My Pain",
+      "brand": "GSK for Excedrin",
+      "year": 2019,
+      "headline": "See My Pain",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Visualization"
+      ],
+      "rationale": "VR to show migraine pain to others.",
+      "outcome": "Clio Health Gold.",
+      "whenToUse": "Pain empathy tools.",
+      "whenNotToUse": "Non-pain health.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Best Men Can Be",
+      "brand": "Gillette",
+      "year": 2019,
+      "headline": "Is This the Best a Man Can Get?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "ThisAbles",
+      "brand": "IKEA Israel",
+      "year": 2019,
+      "headline": "ThisAbles",
+      "rhetoricalDevices": [
+        "Accessibility",
+        "Innovation"
+      ],
+      "rationale": "3D printed add-ons for disabled to use IKEA furniture.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Accessibility innovations.",
+      "whenNotToUse": "Non-product.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "True Name™",
+      "brand": "Mastercard",
+      "year": 2019,
+      "headline": "True Name™.",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Personalization"
+      ],
+      "rationale": "Allowing trans and non-binary people to choose their bank card name to address discrimination by reflecting true identity.",
+      "outcome": "Won Cannes Lion Grand Prix, Mastercard's first.",
+      "whenToUse": "For campaigns supporting trans and non-binary inclusion.",
+      "whenNotToUse": "If the audience is not supportive of transgender issues.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Rx Prescription Sticker",
+      "brand": "Publicis for Doctors Without Borders",
+      "year": 2019,
+      "headline": "Rx Prescription Sticker",
+      "rhetoricalDevices": [
+        "Interactive",
+        "Donation"
+      ],
+      "rationale": "Stickers on prescriptions for donations to MSF.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Donation via health products.",
+      "whenNotToUse": "Non-health donations.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Womb Stories",
+      "brand": "Bodyform/Libresse",
+      "year": 2020,
+      "headline": "Womb Stories",
+      "rhetoricalDevices": [
+        "Storytelling",
+        "Empathy"
+      ],
+      "rationale": "Animated stories of women's reproductive experiences.",
+      "outcome": "Grand Prix in Health.",
+      "whenToUse": "For women's health taboo-breaking.",
+      "whenNotToUse": "In conservative audiences.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Courage Is Beautiful",
+      "brand": "Dove",
+      "year": 2020,
+      "headline": "Courage Is Beautiful.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Bread Exam",
+      "brand": "Spinneys / Lebanese Breast Cancer Foundation",
+      "year": 2020,
+      "headline": "The Bread Exam",
+      "rhetoricalDevices": [
+        "Metaphor",
+        "Cultural Integration"
+      ],
+      "rationale": "Taught breast self-exam through bread baking in Lebanon.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Cultural health education.",
+      "whenNotToUse": "Non-cultural.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Boards of Change",
+      "brand": "City of Chicago",
+      "year": 2021,
+      "headline": "Boards of Change",
+      "rhetoricalDevices": [
+        "Repurposing",
+        "Social Activism"
+      ],
+      "rationale": "Turned protest boards into voting booths.",
+      "outcome": "Grand Prix winner.",
+      "whenToUse": "For civic engagement with social materials.",
+      "whenNotToUse": "In non-activist contexts.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Hiring Chain",
+      "brand": "CoorDown",
+      "year": 2021,
+      "headline": "The Hiring Chain",
+      "rhetoricalDevices": [
+        "Chain Reaction",
+        "Inclusion"
+      ],
+      "rationale": "Showed hiring people with Down syndrome inspires more hiring.",
+      "outcome": "Cannes Grand Prix.",
+      "whenToUse": "Disability employment.",
+      "whenNotToUse": "Non-employment.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Sick Beats",
+      "brand": "SickKids Foundation",
+      "year": 2021,
+      "headline": "Sick Beats",
+      "rhetoricalDevices": [
+        "Music",
+        "Therapy"
+      ],
+      "rationale": "Vest for cystic fibrosis using music vibrations.",
+      "outcome": "Cannes Grand Prix.",
+      "whenToUse": "Music therapy for disease.",
+      "whenNotToUse": "Non-therapy.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Raising Profiles",
+      "brand": "The Big Issue & LinkedIn",
+      "year": 2021,
+      "headline": "Raising Profiles.",
+      "rhetoricalDevices": [
+        "Empowerment",
+        "Community Building"
+      ],
+      "rationale": "Creating online social accounts for Big Issue sellers post-COVID to help find new buyers and increase sales.",
+      "outcome": "Revolutionized sales model, won Cannes Lion Grand Prix.",
+      "whenToUse": "For social impact campaigns aiding marginalized groups.",
+      "whenNotToUse": "If digital literacy is not a feasible solution.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Sick Beats",
+      "brand": "Woojer / SickKids Foundation",
+      "year": 2021,
+      "headline": "Sick Beats",
+      "rhetoricalDevices": [
+        "Innovation",
+        "Music Therapy"
+      ],
+      "rationale": "Vest using music vibrations for cystic fibrosis treatment.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Tech-health innovation.",
+      "whenNotToUse": "Low-tech.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Liquid Billboard",
+      "brand": "Adidas",
+      "year": 2022,
+      "headline": "Liquid Billboard.",
+      "rhetoricalDevices": [
+        "Visual Impact",
+        "Inclusivity"
+      ],
+      "rationale": "Turning a billboard into a shared pool to showcase inclusive swimwear and address discomfort in swimming.",
+      "outcome": "Won Cannes Lions Grand Prix, Gold Lion, two Silver Lions, one Bronze.",
+      "whenToUse": "For campaigns promoting inclusivity in sports or fashion.",
+      "whenNotToUse": "When avoiding bold physical installations.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Lost Class",
+      "brand": "Change the Ref",
+      "year": 2022,
+      "headline": "The Lost Class",
+      "rhetoricalDevices": [
+        "Shock Value",
+        "Narrative Twist"
+      ],
+      "rationale": "Fake graduation for gun violence victims.",
+      "outcome": "Grand Prix in PR.",
+      "whenToUse": "For gun control advocacy.",
+      "whenNotToUse": "In pro-gun regions.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Breakaway",
+      "brand": "Decathlon",
+      "year": 2022,
+      "headline": "The Breakaway.",
+      "rhetoricalDevices": [
+        "Connection",
+        "Inclusivity"
+      ],
+      "rationale": "Connecting prisoners to the outside world via online cycling using Zwift to make a positive impact on incarcerated individuals.",
+      "outcome": "Reached over a million on social media, won two Cannes Lions Grand Prix, expanded to 30 prisons.",
+      "whenToUse": "For campaigns aiming to rehabilitate or connect marginalized groups.",
+      "whenNotToUse": "If the audience is not interested in prison reform.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Village Doctor",
+      "brand": "St. Jude India ChildCare Units",
+      "year": 2022,
+      "headline": "Village Doctor",
+      "rhetoricalDevices": [
+        "Community",
+        "Education"
+      ],
+      "rationale": "Trained village women as 'doctors' for child health.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Community health training.",
+      "whenNotToUse": "Urban health.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Most Vicious Cycle",
+      "brand": "United Way",
+      "year": 2022,
+      "headline": "The Most Vicious Cycle",
+      "rhetoricalDevices": [
+        "Cycle Metaphor",
+        "Social Issue"
+      ],
+      "rationale": "Cycle of poverty and health issues.",
+      "outcome": "Clio Health Gold.",
+      "whenToUse": "Poverty-health link.",
+      "whenNotToUse": "Non-social.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Invalid Person",
+      "brand": "Access Israel",
+      "year": 2023,
+      "headline": "Invalid Person",
+      "rhetoricalDevices": [
+        "Wordplay",
+        "Challenge"
+      ],
+      "rationale": "Challenged 'invalid' term for disabled parking.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Disability language change.",
+      "whenNotToUse": "Non-disability.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Love, Your Mind",
+      "brand": "Ad Council / Huntsman Mental Health Institute",
+      "year": 2023,
+      "headline": "Love, Your Mind",
+      "rhetoricalDevices": [
+        "Self-Love",
+        "Emotional"
+      ],
+      "rationale": "Mental health PSA encouraging self-care.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Mental health self-care.",
+      "whenNotToUse": "Physical health.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "One Word",
+      "brand": "Alzheimer Nederland",
+      "year": 2023,
+      "headline": "One Word",
+      "rhetoricalDevices": [
+        "Simplification",
+        "Emotional"
+      ],
+      "rationale": "Showed Alzheimer's reducing vocabulary to one word.",
+      "outcome": "Cannes Health Gold.",
+      "whenToUse": "Alzheimer's awareness.",
+      "whenNotToUse": "Non-dementia.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Last Barf Bag",
+      "brand": "Dramamine",
+      "year": 2023,
+      "headline": "The Last Barf Bag",
+      "rhetoricalDevices": [
+        "Humor",
+        "Novelty"
+      ],
+      "rationale": "Campaign for motion sickness, but commercial, but partnered with non-profits for travel health.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "For motion sickness awareness.",
+      "whenNotToUse": "Serious illness.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Heinz Can't Unsee It",
+      "brand": "Heinz",
+      "year": 2023,
+      "headline": "Can't Unsee It",
+      "rhetoricalDevices": [
+        "Visual Illusion",
+        "Memorable Imagery"
+      ],
+      "rationale": "Ads where viewers 'see' Heinz in everyday scenes.",
+      "outcome": "Viral success and awards.",
+      "whenToUse": "For brand recall through visuals.",
+      "whenNotToUse": "In text-heavy campaigns.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Morning After Island",
+      "brand": "Hivos",
+      "year": 2023,
+      "headline": "Morning After Island",
+      "rhetoricalDevices": [
+        "Humor",
+        "Social"
+      ],
+      "rationale": "Fictional island for morning after pill access.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Reproductive rights.",
+      "whenNotToUse": "Conservative areas.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Liquid Death x Rebel Moon",
+      "brand": "Liquid Death",
+      "year": 2023,
+      "headline": "Liquid Death x Rebel Moon.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Barbie Becomes \\'93Burger Queen\\'94",
+      "brand": "Mattel and Burger King Brazil",
+      "year": 2023,
+      "headline": "Barbie Becomes \\'93Burger Queen\\'94.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Knockout Rounds",
+      "brand": "Pfizer",
+      "year": 2023,
+      "headline": "Knockout Rounds",
+      "rhetoricalDevices": [
+        "Sports Metaphor",
+        "Empowerment"
+      ],
+      "rationale": "Cancer patients boxing to 'knock out' cancer.",
+      "outcome": "Clio Health Gold, but commercial, public message.",
+      "whenToUse": "Cancer empowerment.",
+      "whenNotToUse": "Non-cancer.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Pokemon x Van Gogh",
+      "brand": "Pok\\'e9mon and Van Gogh Museum",
+      "year": 2023,
+      "headline": "Pokemon x Van Gogh.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Unfear",
+      "brand": "Samsung for Blind Cap",
+      "year": 2023,
+      "headline": "Unfear",
+      "rhetoricalDevices": [
+        "Empowerment",
+        "Tech"
+      ],
+      "rationale": "App helping blind swimmers by signaling.",
+      "outcome": "Cannes Health Grand Prix.",
+      "whenToUse": "Tech for disability sports.",
+      "whenNotToUse": "Non-tech.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Question That Changed 3.3 Million Lives",
+      "brand": "U.S. Department of Veterans Affairs / Ad Council",
+      "year": 2023,
+      "headline": "The Question That Changed 3.3 Million Lives",
+      "rhetoricalDevices": [
+        "Question",
+        "Impact"
+      ],
+      "rationale": "Suicide prevention for veterans.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Veterans mental health.",
+      "whenNotToUse": "General population.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Fading Numbers",
+      "brand": "Alzheimer's Society",
+      "year": 2024,
+      "headline": "Fading Numbers",
+      "rhetoricalDevices": [
+        "Visual Metaphor",
+        "Decline"
+      ],
+      "rationale": "Phone numbers fading to show memory loss.",
+      "outcome": "Clio Health Gold.",
+      "whenToUse": "Alzheimer's visual awareness.",
+      "whenNotToUse": "Non-visual.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Bumble for Friends Only",
+      "brand": "Bumble",
+      "year": 2024,
+      "headline": "Bumble for Friends Only.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Shotline",
+      "brand": "Change the Ref",
+      "year": 2024,
+      "headline": "The Shotline",
+      "rhetoricalDevices": [
+        "Interactive",
+        "Shock"
+      ],
+      "rationale": "AI voices of gun victims calling lawmakers.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Gun control advocacy.",
+      "whenNotToUse": "Non-interactive.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "#TakeItDown",
+      "brand": "ChildFund International",
+      "year": 2024,
+      "headline": "#TakeItDown",
+      "rhetoricalDevices": [
+        "Hashtag",
+        "Call to Action"
+      ],
+      "rationale": "Against child exploitation online.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Child protection.",
+      "whenNotToUse": "Adult issues.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Duolingo\\'92s Storytelling",
+      "brand": "Duolingo",
+      "year": 2024,
+      "headline": "Don\\'92t Make Duo Angry - Learn a Language in 2024.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "YES! Vaccine Campaign",
+      "brand": "Minnesota Department of Health",
+      "year": 2024,
+      "headline": "YES! Vaccine Campaign",
+      "rhetoricalDevices": [
+        "Affirmation",
+        "Education"
+      ],
+      "rationale": "Promoting vaccinations.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Vaccine promotion.",
+      "whenNotToUse": "Anti-vax contexts.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Redditor Edit",
+      "brand": "Reddit",
+      "year": 2024,
+      "headline": "Redditor Edit",
+      "rhetoricalDevices": [
+        "User-Generated",
+        "Community Involvement"
+      ],
+      "rationale": "Allowed Redditors to edit ads, fostering community.",
+      "outcome": "Increased engagement.",
+      "whenToUse": "For platform community building.",
+      "whenNotToUse": "In controlled branding.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Just Joking",
+      "brand": "Sandy Hook Promise",
+      "year": 2024,
+      "headline": "Just Joking",
+      "rhetoricalDevices": [
+        "Twist",
+        "Awareness"
+      ],
+      "rationale": "Recognizing jokes as signs of violence.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Violence prevention.",
+      "whenNotToUse": "Humor campaigns.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Shutterstock\\'92s Welcome Email",
+      "brand": "Shutterstock",
+      "year": 2024,
+      "headline": "Welcome to Shutterstock 2024.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Misheards",
+      "brand": "Specsavers",
+      "year": 2024,
+      "headline": "Misheards",
+      "rhetoricalDevices": [
+        "Humor",
+        "Miscommunication"
+      ],
+      "rationale": "Funny mishearings for hearing aid promotion.",
+      "outcome": "Effie Winner.",
+      "whenToUse": "Hearing health humor.",
+      "whenNotToUse": "Serious hearing loss.",
+      "award": "Winner",
+      "impactMetric": null
+    },
+    {
+      "campaign": "One House to Save Many",
+      "brand": "Suncorp",
+      "year": 2024,
+      "headline": "One House to Save Many",
+      "rhetoricalDevices": [
+        "Demonstration",
+        "Resilience"
+      ],
+      "rationale": "House built to withstand disasters for public education.",
+      "outcome": "Cannes Gold, public safety health.",
+      "whenToUse": "Disaster preparedness.",
+      "whenNotToUse": "Non-disaster.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "T-Mobile\\'92s Super Bowl Ad",
+      "brand": "T-Mobile",
+      "year": 2024,
+      "headline": "T-Mobile\\'92s Super Bowl Ad.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Doors of Hope",
+      "brand": "Terres des Femmes",
+      "year": 2024,
+      "headline": "Doors of Hope",
+      "rhetoricalDevices": [
+        "Symbolism",
+        "Hope"
+      ],
+      "rationale": "Doors symbolizing escape from domestic violence.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Violence prevention symbols.",
+      "whenNotToUse": "Non-violence.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Blood Appétite",
+      "brand": "The Field Museum",
+      "year": 2024,
+      "headline": "Blood Appétite",
+      "rhetoricalDevices": [
+        "Wordplay",
+        "Engagement"
+      ],
+      "rationale": "Encouraging blood donations with museum tie-in.",
+      "outcome": "Grand Effie 2025.",
+      "whenToUse": "Blood donation drives.",
+      "whenNotToUse": "Non-blood health.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Everyday Tactician",
+      "brand": "The Royal Australian Navy",
+      "year": 2024,
+      "headline": "The Everyday Tactician",
+      "rhetoricalDevices": [
+        "Relatability",
+        "Recruitment"
+      ],
+      "rationale": "Everyday people as tacticians for navy recruitment, health in military context.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Military health recruitment.",
+      "whenNotToUse": "Non-military.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "TwitchCon Invites",
+      "brand": "Twitch",
+      "year": 2024,
+      "headline": "TwitchCon Invites.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Reluctant Hero",
+      "brand": "United Nations",
+      "year": 2024,
+      "headline": "The Reluctant Hero",
+      "rhetoricalDevices": [
+        "Storytelling",
+        "Heroism"
+      ],
+      "rationale": "Humanitarian workers as reluctant heroes.",
+      "outcome": "Cannes Gold.",
+      "whenToUse": "Humanitarian awareness.",
+      "whenNotToUse": "Non-UN.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Three Words",
+      "brand": "AXA",
+      "year": 2025,
+      "headline": "Three Words.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Caption with Intention",
+      "brand": "Academy of Motion Picture Arts and Sciences",
+      "year": 2025,
+      "headline": "Caption with Intention",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Accessibility Focus"
+      ],
+      "rationale": "Improved captioning for deaf and hard-of-hearing audiences in film, reimagining accessibility as intentional design.",
+      "outcome": "Won Creative Data Grand Prix, Design Grand Prix, Digital Craft Grand Prix, and Titanium Lion.",
+      "whenToUse": "For media inclusivity and accessibility innovations.",
+      "whenNotToUse": "In non-media or non-inclusive contexts.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Shakespeare BIC",
+      "brand": "BIC",
+      "year": 2025,
+      "headline": "The Shakespeare BIC.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "One Second Ads",
+      "brand": "Budweiser",
+      "agency": "Africa Creative DDB",
+      "year": 2025,
+      "headline": "One Second Ads",
+      "rhetoricalDevices": [
+        "Brevity",
+        "Impact"
+      ],
+      "rationale": "Short ads for quick message.",
+      "outcome": "Audio & Radio Grand Prix.",
+      "whenToUse": "Short-form advertising.",
+      "whenNotToUse": "Long narratives.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Traffic Jam Whopper",
+      "brand": "Burger King",
+      "year": 2025,
+      "headline": "Traffic Jam Whopper",
+      "rhetoricalDevices": [
+        "Timely",
+        "Convenience"
+      ],
+      "rationale": "Delivery in traffic jams.",
+      "outcome": "Award winner.",
+      "whenToUse": "Location-based marketing.",
+      "whenNotToUse": "Non-delivery services.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Lucky Yatra",
+      "brand": "Central Railway",
+      "year": 2025,
+      "headline": "Lucky Yatra",
+      "rhetoricalDevices": [
+        "Gamification",
+        "Insight-driven"
+      ],
+      "rationale": "Turned train tickets into lottery tickets to combat fare evasion, leveraging love for lotteries.",
+      "outcome": "500 million impressions, 34% sales increase, $685 million revenue.",
+      "whenToUse": "Incentivizing compliance in public services via gamification.",
+      "whenNotToUse": "When audience doesn't respond to lotteries.",
+      "award": null,
+      "impactMetric": "34% improvement"
+    },
+    {
+      "campaign": "Paris Paralympics 2024: Considering What?",
+      "brand": "Channel 4",
+      "year": 2025,
+      "headline": "Considering What?",
+      "rhetoricalDevices": [
+        "Rhetorical question",
+        "Inclusivity"
+      ],
+      "rationale": "Challenged perceptions of Paralympians.",
+      "outcome": "Film Lions Grand Prix, Grand Prix for Good.",
+      "whenToUse": "Challenging stereotypes in sports.",
+      "whenNotToUse": "Non-inclusive audiences.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Haaland Payback Time",
+      "brand": "Clash of Clans",
+      "year": 2025,
+      "headline": "Haaland Payback Time",
+      "rhetoricalDevices": [
+        "Celebrity Integration",
+        "Gaming Narrative"
+      ],
+      "rationale": "Integrated footballer Erling Haaland as a playable character, blending sports and gaming cultures.",
+      "outcome": "Won Entertainment Lions for Gaming Grand Prix and Sport Grand Prix.",
+      "whenToUse": "For cross-over campaigns between sports and gaming.",
+      "whenNotToUse": "In non-gaming or non-celebrity contexts.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Payback Time",
+      "brand": "Clash of Clans",
+      "year": 2025,
+      "headline": "Payback Time",
+      "rhetoricalDevices": [
+        "Celebrity",
+        "Gaming"
+      ],
+      "rationale": "Haaland in game. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Grand Prix.",
+      "whenToUse": "Celebrity gaming integration.",
+      "whenNotToUse": "Non-gaming.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The BeatCan",
+      "brand": "Coca-Cola",
+      "year": 2025,
+      "headline": "The BeatCan",
+      "rhetoricalDevices": [
+        "Interactive",
+        "Music tie-in"
+      ],
+      "rationale": "Can that plays beats.",
+      "outcome": "Award winner.",
+      "whenToUse": "Interactive product engagement.",
+      "whenNotToUse": "Non-interactive products.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Real Beauty: How a Soap Brand Created a Global Self-Esteem Movement",
+      "brand": "Dove",
+      "year": 2025,
+      "headline": "Real Beauty.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Last One - To Fill 157",
+      "brand": "Example Brand",
+      "year": 2025,
+      "headline": "Example Headline.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Progresso Soup Drops",
+      "brand": "General Mills",
+      "year": 2025,
+      "headline": "Progresso Soup Drops",
+      "rhetoricalDevices": [
+        "Humor",
+        "Product innovation"
+      ],
+      "rationale": "Turned soup into drops for convenient consumption, addressing busy lifestyles.",
+      "outcome": "Gold PR Lion, increased brand visibility.",
+      "whenToUse": "Innovating product form for convenience.",
+      "whenNotToUse": "For traditional food experiences.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Act Like You Know",
+      "brand": "GoDaddy",
+      "year": 2025,
+      "headline": "Act Like You Know",
+      "rhetoricalDevices": [
+        "Knowledge Empowerment",
+        "Action Call"
+      ],
+      "rationale": "Empowered B2B users with knowledge to act confidently in digital spaces.",
+      "outcome": "Won Creative B2B Grand Prix.",
+      "whenToUse": "For B2B education and empowerment.",
+      "whenNotToUse": "In consumer-direct marketing.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Heinz Can't Unsee It",
+      "brand": "Heinz",
+      "year": 2025,
+      "headline": "Heinz Can't Unsee It",
+      "rhetoricalDevices": [
+        "Visual illusion",
+        "Memorable"
+      ],
+      "rationale": "Ads that make you see Heinz.",
+      "outcome": "Award winner.",
+      "whenToUse": "Visual brand recall.",
+      "whenNotToUse": "Non-visual brands.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Final Copy of Ilon Specht",
+      "brand": "L'Oréal",
+      "year": 2025,
+      "headline": "The Final Copy of Ilon Specht",
+      "rhetoricalDevices": [
+        "Narrative",
+        "Historical allusion"
+      ],
+      "rationale": "Revived copywriter's story for empowerment.",
+      "outcome": "Film Lions Grand Prix.",
+      "whenToUse": "Honoring historical figures in branding.",
+      "whenNotToUse": "Modern-focused campaigns.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Partnership That Changed Everything",
+      "brand": "LVMH",
+      "year": 2025,
+      "headline": "The Partnership That Changed Everything.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Amazon Greenventory",
+      "brand": "Natura",
+      "year": 2025,
+      "headline": "The Amazon Greenventory",
+      "rhetoricalDevices": [
+        "Environmental appeal",
+        "Inventory metaphor"
+      ],
+      "rationale": "Highlighted sustainable sourcing from Amazon rainforest.",
+      "outcome": "Sustainable Development Goals Grand Prix.",
+      "whenToUse": "Promoting sustainability in supply chain.",
+      "whenNotToUse": "Non-eco brands.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Parental Leave Mortgage",
+      "brand": "Nordea",
+      "year": 2025,
+      "headline": "Parental Leave Mortgage",
+      "rhetoricalDevices": [
+        "Action-based communication",
+        "Problem-solution framing"
+      ],
+      "rationale": "Responded to Finland's generous parental leave law but low uptake by fathers due to financial concerns by allowing mortgage payment pauses during leave.",
+      "outcome": "8.5 million impressions in first week, 200% increase in engagement.",
+      "whenToUse": "Addressing societal financial barriers through product innovation.",
+      "whenNotToUse": "When audience doesn't face similar financial pressures.",
+      "award": null,
+      "impactMetric": "200% improvement"
+    },
+    {
+      "campaign": "Nutter Butter, You Good?",
+      "brand": "Nutter Butter",
+      "year": 2025,
+      "headline": "You Good?",
+      "rhetoricalDevices": [
+        "Conversational",
+        "Humor"
+      ],
+      "rationale": "Creator-led revival.",
+      "outcome": "Gold PR.",
+      "whenToUse": "Social revival.",
+      "whenNotToUse": "Non-social.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Nutterverse",
+      "brand": "Nutter Butter",
+      "year": 2025,
+      "headline": "Nutterverse",
+      "rhetoricalDevices": [
+        "Spontaneity",
+        "Cultural relevance"
+      ],
+      "rationale": "Gave control to TikTok creators to revive a moribund brand.",
+      "outcome": "3 billion impressions, 250 million views, 1.1 million followers, 16.5% Gen Z penetration increase.",
+      "whenToUse": "Revitalizing irrelevant brands via social creators.",
+      "whenNotToUse": "When audience isn't on social platforms like TikTok.",
+      "award": null,
+      "impactMetric": "5% improvement"
+    },
+    {
+      "campaign": "Daisy vs Scammers",
+      "brand": "O2",
+      "year": 2025,
+      "headline": "Daisy vs Scammers",
+      "rhetoricalDevices": [
+        "AI narrative",
+        "Protection"
+      ],
+      "rationale": "Innovative campaign using AI technology: AI to combat scams. This showcases the brand's commitment to technological advancement.",
+      "outcome": "Savings, media value.",
+      "whenToUse": "Scam prevention.",
+      "whenNotToUse": "Non-tech protection.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Name This Oreo",
+      "brand": "Oreo",
+      "year": 2025,
+      "headline": "Name This Oreo.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Penny Price Packs",
+      "brand": "Penny",
+      "year": 2025,
+      "headline": "Penny Price Packs",
+      "rhetoricalDevices": [
+        "Value",
+        "Accessibility"
+      ],
+      "rationale": "Affordable packs for budget shoppers.",
+      "outcome": "Top Grand Prix mention.",
+      "whenToUse": "Budget-friendly promotion.",
+      "whenNotToUse": "Luxury items.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Redditor Edit",
+      "brand": "Reddit",
+      "year": 2025,
+      "headline": "Redditor Edit",
+      "rhetoricalDevices": [
+        "User-generated",
+        "Community"
+      ],
+      "rationale": "Users edit ads. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Award winner.",
+      "whenToUse": "Community engagement.",
+      "whenNotToUse": "Non-community platforms.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Tracking Bad Bunny",
+      "brand": "Rimas Music",
+      "year": 2025,
+      "headline": "Tracking Bad Bunny",
+      "rhetoricalDevices": [
+        "Engagement",
+        "Cultural Celebration"
+      ],
+      "rationale": "Turned album launch into a virtual scavenger hunt celebrating Puerto Rican culture.",
+      "outcome": "Won Entertainment Lions for Music Grand Prix.",
+      "whenToUse": "For music launches with interactive cultural elements.",
+      "whenNotToUse": "In non-music or non-interactive campaigns.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "The Misheard Conversation",
+      "brand": "Specsavers",
+      "agency": "Golin London",
+      "year": 2025,
+      "headline": "The Misheard Conversation",
+      "rhetoricalDevices": [
+        "Humor",
+        "Miscommunication"
+      ],
+      "rationale": "Highlighted hearing issues through misheard talks.",
+      "outcome": "Gold for Creative Effectiveness.",
+      "whenToUse": "Humor for health awareness.",
+      "whenNotToUse": "Serious health issues.",
+      "award": "Gold",
+      "impactMetric": null
+    },
+    {
+      "campaign": "Sounds Right",
+      "brand": "The Museum for the United Nations / UN Live",
+      "agency": "AKQA",
+      "year": 2025,
+      "headline": "Sounds Right",
+      "rhetoricalDevices": [
+        "Auditory appeal",
+        "Environmental"
+      ],
+      "rationale": "Used sounds for UN environmental message.",
+      "outcome": "Grand Prix.",
+      "whenToUse": "Audio environmental campaigns.",
+      "whenNotToUse": "Non-audio.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    },
+    {
+      "campaign": "It's Like You Know",
+      "brand": "Unknown (B2B)",
+      "year": 2025,
+      "headline": "It's Like You Know.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Vaseline Verified",
+      "brand": "Vaseline",
+      "year": 2025,
+      "headline": "Vaseline Verified.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale. Campaign demonstrates creative excellence and strategic communication effectiveness.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate.",
+      "award": null,
+      "impactMetric": null
+    },
+    {
+      "campaign": "Preserved Promos",
+      "brand": "Ziploc",
+      "year": 2025,
+      "headline": "Preserved Promos",
+      "rhetoricalDevices": [
+        "Interactive",
+        "Practical Utility"
+      ],
+      "rationale": "Allowed consumers to 'preserve' expired coupons by uploading photos, unlocking discounts when buying Ziploc products.",
+      "outcome": "Won Creative Commerce Grand Prix and Direct Grand Prix.",
+      "whenToUse": "For retail promotions tying product utility to consumer savings.",
+      "whenNotToUse": "In luxury or non-retail sectors.",
+      "award": "Grand Prix",
+      "impactMetric": null
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Corpus Package</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .download-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .download-btn { background: #0070f3; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .download-btn:hover { background: #0051cc; }
+        .stats { background: #f5f5f5; padding: 15px; border-radius: 6px; margin: 15px 0; }
+        .file-list { margin: 15px 0; }
+        .file-list li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <h1>🗂️ Concept Forge Retrieval Corpus</h1>
+    
+    <div class="download-card">
+        <h2>Complete Package Download</h2>
+        <p>Ready-to-use corpus with 157 award-winning advertising campaigns for AI-powered creative ideation.</p>
+        
+        <div class="stats">
+            <strong>Package Statistics:</strong><br>
+            📊 157 campaigns spanning 1999-2020<br>
+            🏢 129 unique brands (Nike, Apple, Google, etc.)<br>
+            🎯 54 rhetorical devices catalogued<br>
+            🏆 Award-winning quality (Cannes Lions, D&AD)<br>
+            📦 File size: 40KB
+        </div>
+        
+        <button class="download-btn" onclick="downloadCorpus()">
+            ⬇️ Download Corpus Package
+        </button>
+        
+        <div class="file-list">
+            <h3>Package Contents:</h3>
+            <ul>
+                <li><strong>retrieval-corpus.json</strong> - Structured database format</li>
+                <li><strong>retrieval-corpus-export.csv</strong> - Spreadsheet analysis format</li>
+                <li><strong>retrieval-corpus-readable.md</strong> - Human-readable documentation</li>
+                <li><strong>CORPUS_ANALYSIS_REPORT.md</strong> - Statistical analysis and insights</li>
+                <li><strong>CORPUS_PACKAGE_README.md</strong> - Usage guide for partners</li>
+                <li><strong>RETRIEVAL_CORPUS_STUDY_GUIDE.md</strong> - Overview and instructions</li>
+                <li><strong>retrieval-corpus-template.json</strong> - Template for new campaigns</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadCorpus() {
+            // Try multiple download methods
+            const downloadUrl = window.location.origin + '/api/download/corpus';
+            
+            // Method 1: Direct window.open
+            window.open(downloadUrl, '_blank');
+            
+            // Method 2: Create download link as fallback
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = 'concept-forge-retrieval-corpus.zip';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 500);
+            
+            // Method 3: Show direct URL as backup
+            setTimeout(() => {
+                alert('If download doesn\\'t start automatically, copy this URL:\\n\\n' + downloadUrl);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

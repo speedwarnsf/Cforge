@@ -1,0 +1,1843 @@
+{
+  "campaigns": [
+    {
+      "campaign": "A Diamond is Forever",
+      "brand": "De Beers",
+      "year": 1948,
+      "headline": "A Diamond is Forever.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Man in the Hathaway Shirt",
+      "brand": "Hathaway",
+      "year": 1951,
+      "headline": "The Man in the Hathaway Shirt.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Marlboro Man",
+      "brand": "Marlboro",
+      "year": 1955,
+      "headline": "Come to Marlboro Country.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Think Small",
+      "brand": "Volkswagen",
+      "year": 1959,
+      "headline": "Think Small.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Lemon",
+      "brand": "Volkswagen",
+      "year": 1960,
+      "headline": "Lemon.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "We Try Harder",
+      "brand": "Avis",
+      "year": 1962,
+      "headline": "We Try Harder.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Hilltop",
+      "brand": "Coca-Cola",
+      "year": 1971,
+      "headline": "I'd Like to Buy the World a Coke.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "I Love New York",
+      "brand": "New York City",
+      "year": 1977,
+      "headline": "I \\uc0\\u9829  NY.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Absolut Bottle",
+      "brand": "Absolut Vodka",
+      "year": 1980,
+      "headline": "Absolut Perfection.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "1984",
+      "brand": "Apple",
+      "year": 1984,
+      "headline": "Why 1984 Won't Be Like '1984'.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Where's the Beef?",
+      "brand": "Wendy's",
+      "year": 1984,
+      "headline": "Where's the Beef?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Just Do It",
+      "brand": "Nike",
+      "year": 1988,
+      "headline": "Just Do It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Got Milk?",
+      "brand": "California Milk Processor Board",
+      "year": 1993,
+      "headline": "Got Milk?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Think Different",
+      "brand": "Apple",
+      "year": 1997,
+      "headline": "Think Different.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Red Bull Gives You Wings",
+      "brand": "Red Bull",
+      "year": 1997,
+      "headline": "Red Bull Gives You Wings.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Wassup?",
+      "brand": "Budweiser",
+      "year": 1999,
+      "headline": "Wassup?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Good Things Come to Those Who Wait",
+      "brand": "Guinness",
+      "year": 1999,
+      "headline": "Good Things Come to Those Who Wait.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Impossible is Nothing",
+      "brand": "Adidas",
+      "year": 2004,
+      "headline": "Impossible is Nothing.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Real Beauty",
+      "brand": "Dove",
+      "year": 2004,
+      "headline": "Real Beauty",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Social Commentary"
+      ],
+      "rationale": "Challenged beauty standards with real women, evolving into a global self-esteem movement (continued into 2025).",
+      "outcome": "Won Media Grand Prix in 2025 for ongoing impact.",
+      "whenToUse": "For body positivity and long-term social campaigns.",
+      "whenNotToUse": "In beauty campaigns promoting ideals."
+    },
+    {
+      "campaign": "Power of Dreams",
+      "brand": "Honda",
+      "year": 2004,
+      "headline": "The Power of Dreams.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Feel More",
+      "brand": "Sony Bravia",
+      "year": 2005,
+      "headline": "Colour Like No Other.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Most Interesting Man in the World",
+      "brand": "Dos Equis",
+      "year": 2006,
+      "headline": "Stay Thirsty, My Friends.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "America Runs on Dunkin'",
+      "brand": "Dunkin'",
+      "year": 2006,
+      "headline": "America Runs on Dunkin'.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Make the Logo Bigger Cream",
+      "brand": "Agency Self-Promo",
+      "year": 2007,
+      "headline": "Make the Logo Bigger.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Gorilla",
+      "brand": "Cadbury",
+      "year": 2007,
+      "headline": "A Glass and a Half Full of Joy.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "It's Mine",
+      "brand": "Coca-Cola",
+      "year": 2008,
+      "headline": "It's Mine.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Live Young",
+      "brand": "Evian",
+      "year": 2009,
+      "headline": "Live Young.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Parisian Love",
+      "brand": "Google",
+      "year": 2009,
+      "headline": "Search On.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Fun Theory",
+      "brand": "Volkswagen",
+      "year": 2009,
+      "headline": "Fun Can Change Behaviour for the Better.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Be Stupid",
+      "brand": "Diesel",
+      "year": 2010,
+      "headline": "Be Stupid.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Man Your Man Could Smell Like",
+      "brand": "Old Spice",
+      "year": 2010,
+      "headline": "Smell Like a Man, Man.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "You're Not You When You're Hungry",
+      "brand": "Snickers",
+      "year": 2010,
+      "headline": "You're Not You When You're Hungry.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Unhate",
+      "brand": "Benetton",
+      "year": 2011,
+      "headline": "Unhate.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Born of Fire",
+      "brand": "Chrysler",
+      "year": 2011,
+      "headline": "Imported from Detroit.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Dear Sophie",
+      "brand": "Google Chrome",
+      "year": 2011,
+      "headline": "The Web is What You Make of It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Open Your World",
+      "brand": "Heineken",
+      "year": 2011,
+      "headline": "Open Your World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Hello Tomorrow",
+      "brand": "Air France",
+      "year": 2012,
+      "headline": "Make the Sky the Best Place on Earth.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Dumb Ways to Die",
+      "brand": "Metro Trains Melbourne",
+      "year": 2012,
+      "headline": "Be Safe Around Trains.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Find Your Greatness",
+      "brand": "Nike",
+      "year": 2012,
+      "headline": "Greatness is Wherever Somebody is Trying to Find It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Thank You Mom",
+      "brand": "P&G",
+      "year": 2012,
+      "headline": "The Hardest Job in the World is the Best Job in the World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Red Bull Stratos",
+      "brand": "Red Bull",
+      "year": 2012,
+      "headline": "Mission to the Edge of Space.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Magic of Flying",
+      "brand": "British Airways",
+      "year": 2013,
+      "headline": "Look Up.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Scarecrow",
+      "brand": "Chipotle",
+      "year": 2013,
+      "headline": "Cultivate a Better World.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Real Beauty Sketches",
+      "brand": "Dove",
+      "year": 2013,
+      "headline": "You Are More Beautiful Than You Think.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Melbourne Remote Control Tourist",
+      "brand": "Tourism Victoria",
+      "year": 2013,
+      "headline": "Go Before You Go.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Epic Split",
+      "brand": "Volvo Trucks",
+      "year": 2013,
+      "headline": "The Epic Split.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Like a Girl",
+      "brand": "Always",
+      "year": 2014,
+      "headline": "Rewrite the Rules.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Puppy Love",
+      "brand": "Budweiser",
+      "year": 2014,
+      "headline": "Best Friends.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Proud Whopper",
+      "brand": "Burger King",
+      "year": 2014,
+      "headline": "We Are All the Same Inside.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Other Side",
+      "brand": "Honda",
+      "year": 2014,
+      "headline": "The Power of Duality.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The IKEA Catalogue",
+      "brand": "IKEA",
+      "year": 2014,
+      "headline": "Experience the Power of a Bookbook.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Monty the Penguin",
+      "brand": "John Lewis",
+      "year": 2014,
+      "headline": "Give Someone the Christmas They've Been Dreaming Of.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Re2pect",
+      "brand": "Jordan Brand",
+      "year": 2014,
+      "headline": "RE2PECT.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Big Game, Small Ads",
+      "brand": "Newcastle Brown Ale",
+      "year": 2014,
+      "headline": "If We Made It.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Breakthrough",
+      "brand": "Volvo Trucks",
+      "year": 2014,
+      "headline": "The Epic Split.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Last Selfie",
+      "brand": "WWF",
+      "year": 2014,
+      "headline": "Don't Let This Be My Last Selfie.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Love Has No Labels",
+      "brand": "Ad Council",
+      "year": 2015,
+      "headline": "Love Has No Labels.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Shot on iPhone",
+      "brand": "Apple",
+      "year": 2015,
+      "headline": "Everyday, More Photos are Taken on iPhone.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Share the Load",
+      "brand": "Ariel",
+      "year": 2015,
+      "headline": "Why is Laundry Only a Mother's Job?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Choose Beautiful",
+      "brand": "Dove",
+      "year": 2015,
+      "headline": "Choose Beautiful.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Thank You, Internet",
+      "brand": "GE",
+      "year": 2015,
+      "headline": "Thank You, Internet.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "This Girl Can",
+      "brand": "Sport England",
+      "year": 2015,
+      "headline": "Sweating Like a Pig, Feeling Like a Fox.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Displaced",
+      "brand": "The New York Times",
+      "year": 2015,
+      "headline": "The Displaced.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Find Your Magic",
+      "brand": "AXE",
+      "year": 2016,
+      "headline": "Find Your Magic.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Live There",
+      "brand": "Airbnb",
+      "year": 2016,
+      "headline": "Don't Go There. Live There.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "We Are the Superhumans",
+      "brand": "Channel 4",
+      "year": 2016,
+      "headline": "Meet the Superhumans.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Evan",
+      "brand": "Sandy Hook Promise",
+      "year": 2016,
+      "headline": "Know the Signs.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Swedish Number",
+      "brand": "VisitSweden",
+      "year": 2016,
+      "headline": "The Swedish Number.",
+      "rhetoricalDevices": [
+        "Novelty",
+        "Transparency"
+      ],
+      "rationale": "Launching a unique tourism campaign with a national phone number where random Swedes answer calls for authentic info.",
+      "outcome": "Over 9 billion media impressions, phone number still in operation, Cannes Lion Grand Prix.",
+      "whenToUse": "For tourism campaigns seeking unique, personal engagement.",
+      "whenNotToUse": "If the concept is too unconventional for the target audience."
+    },
+    {
+      "campaign": "We Accept",
+      "brand": "Airbnb",
+      "year": 2017,
+      "headline": "We Accept.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Dilly Dilly",
+      "brand": "Bud Light",
+      "year": 2017,
+      "headline": "Dilly Dilly.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Black Supermarket",
+      "brand": "Carrefour",
+      "year": 2017,
+      "headline": "Black Supermarket.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Breaking Ballet",
+      "brand": "Joburg Ballet",
+      "year": 2017,
+      "headline": "Breaking Ballet.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Talk",
+      "brand": "Procter & Gamble",
+      "year": 2017,
+      "headline": "The Talk.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Fearless Girl",
+      "brand": "State Street Global Advisors",
+      "year": 2017,
+      "headline": "She Makes a Difference.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Whopper Detour",
+      "brand": "Burger King",
+      "year": 2018,
+      "headline": "Order a Whopper for 1\\'a2 at McDonald's.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Endangered Syndrome",
+      "brand": "Canadian Down Syndrome Society",
+      "year": 2018,
+      "headline": "People with Down Syndrome are Going Extinct.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Dream Crazy",
+      "brand": "Nike",
+      "year": 2018,
+      "headline": "Believe in Something.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Truth is Worth It",
+      "brand": "The New York Times",
+      "year": 2018,
+      "headline": "The Truth is Hard.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "It's a Tide Ad",
+      "brand": "Tide",
+      "year": 2018,
+      "headline": "It's a Tide Ad.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Disgusting Stories",
+      "brand": "UNICEF",
+      "year": 2018,
+      "headline": "Stories No Child Should Write.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Traffic Jam Whopper",
+      "brand": "Burger King",
+      "year": 2019,
+      "headline": "Traffic Jam Whopper",
+      "rhetoricalDevices": [
+        "Timely Delivery",
+        "Convenience"
+      ],
+      "rationale": "Delivered Whoppers to cars in traffic jams via geolocation.",
+      "outcome": "Won awards for direct marketing.",
+      "whenToUse": "For location-based food delivery.",
+      "whenNotToUse": "In non-delivery services."
+    },
+    {
+      "campaign": "The Best Men Can Be",
+      "brand": "Gillette",
+      "year": 2019,
+      "headline": "Is This the Best a Man Can Get?",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "True Name™",
+      "brand": "Mastercard",
+      "year": 2019,
+      "headline": "True Name™.",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Personalization"
+      ],
+      "rationale": "Allowing trans and non-binary people to choose their bank card name to address discrimination by reflecting true identity.",
+      "outcome": "Won Cannes Lion Grand Prix, Mastercard's first.",
+      "whenToUse": "For campaigns supporting trans and non-binary inclusion.",
+      "whenNotToUse": "If the audience is not supportive of transgender issues."
+    },
+    {
+      "campaign": "Womb Stories",
+      "brand": "Bodyform/Libresse",
+      "year": 2020,
+      "headline": "Womb Stories",
+      "rhetoricalDevices": [
+        "Storytelling",
+        "Empathy"
+      ],
+      "rationale": "Animated stories of women's reproductive experiences.",
+      "outcome": "Grand Prix in Health.",
+      "whenToUse": "For women's health taboo-breaking.",
+      "whenNotToUse": "In conservative audiences."
+    },
+    {
+      "campaign": "Courage Is Beautiful",
+      "brand": "Dove",
+      "year": 2020,
+      "headline": "Courage Is Beautiful.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Boards of Change",
+      "brand": "City of Chicago",
+      "year": 2021,
+      "headline": "Boards of Change",
+      "rhetoricalDevices": [
+        "Repurposing",
+        "Social Activism"
+      ],
+      "rationale": "Turned protest boards into voting booths.",
+      "outcome": "Grand Prix winner.",
+      "whenToUse": "For civic engagement with social materials.",
+      "whenNotToUse": "In non-activist contexts."
+    },
+    {
+      "campaign": "Raising Profiles",
+      "brand": "The Big Issue & LinkedIn",
+      "year": 2021,
+      "headline": "Raising Profiles.",
+      "rhetoricalDevices": [
+        "Empowerment",
+        "Community Building"
+      ],
+      "rationale": "Creating online social accounts for Big Issue sellers post-COVID to help find new buyers and increase sales.",
+      "outcome": "Revolutionized sales model, won Cannes Lion Grand Prix.",
+      "whenToUse": "For social impact campaigns aiding marginalized groups.",
+      "whenNotToUse": "If digital literacy is not a feasible solution."
+    },
+    {
+      "campaign": "Liquid Billboard",
+      "brand": "Adidas",
+      "year": 2022,
+      "headline": "Liquid Billboard.",
+      "rhetoricalDevices": [
+        "Visual Impact",
+        "Inclusivity"
+      ],
+      "rationale": "Turning a billboard into a shared pool to showcase inclusive swimwear and address discomfort in swimming.",
+      "outcome": "Won Cannes Lions Grand Prix, Gold Lion, two Silver Lions, one Bronze.",
+      "whenToUse": "For campaigns promoting inclusivity in sports or fashion.",
+      "whenNotToUse": "When avoiding bold physical installations."
+    },
+    {
+      "campaign": "The Lost Class",
+      "brand": "Change the Ref",
+      "year": 2022,
+      "headline": "The Lost Class",
+      "rhetoricalDevices": [
+        "Shock Value",
+        "Narrative Twist"
+      ],
+      "rationale": "Fake graduation for gun violence victims.",
+      "outcome": "Grand Prix in PR.",
+      "whenToUse": "For gun control advocacy.",
+      "whenNotToUse": "In pro-gun regions."
+    },
+    {
+      "campaign": "The Breakaway",
+      "brand": "Decathlon",
+      "year": 2022,
+      "headline": "The Breakaway.",
+      "rhetoricalDevices": [
+        "Connection",
+        "Inclusivity"
+      ],
+      "rationale": "Connecting prisoners to the outside world via online cycling using Zwift to make a positive impact on incarcerated individuals.",
+      "outcome": "Reached over a million on social media, won two Cannes Lions Grand Prix, expanded to 30 prisons.",
+      "whenToUse": "For campaigns aiming to rehabilitate or connect marginalized groups.",
+      "whenNotToUse": "If the audience is not interested in prison reform."
+    },
+    {
+      "campaign": "Heinz Can't Unsee It",
+      "brand": "Heinz",
+      "year": 2023,
+      "headline": "Can't Unsee It",
+      "rhetoricalDevices": [
+        "Visual Illusion",
+        "Memorable Imagery"
+      ],
+      "rationale": "Ads where viewers 'see' Heinz in everyday scenes.",
+      "outcome": "Viral success and awards.",
+      "whenToUse": "For brand recall through visuals.",
+      "whenNotToUse": "In text-heavy campaigns."
+    },
+    {
+      "campaign": "Liquid Death x Rebel Moon",
+      "brand": "Liquid Death",
+      "year": 2023,
+      "headline": "Liquid Death x Rebel Moon.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Barbie Becomes \\'93Burger Queen\\'94",
+      "brand": "Mattel and Burger King Brazil",
+      "year": 2023,
+      "headline": "Barbie Becomes \\'93Burger Queen\\'94.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Pokemon x Van Gogh",
+      "brand": "Pok\\'e9mon and Van Gogh Museum",
+      "year": 2023,
+      "headline": "Pokemon x Van Gogh.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Bumble for Friends Only",
+      "brand": "Bumble",
+      "year": 2024,
+      "headline": "Bumble for Friends Only.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Duolingo\\'92s Storytelling",
+      "brand": "Duolingo",
+      "year": 2024,
+      "headline": "Don\\'92t Make Duo Angry - Learn a Language in 2024.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Redditor Edit",
+      "brand": "Reddit",
+      "year": 2024,
+      "headline": "Redditor Edit",
+      "rhetoricalDevices": [
+        "User-Generated",
+        "Community Involvement"
+      ],
+      "rationale": "Allowed Redditors to edit ads, fostering community.",
+      "outcome": "Increased engagement.",
+      "whenToUse": "For platform community building.",
+      "whenNotToUse": "In controlled branding."
+    },
+    {
+      "campaign": "Shutterstock\\'92s Welcome Email",
+      "brand": "Shutterstock",
+      "year": 2024,
+      "headline": "Welcome to Shutterstock 2024.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "T-Mobile\\'92s Super Bowl Ad",
+      "brand": "T-Mobile",
+      "year": 2024,
+      "headline": "T-Mobile\\'92s Super Bowl Ad.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "TwitchCon Invites",
+      "brand": "Twitch",
+      "year": 2024,
+      "headline": "TwitchCon Invites.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Three Words",
+      "brand": "AXA",
+      "year": 2025,
+      "headline": "Three Words.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Caption with Intention",
+      "brand": "Academy of Motion Picture Arts and Sciences",
+      "year": 2025,
+      "headline": "Caption with Intention",
+      "rhetoricalDevices": [
+        "Empathy",
+        "Accessibility Focus"
+      ],
+      "rationale": "Improved captioning for deaf and hard-of-hearing audiences in film, reimagining accessibility as intentional design.",
+      "outcome": "Won Creative Data Grand Prix, Design Grand Prix, Digital Craft Grand Prix, and Titanium Lion.",
+      "whenToUse": "For media inclusivity and accessibility innovations.",
+      "whenNotToUse": "In non-media or non-inclusive contexts."
+    },
+    {
+      "campaign": "The Shakespeare BIC",
+      "brand": "BIC",
+      "year": 2025,
+      "headline": "The Shakespeare BIC.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "One Second Ads",
+      "brand": "Budweiser",
+      "agency": "Africa Creative DDB",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Brevity",
+        "Impact"
+      ],
+      "rationale": "Short ads for quick message.",
+      "outcome": "Audio & Radio Grand Prix.",
+      "whenToUse": "Short-form advertising.",
+      "whenNotToUse": "Long narratives."
+    },
+    {
+      "campaign": "Traffic Jam Whopper",
+      "brand": "Burger King",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Timely",
+        "Convenience"
+      ],
+      "rationale": "Delivery in traffic jams.",
+      "outcome": "Award winner.",
+      "whenToUse": "Location-based marketing.",
+      "whenNotToUse": "Non-delivery services."
+    },
+    {
+      "campaign": "Lucky Yatra",
+      "brand": "Central Railway",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Gamification",
+        "Insight-driven"
+      ],
+      "rationale": "Turned train tickets into lottery tickets to combat fare evasion, leveraging love for lotteries.",
+      "outcome": "500 million impressions, 34% sales increase, $685 million revenue.",
+      "whenToUse": "Incentivizing compliance in public services via gamification.",
+      "whenNotToUse": "When audience doesn't respond to lotteries."
+    },
+    {
+      "campaign": "Lucky Yatra",
+      "brand": "Central Railway",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Lottery incentive",
+        "Gamification"
+      ],
+      "rationale": "Tickets as lotteries to reduce evasion.",
+      "outcome": "Revenue increase.",
+      "whenToUse": "Compliance incentives.",
+      "whenNotToUse": "Non-gamified services."
+    },
+    {
+      "campaign": "Paris Paralympics 2024: Considering What?",
+      "brand": "Channel 4",
+      "year": 2025,
+      "headline": "Considering What?",
+      "rhetoricalDevices": [
+        "Rhetorical question",
+        "Inclusivity"
+      ],
+      "rationale": "Challenged perceptions of Paralympians.",
+      "outcome": "Film Lions Grand Prix, Grand Prix for Good.",
+      "whenToUse": "Challenging stereotypes in sports.",
+      "whenNotToUse": "Non-inclusive audiences."
+    },
+    {
+      "campaign": "Paris Paralympics 2024: Considering What?",
+      "brand": "Channel 4",
+      "year": 2025,
+      "headline": "Considering What?",
+      "rhetoricalDevices": [
+        "Question",
+        "Challenge"
+      ],
+      "rationale": "Challenge perceptions.",
+      "outcome": "Film Grand Prix.",
+      "whenToUse": "Stereotype challenging.",
+      "whenNotToUse": "Non-inclusive."
+    },
+    {
+      "campaign": "Haaland Payback Time",
+      "brand": "Clash of Clans",
+      "year": 2025,
+      "headline": "Haaland Payback Time",
+      "rhetoricalDevices": [
+        "Celebrity Integration",
+        "Gaming Narrative"
+      ],
+      "rationale": "Integrated footballer Erling Haaland as a playable character, blending sports and gaming cultures.",
+      "outcome": "Won Entertainment Lions for Gaming Grand Prix and Sport Grand Prix.",
+      "whenToUse": "For cross-over campaigns between sports and gaming.",
+      "whenNotToUse": "In non-gaming or non-celebrity contexts."
+    },
+    {
+      "campaign": "Payback Time",
+      "brand": "Clash of Clans",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Celebrity",
+        "Gaming"
+      ],
+      "rationale": "Haaland in game.",
+      "outcome": "Grand Prix.",
+      "whenToUse": "Celebrity gaming integration.",
+      "whenNotToUse": "Non-gaming."
+    },
+    {
+      "campaign": "The BeatCan",
+      "brand": "Coca-Cola",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Interactive",
+        "Music tie-in"
+      ],
+      "rationale": "Can that plays beats.",
+      "outcome": "Award winner.",
+      "whenToUse": "Interactive product engagement.",
+      "whenNotToUse": "Non-interactive products."
+    },
+    {
+      "campaign": "Real Beauty: How a Soap Brand Created a Global Self-Esteem Movement",
+      "brand": "Dove",
+      "year": 2025,
+      "headline": "Real Beauty.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Last One - To Fill 157",
+      "brand": "Example Brand",
+      "year": 2025,
+      "headline": "Example Headline.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Progresso Soup Drops",
+      "brand": "General Mills",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Humor",
+        "Product innovation"
+      ],
+      "rationale": "Turned soup into drops for convenient consumption, addressing busy lifestyles.",
+      "outcome": "Gold PR Lion, increased brand visibility.",
+      "whenToUse": "Innovating product form for convenience.",
+      "whenNotToUse": "For traditional food experiences."
+    },
+    {
+      "campaign": "Progresso Soup Drops",
+      "brand": "General Mills",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Innovation",
+        "Convenience"
+      ],
+      "rationale": "Soup in drop form.",
+      "outcome": "Gold PR.",
+      "whenToUse": "Product form innovation.",
+      "whenNotToUse": "Traditional foods."
+    },
+    {
+      "campaign": "Act Like You Know",
+      "brand": "GoDaddy",
+      "year": 2025,
+      "headline": "Act Like You Know",
+      "rhetoricalDevices": [
+        "Knowledge Empowerment",
+        "Action Call"
+      ],
+      "rationale": "Empowered B2B users with knowledge to act confidently in digital spaces.",
+      "outcome": "Won Creative B2B Grand Prix.",
+      "whenToUse": "For B2B education and empowerment.",
+      "whenNotToUse": "In consumer-direct marketing."
+    },
+    {
+      "campaign": "Heinz Can't Unsee It",
+      "brand": "Heinz",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Visual illusion",
+        "Memorable"
+      ],
+      "rationale": "Ads that make you see Heinz.",
+      "outcome": "Award winner.",
+      "whenToUse": "Visual brand recall.",
+      "whenNotToUse": "Non-visual brands."
+    },
+    {
+      "campaign": "The Final Copy of Ilon Specht",
+      "brand": "L'Oréal",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Narrative",
+        "Historical allusion"
+      ],
+      "rationale": "Revived copywriter's story for empowerment.",
+      "outcome": "Film Lions Grand Prix.",
+      "whenToUse": "Honoring historical figures in branding.",
+      "whenNotToUse": "Modern-focused campaigns."
+    },
+    {
+      "campaign": "The Final Copy of Ilon Specht",
+      "brand": "L'Oréal",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Historical",
+        "Empowerment"
+      ],
+      "rationale": "Copywriter's story revived.",
+      "outcome": "Film Craft Grand Prix.",
+      "whenToUse": "Historical empowerment.",
+      "whenNotToUse": "Modern only."
+    },
+    {
+      "campaign": "The Partnership That Changed Everything",
+      "brand": "LVMH",
+      "year": 2025,
+      "headline": "The Partnership That Changed Everything.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "The Amazon Greenventory",
+      "brand": "Natura",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Environmental appeal",
+        "Inventory metaphor"
+      ],
+      "rationale": "Highlighted sustainable sourcing from Amazon rainforest.",
+      "outcome": "Sustainable Development Goals Grand Prix.",
+      "whenToUse": "Promoting sustainability in supply chain.",
+      "whenNotToUse": "Non-eco brands."
+    },
+    {
+      "campaign": "The Amazon Greenventory",
+      "brand": "Natura",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Sustainability",
+        "Metaphor"
+      ],
+      "rationale": "Inventory of green assets in Amazon.",
+      "outcome": "Sustainable Goals Grand Prix.",
+      "whenToUse": "Eco-inventory promotion.",
+      "whenNotToUse": "Non-sustainable."
+    },
+    {
+      "campaign": "The Amazon Greenventory",
+      "brand": "Natura",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Inventory metaphor",
+        "Sustainability"
+      ],
+      "rationale": "Sustainable sourcing inventory.",
+      "outcome": "Sustainable Grand Prix.",
+      "whenToUse": "Eco-supply chain.",
+      "whenNotToUse": "Non-eco."
+    },
+    {
+      "campaign": "Parental Leave Mortgage",
+      "brand": "Nordea",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Action-based communication",
+        "Problem-solution framing"
+      ],
+      "rationale": "Responded to Finland's generous parental leave law but low uptake by fathers due to financial concerns by allowing mortgage payment pauses during leave.",
+      "outcome": "8.5 million impressions in first week, 200% increase in engagement.",
+      "whenToUse": "Addressing societal financial barriers through product innovation.",
+      "whenNotToUse": "When audience doesn't face similar financial pressures."
+    },
+    {
+      "campaign": "Nutter Butter, You Good?",
+      "brand": "Nutter Butter",
+      "year": 2025,
+      "headline": "You Good?",
+      "rhetoricalDevices": [
+        "Conversational",
+        "Humor"
+      ],
+      "rationale": "Creator-led revival.",
+      "outcome": "Gold PR.",
+      "whenToUse": "Social revival.",
+      "whenNotToUse": "Non-social."
+    },
+    {
+      "campaign": "Nutterverse",
+      "brand": "Nutter Butter",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Spontaneity",
+        "Cultural relevance"
+      ],
+      "rationale": "Gave control to TikTok creators to revive a moribund brand.",
+      "outcome": "3 billion impressions, 250 million views, 1.1 million followers, 16.5% Gen Z penetration increase.",
+      "whenToUse": "Revitalizing irrelevant brands via social creators.",
+      "whenNotToUse": "When audience isn't on social platforms like TikTok."
+    },
+    {
+      "campaign": "Daisy vs Scammers",
+      "brand": "O2",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "AI utilization",
+        "Narrative engagement"
+      ],
+      "rationale": "AI synthetic granny to tie up scammers targeting elderly.",
+      "outcome": "£3 million saved, £36 million earned media, 1.7 billion impressions.",
+      "whenToUse": "Combating scams with AI for vulnerable groups.",
+      "whenNotToUse": "When tech isn't central to solution."
+    },
+    {
+      "campaign": "Daisy vs Scammers",
+      "brand": "O2",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "AI narrative",
+        "Protection"
+      ],
+      "rationale": "AI to combat scams.",
+      "outcome": "Savings, media value.",
+      "whenToUse": "Scam prevention.",
+      "whenNotToUse": "Non-tech protection."
+    },
+    {
+      "campaign": "Name This Oreo",
+      "brand": "Oreo",
+      "year": 2025,
+      "headline": "Name This Oreo.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Penny Price Packs",
+      "brand": "Penny",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Value",
+        "Accessibility"
+      ],
+      "rationale": "Affordable packs for budget shoppers.",
+      "outcome": "Top Grand Prix mention.",
+      "whenToUse": "Budget-friendly promotion.",
+      "whenNotToUse": "Luxury items."
+    },
+    {
+      "campaign": "Redditor Edit",
+      "brand": "Reddit",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "User-generated",
+        "Community"
+      ],
+      "rationale": "Users edit ads.",
+      "outcome": "Award winner.",
+      "whenToUse": "Community engagement.",
+      "whenNotToUse": "Non-community platforms."
+    },
+    {
+      "campaign": "Tracking Bad Bunny",
+      "brand": "Rimas Music",
+      "year": 2025,
+      "headline": "Tracking Bad Bunny",
+      "rhetoricalDevices": [
+        "Engagement",
+        "Cultural Celebration"
+      ],
+      "rationale": "Turned album launch into a virtual scavenger hunt celebrating Puerto Rican culture.",
+      "outcome": "Won Entertainment Lions for Music Grand Prix.",
+      "whenToUse": "For music launches with interactive cultural elements.",
+      "whenNotToUse": "In non-music or non-interactive campaigns."
+    },
+    {
+      "campaign": "The Misheard Conversation",
+      "brand": "Specsavers",
+      "agency": "Golin London",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Humor",
+        "Miscommunication"
+      ],
+      "rationale": "Highlighted hearing issues through misheard talks.",
+      "outcome": "Gold for Creative Effectiveness.",
+      "whenToUse": "Humor for health awareness.",
+      "whenNotToUse": "Serious health issues."
+    },
+    {
+      "campaign": "Sounds Right",
+      "brand": "The Museum for the United Nations / UN Live",
+      "agency": "AKQA",
+      "year": 2025,
+      "headline": null,
+      "rhetoricalDevices": [
+        "Auditory appeal",
+        "Environmental"
+      ],
+      "rationale": "Used sounds for UN environmental message.",
+      "outcome": "Grand Prix.",
+      "whenToUse": "Audio environmental campaigns.",
+      "whenNotToUse": "Non-audio."
+    },
+    {
+      "campaign": "It's Like You Know",
+      "brand": "Unknown (B2B)",
+      "year": 2025,
+      "headline": "It's Like You Know.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Vaseline Verified",
+      "brand": "Vaseline",
+      "year": 2025,
+      "headline": "Vaseline Verified.",
+      "rhetoricalDevices": [
+        "Metaphor"
+      ],
+      "rationale": "Campaign rationale.",
+      "outcome": "Campaign outcome.",
+      "whenToUse": "When appropriate.",
+      "whenNotToUse": "When inappropriate."
+    },
+    {
+      "campaign": "Preserved Promos",
+      "brand": "Ziploc",
+      "year": 2025,
+      "headline": "Preserved Promos",
+      "rhetoricalDevices": [
+        "Interactive",
+        "Practical Utility"
+      ],
+      "rationale": "Allowed consumers to 'preserve' expired coupons by uploading photos, unlocking discounts when buying Ziploc products.",
+      "outcome": "Won Creative Commerce Grand Prix and Direct Grand Prix.",
+      "whenToUse": "For retail promotions tying product utility to consumer savings.",
+      "whenNotToUse": "In luxury or non-retail sectors."
+    }
+  ]
+}
