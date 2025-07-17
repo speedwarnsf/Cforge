@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Positioning</title>
+    <style>
+        .debug-box { border: 2px solid red; }
+        .debug-text { color: blue; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Debug Positioning Issue</h1>
+    <p>Open browser dev tools and inspect the CREATIVE BRIEF headers on both pages.</p>
+    <p>Look for differences in:</p>
+    <ul>
+        <li>Computed margin/padding values</li>
+        <li>Box model differences</li>
+        <li>Parent container widths</li>
+        <li>CSS inheritance issues</li>
+    </ul>
+    
+    <script>
+        // Add debug borders to all elements containing "CREATIVE BRIEF"
+        setTimeout(() => {
+            const elements = document.querySelectorAll('*');
+            elements.forEach(el => {
+                if (el.textContent && el.textContent.includes('CREATIVE BRIEF')) {
+                    el.style.border = '2px solid red';
+                    el.style.backgroundColor = 'rgba(255,0,0,0.1)';
+                }
+            });
+            
+            // Log all elements with class containing 'mb-' or 'p-'
+            const spacingElements = document.querySelectorAll('[class*="mb-"], [class*="p-"], [class*="ml-"], [class*="mr-"]');
+            console.log('Elements with spacing classes:', spacingElements);
+        }, 1000);
+    </script>
+</body>
+</html>

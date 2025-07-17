@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept Forge - Direct Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .status {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .test-results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Concept Forge - Testing Interface</h1>
+        
+        <div class="status">
+            <strong>Server Status:</strong> <span id="server-status">Checking...</span>
+        </div>
+
+        <h2>Quick Actions</h2>
+        <button class="button" onclick="testServer()">Test Server Connection</button>
+        <button class="button" onclick="runSingleTest()">Run Single Test</button>
+        <button class="button" onclick="runAllTests()">Run All 10 Tests</button>
+        <button class="button" onclick="viewHistory()">View Session History</button>
+
+        <h2>Test Results</h2>
+        <div id="results" class="test-results">
+            Ready to run tests...
+        </div>
+
+        <h2>Direct Access Links</h2>
+        <p>If the main app isn't loading through the external domain, use these direct methods:</p>
+        <ul>
+            <li><strong>Internal Preview:</strong> Look for "Webview" tab in Replit interface</li>
+            <li><strong>Password:</strong> forge2025</li>
+            <li><strong>Test Admin:</strong> Look for "test-admin" link in bottom-left after login</li>
+            <li><strong>Review Page:</strong> Look for "review" link in bottom-left after login</li>
+        </ul>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        
+        async function testServer() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Testing server connection...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/history`);
+                const data = await response.json();
+                
+                results.innerHTML = `✅ Server is responding!
+                
+API Endpoint: ${API_BASE}/api/history
+Status: ${response.status}
+Response: ${JSON.stringify(data, null, 2)}
+
+Server is working correctly. The main app should be accessible.`;
+                
+                document.getElementById('server-status').innerHTML = '✅ Online and responding';
+            } catch (error) {
+                results.innerHTML = `❌ Server connection failed: ${error.message}`;
+                document.getElementById('server-status').innerHTML = '❌ Connection failed';
+            }
+        }
+
+        async function runSingleTest() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Running single test...';
+            
+            try {
+                const testData = {
+                    query: "Launch campaign for sustainable sneakers made from ocean plastic",
+                    tone: "creative",
+                    maxOutputs: 3,
+                    avoidCliches: true
+                };
+                
+                const response = await fetch(`${API_BASE}/api/generate-multivariant`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData),
+                });
+                
+                const data = await response.json();
+                
+                results.innerHTML = `✅ Single test completed!
+                
+Generated ${data.length} concepts:
+${JSON.stringify(data, null, 2)}`;
+                
+            } catch (error) {
+                results.innerHTML = `❌ Test failed: ${error.message}`;
+            }
+        }
+
+        async function runAllTests() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Running all 10 tests... This may take a few minutes.';
+            
+            const testConfigs = [
+                { query: "Launch campaign for sustainable sneakers made from ocean plastic", tone: "creative", maxOutputs: 3, avoidCliches: true },
+                { query: "B2B software that reduces energy costs by 40%", tone: "analytical", maxOutputs: 5, avoidCliches: true },
+                { query: "New coffee subscription service for busy professionals", tone: "conversational", maxOutputs: 3, avoidCliches: false },
+                { query: "AI-powered project management tool for remote teams", tone: "technical", maxOutputs: 4, avoidCliches: true },
+                { query: "Premium meal kit service with locally-sourced ingredients", tone: "summarize", maxOutputs: 3, avoidCliches: false },
+                { query: "Electric vehicle charging network for urban areas", tone: "creative", maxOutputs: 6, avoidCliches: true },
+                { query: "Mental health app for college students", tone: "conversational", maxOutputs: 3, avoidCliches: true },
+                { query: "Blockchain payment system for small businesses", tone: "analytical", maxOutputs: 4, avoidCliches: false },
+                { query: "Virtual reality fitness platform", tone: "technical", maxOutputs: 3, avoidCliches: true },
+                { query: "Organic baby food delivery service", tone: "summarize", maxOutputs: 5, avoidCliches: false }
+            ];
+            
+            let successCount = 0;
+            let failureCount = 0;
+            let totalConcepts = 0;
+            
+            for (let i = 0; i < testConfigs.length; i++) {
+                try {
+                    results.innerHTML = `Running test ${i + 1}/10...`;
+                    
+                    const response = await fetch(`${API_BASE}/api/generate-multivariant`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(testConfigs[i]),
+                    });
+                    
+                    const data = await response.json();
+                    successCount++;
+                    totalConcepts += data.length;
+                    
+                    // Add delay between requests
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                } catch (error) {
+                    failureCount++;
+                    console.error(`Test ${i + 1} failed:`, error);
+                }
+            }
+            
+            results.innerHTML = `✅ All tests completed!
+            
+Summary:
+- Successful tests: ${successCount}/10
+- Failed tests: ${failureCount}/10
+- Total concepts generated: ${totalConcepts}
+- All results saved to concept_logs table
+
+You can now use the review page to provide feedback on generated concepts.`;
+        }
+
+        async function viewHistory() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Fetching session history...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/history`);
+                const data = await response.json();
+                
+                results.innerHTML = `📋 Session History (${data.length} entries):
+                
+${data.map((entry, i) => `${i + 1}. ${entry.prompt} (${entry.tone}) - ${new Date(entry.timestamp).toLocaleString()}`).join('\n')}`;
+                
+            } catch (error) {
+                results.innerHTML = `❌ Failed to fetch history: ${error.message}`;
+            }
+        }
+
+        // Test server connection on load
+        window.onload = function() {
+            testServer();
+        };
+    </script>
+</body>
+</html>
