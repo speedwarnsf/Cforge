@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Concept Forge - Dual Layer Overlay</title>
+    <meta name="description" content="Rapid-fire ideation powered by rhetorical craft and creative logic. High-level concepting tool for creative professionals and art directors." />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="timestamp" content="8:00pm-July16-v3" />
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    
+    <!-- Fullscreen App Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- Apple PWA Meta Tags for Full Screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Concept Forge" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    
+    <!-- Mobile Full Screen Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="full-screen" content="yes" />
+    <meta name="browsermode" content="application" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    
+    <!-- Microsoft PWA Meta Tags -->
+    <meta name="msapplication-TileImage" content="/icons/icon-192.png" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      /* Fix for overlays not appearing - force visible */
+      .hero-section-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.7), rgba(71, 85, 105, 0.6), rgba(55, 65, 81, 0.7)) !important;
+        z-index: 2 !important;
+        pointer-events: none !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      
+      .hero-title {
+        text-shadow: 0 0 80px rgba(0, 0, 0, 0.9), 0 6px 12px rgba(0, 0, 0, 0.8), 0 12px 24px rgba(0, 0, 0, 0.6), 0 18px 36px rgba(0, 0, 0, 0.4) !important;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.8)) !important;
+        -webkit-filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.8)) !important;
+      }
+      
+      /* Fullscreen App Styles */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+      }
+      
+      #root {
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Hide browser UI on mobile */
+      @media screen and (max-width: 768px) {
+        html {
+          -webkit-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+        }
+        
+        /* iOS Safari fullscreen */
+        body {
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Hide address bar on scroll */
+        .fullscreen-app {
+          min-height: 100vh;
+          min-height: -webkit-fill-available;
+        }
+      }
+      
+      /* PWA Fullscreen Mode */
+      @media all and (display-mode: fullscreen) {
+        body {
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          overflow: hidden;
+        }
+      }
+      
+      /* Standalone Mode (iOS) */
+      @media all and (display-mode: standalone) {
+        body {
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- TEMPORARILY DISABLED TO TEST GEOMETRIC OVERLAY ELIMINATION -->
+    <!-- <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script> -->
+  </body>
+</html>
