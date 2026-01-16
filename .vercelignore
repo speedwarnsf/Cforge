@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+
+# Environment
+.env
+.env.*
+
+# Development
+.replit
+.config
+
+# Documentation
+*.md
+!README.md
+
+# Data files (large corpus files not needed for deployment)
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!components.json
+
+# Python scripts
+*.py
+
+# Testing
+test-*.ts
+test-*.js
+*test*.html
+
+# Build artifacts
+.DS_Store
+*.log
+
+# Git
+.git
+.gitignore
+
+# Temporary
+tmp/
+temp/

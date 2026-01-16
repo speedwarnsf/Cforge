@@ -1,0 +1,2149 @@
+[
+  {
+    "campaign": "The Fun Theory",
+    "brand": "Volkswagen",
+    "year": 2009,
+    "headline": "Fun Can Change Behaviour for the Better.",
+    "rhetoricalDevices": [
+      "Juxtaposition",
+      "Personification"
+    ],
+    "rationale": "Showed how adding fun motivates positive choices.",
+    "outcome": "Won Cannes Grand Prix.",
+    "whenToUse": "When promoting behavior change.",
+    "whenNotToUse": "When seriousness is critical."
+  },
+  {
+    "campaign": "Hello Tomorrow",
+    "brand": "Air France",
+    "year": 2012,
+    "headline": "Make the Sky the Best Place on Earth.",
+    "rhetoricalDevices": [
+      "Hyperbole",
+      "Metaphor"
+    ],
+    "rationale": "Elevated air travel beyond transportation.",
+    "outcome": "Repositioned brand luxury image.",
+    "whenToUse": "When elevating everyday experiences.",
+    "whenNotToUse": "When practical benefits are the focus."
+  },
+  {
+    "campaign": "Shot on iPhone",
+    "brand": "Apple",
+    "year": 2015,
+    "headline": "Everyday, More Photos are Taken on iPhone.",
+    "rhetoricalDevices": [
+      "Appeal to Popularity"
+    ],
+    "rationale": "Showed social proof and ubiquity.",
+    "outcome": "Became an iconic global campaign.",
+    "whenToUse": "When demonstrating wide adoption.",
+    "whenNotToUse": "When niche positioning is important."
+  },
+  {
+    "campaign": "This Girl Can",
+    "brand": "Sport England",
+    "year": 2015,
+    "headline": "Sweating Like a Pig, Feeling Like a Fox.",
+    "rhetoricalDevices": [
+      "Metaphor",
+      "Contrast"
+    ],
+    "rationale": "Challenged stereotypes about women and fitness.",
+    "outcome": "Inspired millions of women to get active.",
+    "whenToUse": "When empowering underrepresented groups.",
+    "whenNotToUse": "When tone must remain neutral."
+  },
+  {
+    "campaign": "Like a Girl",
+    "brand": "Always",
+    "year": 2014,
+    "headline": "Rewrite the Rules.",
+    "rhetoricalDevices": [
+      "Imperative",
+      "Metaphor"
+    ],
+    "rationale": "Reclaimed 'like a girl' as empowering.",
+    "outcome": "Won multiple Cannes Lions.",
+    "whenToUse": "When reclaiming negative language.",
+    "whenNotToUse": "When tone is celebratory without critique."
+  },
+  {
+    "campaign": "Impossible is Nothing",
+    "brand": "Adidas",
+    "year": 2004,
+    "headline": "Impossible is Nothing.",
+    "rhetoricalDevices": [
+      "Antithesis"
+    ],
+    "rationale": "Motivated audiences by negating limits.",
+    "outcome": "Strengthened Adidas brand purpose.",
+    "whenToUse": "When inspiring ambitious goals.",
+    "whenNotToUse": "When delivering pragmatic messaging."
+  },
+  {
+    "campaign": "Live Young",
+    "brand": "Evian",
+    "year": 2009,
+    "headline": "Live Young.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Associated product with vitality.",
+    "outcome": "Created viral Baby Roller commercial.",
+    "whenToUse": "When connecting to youthfulness.",
+    "whenNotToUse": "When emphasizing sophistication."
+  },
+  {
+    "campaign": "The Other Side",
+    "brand": "Honda",
+    "year": 2014,
+    "headline": "The Power of Duality.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Used interactive film to show contrasting stories.",
+    "outcome": "Won Cannes Cyber Lions.",
+    "whenToUse": "When demonstrating product versatility.",
+    "whenNotToUse": "When simplicity is key."
+  },
+  {
+    "campaign": "Thank You Mom",
+    "brand": "P&G",
+    "year": 2012,
+    "headline": "The Hardest Job in the World is the Best Job in the World.",
+    "rhetoricalDevices": [
+      "Antithesis",
+      "Emotional Appeal"
+    ],
+    "rationale": "Honored mothers' sacrifices and love.",
+    "outcome": "One of P&G's most beloved campaigns.",
+    "whenToUse": "When evoking gratitude.",
+    "whenNotToUse": "When humor is required."
+  },
+  {
+    "campaign": "Fearless Girl",
+    "brand": "State Street Global Advisors",
+    "year": 2017,
+    "headline": "She Makes a Difference.",
+    "rhetoricalDevices": [
+      "Personification"
+    ],
+    "rationale": "Statue symbolized female empowerment.",
+    "outcome": "Became a global icon.",
+    "whenToUse": "When promoting equality.",
+    "whenNotToUse": "When subtlety is preferred."
+  },
+  {
+    "campaign": "Share the Load",
+    "brand": "Ariel",
+    "year": 2015,
+    "headline": "Why is Laundry Only a Mother's Job?",
+    "rhetoricalDevices": [
+      "Rhetorical Question"
+    ],
+    "rationale": "Highlighted gender inequality in chores.",
+    "outcome": "Won Cannes Glass Lion.",
+    "whenToUse": "When tackling social norms.",
+    "whenNotToUse": "When tone should remain neutral."
+  },
+  {
+    "campaign": "Whopper Detour",
+    "brand": "Burger King",
+    "year": 2018,
+    "headline": "Order a Whopper for 1¢ at McDonald's.",
+    "rhetoricalDevices": [
+      "Humor",
+      "Provocation"
+    ],
+    "rationale": "Hijacked competitors to drive app installs.",
+    "outcome": "Record digital engagement.",
+    "whenToUse": "When bold brand personality fits.",
+    "whenNotToUse": "When avoiding controversy."
+  },
+  {
+    "campaign": "Gorilla",
+    "brand": "Cadbury",
+    "year": 2007,
+    "headline": "A Glass and a Half Full of Joy.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Used humor and surrealism to spark emotion.",
+    "outcome": "Transformed brand perception.",
+    "whenToUse": "When aiming for emotional resonance.",
+    "whenNotToUse": "When requiring rational persuasion."
+  },
+  {
+    "campaign": "Proud Whopper",
+    "brand": "Burger King",
+    "year": 2014,
+    "headline": "We Are All the Same Inside.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Promoted LGBTQ+ acceptance.",
+    "outcome": "Won Cannes Grand Prix.",
+    "whenToUse": "When promoting inclusivity.",
+    "whenNotToUse": "When avoiding sociopolitical statements."
+  },
+  {
+    "campaign": "America Runs on Dunkin'",
+    "brand": "Dunkin'",
+    "year": 2006,
+    "headline": "America Runs on Dunkin'.",
+    "rhetoricalDevices": [
+      "Hyperbole"
+    ],
+    "rationale": "Positioned brand as daily essential.",
+    "outcome": "Grew brand awareness rapidly.",
+    "whenToUse": "When emphasizing ubiquity.",
+    "whenNotToUse": "When targeting niche segments."
+  },
+  {
+    "campaign": "Find Your Greatness",
+    "brand": "Nike",
+    "year": 2012,
+    "headline": "Greatness is Wherever Somebody is Trying to Find It.",
+    "rhetoricalDevices": [
+      "Antithesis"
+    ],
+    "rationale": "Democratized the idea of greatness.",
+    "outcome": "Enhanced brand inclusivity.",
+    "whenToUse": "When broadening an aspirational message.",
+    "whenNotToUse": "When highlighting elite performance."
+  },
+  {
+    "campaign": "Red Bull Stratos",
+    "brand": "Red Bull",
+    "year": 2012,
+    "headline": "Mission to the Edge of Space.",
+    "rhetoricalDevices": [
+      "Hyperbole"
+    ],
+    "rationale": "Demonstrated brand's extreme ethos.",
+    "outcome": "Broke viewership records.",
+    "whenToUse": "When showcasing innovation.",
+    "whenNotToUse": "When avoiding risk associations."
+  },
+  {
+    "campaign": "Endangered Syndrome",
+    "brand": "Canadian Down Syndrome Society",
+    "year": 2018,
+    "headline": "People with Down Syndrome are Going Extinct.",
+    "rhetoricalDevices": [
+      "Shock Value"
+    ],
+    "rationale": "Created urgency about prenatal screening.",
+    "outcome": "Sparked global conversation.",
+    "whenToUse": "When awareness requires urgency.",
+    "whenNotToUse": "When sensitivity is paramount."
+  },
+  {
+    "campaign": "Love Has No Labels",
+    "brand": "Ad Council",
+    "year": 2015,
+    "headline": "Love Has No Labels.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Promoted diversity and inclusion.",
+    "outcome": "Became a viral PSA.",
+    "whenToUse": "When addressing bias.",
+    "whenNotToUse": "When neutrality is required."
+  },
+  {
+    "campaign": "Feel More",
+    "brand": "Sony Bravia",
+    "year": 2005,
+    "headline": "Colour Like No Other.",
+    "rhetoricalDevices": [
+      "Hyperbole"
+    ],
+    "rationale": "Highlighted product distinction through spectacle.",
+    "outcome": "Famous bouncing balls spot.",
+    "whenToUse": "When demonstrating product uniqueness.",
+    "whenNotToUse": "When budgets are small."
+  },
+  {
+    "campaign": "The Truth is Worth It",
+    "brand": "The New York Times",
+    "year": 2018,
+    "headline": "The Truth is Hard.",
+    "rhetoricalDevices": [
+      "Anaphora"
+    ],
+    "rationale": "Emphasized investigative rigor.",
+    "outcome": "Won Cannes Grand Prix.",
+    "whenToUse": "When credibility matters.",
+    "whenNotToUse": "When tone is celebratory."
+  },
+  {
+    "campaign": "Dumb Ways to Die",
+    "brand": "Metro Trains Melbourne",
+    "year": 2012,
+    "headline": "Be Safe Around Trains.",
+    "rhetoricalDevices": [
+      "Irony"
+    ],
+    "rationale": "Used dark humor for safety education.",
+    "outcome": "Most shared public service ad ever.",
+    "whenToUse": "When needing viral impact.",
+    "whenNotToUse": "When tone must be serious."
+  },
+  {
+    "campaign": "Dear Sophie",
+    "brand": "Google Chrome",
+    "year": 2011,
+    "headline": "The Web is What You Make of It.",
+    "rhetoricalDevices": [
+      "Empowerment"
+    ],
+    "rationale": "Demonstrated personal storytelling.",
+    "outcome": "Humanized the product.",
+    "whenToUse": "When showing emotional connection.",
+    "whenNotToUse": "When focusing on technical specs."
+  },
+  {
+    "campaign": "The Best Men Can Be",
+    "brand": "Gillette",
+    "year": 2019,
+    "headline": "Is This the Best a Man Can Get?",
+    "rhetoricalDevices": [
+      "Rhetorical Question"
+    ],
+    "rationale": "Addressed toxic masculinity.",
+    "outcome": "Sparked cultural debate.",
+    "whenToUse": "When brands take a stand.",
+    "whenNotToUse": "When avoiding controversy."
+  },
+  {
+    "campaign": "The Most Interesting Man in the World",
+    "brand": "Dos Equis",
+    "year": 2006,
+    "headline": "Stay Thirsty, My Friends.",
+    "rhetoricalDevices": [
+      "Character Personification",
+      "Humor"
+    ],
+    "rationale": "Created a legendary persona to elevate brand status.",
+    "outcome": "Drove double-digit sales growth.",
+    "whenToUse": "When storytelling builds mystique.",
+    "whenNotToUse": "When tone must be strictly factual."
+  },
+  {
+    "campaign": "Find Your Magic",
+    "brand": "AXE",
+    "year": 2016,
+    "headline": "Find Your Magic.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Shifted brand away from stereotypes toward individuality.",
+    "outcome": "Repositioned AXE for a new generation.",
+    "whenToUse": "When challenging outdated norms.",
+    "whenNotToUse": "When clarity about product function is critical."
+  },
+  {
+    "campaign": "Born of Fire",
+    "brand": "Chrysler",
+    "year": 2011,
+    "headline": "Imported from Detroit.",
+    "rhetoricalDevices": [
+      "Irony"
+    ],
+    "rationale": "Reframed domestic manufacturing as aspirational.",
+    "outcome": "Eminem Super Bowl spot revived the brand.",
+    "whenToUse": "When redefining local pride.",
+    "whenNotToUse": "When origin is not differentiating."
+  },
+  {
+    "campaign": "You're Not You When You're Hungry",
+    "brand": "Snickers",
+    "year": 2010,
+    "headline": "You're Not You When You're Hungry.",
+    "rhetoricalDevices": [
+      "Humor",
+      "Metaphor"
+    ],
+    "rationale": "Personified hunger to connect emotionally.",
+    "outcome": "Became a global platform.",
+    "whenToUse": "When humor suits brand voice.",
+    "whenNotToUse": "When tone must remain serious."
+  },
+  {
+    "campaign": "Unhate",
+    "brand": "Benetton",
+    "year": 2011,
+    "headline": "Unhate.",
+    "rhetoricalDevices": [
+      "Neologism"
+    ],
+    "rationale": "Provoked dialogue about tolerance.",
+    "outcome": "Won Cannes Press Grand Prix.",
+    "whenToUse": "When brand purpose is central.",
+    "whenNotToUse": "When controversy is a risk."
+  },
+  {
+    "campaign": "Melbourne Remote Control Tourist",
+    "brand": "Tourism Victoria",
+    "year": 2013,
+    "headline": "Go Before You Go.",
+    "rhetoricalDevices": [
+      "Imperative",
+      "Wordplay"
+    ],
+    "rationale": "Enabled virtual exploration.",
+    "outcome": "Increased tourism engagement.",
+    "whenToUse": "When interactivity is a differentiator.",
+    "whenNotToUse": "When budget limits tech execution."
+  },
+  {
+    "campaign": "We Are the Superhumans",
+    "brand": "Channel 4",
+    "year": 2016,
+    "headline": "Meet the Superhumans.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Celebrated Paralympians' achievements.",
+    "outcome": "Won Grand Prix for Film Craft.",
+    "whenToUse": "When showcasing extraordinary people.",
+    "whenNotToUse": "When tone must be understated."
+  },
+  {
+    "campaign": "Big Game, Small Ads",
+    "brand": "Newcastle Brown Ale",
+    "year": 2014,
+    "headline": "If We Made It.",
+    "rhetoricalDevices": [
+      "Hypothetical"
+    ],
+    "rationale": "Parodied Super Bowl advertising excess.",
+    "outcome": "Drove earned media.",
+    "whenToUse": "When humor aligns with brand DNA.",
+    "whenNotToUse": "When credibility is critical."
+  },
+  {
+    "campaign": "The Last Selfie",
+    "brand": "WWF",
+    "year": 2014,
+    "headline": "Don't Let This Be My Last Selfie.",
+    "rhetoricalDevices": [
+      "Pathos"
+    ],
+    "rationale": "Used social platforms for urgency.",
+    "outcome": "Significant awareness uplift.",
+    "whenToUse": "When visual impact drives action.",
+    "whenNotToUse": "When tone must be neutral."
+  },
+  {
+    "campaign": "Dream Crazy",
+    "brand": "Nike",
+    "year": 2018,
+    "headline": "Believe in Something.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Stood with controversial figures.",
+    "outcome": "Won Emmy for Outstanding Commercial.",
+    "whenToUse": "When taking a stand.",
+    "whenNotToUse": "When avoiding divisiveness."
+  },
+  {
+    "campaign": "Monty the Penguin",
+    "brand": "John Lewis",
+    "year": 2014,
+    "headline": "Give Someone the Christmas They've Been Dreaming Of.",
+    "rhetoricalDevices": [
+      "Emotional Appeal"
+    ],
+    "rationale": "Used storytelling for holiday retail.",
+    "outcome": "Massive sales uplift.",
+    "whenToUse": "When sentiment suits the occasion.",
+    "whenNotToUse": "When budget is constrained."
+  },
+  {
+    "campaign": "The Breakthrough",
+    "brand": "Volvo Trucks",
+    "year": 2014,
+    "headline": "The Epic Split.",
+    "rhetoricalDevices": [
+      "Hyperbole"
+    ],
+    "rationale": "Demonstrated stability with spectacle.",
+    "outcome": "Viral success.",
+    "whenToUse": "When product demonstration is key.",
+    "whenNotToUse": "When realism is mandatory."
+  },
+  {
+    "campaign": "Magic of Flying",
+    "brand": "British Airways",
+    "year": 2013,
+    "headline": "Look Up.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Billboards reacted to planes overhead.",
+    "outcome": "Increased brand engagement.",
+    "whenToUse": "When interactivity is a differentiator.",
+    "whenNotToUse": "When simplicity is critical."
+  },
+  {
+    "campaign": "Open Your World",
+    "brand": "Heineken",
+    "year": 2011,
+    "headline": "Open Your World.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Encouraged cultural exploration.",
+    "outcome": "Strengthened global brand perception.",
+    "whenToUse": "When promoting openness.",
+    "whenNotToUse": "When focusing on tradition."
+  },
+  {
+    "campaign": "Dilly Dilly",
+    "brand": "Bud Light",
+    "year": 2017,
+    "headline": "Dilly Dilly.",
+    "rhetoricalDevices": [
+      "Neologism"
+    ],
+    "rationale": "Created a cultural catchphrase.",
+    "outcome": "Massive viral spread.",
+    "whenToUse": "When humor suits brand.",
+    "whenNotToUse": "When clarity is critical."
+  },
+  {
+    "campaign": "Disgusting Stories",
+    "brand": "UNICEF",
+    "year": 2018,
+    "headline": "Stories No Child Should Write.",
+    "rhetoricalDevices": [
+      "Shock Value"
+    ],
+    "rationale": "Exposed child abuse through stories.",
+    "outcome": "Raised awareness globally.",
+    "whenToUse": "When confronting tough issues.",
+    "whenNotToUse": "When tone is lighthearted."
+  },
+  {
+    "campaign": "It's a Tide Ad",
+    "brand": "Tide",
+    "year": 2018,
+    "headline": "It's a Tide Ad.",
+    "rhetoricalDevices": [
+      "Metacommentary"
+    ],
+    "rationale": "Blurred lines between ads.",
+    "outcome": "Won Super Bowl attention.",
+    "whenToUse": "When surprising the audience.",
+    "whenNotToUse": "When clarity is key."
+  },
+  {
+    "campaign": "The Talk",
+    "brand": "Procter & Gamble",
+    "year": 2017,
+    "headline": "The Talk.",
+    "rhetoricalDevices": [
+      "Empathy"
+    ],
+    "rationale": "Addressed racial bias in families.",
+    "outcome": "Sparked important discussions.",
+    "whenToUse": "When social impact is core.",
+    "whenNotToUse": "When controversy must be avoided."
+  },
+  {
+    "campaign": "Breaking Ballet",
+    "brand": "Joburg Ballet",
+    "year": 2017,
+    "headline": "Breaking Ballet.",
+    "rhetoricalDevices": [
+      "Wordplay"
+    ],
+    "rationale": "Modernized ballet with viral relevance.",
+    "outcome": "Revitalized audience interest.",
+    "whenToUse": "When reframing tradition.",
+    "whenNotToUse": "When focusing on classical purity."
+  },
+  {
+    "campaign": "The IKEA Catalogue",
+    "brand": "IKEA",
+    "year": 2014,
+    "headline": "Experience the Power of a Bookbook.",
+    "rhetoricalDevices": [
+      "Satire"
+    ],
+    "rationale": "Mocked tech launches for humor.",
+    "outcome": "Generated massive online engagement.",
+    "whenToUse": "When humor suits the brand.",
+    "whenNotToUse": "When tone must remain serious."
+  },
+  {
+    "campaign": "Evan",
+    "brand": "Sandy Hook Promise",
+    "year": 2016,
+    "headline": "Know the Signs.",
+    "rhetoricalDevices": [
+      "Shock Reveal"
+    ],
+    "rationale": "Hidden story about gun violence.",
+    "outcome": "Powerful viral impact.",
+    "whenToUse": "When awareness is urgent.",
+    "whenNotToUse": "When sensitivity is a concern."
+  },
+  {
+    "campaign": "Parisian Love",
+    "brand": "Google",
+    "year": 2009,
+    "headline": "Search On.",
+    "rhetoricalDevices": [
+      "Narrative"
+    ],
+    "rationale": "Used a love story to humanize technology.",
+    "outcome": "Highly acclaimed Super Bowl spot.",
+    "whenToUse": "When demonstrating emotional relevance.",
+    "whenNotToUse": "When focusing solely on product features."
+  },
+  {
+    "campaign": "The Scarecrow",
+    "brand": "Chipotle",
+    "year": 2013,
+    "headline": "Cultivate a Better World.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Animated film criticized industrial food.",
+    "outcome": "Award-winning content marketing.",
+    "whenToUse": "When challenging industry norms.",
+    "whenNotToUse": "When tone must stay neutral."
+  },
+  {
+    "campaign": "It's Mine",
+    "brand": "Coca-Cola",
+    "year": 2008,
+    "headline": "It's Mine.",
+    "rhetoricalDevices": [
+      "Possessive Pronoun"
+    ],
+    "rationale": "Super Bowl ad with balloon characters.",
+    "outcome": "Widely loved execution.",
+    "whenToUse": "When ownership messaging fits.",
+    "whenNotToUse": "When focusing on sharing."
+  },
+  {
+    "campaign": "Good Things Come to Those Who Wait",
+    "brand": "Guinness",
+    "year": 1999,
+    "headline": "Good Things Come to Those Who Wait.",
+    "rhetoricalDevices": [
+      "Proverb"
+    ],
+    "rationale": "Aligned patience with product experience.",
+    "outcome": "Iconic 'Surfer' ad.",
+    "whenToUse": "When reinforcing patience.",
+    "whenNotToUse": "When speed is key."
+  },
+  {
+    "campaign": "Be Stupid",
+    "brand": "Diesel",
+    "year": 2010,
+    "headline": "Be Stupid.",
+    "rhetoricalDevices": [
+      "Paradox"
+    ],
+    "rationale": "Encouraged risk-taking.",
+    "outcome": "Provocative, award-winning.",
+    "whenToUse": "When embracing nonconformity.",
+    "whenNotToUse": "When caution is key."
+  },
+  {
+    "campaign": "Re2pect",
+    "brand": "Jordan Brand",
+    "year": 2014,
+    "headline": "RE2PECT.",
+    "rhetoricalDevices": [
+      "Wordplay"
+    ],
+    "rationale": "Honored Derek Jeter's career.",
+    "outcome": "Viral cultural moment.",
+    "whenToUse": "When celebrating legacy.",
+    "whenNotToUse": "When neutrality is needed."
+  },
+  {
+    "campaign": "Puppy Love",
+    "brand": "Budweiser",
+    "year": 2014,
+    "headline": "Best Friends.",
+    "rhetoricalDevices": [
+      "Emotional Appeal"
+    ],
+    "rationale": "Animal friendship story.",
+    "outcome": "Super Bowl favorite.",
+    "whenToUse": "When evoking warmth.",
+    "whenNotToUse": "When humor is primary."
+  },
+  {
+    "campaign": "Thank You, Internet",
+    "brand": "GE",
+    "year": 2015,
+    "headline": "Thank You, Internet.",
+    "rhetoricalDevices": [
+      "Gratitude"
+    ],
+    "rationale": "Celebrated maker culture.",
+    "outcome": "Positive sentiment online.",
+    "whenToUse": "When tapping cultural trends.",
+    "whenNotToUse": "When focusing on product specs."
+  },
+  {
+    "campaign": "Real Beauty Sketches",
+    "brand": "Dove",
+    "year": 2013,
+    "headline": "You Are More Beautiful Than You Think.",
+    "rhetoricalDevices": [
+      "Juxtaposition"
+    ],
+    "rationale": "Contrasted self-image and perception.",
+    "outcome": "Most viewed online ad.",
+    "whenToUse": "When challenging self-perception.",
+    "whenNotToUse": "When focusing on product features."
+  },
+  {
+    "campaign": "Power of Dreams",
+    "brand": "Honda",
+    "year": 2004,
+    "headline": "The Power of Dreams.",
+    "rhetoricalDevices": [
+      "Metaphor"
+    ],
+    "rationale": "Inspired ambition.",
+    "outcome": "Brand-defining platform.",
+    "whenToUse": "When motivating audiences.",
+    "whenNotToUse": "When focusing on practicality."
+  },
+  {
+    "campaign": "The Man Your Man Could Smell Like",
+    "brand": "Old Spice",
+    "year": 2010,
+    "headline": "Smell Like a Man, Man.",
+    "rhetoricalDevices": [
+      "Repetition"
+    ],
+    "rationale": "Parodied masculinity tropes.",
+    "outcome": "Viral success.",
+    "whenToUse": "When humor fits.",
+    "whenNotToUse": "When tone is serious."
+  },
+  {
+    "campaign": "Make the Logo Bigger Cream",
+    "brand": "Agency Self-Promo",
+    "year": 2007,
+    "headline": "Make the Logo Bigger.",
+    "rhetoricalDevices": [
+      "Satire"
+    ],
+    "rationale": "Mocked client feedback clichés.",
+    "outcome": "Cult favorite.",
+    "whenToUse": "When inside humor resonates.",
+    "whenNotToUse": "When clarity is required."
+  },
+  {
+    "campaign": "Choose Beautiful",
+    "brand": "Dove",
+    "year": 2015,
+    "headline": "Choose Beautiful.",
+    "rhetoricalDevices": [
+      "Imperative"
+    ],
+    "rationale": "Empowered self-image.",
+    "outcome": "Global engagement.",
+    "whenToUse": "When addressing confidence.",
+    "whenNotToUse": "When product focus is critical."
+  },
+  {
+    "campaign": "Live There",
+    "brand": "Airbnb",
+    "year": 2016,
+    "headline": "Don't Go There. Live There.",
+    "rhetoricalDevices": [
+      "Antithesis"
+    ],
+    "rationale": "Contrasted tourism with belonging.",
+    "outcome": "Strengthened brand differentiation.",
+    "whenToUse": "When promoting immersion.",
+    "whenNotToUse": "When focusing on convenience."
+  },
+  {
+    "campaign": "We Accept",
+    "brand": "Airbnb",
+    "year": 2017,
+    "headline": "We Accept.",
+    "rhetoricalDevices": [
+      "Inclusive Statement"
+    ],
+    "rationale": "Promoted diversity and inclusion.",
+    "outcome": "Reinforced brand values.",
+    "whenToUse": "When standing for acceptance.",
+    "whenNotToUse": "When neutrality is needed."
+  },
+  {
+    "campaign": "Beyond the Label",
+    "brand": "Levi's",
+    "year": 2018,
+    "headline": "Threads of Truth",
+    "rhetoricalDevices": [
+      "metaphor",
+      "zeugma"
+    ],
+    "rationale": "Uses clothing labels as metaphors for identity and social categories.",
+    "outcome": "Demonstrates metaphor and zeugma techniques.",
+    "whenToUse": "When challenging stereotypes.",
+    "whenNotToUse": "When the audience may feel defensive about labels."
+  },
+  {
+    "campaign": "A City of Light",
+    "brand": "IKEA",
+    "year": 2015,
+    "headline": "Illuminate Home",
+    "rhetoricalDevices": [
+      "metonymy",
+      "antithesis"
+    ],
+    "rationale": "Contrasts cold cityscapes with warm interior lighting.",
+    "outcome": "Demonstrates metonymy and antithesis techniques.",
+    "whenToUse": "When promoting cozy atmospheres.",
+    "whenNotToUse": "When minimalism is the brand aesthetic."
+  },
+  {
+    "campaign": "Reclaim the Streets",
+    "brand": "Puma",
+    "year": 2017,
+    "headline": "Unleash Asphalt",
+    "rhetoricalDevices": [
+      "personification",
+      "ellipsis"
+    ],
+    "rationale": "Gives the street agency, suggesting liberation.",
+    "outcome": "Demonstrates personification and ellipsis techniques.",
+    "whenToUse": "When targeting youth culture.",
+    "whenNotToUse": "When communicating luxury."
+  },
+  {
+    "campaign": "Little Giants",
+    "brand": "Lego",
+    "year": 2014,
+    "headline": "Tiny Titans",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "alliteration"
+    ],
+    "rationale": "Amplifies small creations to heroic scale.",
+    "outcome": "Demonstrates hyperbole and alliteration techniques.",
+    "whenToUse": "When encouraging imagination.",
+    "whenNotToUse": "When realism is central."
+  },
+  {
+    "campaign": "Unbreakable Bond",
+    "brand": "Elmer's Glue",
+    "year": 2013,
+    "headline": "Stick Forever",
+    "rhetoricalDevices": [
+      "symbolism",
+      "paralipsis"
+    ],
+    "rationale": "Symbolizes commitment through adhesive imagery.",
+    "outcome": "Demonstrates symbolism and paralipsis techniques.",
+    "whenToUse": "When highlighting reliability.",
+    "whenNotToUse": "When separation is desired."
+  },
+  {
+    "campaign": "Clean Slate",
+    "brand": "Mr. Clean",
+    "year": 2016,
+    "headline": "Erase Yesterday",
+    "rhetoricalDevices": [
+      "metaphor",
+      "synecdoche"
+    ],
+    "rationale": "Transforms cleaning into temporal renewal.",
+    "outcome": "Demonstrates metaphor and synecdoche techniques.",
+    "whenToUse": "When promoting fresh starts.",
+    "whenNotToUse": "When nostalgia is valued."
+  },
+  {
+    "campaign": "Fresh to Death",
+    "brand": "Old Spice",
+    "year": 2019,
+    "headline": "Lethally Clean",
+    "rhetoricalDevices": [
+      "irony",
+      "oxymoron"
+    ],
+    "rationale": "Combines humor with exaggeration.",
+    "outcome": "Demonstrates irony and oxymoron techniques.",
+    "whenToUse": "When appealing to irreverent humor.",
+    "whenNotToUse": "When seriousness is required."
+  },
+  {
+    "campaign": "Digital Roots",
+    "brand": "Google",
+    "year": 2020,
+    "headline": "Plant Connection",
+    "rhetoricalDevices": [
+      "symbolism",
+      "metaphor"
+    ],
+    "rationale": "Frames tech as natural growth.",
+    "outcome": "Demonstrates symbolism and metaphor techniques.",
+    "whenToUse": "When demystifying technology.",
+    "whenNotToUse": "When emphasizing technical complexity."
+  },
+  {
+    "campaign": "Edge of Now",
+    "brand": "Samsung",
+    "year": 2018,
+    "headline": "Tomorrow's Touch",
+    "rhetoricalDevices": [
+      "juxtaposition",
+      "anaphora"
+    ],
+    "rationale": "Contrasts old tools with modern interfaces.",
+    "outcome": "Demonstrates juxtaposition and anaphora techniques.",
+    "whenToUse": "When showing innovation.",
+    "whenNotToUse": "When heritage is core."
+  },
+  {
+    "campaign": "No Ordinary Ride",
+    "brand": "Jeep",
+    "year": 2015,
+    "headline": "Go Beyond",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Elevates travel to an odyssey.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When inspiring adventure.",
+    "whenNotToUse": "When practicality is focus."
+  },
+  {
+    "campaign": "The Quiet Revolution",
+    "brand": "Tesla",
+    "year": 2016,
+    "headline": "Silence Roars",
+    "rhetoricalDevices": [
+      "paradox",
+      "oxymoron"
+    ],
+    "rationale": "Uses silence as power.",
+    "outcome": "Demonstrates paradox and oxymoron techniques.",
+    "whenToUse": "When emphasizing disruption.",
+    "whenNotToUse": "When conformity is valued."
+  },
+  {
+    "campaign": "Flavor Nation",
+    "brand": "Lay's",
+    "year": 2014,
+    "headline": "Taste United",
+    "rhetoricalDevices": [
+      "personification",
+      "synecdoche"
+    ],
+    "rationale": "Presents flavors as citizens.",
+    "outcome": "Demonstrates personification and synecdoche techniques.",
+    "whenToUse": "When unifying diverse options.",
+    "whenNotToUse": "When singular focus is required."
+  },
+  {
+    "campaign": "Power Within",
+    "brand": "Duracell",
+    "year": 2013,
+    "headline": "Unseen Force",
+    "rhetoricalDevices": [
+      "metaphor",
+      "ellipsis"
+    ],
+    "rationale": "Highlights invisible energy.",
+    "outcome": "Demonstrates metaphor and ellipsis techniques.",
+    "whenToUse": "When focusing on longevity.",
+    "whenNotToUse": "When transparency is needed."
+  },
+  {
+    "campaign": "Brighter Futures",
+    "brand": "UNICEF",
+    "year": 2017,
+    "headline": "Light Lives",
+    "rhetoricalDevices": [
+      "symbolism",
+      "zeugma"
+    ],
+    "rationale": "Uses illumination as hope.",
+    "outcome": "Demonstrates symbolism and zeugma techniques.",
+    "whenToUse": "When driving donations.",
+    "whenNotToUse": "When celebrating current success."
+  },
+  {
+    "campaign": "Heartbeats",
+    "brand": "Fitbit",
+    "year": 2018,
+    "headline": "Count On",
+    "rhetoricalDevices": [
+      "metonymy",
+      "imperative"
+    ],
+    "rationale": "Uses counting as trust.",
+    "outcome": "Demonstrates metonymy and imperative techniques.",
+    "whenToUse": "When promoting accountability.",
+    "whenNotToUse": "When relaxation is key."
+  },
+  {
+    "campaign": "Living Ink",
+    "brand": "Sharpie",
+    "year": 2015,
+    "headline": "Mark Forever",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "alliteration"
+    ],
+    "rationale": "Immortalizes writing.",
+    "outcome": "Demonstrates hyperbole and alliteration techniques.",
+    "whenToUse": "When celebrating creativity.",
+    "whenNotToUse": "When erasability is needed."
+  },
+  {
+    "campaign": "Frictionless",
+    "brand": "PayPal",
+    "year": 2019,
+    "headline": "Touch Freedom",
+    "rhetoricalDevices": [
+      "juxtaposition",
+      "metaphor"
+    ],
+    "rationale": "Equates payment with liberation.",
+    "outcome": "Demonstrates juxtaposition and metaphor techniques.",
+    "whenToUse": "When emphasizing ease.",
+    "whenNotToUse": "When discussing security."
+  },
+  {
+    "campaign": "Time Travelers",
+    "brand": "Rolex",
+    "year": 2016,
+    "headline": "Wear Eternity",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Links watch to immortality.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting legacy.",
+    "whenNotToUse": "When affordability is key."
+  },
+  {
+    "campaign": "Mindful Moves",
+    "brand": "Headspace",
+    "year": 2017,
+    "headline": "Breathe Change",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Breath as transformation.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When inspiring calm.",
+    "whenNotToUse": "When urgency is needed."
+  },
+  {
+    "campaign": "Unseen Heroes",
+    "brand": "3M",
+    "year": 2018,
+    "headline": "Invisible Strength",
+    "rhetoricalDevices": [
+      "metonymy",
+      "oxymoron"
+    ],
+    "rationale": "Showcases hidden utility.",
+    "outcome": "Demonstrates metonymy and oxymoron techniques.",
+    "whenToUse": "When celebrating behind-the-scenes work.",
+    "whenNotToUse": "When visibility is desired."
+  },
+  {
+    "campaign": "Roots Run Deep",
+    "brand": "Timberland",
+    "year": 2013,
+    "headline": "Stand Firm",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Trees as resilience.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When underscoring durability.",
+    "whenNotToUse": "When promoting change."
+  },
+  {
+    "campaign": "Second Skin",
+    "brand": "Under Armour",
+    "year": 2016,
+    "headline": "Become Faster",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Clothing as transformation.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting performance.",
+    "whenNotToUse": "When comfort is focus."
+  },
+  {
+    "campaign": "Voice of Change",
+    "brand": "Twitter",
+    "year": 2019,
+    "headline": "Speak Loud",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Platform as amplifier.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When championing activism.",
+    "whenNotToUse": "When neutrality is needed."
+  },
+  {
+    "campaign": "Infinite Canvas",
+    "brand": "Adobe",
+    "year": 2014,
+    "headline": "Create Endlessly",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Unbounded creativity.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When inspiring professionals.",
+    "whenNotToUse": "When constraints are necessary."
+  },
+  {
+    "campaign": "Stay Human",
+    "brand": "Benetton",
+    "year": 2015,
+    "headline": "Wear Kindness",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Clothing as values.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When promoting social causes.",
+    "whenNotToUse": "When neutrality is preferred."
+  },
+  {
+    "campaign": "Open Horizons",
+    "brand": "Airbnb",
+    "year": 2017,
+    "headline": "Stay Curious",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Travel as personal growth.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When inspiring exploration.",
+    "whenNotToUse": "When focusing on luxury."
+  },
+  {
+    "campaign": "Limitless Sound",
+    "brand": "Bose",
+    "year": 2019,
+    "headline": "Hear Infinity",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Elevates audio to boundlessness.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When promoting premium quality.",
+    "whenNotToUse": "When practicality is key."
+  },
+  {
+    "campaign": "Shape Tomorrow",
+    "brand": "Intel",
+    "year": 2018,
+    "headline": "Invent Forward",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Technology as progress.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When highlighting innovation.",
+    "whenNotToUse": "When tradition is central."
+  },
+  {
+    "campaign": "True Grit",
+    "brand": "Carhartt",
+    "year": 2016,
+    "headline": "Endure More",
+    "rhetoricalDevices": [
+      "metonymy",
+      "imperative"
+    ],
+    "rationale": "Workwear as resilience.",
+    "outcome": "Demonstrates metonymy and imperative techniques.",
+    "whenToUse": "When celebrating toughness.",
+    "whenNotToUse": "When ease is focus."
+  },
+  {
+    "campaign": "Spark Joy",
+    "brand": "KonMari",
+    "year": 2019,
+    "headline": "Keep Magic",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Decluttering as enchantment.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When promoting minimalism.",
+    "whenNotToUse": "When excess is celebrated."
+  },
+  {
+    "campaign": "Digital Sanctuary",
+    "brand": "Dropbox",
+    "year": 2017,
+    "headline": "Store Peace",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Storage as tranquility.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When emphasizing security.",
+    "whenNotToUse": "When transparency is focus."
+  },
+  {
+    "campaign": "Dream Awake",
+    "brand": "Tempur-Pedic",
+    "year": 2016,
+    "headline": "Sleep Boldly",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Rest as empowerment.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When luxury is key.",
+    "whenNotToUse": "When economy is focus."
+  },
+  {
+    "campaign": "Urban Myth",
+    "brand": "Adidas",
+    "year": 2018,
+    "headline": "Run Legends",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Running as heroism.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When inspiring performance.",
+    "whenNotToUse": "When authenticity is needed."
+  },
+  {
+    "campaign": "Refined Chaos",
+    "brand": "Diesel",
+    "year": 2015,
+    "headline": "Live Wild",
+    "rhetoricalDevices": [
+      "juxtaposition",
+      "imperative"
+    ],
+    "rationale": "Contrasts polish and rebellion.",
+    "outcome": "Demonstrates juxtaposition and imperative techniques.",
+    "whenToUse": "When targeting youth.",
+    "whenNotToUse": "When elegance is focus."
+  },
+  {
+    "campaign": "Hidden Depths",
+    "brand": "Patagonia",
+    "year": 2014,
+    "headline": "Explore Beneath",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Nature as discovery.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting adventure.",
+    "whenNotToUse": "When indoor living is focus."
+  },
+  {
+    "campaign": "Rhythm Nation",
+    "brand": "Beats by Dre",
+    "year": 2016,
+    "headline": "Feel Sound",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Sound as physical sensation.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When highlighting immersion.",
+    "whenNotToUse": "When discussing analysis."
+  },
+  {
+    "campaign": "World in Motion",
+    "brand": "National Geographic",
+    "year": 2017,
+    "headline": "See Beyond",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Photography as window to truth.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When educating audiences.",
+    "whenNotToUse": "When simplicity is needed."
+  },
+  {
+    "campaign": "Unseen Forces",
+    "brand": "Dyson",
+    "year": 2019,
+    "headline": "Defy Gravity",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Technology as magic.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When emphasizing innovation.",
+    "whenNotToUse": "When familiarity is valued."
+  },
+  {
+    "campaign": "Roots Reimagined",
+    "brand": "Whole Foods",
+    "year": 2016,
+    "headline": "Grow Different",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Food as culture.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting health.",
+    "whenNotToUse": "When indulgence is focus."
+  },
+  {
+    "campaign": "Soundtrack of Life",
+    "brand": "Spotify",
+    "year": 2017,
+    "headline": "Play Memory",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Music as nostalgia.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When celebrating emotion.",
+    "whenNotToUse": "When neutrality is focus."
+  },
+  {
+    "campaign": "Timeless Style",
+    "brand": "Ralph Lauren",
+    "year": 2018,
+    "headline": "Dress Forever",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Clothing as permanence.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When highlighting legacy.",
+    "whenNotToUse": "When trendiness is focus."
+  },
+  {
+    "campaign": "Invisible Power",
+    "brand": "Energizer",
+    "year": 2019,
+    "headline": "Last Longer",
+    "rhetoricalDevices": [
+      "metonymy",
+      "imperative"
+    ],
+    "rationale": "Battery as endurance.",
+    "outcome": "Demonstrates metonymy and imperative techniques.",
+    "whenToUse": "When emphasizing longevity.",
+    "whenNotToUse": "When speed is focus."
+  },
+  {
+    "campaign": "Blank Canvas",
+    "brand": "Apple",
+    "year": 2015,
+    "headline": "Imagine More",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Device as creativity.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When inspiring possibility.",
+    "whenNotToUse": "When focusing on specs."
+  },
+  {
+    "campaign": "Parallel Lives",
+    "brand": "Facebook",
+    "year": 2014,
+    "headline": "Connect Always",
+    "rhetoricalDevices": [
+      "juxtaposition",
+      "imperative"
+    ],
+    "rationale": "Digital as real life.",
+    "outcome": "Demonstrates juxtaposition and imperative techniques.",
+    "whenToUse": "When emphasizing relationships.",
+    "whenNotToUse": "When discussing privacy."
+  },
+  {
+    "campaign": "Hidden Sparks",
+    "brand": "Zippo",
+    "year": 2015,
+    "headline": "Ignite Instantly",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Lighter as inspiration.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When celebrating spontaneity.",
+    "whenNotToUse": "When safety is concern."
+  },
+  {
+    "campaign": "Inner Fire",
+    "brand": "Red Bull",
+    "year": 2016,
+    "headline": "Awaken Power",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Energy drink as awakening.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When inspiring action.",
+    "whenNotToUse": "When calm is focus."
+  },
+  {
+    "campaign": "Silent Revolution",
+    "brand": "Toyota",
+    "year": 2017,
+    "headline": "Drive Change",
+    "rhetoricalDevices": [
+      "paradox",
+      "imperative"
+    ],
+    "rationale": "Hybrid as disruption.",
+    "outcome": "Demonstrates paradox and imperative techniques.",
+    "whenToUse": "When showcasing innovation.",
+    "whenNotToUse": "When tradition is valued."
+  },
+  {
+    "campaign": "Bold Moves",
+    "brand": "Ford",
+    "year": 2018,
+    "headline": "Go Fearless",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Car as courage.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When targeting ambition.",
+    "whenNotToUse": "When caution is focus."
+  },
+  {
+    "campaign": "Taste of Tomorrow",
+    "brand": "Impossible Foods",
+    "year": 2019,
+    "headline": "Eat Future",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Plant-based as progress.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting innovation.",
+    "whenNotToUse": "When tradition is central."
+  },
+  {
+    "campaign": "Color Outside",
+    "brand": "Crayola",
+    "year": 2015,
+    "headline": "Draw Freedom",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Art as liberation.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When inspiring children.",
+    "whenNotToUse": "When structure is needed."
+  },
+  {
+    "campaign": "Parallel Futures",
+    "brand": "Microsoft",
+    "year": 2017,
+    "headline": "Code Tomorrow",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Software as destiny shaping.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When inspiring builders.",
+    "whenNotToUse": "When focusing on current products."
+  },
+  {
+    "campaign": "Silent Strength",
+    "brand": "Subaru",
+    "year": 2016,
+    "headline": "Endure Quietly",
+    "rhetoricalDevices": [
+      "paradox",
+      "adverbial emphasis"
+    ],
+    "rationale": "Car as resilient yet subtle.",
+    "outcome": "Demonstrates paradox and adverbial emphasis techniques.",
+    "whenToUse": "When promoting reliability.",
+    "whenNotToUse": "When luxury is focus."
+  },
+  {
+    "campaign": "Breath of Fresh",
+    "brand": "Brita",
+    "year": 2015,
+    "headline": "Drink Clarity",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Water as enlightenment.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When highlighting purity.",
+    "whenNotToUse": "When discussing cost."
+  },
+  {
+    "campaign": "Forever Forward",
+    "brand": "FedEx",
+    "year": 2018,
+    "headline": "Deliver Future",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Logistics as progress.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When focusing on innovation.",
+    "whenNotToUse": "When stability is focus."
+  },
+  {
+    "campaign": "Living Light",
+    "brand": "Philips Hue",
+    "year": 2019,
+    "headline": "Color Life",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Lighting as mood-shaping.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When emphasizing emotion.",
+    "whenNotToUse": "When utility is focus."
+  },
+  {
+    "campaign": "Taste Elevated",
+    "brand": "Sriracha",
+    "year": 2016,
+    "headline": "Spice Heights",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "noun-as-verb"
+    ],
+    "rationale": "Heat as altitude.",
+    "outcome": "Demonstrates hyperbole and noun-as-verb techniques.",
+    "whenToUse": "When celebrating intensity.",
+    "whenNotToUse": "When mildness is preferred."
+  },
+  {
+    "campaign": "Infinite Motion",
+    "brand": "Peloton",
+    "year": 2018,
+    "headline": "Ride Eternity",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Exercise as timelessness.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When inspiring commitment.",
+    "whenNotToUse": "When leisure is focus."
+  },
+  {
+    "campaign": "Echoes",
+    "brand": "Sonos",
+    "year": 2015,
+    "headline": "Fill Silence",
+    "rhetoricalDevices": [
+      "paradox",
+      "imperative"
+    ],
+    "rationale": "Sound as presence.",
+    "outcome": "Demonstrates paradox and imperative techniques.",
+    "whenToUse": "When emphasizing immersion.",
+    "whenNotToUse": "When simplicity is needed."
+  },
+  {
+    "campaign": "Beyond Limits",
+    "brand": "GoPro",
+    "year": 2016,
+    "headline": "Record Fearless",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Adventure as necessity.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When promoting action.",
+    "whenNotToUse": "When safety is concern."
+  },
+  {
+    "campaign": "Grow Bold",
+    "brand": "John Deere",
+    "year": 2014,
+    "headline": "Harvest Bravery",
+    "rhetoricalDevices": [
+      "metaphor",
+      "noun-as-verb"
+    ],
+    "rationale": "Farming as courage.",
+    "outcome": "Demonstrates metaphor and noun-as-verb techniques.",
+    "whenToUse": "When celebrating legacy.",
+    "whenNotToUse": "When modernity is focus."
+  },
+  {
+    "campaign": "Boundless Imagination",
+    "brand": "Disney",
+    "year": 2017,
+    "headline": "Dream Wider",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "comparative"
+    ],
+    "rationale": "Fantasy as expansiveness.",
+    "outcome": "Demonstrates hyperbole and comparative techniques.",
+    "whenToUse": "When inspiring wonder.",
+    "whenNotToUse": "When realism is needed."
+  },
+  {
+    "campaign": "Core Strength",
+    "brand": "Nike",
+    "year": 2018,
+    "headline": "Train Deeper",
+    "rhetoricalDevices": [
+      "symbolism",
+      "comparative"
+    ],
+    "rationale": "Fitness as self-discovery.",
+    "outcome": "Demonstrates symbolism and comparative techniques.",
+    "whenToUse": "When emphasizing growth.",
+    "whenNotToUse": "When promoting ease."
+  },
+  {
+    "campaign": "Unlock Potential",
+    "brand": "MasterCard",
+    "year": 2015,
+    "headline": "Buy Freedom",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Purchase as liberation.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting empowerment.",
+    "whenNotToUse": "When minimalism is key."
+  },
+  {
+    "campaign": "Parallel Tastes",
+    "brand": "Ben & Jerry's",
+    "year": 2014,
+    "headline": "Scoop Harmony",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Flavors as community.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When celebrating diversity.",
+    "whenNotToUse": "When singular focus is needed."
+  },
+  {
+    "campaign": "Timeless Drive",
+    "brand": "Mercedes-Benz",
+    "year": 2017,
+    "headline": "Command Time",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Luxury as control.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When highlighting heritage.",
+    "whenNotToUse": "When affordability is key."
+  },
+  {
+    "campaign": "Inside Out",
+    "brand": "TOMS",
+    "year": 2016,
+    "headline": "Wear Change",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Shoes as activism.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When emphasizing purpose.",
+    "whenNotToUse": "When neutrality is desired."
+  },
+  {
+    "campaign": "Future Proof",
+    "brand": "IBM",
+    "year": 2015,
+    "headline": "Think Ahead",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Technology as insurance.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When promoting security.",
+    "whenNotToUse": "When simplicity is focus."
+  },
+  {
+    "campaign": "Urban Echo",
+    "brand": "Urban Outfitters",
+    "year": 2014,
+    "headline": "Wear Now",
+    "rhetoricalDevices": [
+      "juxtaposition",
+      "imperative"
+    ],
+    "rationale": "Style as immediacy.",
+    "outcome": "Demonstrates juxtaposition and imperative techniques.",
+    "whenToUse": "When targeting youth.",
+    "whenNotToUse": "When heritage is focus."
+  },
+  {
+    "campaign": "Bright Tomorrow",
+    "brand": "SolarCity",
+    "year": 2017,
+    "headline": "Power Future",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Energy as optimism.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When inspiring change.",
+    "whenNotToUse": "When status quo is valued."
+  },
+  {
+    "campaign": "True Colors",
+    "brand": "Pantone",
+    "year": 2015,
+    "headline": "Match Life",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Color as identity.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When celebrating individuality.",
+    "whenNotToUse": "When uniformity is needed."
+  },
+  {
+    "campaign": "Silent Witness",
+    "brand": "Canon",
+    "year": 2016,
+    "headline": "Capture Truth",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Camera as observer.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When focusing on authenticity.",
+    "whenNotToUse": "When stylization is desired."
+  },
+  {
+    "campaign": "Endless Summer",
+    "brand": "Corona",
+    "year": 2018,
+    "headline": "Taste Escape",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Beer as vacation.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting relaxation.",
+    "whenNotToUse": "When productivity is focus."
+  },
+  {
+    "campaign": "Sustainable Steps",
+    "brand": "Allbirds",
+    "year": 2019,
+    "headline": "Walk Lightly",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Shoes as ethics.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When highlighting responsibility.",
+    "whenNotToUse": "When performance is primary."
+  },
+  {
+    "campaign": "Waves of Change",
+    "brand": "Patagonia",
+    "year": 2019,
+    "headline": "Wear Future",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Clothing as activism.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting sustainability.",
+    "whenNotToUse": "When neutrality is preferred."
+  },
+  {
+    "campaign": "Hidden Currents",
+    "brand": "Levi's",
+    "year": 2016,
+    "headline": "Denim Unseen",
+    "rhetoricalDevices": [
+      "personification",
+      "noun-as-adjective"
+    ],
+    "rationale": "Jeans as silent culture.",
+    "outcome": "Demonstrates personification and noun-as-adjective techniques.",
+    "whenToUse": "When celebrating authenticity.",
+    "whenNotToUse": "When highlighting trends."
+  },
+  {
+    "campaign": "New Rituals",
+    "brand": "Starbucks",
+    "year": 2015,
+    "headline": "Sip Purpose",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Coffee as connection.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When emphasizing community.",
+    "whenNotToUse": "When focusing on convenience."
+  },
+  {
+    "campaign": "Unseen Energy",
+    "brand": "Tesla",
+    "year": 2018,
+    "headline": "Drive Silent",
+    "rhetoricalDevices": [
+      "paradox",
+      "imperative"
+    ],
+    "rationale": "Electricity as quiet power.",
+    "outcome": "Demonstrates paradox and imperative techniques.",
+    "whenToUse": "When highlighting disruption.",
+    "whenNotToUse": "When tradition is key."
+  },
+  {
+    "campaign": "Instant Wonder",
+    "brand": "Polaroid",
+    "year": 2017,
+    "headline": "Freeze Joy",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Photography as preservation.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When celebrating nostalgia.",
+    "whenNotToUse": "When focusing on technology."
+  },
+  {
+    "campaign": "Voices Rising",
+    "brand": "Spotify",
+    "year": 2019,
+    "headline": "Stream Freedom",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Music as liberation.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting diversity.",
+    "whenNotToUse": "When uniformity is needed."
+  },
+  {
+    "campaign": "Eternal Flame",
+    "brand": "Zippo",
+    "year": 2016,
+    "headline": "Spark Always",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Lighter as legacy.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When emphasizing reliability.",
+    "whenNotToUse": "When novelty is focus."
+  },
+  {
+    "campaign": "Urban Canvas",
+    "brand": "Vans",
+    "year": 2017,
+    "headline": "Skate Stories",
+    "rhetoricalDevices": [
+      "metaphor",
+      "noun-as-noun"
+    ],
+    "rationale": "Shoes as self-expression.",
+    "outcome": "Demonstrates metaphor and noun-as-noun techniques.",
+    "whenToUse": "When targeting youth.",
+    "whenNotToUse": "When tradition is valued."
+  },
+  {
+    "campaign": "Hidden Patterns",
+    "brand": "IKEA",
+    "year": 2018,
+    "headline": "Assemble Magic",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Furniture as transformation.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When highlighting possibility.",
+    "whenNotToUse": "When focusing on simplicity."
+  },
+  {
+    "campaign": "Infinite Journey",
+    "brand": "Virgin Atlantic",
+    "year": 2016,
+    "headline": "Fly Limitless",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Flight as transcendence.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When inspiring exploration.",
+    "whenNotToUse": "When practicality is needed."
+  },
+  {
+    "campaign": "Vital Signs",
+    "brand": "Fitbit",
+    "year": 2015,
+    "headline": "Track Life",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Data as vitality.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When emphasizing health.",
+    "whenNotToUse": "When leisure is focus."
+  },
+  {
+    "campaign": "Bright Future",
+    "brand": "SolarCity",
+    "year": 2017,
+    "headline": "Shine Forward",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Solar as hope.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When promoting optimism.",
+    "whenNotToUse": "When status quo is needed."
+  },
+  {
+    "campaign": "Creative Fuel",
+    "brand": "Adobe",
+    "year": 2016,
+    "headline": "Design Infinite",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Software as empowerment.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When inspiring creators.",
+    "whenNotToUse": "When focusing on limits."
+  },
+  {
+    "campaign": "Hidden Threads",
+    "brand": "Etsy",
+    "year": 2018,
+    "headline": "Craft Story",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Handmade as narrative.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When promoting authenticity.",
+    "whenNotToUse": "When mass production is focus."
+  },
+  {
+    "campaign": "Open Skies",
+    "brand": "Delta",
+    "year": 2015,
+    "headline": "Explore Air",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Flight as possibility.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When promoting adventure.",
+    "whenNotToUse": "When emphasizing routine."
+  },
+  {
+    "campaign": "Urban Pulse",
+    "brand": "Uber",
+    "year": 2017,
+    "headline": "Move Instantly",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Transport as vitality.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When highlighting immediacy.",
+    "whenNotToUse": "When focusing on safety."
+  },
+  {
+    "campaign": "Green Light",
+    "brand": "Lyft",
+    "year": 2016,
+    "headline": "Share Roads",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Ride-sharing as collaboration.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When emphasizing community.",
+    "whenNotToUse": "When independence is focus."
+  },
+  {
+    "campaign": "Silent Signal",
+    "brand": "Signal",
+    "year": 2019,
+    "headline": "Message Free",
+    "rhetoricalDevices": [
+      "paradox",
+      "imperative"
+    ],
+    "rationale": "Privacy as liberation.",
+    "outcome": "Demonstrates paradox and imperative techniques.",
+    "whenToUse": "When focusing on security.",
+    "whenNotToUse": "When openness is valued."
+  },
+  {
+    "campaign": "Unseen Path",
+    "brand": "North Face",
+    "year": 2018,
+    "headline": "Climb Hidden",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Adventure as revelation.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When inspiring exploration.",
+    "whenNotToUse": "When safety is focus."
+  },
+  {
+    "campaign": "Digital Bloom",
+    "brand": "Squarespace",
+    "year": 2017,
+    "headline": "Grow Online",
+    "rhetoricalDevices": [
+      "personification",
+      "imperative"
+    ],
+    "rationale": "Website as garden.",
+    "outcome": "Demonstrates personification and imperative techniques.",
+    "whenToUse": "When promoting entrepreneurship.",
+    "whenNotToUse": "When simplicity is focus."
+  },
+  {
+    "campaign": "Everyday Epic",
+    "brand": "GoPro",
+    "year": 2016,
+    "headline": "Film Hero",
+    "rhetoricalDevices": [
+      "hyperbole",
+      "imperative"
+    ],
+    "rationale": "Life as adventure.",
+    "outcome": "Demonstrates hyperbole and imperative techniques.",
+    "whenToUse": "When celebrating action.",
+    "whenNotToUse": "When caution is needed."
+  },
+  {
+    "campaign": "Silent Harmony",
+    "brand": "Bose",
+    "year": 2018,
+    "headline": "Hear Purity",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Sound as clarity.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When highlighting premium.",
+    "whenNotToUse": "When affordability is focus."
+  },
+  {
+    "campaign": "Time Capsule",
+    "brand": "Kodak",
+    "year": 2015,
+    "headline": "Keep Moments",
+    "rhetoricalDevices": [
+      "symbolism",
+      "imperative"
+    ],
+    "rationale": "Photography as memory.",
+    "outcome": "Demonstrates symbolism and imperative techniques.",
+    "whenToUse": "When promoting nostalgia.",
+    "whenNotToUse": "When focusing on tech."
+  },
+  {
+    "campaign": "Eternal Spring",
+    "brand": "Evian",
+    "year": 2016,
+    "headline": "Drink Youth",
+    "rhetoricalDevices": [
+      "metaphor",
+      "imperative"
+    ],
+    "rationale": "Water as rejuvenation.",
+    "outcome": "Demonstrates metaphor and imperative techniques.",
+    "whenToUse": "When celebrating vitality.",
+    "whenNotToUse": "When practicality is key."
+  }
+]

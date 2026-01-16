@@ -53,3 +53,5 @@ credentials.json
 google-credentials.json
 *.pem
 *.key
+# Exclude text files that may contain sensitive info
+attached_assets/*.txt
