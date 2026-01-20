@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
 import { generateMultivariantPrompt } from '../utils/openAiPromptHelper';
+import { HybridGenerationOrchestrator } from '../utils/hybridGenerationOrchestrator';
 import { checkOriginality, calculateLevenshteinDistance } from '../utils/originalityChecker';
 import { fetchRhetoricalExamples } from '../utils/rhetoricalExamplesFetcher';
 import { evaluateAdQuality, shouldFlagForReview } from '../utils/adQualityArbiter';
@@ -145,6 +146,15 @@ interface MultivariantRequest {
   avoidCliches?: boolean;
   enableIterativeRefinement?: boolean;
   projectId?: string; // For feedback similarity analysis
+  // Hybrid generation parameters
+  enableHybridMode?: boolean;
+  hybridConfig?: {
+    enableDivergentExploration?: boolean;
+    enableProgressiveEvolution?: boolean;
+    enableTropeConstraints?: boolean;
+    creativityLevel?: 'conservative' | 'balanced' | 'experimental';
+    requestedTropes?: string[];
+  };
 }
 
 interface MultivariantOutput {
@@ -186,6 +196,26 @@ interface MultivariantOutput {
   bodyCopy?: string;
   rhetoricalCraft?: string[];
   strategicImpact?: string;
+  // Hybrid mode metadata
+  hybridMetadata?: {
+    creativeSeedOrigin?: {
+      personaId: string;
+      personaName: string;
+      rawIdea: string;
+    };
+    evolutionPath?: {
+      startState: string;
+      endState: string;
+      transitionCount: number;
+    };
+    scores?: {
+      originality: number;
+      tropeAlignment: number;
+      coherence: number;
+      distinctiveness: number;
+      overall: number;
+    };
+  };
 }
 
 interface ParsedOutput {
@@ -405,17 +435,99 @@ function calculateDiversityScore(outputs: MultivariantOutput[]): MultivariantOut
 
 export async function generateMultivariant(req: Request, res: Response) {
   try {
-    const { query, tone, maxOutputs = 3, avoidCliches = true, enableIterativeRefinement = true }: MultivariantRequest = req.body;
-    
+    const {
+      query,
+      tone,
+      maxOutputs = 3,
+      avoidCliches = true,
+      enableIterativeRefinement = true,
+      enableHybridMode = false,
+      hybridConfig
+    }: MultivariantRequest = req.body;
+
     // Start performance tracking
     performanceTracker.startTracking();
     console.log(`🚀 Starting multi-variant generation: "${query}" (${tone}, max ${maxOutputs})`);
 
     const startTime = Date.now();
-    
+
     if (!query || !tone) {
       return res.status(400).json({ error: 'Query and tone are required' });
     }
+
+    // ============================================
+    // HYBRID GENERATION MODE
+    // ============================================
+    if (enableHybridMode) {
+      console.log('🌀 HYBRID MODE ENABLED - Using CREATIVEDC + EvoToken-DLM pipeline');
+
+      try {
+        const orchestrator = new HybridGenerationOrchestrator({
+          enableDivergentExploration: hybridConfig?.enableDivergentExploration ?? true,
+          enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? true,
+          enableTropeConstraints: hybridConfig?.enableTropeConstraints ?? true,
+          creativityLevel: hybridConfig?.creativityLevel ?? 'balanced',
+          fallbackToLegacy: true
+        });
+
+        const hybridResult = await orchestrator.generate({
+          userBrief: query,
+          tone,
+          requestedTropes: hybridConfig?.requestedTropes,
+          variantCount: maxOutputs,
+          sessionId: `session_${Date.now()}`
+        });
+
+        // Transform hybrid output to match existing response format
+        const outputs: MultivariantOutput[] = hybridResult.variants.map(variant => ({
+          visualDescription: variant.visualDescription,
+          headlines: variant.headlines,
+          rhetoricalDevice: variant.rhetoricalDevice,
+          originalityScore: Math.round(variant.scores.originality * 100),
+          id: variant.id,
+          tagline: variant.tagline,
+          bodyCopy: variant.bodyCopy,
+          professionalismScore: Math.round(variant.scores.coherence * 100),
+          clarityScore: Math.round(variant.scores.coherence * 100),
+          freshnessScore: Math.round(variant.scores.distinctiveness * 100),
+          resonanceScore: Math.round(variant.scores.tropeAlignment * 100),
+          awardsScore: Math.round(variant.scores.overall * 100),
+          passesAllThresholds: variant.scores.overall >= 0.6,
+          finalStatus: variant.scores.overall >= 0.7 ? 'Passed' : variant.scores.overall >= 0.5 ? 'Needs Review' : 'Failed',
+          // Hybrid-specific metadata
+          hybridMetadata: {
+            creativeSeedOrigin: variant.creativeSeedOrigin,
+            evolutionPath: variant.evolutionPath,
+            scores: variant.scores
+          }
+        }));
+
+        const endTime = Date.now();
+        performanceTracker.stopTracking();
+
+        console.log(`✅ Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
+        console.log(`   Mode: ${hybridResult.metadata.mode}`);
+        console.log(`   Creativity Score: ${(hybridResult.metadata.creativityScore * 100).toFixed(1)}%`);
+        console.log(`   Divergent Pool: ${hybridResult.metadata.divergentPoolSize} seeds`);
+
+        return res.json({
+          success: true,
+          outputs,
+          metadata: {
+            generationMode: 'hybrid',
+            ...hybridResult.metadata,
+            totalTime: endTime - startTime
+          }
+        });
+      } catch (hybridError) {
+        console.error('❌ Hybrid generation failed, falling back to legacy:', hybridError);
+        // Continue with legacy generation below
+      }
+    }
+
+    // ============================================
+    // LEGACY GENERATION MODE (existing code)
+    // ============================================
     
     // **Step 3: Fetch rhetorical examples and handle persistent exclusion**
     const allExamples = await fetchRhetoricalExamples();

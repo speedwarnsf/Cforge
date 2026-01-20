@@ -1,0 +1,173 @@
+{
+  "version": "1.0.0",
+  "description": "Configuration for hybrid CREATIVEDC + EvoToken-DLM generation system",
+
+  "featureFlags": {
+    "enableHybridMode": true,
+    "enableDivergentExploration": true,
+    "enableProgressiveEvolution": true,
+    "enableTrajectoryCapture": true,
+    "enableKVCaching": true,
+    "enableTropeConstraints": true,
+    "fallbackToLegacy": true
+  },
+
+  "divergentExploration": {
+    "defaultPoolSize": 15,
+    "personaRotation": "weighted",
+    "maxTemperature": 1.5,
+    "baseTemperature": 1.0,
+    "deduplicationThreshold": 0.85,
+    "maxIterations": 10,
+    "timeoutMs": 30000,
+    "model": "gpt-4o",
+    "embeddingModel": "text-embedding-3-large"
+  },
+
+  "seedSelection": {
+    "distinctivenessWeight": 0.4,
+    "coherenceWeight": 0.3,
+    "tropeCompatibilityWeight": 0.3,
+    "minimumDistinctiveness": 0.3,
+    "minimumCoherence": 0.5,
+    "minimumTropeCompatibility": 1
+  },
+
+  "progressiveEvolution": {
+    "tokenStates": ["MASK", "SOFT_MASK_V", "SOFT_V", "DECODED"],
+    "defaultSchedule": "cosine",
+    "scheduleOptions": {
+      "cosine": {
+        "totalSteps": 100,
+        "initialAlpha": 1.0,
+        "finalAlpha": 0.0
+      },
+      "exponential": {
+        "decayRate": 0.95,
+        "initialAlpha": 1.0,
+        "finalAlpha": 0.0
+      },
+      "linear": {
+        "totalSteps": 100,
+        "initialAlpha": 1.0,
+        "finalAlpha": 0.0
+      }
+    },
+    "maxEvolutionCycles": 50,
+    "blockSize": 8,
+    "vocabularySize": 50000,
+    "softTokenTemperature": 0.7
+  },
+
+  "arbiterIntegration": {
+    "transitionThresholds": {
+      "MASK_to_SOFT_MASK_V": 0.3,
+      "SOFT_MASK_V_to_SOFT_V": 0.5,
+      "SOFT_V_to_DECODED": 0.7
+    },
+    "regressionPolicy": {
+      "enabled": true,
+      "softRegressionThreshold": 0.4,
+      "fullRegressionThreshold": 0.2,
+      "maxRegressions": 3
+    },
+    "coherenceWeights": {
+      "local": 0.4,
+      "global": 0.6
+    }
+  },
+
+  "tropeConstraints": {
+    "defaultStrength": "moderate",
+    "strengthLevels": {
+      "loose": 0.3,
+      "moderate": 0.5,
+      "strict": 0.7
+    },
+    "useAIFallback": true,
+    "vocabularyBoostFactor": 1.5,
+    "structuralBoostFactor": 1.2,
+    "cacheEnabled": true,
+    "cacheTTLMs": 300000
+  },
+
+  "trajectoryTraining": {
+    "enabled": true,
+    "captureAll": false,
+    "captureHighQuality": true,
+    "highQualityThreshold": 0.7,
+    "batchSize": 8,
+    "lossWeights": {
+      "stateTransition": 0.25,
+      "tropeAlignment": 0.30,
+      "coherence": 0.25,
+      "distinctiveness": 0.20
+    },
+    "temporalWeighting": true,
+    "persistToDatabase": true
+  },
+
+  "kvCache": {
+    "enabled": true,
+    "maxCacheSize": 100,
+    "ttlMs": 300000,
+    "evictionPolicy": "lru"
+  },
+
+  "performance": {
+    "maxConcurrentGenerations": 5,
+    "generationTimeoutMs": 60000,
+    "retryAttempts": 2,
+    "retryDelayMs": 1000,
+    "batchProcessing": {
+      "enabled": true,
+      "maxBatchSize": 10,
+      "batchDelayMs": 100
+    }
+  },
+
+  "logging": {
+    "level": "info",
+    "logDivergentExploration": true,
+    "logEvolutionSteps": false,
+    "logTropeValidation": true,
+    "logTrajectories": true,
+    "logPerformanceMetrics": true
+  },
+
+  "apiDefaults": {
+    "defaultVariantCount": 3,
+    "maxVariantCount": 10,
+    "defaultCreativityLevel": "balanced",
+    "creativityLevels": {
+      "conservative": {
+        "poolSize": 10,
+        "temperature": 0.8,
+        "distinctivenessWeight": 0.2
+      },
+      "balanced": {
+        "poolSize": 15,
+        "temperature": 1.0,
+        "distinctivenessWeight": 0.4
+      },
+      "experimental": {
+        "poolSize": 25,
+        "temperature": 1.3,
+        "distinctivenessWeight": 0.6
+      }
+    }
+  },
+
+  "database": {
+    "tables": {
+      "evolutionTrajectories": "evolution_trajectories",
+      "divergentPools": "divergent_pools",
+      "creativeSeeds": "creative_seeds"
+    },
+    "cleanupPolicy": {
+      "enabled": true,
+      "retentionDays": 30,
+      "keepHighQuality": true
+    }
+  }
+}
