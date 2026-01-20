@@ -1,12 +1,14 @@
 console.log("🔐 OpenAI API KEY:", process.env.OPENAI_API_KEY?.slice(0, 5));
 import OpenAI from "openai";
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 import { checkOriginality, type OriginalityCheck } from "./research-simple.js";
 import { checkHistoricalSimilarityWithEmbeddings } from '../utils/embeddingSimilarity';
 import { retrieveTopN } from "../utils/embeddingRetrieval";
-import { 
-  generateConceptWithTheoryInject, 
-  detectTheoryContext, 
-  getContextualTheoryPriority 
+import {
+  generateConceptWithTheoryInject,
+  detectTheoryContext,
+  getContextualTheoryPriority
 } from "../utils/enhancedTheoryMapping";
 
 // Cache to track recent concepts for anti-duplication
@@ -54,49 +56,49 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
 });
 
-// Comprehensive list of rhetorical devices for conceptual and persuasive impact
-const rhetoricalDevices: Record<string, string> = {
-  'Metaphor': 'Direct comparison between unlike things to create powerful imagery and understanding',
-  'Anaphora': 'Repetition of the same word or phrase at the beginning of successive clauses',
-  'Assonance': 'Repetition of vowel sounds to create musical quality and mood',
-  'Pathos': 'Appeal to emotions to persuade and connect with audience feelings',
-  'Logos': 'Appeal to logic and reason through evidence and rational argument',
-  'Climax': 'Arranging ideas in order of increasing importance for maximum impact',
-  'Syllogism': 'Logical argument with major premise, minor premise, and conclusion',
-  'Parallelism': 'Similar grammatical structures to create rhythm and emphasis',
-  'Rhetorical Question': 'Question posed for effect rather than requiring an answer',
-  'Irony': 'Expression of meaning through the use of contradictory language',
-  'Hyperbole': 'Deliberate exaggeration to emphasize importance and create emotional impact',
-  'Ethos': 'Appeal to credibility and moral character to establish trustworthiness',
-  'Chiasmus': 'Reversal of grammatical structures in successive phrases for balance and impact',
-  'Adage': 'Traditional saying expressing common truth or practical wisdom',
-  'Antithesis': 'Juxtaposition of contrasting ideas to highlight differences and create tension',
-  'Epizeuxis': 'Immediate repetition of a word or phrase for emphasis and memorability',
-  'Prolepsis': 'Anticipating and addressing counterarguments to strengthen position',
-  'Juxtaposition': 'Placing contrasting elements side by side for dramatic effect',
-  'Reductio ad Absurdum': 'Disproving argument by showing it leads to absurd conclusion',
-  'Paronomasia': 'A play on words or pun that creates clever connections between different meanings',
-  'Meiosis': 'Deliberate understatement to create emphasis through minimization',
-  'Aposiopesis': 'Sudden breaking off of speech to create suspense or emotion',
-  'Ellipsis': 'Omission of words that can be understood from context',
-  'Anacoluthon': 'Deliberate break in grammatical sequence for emphasis',
-  'Paradox': 'Statement that seems contradictory but reveals deeper truth',
-  'Zeugma': 'Using one word to modify two others in different senses for unexpected connections',
-  'Alliteration': 'Repetition of initial consonant sounds to create rhythm and memorability',
-  'Synecdoche': 'Using a part to represent the whole or vice versa for conceptual clarity',
-  'Metonymy': 'Substituting the name of something with something closely associated',
-  'Litotes': 'Deliberate understatement using double negatives for subtle emphasis',
-  'Oxymoron': 'Combination of contradictory terms to create paradoxical meaning',
-  'Polysyndeton': 'Deliberate use of multiple conjunctions to create rhythm and emphasis',
-  'Asyndeton': 'Omission of conjunctions to create speed and urgency',
-  'Epistrophe': 'Repetition of the same word or phrase at the end of successive clauses',
-  'Isocolon': 'Parallel structure with similar lengths for rhythm and balance',
-  'Hendiadys': 'Expression of a single idea through two words connected by "and"',
-  'Symploce': 'Combination of anaphora and epistrophe for powerful framing',
-  'Anadiplosis': 'Repetition of the last word of one clause at the beginning of the next',
-  'Antanaclasis': 'Repetition of the same word with different meanings to create layered meaning',
-  'Ekphrasis': 'Provides vivid descriptions that bring abstract concepts to life'
-};
+// Load rhetorical devices from JSON file (408 figures)
+function loadRhetoricalDevices(): Record<string, string> {
+  const possiblePaths = [
+    join(process.cwd(), 'data', 'rhetorical_figures_cleaned.json'),
+    join(process.cwd(), 'server', 'data', 'rhetorical_figures_cleaned.json'),
+    '/var/task/data/rhetorical_figures_cleaned.json',
+  ];
+
+  for (const p of possiblePaths) {
+    if (existsSync(p)) {
+      try {
+        const data = JSON.parse(readFileSync(p, 'utf-8'));
+        const devices: Record<string, string> = {};
+        for (const item of data) {
+          // Capitalize first letter of each word for consistency
+          const name = item.figure_name
+            .split(' ')
+            .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+          devices[name] = item.definition;
+        }
+        console.log(`📚 Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
+        return devices;
+      } catch (error) {
+        console.error(`Error loading rhetorical devices from ${p}:`, error);
+      }
+    }
+  }
+
+  // Fallback to minimal set if file not found
+  console.warn('⚠️ rhetorical_figures_cleaned.json not found, using minimal fallback set');
+  return {
+    'Metaphor': 'Direct comparison between unlike things to create powerful imagery',
+    'Anaphora': 'Repetition of a word or phrase at the beginning of successive clauses',
+    'Antithesis': 'Juxtaposition of contrasting ideas in balanced phrases',
+    'Hyperbole': 'Deliberate exaggeration for emphasis',
+    'Irony': 'Expression of meaning through contradictory language',
+    'Parallelism': 'Similar grammatical structures for rhythm and emphasis'
+  };
+}
+
+// Comprehensive list of rhetorical devices loaded from JSON (408 figures)
+const rhetoricalDevices: Record<string, string> = loadRhetoricalDevices();
 
 // Export function to get all rhetorical devices for external use
 export function getAllRhetoricalDevices(): Record<string, string> {
@@ -142,26 +144,17 @@ const creativeLenses = [
   }
 ];
 
-function getStrategicRhetoricalDevices(tone: string): { name: string; description: string }[] {
-  // Map new concept lens values to existing lens system
-  const toneMapping: Record<string, string> = {
-    'bold': 'creative',
-    'strategic': 'analytical', 
-    'conversational': 'conversational',
-    'simplified': 'technical',
-    'core': 'summarize',
-    // Keep backward compatibility
-    'creative': 'creative',
-    'analytical': 'analytical',
-    'technical': 'technical',
-    'summarize': 'summarize'
-  };
-  
-  const mappedTone = toneMapping[tone] || tone;
-  const lens = creativeLenses.find(l => l.value === mappedTone);
-  if (!lens) return [];
-  
-  return lens.devices.map(deviceName => ({
+function getStrategicRhetoricalDevices(tone: string, count: number = 4): { name: string; description: string }[] {
+  // Get all available devices from the loaded 408
+  const allDeviceNames = Object.keys(rhetoricalDevices);
+
+  // Shuffle and pick random devices for diversity
+  const shuffled = [...allDeviceNames].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+
+  console.log(`🎲 Selected ${count} diverse devices from ${allDeviceNames.length} available: ${selected.join(', ')}`);
+
+  return selected.map(deviceName => ({
     name: deviceName,
     description: rhetoricalDevices[deviceName] || ""
   }));
@@ -385,36 +378,28 @@ function storeRecentConcept(prompt: string, headline: string): void {
   concepts.add(headline.toLowerCase().trim());
 }
 
-// Helper function to select diverse rhetorical devices
+// Helper function to select diverse rhetorical devices from all 408
 function selectDiverseDevices(count: number, preferredTone: string, userRatings?: Array<{ rhetoricalDevice: string; rating: 'more_like_this' | 'less_like_this' }>): string[] {
   const allDevices = Object.keys(rhetoricalDevices);
-  const selectedDevices: string[] = [];
-  
-  // Get devices from preferred tone lens first
-  const toneLens = creativeLenses.find(l => l.value === preferredTone);
-  if (toneLens) {
-    selectedDevices.push(...toneLens.devices);
-  }
-  
-  // Apply user ratings for weighting
-  let availableDevices = allDevices.filter(device => !selectedDevices.includes(device));
-  
-  if (userRatings) {
+  let availableDevices = [...allDevices];
+
+  // Apply user ratings for weighting if provided
+  if (userRatings && userRatings.length > 0) {
     const likedDevices = userRatings.filter(r => r.rating === 'more_like_this').map(r => r.rhetoricalDevice);
     const dislikedDevices = userRatings.filter(r => r.rating === 'less_like_this').map(r => r.rhetoricalDevice);
-    
-    // Prioritize liked devices but don't exclude disliked ones entirely
-    availableDevices = [...likedDevices.filter(d => !selectedDevices.includes(d)), ...availableDevices.filter(d => !likedDevices.includes(d) && !dislikedDevices.includes(d))];
+
+    // Put liked devices first, then others (excluding heavily disliked)
+    const otherDevices = availableDevices.filter(d => !likedDevices.includes(d) && !dislikedDevices.includes(d));
+    availableDevices = [...likedDevices, ...otherDevices];
   }
-  
-  // Fill remaining slots with diverse devices
-  while (selectedDevices.length < count && availableDevices.length > 0) {
-    const randomIndex = Math.floor(Math.random() * availableDevices.length);
-    const device = availableDevices.splice(randomIndex, 1)[0];
-    selectedDevices.push(device);
-  }
-  
-  return selectedDevices.slice(0, count);
+
+  // Shuffle to ensure diversity
+  const shuffled = availableDevices.sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+
+  console.log(`🎲 selectDiverseDevices: Selected ${selected.length} from ${allDevices.length} devices: ${selected.join(', ')}`);
+
+  return selected;
 }
 
 // Single concept generation (maintains backward compatibility)

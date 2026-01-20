@@ -55,3 +55,5 @@ google-credentials.json
 *.key
 # Exclude text files that may contain sensitive info
 attached_assets/*.txt
+.vercel
+VERCEL_ENV_VARIABLES.txt

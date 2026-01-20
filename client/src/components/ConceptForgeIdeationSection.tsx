@@ -20,7 +20,7 @@ interface ConceptForgeIdeationSectionProps {
 
 export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComplete }: ConceptForgeIdeationSectionProps) {
   const [location] = useLocation();
-  const [brief, setBrief] = useState("HIV Stops With Me needs to update its annual campaign, designed to reach at risk gay men in New York State that inspires confidence and creates an emotional connection");
+  const [brief, setBrief] = useState("");
   const [selectedLens, setSelectedLens] = useState("bold");
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<any[]>([]);

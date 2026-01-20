@@ -19,7 +19,7 @@ const ResultsDisplay = ({ results, onFeedback }: ResultsDisplayProps) => {
                         {concept.tagline && <p><strong>Tagline:</strong> {concept.tagline}</p>}
                         {concept.bodyCopy && <p><strong>Body Copy:</strong> {concept.bodyCopy}</p>}
                         {concept.visualConcept && <p><strong>Visual Concept:</strong> {concept.visualConcept}</p>}
-                        <p><strong>Devices:</strong> {concept.devices?.join(', ') || 'None'}</p>
+                        <p><strong>Devices:</strong> {Array.isArray(concept.devices) ? concept.devices.join(', ') : (concept.devices || 'None')}</p>
                         <p><strong>Rationale:</strong> {concept.rationale || 'No rationale'}</p>
                         <div className="feedback-buttons">
                             <button onClick={() => onFeedback(i, 'more_like_this')}>More Like This</button>

@@ -2,18 +2,42 @@
 // ✅ Round-Robin Pairs Retrieval with Fallback Randomization
 
 import OpenAI from "openai";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 import { cosineSimilarity } from "./embeddingSimilarity";
 import { performanceMonitor, measureAsync } from "./performanceMonitor";
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 const openai = new OpenAI();
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_KEY!
-);
 
-import retrievalCorpusData from "../../data/retrieval-corpus.json";
+// Lazy-initialize Supabase client only when needed and env vars are available
+let supabase: SupabaseClient | null = null;
+function getSupabase(): SupabaseClient | null {
+  if (!supabase && process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
+    supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+  }
+  return supabase;
+}
+
+// Load JSON at runtime to avoid esbuild resolution issues
+function loadRetrievalCorpus() {
+  const possiblePaths = [
+    join(process.cwd(), 'data', 'retrieval-corpus.json'),
+    join(process.cwd(), 'server', 'data', 'retrieval-corpus.json'),
+    '/var/task/data/retrieval-corpus.json',
+  ];
+
+  for (const p of possiblePaths) {
+    if (existsSync(p)) {
+      return JSON.parse(readFileSync(p, 'utf-8'));
+    }
+  }
+  console.warn('retrieval-corpus.json not found, using empty corpus');
+  return { campaigns: [] };
+}
+
+const retrievalCorpusData = loadRetrievalCorpus();
 const retrievalCorpus = retrievalCorpusData.campaigns;
 
 interface CorpusEntry {

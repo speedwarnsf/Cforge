@@ -1,10 +1,29 @@
 // 📂 server/utils/enhancedTheoryMapping.ts
 // ✅ Enhanced Theory Injection with Expanded Keyword-to-Theory Mapping
 
-import retrievalCorpusData from "../../data/retrieval-corpus.json";
 import { performance } from 'perf_hooks';
-import { appendFileSync } from 'fs';
+import { appendFileSync, readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+// Load JSON at runtime to avoid esbuild resolution issues
+function loadRetrievalCorpus() {
+  const possiblePaths = [
+    join(process.cwd(), 'data', 'retrieval-corpus.json'),
+    join(process.cwd(), 'server', 'data', 'retrieval-corpus.json'),
+    '/var/task/data/retrieval-corpus.json',
+  ];
+
+  for (const p of possiblePaths) {
+    if (existsSync(p)) {
+      return JSON.parse(readFileSync(p, 'utf-8'));
+    }
+  }
+  console.warn('retrieval-corpus.json not found, using empty corpus');
+  return { campaigns: [] };
+}
+
+const retrievalCorpusData = loadRetrievalCorpus();
 const retrievalCorpus = retrievalCorpusData.campaigns;
 
 // Performance caching for theory queries
