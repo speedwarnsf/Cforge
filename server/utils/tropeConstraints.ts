@@ -2,12 +2,93 @@
  * Trope Constraint Satisfaction Engine
  * Maps rhetorical devices to structural validation rules
  *
+ * Supports ALL 411 rhetorical devices from the corpus with:
+ * - Pattern-based validation for common devices (fast)
+ * - AI-powered validation for all devices (comprehensive)
+ *
  * Integration: Called during convergent phase to validate creative seeds
  * Location: server/utils/tropeConstraints.ts
  */
 
 import OpenAI from 'openai';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
+
+// ============================================
+// DYNAMIC RHETORICAL DEVICE LOADING (411 devices)
+// ============================================
+
+interface RhetoricalDevice {
+  figure_name: string;
+  definition: string;
+  examples?: string[];
+}
+
+let _allRhetoricalDevices: Record<string, string> | null = null;
+
+/**
+ * Load all 411 rhetorical devices from the corpus
+ */
+export function loadAllRhetoricalDevices(): Record<string, string> {
+  if (_allRhetoricalDevices) return _allRhetoricalDevices;
+
+  const possiblePaths = [
+    join(process.cwd(), 'data', 'rhetorical_figures_cleaned.json'),
+    join(process.cwd(), 'server', 'data', 'rhetorical_figures_cleaned.json'),
+    '/var/task/data/rhetorical_figures_cleaned.json',
+  ];
+
+  for (const p of possiblePaths) {
+    if (existsSync(p)) {
+      try {
+        const data: RhetoricalDevice[] = JSON.parse(readFileSync(p, 'utf-8'));
+        const devices: Record<string, string> = {};
+        for (const item of data) {
+          // Normalize name: lowercase with underscores for ID
+          const id = item.figure_name.toLowerCase().replace(/\s+/g, '_');
+          devices[id] = item.definition;
+        }
+        console.log(`📚 TropeConstraints: Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
+        _allRhetoricalDevices = devices;
+        return devices;
+      } catch (error) {
+        console.error(`Error loading rhetorical devices from ${p}:`, error);
+      }
+    }
+  }
+
+  console.warn('⚠️ rhetorical_figures_cleaned.json not found, using pattern-based devices only');
+  _allRhetoricalDevices = {};
+  return _allRhetoricalDevices;
+}
+
+/**
+ * Get all available rhetorical device IDs
+ */
+export function getAllAvailableDeviceIds(): string[] {
+  const devices = loadAllRhetoricalDevices();
+  const patternIds = Object.keys(TROPE_PATTERNS);
+  const corpusIds = Object.keys(devices);
+
+  // Combine and deduplicate
+  return Array.from(new Set([...patternIds, ...corpusIds]));
+}
+
+/**
+ * Get device definition by ID (checks both patterns and corpus)
+ */
+export function getDeviceDefinition(deviceId: string): string | undefined {
+  const normalizedId = deviceId.toLowerCase().replace(/\s+/g, '_');
+
+  // Check pattern-based definitions first
+  const pattern = TROPE_PATTERNS[normalizedId];
+  if (pattern) return pattern.description;
+
+  // Check full corpus
+  const devices = loadAllRhetoricalDevices();
+  return devices[normalizedId];
+}
 
 // ============================================
 // TROPE PATTERN DEFINITIONS
@@ -317,6 +398,7 @@ export class TropeConstraintEngine {
 
   /**
    * Validate content against a specific trope
+   * Supports all 411 rhetorical devices from the corpus
    */
   async validateTropeSatisfaction(
     content: string,
@@ -326,26 +408,36 @@ export class TropeConstraintEngine {
       useAIFallback: true
     }
   ): Promise<TropeValidationResult> {
-    const cacheKey = `${tropeId}:${content.substring(0, 100)}:${options.strength}`;
+    // Normalize the trope ID for consistent lookup
+    const normalizedId = tropeId.toLowerCase().replace(/\s+/g, '_');
+    const cacheKey = `${normalizedId}:${content.substring(0, 100)}:${options.strength}`;
 
     if (this.validationCache.has(cacheKey)) {
       return this.validationCache.get(cacheKey)!;
     }
 
-    const tropePattern = TROPE_PATTERNS[tropeId];
+    // Check for pattern-based validation (fast path for common devices)
+    const tropePattern = TROPE_PATTERNS[normalizedId];
 
     if (!tropePattern) {
-      // Unknown trope - use AI validation
-      if (options.useAIFallback) {
-        return this.validateWithAI(content, tropeId, options);
+      // Check if device exists in full 411-device corpus
+      const corpusDefinition = getDeviceDefinition(normalizedId);
+
+      if (corpusDefinition || options.useAIFallback) {
+        // Device found in corpus OR AI fallback enabled - use AI validation
+        const aiResult = await this.validateWithAI(content, tropeId, options);
+        this.validationCache.set(cacheKey, aiResult);
+        return aiResult;
       }
+
+      // Device not found anywhere
       return {
-        tropeId,
+        tropeId: normalizedId,
         tropeName: tropeId,
         satisfied: false,
         confidence: 0,
         matchedPatterns: [],
-        suggestions: [`Unknown trope: ${tropeId}`],
+        suggestions: [`Unknown rhetorical device: ${tropeId}. Available devices: ${getAllAvailableDeviceIds().length}`],
         validationMethod: 'pattern'
       };
     }
@@ -579,9 +671,26 @@ Return each variation on a new line, numbered 1-${count}.`
     tropeId: string,
     options: ValidationOptions
   ): Promise<TropeValidationResult> {
-    const tropePattern = TROPE_PATTERNS[tropeId];
-    const tropeName = tropePattern?.name || tropeId;
-    const tropeDescription = tropePattern?.description || `The rhetorical device known as ${tropeId}`;
+    const normalizedId = tropeId.toLowerCase().replace(/\s+/g, '_');
+    const tropePattern = TROPE_PATTERNS[normalizedId];
+
+    // Get definition from pattern OR from full 411-device corpus
+    let tropeName = tropePattern?.name || tropeId;
+    let tropeDescription = tropePattern?.description;
+
+    if (!tropeDescription) {
+      // Look up in full corpus
+      const corpusDefinition = getDeviceDefinition(normalizedId);
+      if (corpusDefinition) {
+        tropeDescription = corpusDefinition;
+        // Format the name nicely
+        tropeName = tropeId.split(/[_\s]+/)
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(' ');
+      } else {
+        tropeDescription = `The rhetorical device known as ${tropeId}`;
+      }
+    }
 
     try {
       const response = await this.openai.chat.completions.create({
@@ -721,15 +830,43 @@ export function checkVocabularyAlignment(
 /**
  * Get all available trope IDs
  */
+/**
+ * Get all available trope IDs (patterns + full 411-device corpus)
+ */
 export function getAvailableTropes(): string[] {
-  return Object.keys(TROPE_PATTERNS);
+  return getAllAvailableDeviceIds();
 }
 
 /**
- * Get trope details by ID
+ * Get trope details by ID (checks patterns first, then full corpus)
  */
 export function getTropeDetails(tropeId: string): TropePattern | undefined {
-  return TROPE_PATTERNS[tropeId];
+  const normalizedId = tropeId.toLowerCase().replace(/\s+/g, '_');
+
+  // Check pattern-based definitions first
+  if (TROPE_PATTERNS[normalizedId]) {
+    return TROPE_PATTERNS[normalizedId];
+  }
+
+  // Check full corpus and create a minimal TropePattern
+  const definition = getDeviceDefinition(normalizedId);
+  if (definition) {
+    const formattedName = tropeId.split(/[_\s]+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
+    return {
+      id: normalizedId,
+      name: formattedName,
+      description: definition,
+      structuralPatterns: [], // No patterns for corpus-only devices
+      vocabularyIndicators: [],
+      examplePhrases: [],
+      minimumConfidence: 0.5
+    };
+  }
+
+  return undefined;
 }
 
 // ============================================
@@ -738,15 +875,25 @@ export function getTropeDetails(tropeId: string): TropePattern | undefined {
 
 /**
  * Generate constraint prompt for LLM based on tropes
+ * Supports all 411 rhetorical devices from the corpus
  */
 export function generateTropeConstraintPrompt(tropeIds: string[]): string {
   const constraints: string[] = [];
 
   for (const tropeId of tropeIds) {
-    const pattern = TROPE_PATTERNS[tropeId];
-    if (pattern) {
-      constraints.push(`- ${pattern.name}: ${pattern.description}
-  Example: "${pattern.examplePhrases[0]}"`);
+    // Use getTropeDetails which checks both patterns and corpus
+    const details = getTropeDetails(tropeId);
+    if (details) {
+      const examplePart = details.examplePhrases && details.examplePhrases.length > 0
+        ? `\n  Example: "${details.examplePhrases[0]}"`
+        : '';
+      constraints.push(`- ${details.name}: ${details.description}${examplePart}`);
+    } else {
+      // Even if not found, include the requested device name
+      const formattedName = tropeId.split(/[_\s]+/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+      constraints.push(`- ${formattedName}`);
     }
   }
 
