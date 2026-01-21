@@ -60,6 +60,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate AI response
   app.post("/api/generate", async (req, res) => {
     try {
+      // Route to multivariant endpoint if conceptCount > 1
+      const conceptCount = req.body?.conceptCount || 1;
+      if (conceptCount > 1) {
+        console.log(`🔀 Routing to multivariant endpoint for ${conceptCount} concepts`);
+        return generateMultivariant(req, res);
+      }
+
       // Rate limiting
       const clientId = req.ip || 'unknown';
       if (!checkRateLimit(clientId)) {
@@ -68,14 +75,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           retryAfter: 60
         });
       }
-      
+
       // Validate request body exists
       if (!req.body || typeof req.body !== 'object') {
-        return res.status(400).json({ 
-          message: "Invalid request body" 
+        return res.status(400).json({
+          message: "Invalid request body"
         });
       }
-      
+
       const validatedData = aiRequestFormSchema.parse(req.body);
       
       console.log(`🎯 RECEIVED QUERY: "${validatedData.query}"`);

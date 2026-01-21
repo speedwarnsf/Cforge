@@ -7922,6 +7922,11 @@ setInterval(() => {
 async function registerRoutes(app2) {
   app2.post("/api/generate", async (req, res) => {
     try {
+      const conceptCount = req.body?.conceptCount || 1;
+      if (conceptCount > 1) {
+        console.log(`\u{1F500} Routing to multivariant endpoint for ${conceptCount} concepts`);
+        return generateMultivariant(req, res);
+      }
       const clientId = req.ip || "unknown";
       if (!checkRateLimit(clientId)) {
         return res.status(429).json({
