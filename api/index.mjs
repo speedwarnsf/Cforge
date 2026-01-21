@@ -2391,10 +2391,734 @@ var init_supabaseClient = __esm({
   }
 });
 
-// server/utils/divergentExplorer.ts
+// server/utils/tropeConstraints.ts
 import OpenAI5 from "openai";
+import { readFileSync as readFileSync4, existsSync as existsSync4 } from "fs";
+import { join as join4, dirname as dirname2 } from "path";
+import { fileURLToPath } from "url";
+function loadAllRhetoricalDevices() {
+  if (_allRhetoricalDevices) return _allRhetoricalDevices;
+  const possiblePaths = [
+    // Relative to this file (most reliable for bundled code)
+    join4(__dirname, "..", "..", "data", "rhetorical_figures_cleaned.json"),
+    join4(__dirname, "..", "data", "rhetorical_figures_cleaned.json"),
+    join4(__dirname, "data", "rhetorical_figures_cleaned.json"),
+    // Relative to process.cwd() (works in local dev)
+    join4(process.cwd(), "data", "rhetorical_figures_cleaned.json"),
+    join4(process.cwd(), "server", "data", "rhetorical_figures_cleaned.json"),
+    // Vercel serverless paths
+    "/var/task/data/rhetorical_figures_cleaned.json",
+    "/var/task/server/data/rhetorical_figures_cleaned.json",
+    // Vercel with includeFiles puts files relative to function
+    join4(process.cwd(), "api", "data", "rhetorical_figures_cleaned.json")
+  ];
+  console.log(`\u{1F50D} Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
+  console.log(`   __dirname: ${__dirname}`);
+  console.log(`   process.cwd(): ${process.cwd()}`);
+  for (const p of possiblePaths) {
+    if (existsSync4(p)) {
+      try {
+        const data = JSON.parse(readFileSync4(p, "utf-8"));
+        const devices = {};
+        for (const item of data) {
+          const id = item.figure_name.toLowerCase().replace(/\s+/g, "_");
+          devices[id] = item.definition;
+        }
+        console.log(`\u{1F4DA} TropeConstraints: Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
+        _allRhetoricalDevices = devices;
+        return devices;
+      } catch (error) {
+        console.error(`Error loading rhetorical devices from ${p}:`, error);
+      }
+    }
+  }
+  console.warn("\u26A0\uFE0F rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only");
+  console.warn(`   Searched paths: ${possiblePaths.join(", ")}`);
+  _allRhetoricalDevices = {};
+  return _allRhetoricalDevices;
+}
+function getAllAvailableDeviceIds() {
+  const devices = loadAllRhetoricalDevices();
+  const patternIds = Object.keys(TROPE_PATTERNS);
+  const corpusIds = Object.keys(devices);
+  return Array.from(/* @__PURE__ */ new Set([...patternIds, ...corpusIds]));
+}
+function getDeviceDefinition(deviceId) {
+  const normalizedId = deviceId.toLowerCase().replace(/\s+/g, "_");
+  const pattern = TROPE_PATTERNS[normalizedId];
+  if (pattern) return pattern.description;
+  const devices = loadAllRhetoricalDevices();
+  return devices[normalizedId];
+}
+function validateTropePattern(content, tropeId) {
+  const tropePattern = TROPE_PATTERNS[tropeId];
+  if (!tropePattern) {
+    return { matched: false, patterns: [] };
+  }
+  const matchedPatterns = [];
+  for (const pattern of tropePattern.structuralPatterns) {
+    if (pattern.test(content)) {
+      matchedPatterns.push(pattern.source);
+    }
+  }
+  return {
+    matched: matchedPatterns.length > 0,
+    patterns: matchedPatterns
+  };
+}
+function checkVocabularyAlignment(content, tropeId) {
+  const tropePattern = TROPE_PATTERNS[tropeId];
+  if (!tropePattern) {
+    return { score: 0, matchedWords: [] };
+  }
+  const contentLower = content.toLowerCase();
+  const matchedWords = tropePattern.vocabularyIndicators.filter(
+    (word) => contentLower.includes(word.toLowerCase())
+  );
+  return {
+    score: matchedWords.length / tropePattern.vocabularyIndicators.length,
+    matchedWords
+  };
+}
+function getTropeDetails(tropeId) {
+  const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
+  if (TROPE_PATTERNS[normalizedId]) {
+    return TROPE_PATTERNS[normalizedId];
+  }
+  const definition = getDeviceDefinition(normalizedId);
+  if (definition) {
+    const formattedName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+    return {
+      id: normalizedId,
+      name: formattedName,
+      description: definition,
+      structuralPatterns: [],
+      // No patterns for corpus-only devices
+      vocabularyIndicators: [],
+      examplePhrases: [],
+      minimumConfidence: 0.5
+    };
+  }
+  return void 0;
+}
+function generateTropeConstraintPrompt(tropeIds) {
+  const constraints = [];
+  for (const tropeId of tropeIds) {
+    const details = getTropeDetails(tropeId);
+    if (details) {
+      const examplePart = details.examplePhrases && details.examplePhrases.length > 0 ? `
+  Example: "${details.examplePhrases[0]}"` : "";
+      constraints.push(`- ${details.name}: ${details.description}${examplePart}`);
+    } else {
+      const formattedName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+      constraints.push(`- ${formattedName}`);
+    }
+  }
+  if (constraints.length === 0) {
+    return "";
+  }
+  return `Your response MUST incorporate these rhetorical devices:
+
+${constraints.join("\n\n")}
+
+Ensure the rhetorical structure is clear and effective.`;
+}
+function scoreTropeAlignment(content, tropeIds) {
+  let totalScore = 0;
+  for (const tropeId of tropeIds) {
+    const patternResult = validateTropePattern(content, tropeId);
+    const vocabResult = checkVocabularyAlignment(content, tropeId);
+    const tropeScore = (patternResult.matched ? 0.7 : 0) + vocabResult.score * 0.3;
+    totalScore += tropeScore;
+  }
+  return tropeIds.length > 0 ? totalScore / tropeIds.length : 0;
+}
+var _allRhetoricalDevices, __filename, __dirname, TROPE_PATTERNS, TropeConstraintEngine;
+var init_tropeConstraints = __esm({
+  "server/utils/tropeConstraints.ts"() {
+    "use strict";
+    init_embeddingSimilarity();
+    _allRhetoricalDevices = null;
+    __filename = fileURLToPath(import.meta.url);
+    __dirname = dirname2(__filename);
+    TROPE_PATTERNS = {
+      antithesis: {
+        id: "antithesis",
+        name: "Antithesis",
+        description: "Juxtaposition of contrasting ideas in balanced phrases",
+        structuralPatterns: [
+          /\b(\w+)\s+(?:but|yet|while|whereas)\s+(\w+)\b/i,
+          /\bnot\s+(\w+)[,;]\s*but\s+(\w+)\b/i,
+          /\b(\w+)\s+versus\s+(\w+)\b/i,
+          /\b(\w+)\s+against\s+(\w+)\b/i,
+          /\b(\w+)\s+and\s+(\w+)\s+clash/i
+        ],
+        vocabularyIndicators: ["but", "yet", "while", "whereas", "versus", "against", "contrast", "oppose"],
+        examplePhrases: [
+          "One small step for man, one giant leap for mankind",
+          "Speech is silver, but silence is golden",
+          "Love is an ideal thing, marriage a real thing"
+        ],
+        minimumConfidence: 0.6
+      },
+      paradox: {
+        id: "paradox",
+        name: "Paradox",
+        description: "Self-contradictory statement that reveals deeper truth",
+        structuralPatterns: [
+          /\b(\w+)\s+(?:is|are|was|were)\s+(?:the\s+)?(?:only|true|real)\s+(\w+)\b/i,
+          /\bless\s+is\s+more\b/i,
+          /\bmore\s+is\s+less\b/i,
+          /\bto\s+(\w+)\s+(?:is\s+)?to\s+(\w+)\b/i,
+          /\bthe\s+(\w+)\s+of\s+(\w+)\b.*\bthe\s+\2\s+of\s+\1\b/i
+        ],
+        vocabularyIndicators: ["paradox", "contradiction", "impossibly", "yet", "strange", "truth"],
+        examplePhrases: [
+          "The only constant is change",
+          "Less is more",
+          "I must be cruel to be kind"
+        ],
+        minimumConfidence: 0.65
+      },
+      metaphor: {
+        id: "metaphor",
+        name: "Metaphor",
+        description: "Direct comparison stating one thing is another",
+        structuralPatterns: [
+          /\b(\w+)\s+(?:is|are|was|were)\s+(?:a|an|the)\s+(\w+)\b/i,
+          /\b(\w+)\s+of\s+(\w+)\b/i,
+          /\bthe\s+(\w+)\s+(\w+ed)\b/i,
+          /\b(\w+)\s+becomes?\s+(\w+)\b/i,
+          /\btransforms?\s+into\s+(\w+)\b/i
+        ],
+        vocabularyIndicators: ["is", "becomes", "transforms", "embodies", "represents"],
+        examplePhrases: [
+          "Time is money",
+          "Life is a journey",
+          "The world is a stage"
+        ],
+        minimumConfidence: 0.5
+      },
+      hyperbole: {
+        id: "hyperbole",
+        name: "Hyperbole",
+        description: "Deliberate exaggeration for emphasis",
+        structuralPatterns: [
+          /\b(?:never|always|forever|infinite|endless|eternal)\b/i,
+          /\b(?:million|billion|trillion|thousand)\s+(?:times|years|miles)\b/i,
+          /\b(?:the\s+)?(?:best|worst|greatest|smallest|biggest)\s+(?:ever|in\s+the\s+world|of\s+all\s+time)\b/i,
+          /\bso\s+(\w+)\s+(?:that|it)\b/i,
+          /\b(?:nothing|everything|everyone|no\s+one)\s+(?:can|will|could)\b/i
+        ],
+        vocabularyIndicators: ["never", "always", "forever", "infinite", "endless", "ultimate", "absolute", "every", "nothing"],
+        examplePhrases: [
+          "I have told you a million times",
+          "This bag weighs a ton",
+          "I am so hungry I could eat a horse"
+        ],
+        minimumConfidence: 0.55
+      },
+      chiasmus: {
+        id: "chiasmus",
+        name: "Chiasmus",
+        description: "Reversal of grammatical structures in successive phrases (ABBA pattern)",
+        structuralPatterns: [
+          /\b(\w+)\s+(\w+)[,;]\s+\2\s+\1\b/i,
+          /\b(\w+)\s+to\s+(\w+)[,;]\s+\2\s+to\s+\1\b/i,
+          /\bwhen\s+(\w+)\s+(\w+)[,;]\s+\2\s+\1\b/i,
+          /\b(\w+)\s+the\s+(\w+)[,;]\s+\2\s+the\s+\1\b/i
+        ],
+        vocabularyIndicators: ["not", "but", "first", "last", "begin", "end", "rise", "fall"],
+        examplePhrases: [
+          "Ask not what your country can do for you, ask what you can do for your country",
+          "Never let a fool kiss you or a kiss fool you",
+          "One should eat to live, not live to eat"
+        ],
+        minimumConfidence: 0.7
+      },
+      oxymoron: {
+        id: "oxymoron",
+        name: "Oxymoron",
+        description: "Combination of contradictory terms",
+        structuralPatterns: [
+          /\b(silent|loud)\s+(scream|whisper|noise|sound)\b/i,
+          /\b(beautiful|ugly)\s+(disaster|mess|chaos)\b/i,
+          /\b(dark|bright)\s+(light|darkness|shadow)\b/i,
+          /\b(living|dead)\s+(death|life|corpse)\b/i,
+          /\b(bitter|sweet)\s+(sweet|bitter|taste)\b/i,
+          /\b(cruel|kind)\s+(kindness|cruelty)\b/i
+        ],
+        vocabularyIndicators: ["silent scream", "deafening silence", "living dead", "bittersweet", "alone together"],
+        examplePhrases: [
+          "Deafening silence",
+          "Bittersweet",
+          "Living dead",
+          "Cruel kindness"
+        ],
+        minimumConfidence: 0.75
+      },
+      personification: {
+        id: "personification",
+        name: "Personification",
+        description: "Attribution of human qualities to non-human entities",
+        structuralPatterns: [
+          /\b(?:the\s+)?(\w+)\s+(?:whispers?|speaks?|breathes?|lives?|dies?|sleeps?|wakes?)\b/i,
+          /\b(?:the\s+)?(\w+)\s+(?:feels?|thinks?|knows?|wants?|loves?|hates?)\b/i,
+          /\b(?:the\s+)?(\w+)\s+(?:dances?|sings?|cries?|laughs?|smiles?)\b/i,
+          /\b(?:the\s+)?(\w+)\s+(?:reaches?|grabs?|embraces?|touches?)\b/i
+        ],
+        vocabularyIndicators: ["whisper", "speaks", "breathes", "lives", "feels", "dances", "cries", "heart"],
+        examplePhrases: [
+          "The wind whispered secrets",
+          "Time waits for no one",
+          "The sun smiled down on us"
+        ],
+        minimumConfidence: 0.6
+      },
+      juxtaposition: {
+        id: "juxtaposition",
+        name: "Juxtaposition",
+        description: "Placing contrasting elements side by side",
+        structuralPatterns: [
+          /\bside\s+by\s+side\b/i,
+          /\b(\w+)\s+(?:meets?|and)\s+(\w+)\b/i,
+          /\bcollision\s+of\s+(\w+)\b/i,
+          /\bbetween\s+(\w+)\s+and\s+(\w+)\b/i,
+          /\b(\w+)\s+(?:alongside|beside|next\s+to)\s+(\w+)\b/i
+        ],
+        vocabularyIndicators: ["side by side", "together", "collision", "meets", "between", "contrast"],
+        examplePhrases: [
+          "Youth and age",
+          "Rich and poor side by side",
+          "The collision of old and new"
+        ],
+        minimumConfidence: 0.55
+      },
+      anaphora: {
+        id: "anaphora",
+        name: "Anaphora",
+        description: "Repetition of a word or phrase at the beginning of successive clauses",
+        structuralPatterns: [
+          /^(\w+\s+\w+)[^.!?]*[.!?]\s*\1/im,
+          /\b(I\s+\w+)[^.!?]*[.!?]\s*\1/i,
+          /\b(We\s+\w+)[^.!?]*[.!?]\s*\1/i,
+          /\b(Every\s+\w+)[^.!?]*[.!?]\s*\1/i
+        ],
+        vocabularyIndicators: ["I", "We", "Every", "With", "Through"],
+        examplePhrases: [
+          "I have a dream... I have a dream... I have a dream",
+          "We shall fight on the beaches, we shall fight on the landing grounds, we shall fight in the fields"
+        ],
+        minimumConfidence: 0.7
+      },
+      epistrophe: {
+        id: "epistrophe",
+        name: "Epistrophe",
+        description: "Repetition of a word or phrase at the end of successive clauses",
+        structuralPatterns: [
+          /(\w+)[.!?]\s*[^.!?]*\1[.!?]/i,
+          /\b\w+\s+(\w+)[,;.!?]\s*\w+\s+\1[,;.!?]/i
+        ],
+        vocabularyIndicators: ["again", "forever", "always", "never"],
+        examplePhrases: [
+          "See no evil, hear no evil, speak no evil",
+          "Government of the people, by the people, for the people"
+        ],
+        minimumConfidence: 0.7
+      },
+      synecdoche: {
+        id: "synecdoche",
+        name: "Synecdoche",
+        description: "Part represents the whole or vice versa",
+        structuralPatterns: [
+          /\b(?:all\s+)?(?:hands|heads|eyes|ears|hearts|souls|minds)\s+(?:on\s+deck|in\s+the|together)\b/i,
+          /\b(?:boots|wheels|sails)\s+on\s+the\s+ground\b/i,
+          /\bunder\s+(?:my|your|one)\s+roof\b/i
+        ],
+        vocabularyIndicators: ["hands", "heads", "wheels", "boots", "roof", "bread"],
+        examplePhrases: [
+          "All hands on deck",
+          "Nice wheels (referring to a car)",
+          "Give us this day our daily bread"
+        ],
+        minimumConfidence: 0.6
+      },
+      metonymy: {
+        id: "metonymy",
+        name: "Metonymy",
+        description: "Substitution of related concept for another",
+        structuralPatterns: [
+          /\bthe\s+(?:crown|throne|white\s+house|pentagon|kremlin|hollywood)\b/i,
+          /\bthe\s+(?:pen|sword|press|stage)\b/i,
+          /\bsuits?\b.*\b(?:business|corporate|office)\b/i
+        ],
+        vocabularyIndicators: ["crown", "throne", "pen", "sword", "Hollywood", "Wall Street", "Washington"],
+        examplePhrases: [
+          "The pen is mightier than the sword",
+          "The crown announced new policies",
+          "Hollywood released another blockbuster"
+        ],
+        minimumConfidence: 0.6
+      }
+    };
+    TropeConstraintEngine = class {
+      constructor() {
+        this.openai = new OpenAI5({ apiKey: process.env.OPENAI_API_KEY });
+        this.validationCache = /* @__PURE__ */ new Map();
+        this.tropeEmbeddings = /* @__PURE__ */ new Map();
+      }
+      /**
+       * Initialize trope embeddings for semantic matching
+       */
+      async initialize() {
+        console.log("\u{1F3AD} Initializing TropeConstraintEngine...");
+        for (const [tropeId, pattern] of Object.entries(TROPE_PATTERNS)) {
+          const tropeDescription = `${pattern.name}: ${pattern.description}. Examples: ${pattern.examplePhrases.join("; ")}`;
+          const embedding = await getEmbedding(tropeDescription);
+          this.tropeEmbeddings.set(tropeId, embedding);
+        }
+        console.log(`   \u2705 Initialized ${this.tropeEmbeddings.size} trope embeddings`);
+      }
+      /**
+       * Validate content against a specific trope
+       * Supports all 411 rhetorical devices from the corpus
+       */
+      async validateTropeSatisfaction(content, tropeId, options = {
+        strength: "moderate",
+        useAIFallback: true
+      }) {
+        const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
+        const cacheKey = `${normalizedId}:${content.substring(0, 100)}:${options.strength}`;
+        if (this.validationCache.has(cacheKey)) {
+          return this.validationCache.get(cacheKey);
+        }
+        const tropePattern = TROPE_PATTERNS[normalizedId];
+        if (!tropePattern) {
+          const corpusDefinition = getDeviceDefinition(normalizedId);
+          if (corpusDefinition || options.useAIFallback) {
+            const aiResult = await this.validateWithAI(content, tropeId, options);
+            this.validationCache.set(cacheKey, aiResult);
+            return aiResult;
+          }
+          return {
+            tropeId: normalizedId,
+            tropeName: tropeId,
+            satisfied: false,
+            confidence: 0,
+            matchedPatterns: [],
+            suggestions: [`Unknown rhetorical device: ${tropeId}. Available devices: ${getAllAvailableDeviceIds().length}`],
+            validationMethod: "pattern"
+          };
+        }
+        const patternResult = this.validateWithPatterns(content, tropePattern, options);
+        const confidenceThreshold = this.getConfidenceThreshold(options);
+        const needsAIValidation = options.useAIFallback && patternResult.confidence < confidenceThreshold && patternResult.confidence > 0.2;
+        if (needsAIValidation) {
+          const aiResult = await this.validateWithAI(content, tropeId, options);
+          const hybridResult = {
+            tropeId,
+            tropeName: tropePattern.name,
+            satisfied: patternResult.satisfied || aiResult.satisfied,
+            confidence: Math.max(patternResult.confidence, aiResult.confidence * 0.9),
+            matchedPatterns: [...patternResult.matchedPatterns, ...aiResult.matchedPatterns],
+            suggestions: aiResult.suggestions,
+            validationMethod: "hybrid"
+          };
+          this.validationCache.set(cacheKey, hybridResult);
+          return hybridResult;
+        }
+        this.validationCache.set(cacheKey, patternResult);
+        return patternResult;
+      }
+      /**
+       * Validate content against multiple tropes
+       */
+      async validateMultipleTropes(content, tropeIds, options = { strength: "moderate", useAIFallback: true }) {
+        const results = [];
+        const violations = [];
+        for (const tropeId of tropeIds) {
+          const result = await this.validateTropeSatisfaction(content, tropeId, options);
+          results.push(result);
+          if (!result.satisfied) {
+            violations.push({
+              tropeId,
+              reason: `Content does not satisfy ${result.tropeName} constraints`,
+              severity: options.requiredTropes?.includes(tropeId) ? "error" : "warning",
+              suggestion: result.suggestions[0] || `Consider restructuring to incorporate ${result.tropeName}`
+            });
+          }
+        }
+        const overallSatisfaction = results.length > 0 ? results.filter((r) => r.satisfied).length / results.length : 0;
+        return { results, overallSatisfaction, violations };
+      }
+      /**
+       * Get vocabulary bias for token generation based on trope
+       */
+      getVocabularyBias(tropeId) {
+        const bias = /* @__PURE__ */ new Map();
+        const tropePattern = TROPE_PATTERNS[tropeId];
+        if (!tropePattern) return bias;
+        for (const word of tropePattern.vocabularyIndicators) {
+          bias.set(word.toLowerCase(), 1.5);
+        }
+        for (const pattern of tropePattern.structuralPatterns) {
+          const patternStr = pattern.source;
+          const keywords = patternStr.match(/\b[a-z]{3,}\b/gi) || [];
+          for (const keyword of keywords) {
+            if (!bias.has(keyword.toLowerCase())) {
+              bias.set(keyword.toLowerCase(), 1.2);
+            }
+          }
+        }
+        return bias;
+      }
+      /**
+       * Suggest tropes that match content semantically
+       */
+      async suggestMatchingTropes(content, topK = 3) {
+        const contentEmbedding = await getEmbedding(content);
+        const similarities = [];
+        Array.from(this.tropeEmbeddings.entries()).forEach(([tropeId, tropeEmbedding]) => {
+          const similarity = cosineSimilarity(contentEmbedding, tropeEmbedding);
+          similarities.push({ tropeId, similarity });
+        });
+        return similarities.sort((a, b) => b.similarity - a.similarity).slice(0, topK);
+      }
+      /**
+       * Generate trope-constrained variations of content
+       */
+      async generateConstrainedVariations(content, tropeId, count = 3) {
+        const tropePattern = TROPE_PATTERNS[tropeId];
+        if (!tropePattern) {
+          throw new Error(`Unknown trope: ${tropeId}`);
+        }
+        const response = await this.openai.chat.completions.create({
+          model: "gpt-5.2",
+          messages: [{
+            role: "system",
+            content: `You are an expert in rhetorical devices. Your task is to rewrite content
+to strongly exhibit the ${tropePattern.name} rhetorical device.
+
+${tropePattern.name}: ${tropePattern.description}
+
+Examples of ${tropePattern.name}:
+${tropePattern.examplePhrases.map((p) => `- "${p}"`).join("\n")}
+
+Vocabulary to incorporate: ${tropePattern.vocabularyIndicators.join(", ")}`
+          }, {
+            role: "user",
+            content: `Rewrite this content ${count} different ways, each strongly using ${tropePattern.name}:
+
+"${content}"
+
+Return each variation on a new line, numbered 1-${count}.`
+          }],
+          temperature: 0.8,
+          max_completion_tokens: 500
+        });
+        const responseText = response.choices[0]?.message?.content || "";
+        const variations = responseText.split(/\n\d+\.\s*/).map((v) => v.trim()).filter((v) => v.length > 10);
+        return variations.slice(0, count);
+      }
+      // ============================================
+      // PRIVATE METHODS
+      // ============================================
+      validateWithPatterns(content, tropePattern, options) {
+        const matchedPatterns = [];
+        let patternScore = 0;
+        let vocabularyScore = 0;
+        for (const pattern of tropePattern.structuralPatterns) {
+          if (pattern.test(content)) {
+            matchedPatterns.push(pattern.source);
+            patternScore += 1;
+          }
+        }
+        const contentLower = content.toLowerCase();
+        const matchedVocab = tropePattern.vocabularyIndicators.filter(
+          (word) => contentLower.includes(word.toLowerCase())
+        );
+        vocabularyScore = matchedVocab.length / tropePattern.vocabularyIndicators.length;
+        const patternConfidence = Math.min(patternScore / 2, 1);
+        const vocabConfidence = vocabularyScore;
+        const confidence = patternConfidence * 0.7 + vocabConfidence * 0.3;
+        const threshold = this.getConfidenceThreshold(options);
+        const satisfied = confidence >= threshold;
+        const suggestions = [];
+        if (!satisfied) {
+          if (patternScore === 0) {
+            suggestions.push(`Try using structural patterns like: ${tropePattern.examplePhrases[0]}`);
+          }
+          if (matchedVocab.length < 2) {
+            suggestions.push(`Consider incorporating words like: ${tropePattern.vocabularyIndicators.slice(0, 5).join(", ")}`);
+          }
+        }
+        return {
+          tropeId: tropePattern.id,
+          tropeName: tropePattern.name,
+          satisfied,
+          confidence,
+          matchedPatterns,
+          suggestions,
+          validationMethod: "pattern"
+        };
+      }
+      async validateWithAI(content, tropeId, options) {
+        const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
+        const tropePattern = TROPE_PATTERNS[normalizedId];
+        let tropeName = tropePattern?.name || tropeId;
+        let tropeDescription = tropePattern?.description;
+        if (!tropeDescription) {
+          const corpusDefinition = getDeviceDefinition(normalizedId);
+          if (corpusDefinition) {
+            tropeDescription = corpusDefinition;
+            tropeName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+          } else {
+            tropeDescription = `The rhetorical device known as ${tropeId}`;
+          }
+        }
+        try {
+          const response = await this.openai.chat.completions.create({
+            model: "gpt-5.2",
+            messages: [{
+              role: "user",
+              content: `Analyze if this content exhibits the rhetorical device "${tropeName}":
+
+${tropeDescription}
+
+Content: "${content}"
+
+Respond in JSON format:
+{
+  "satisfied": boolean,
+  "confidence": number (0.0 to 1.0),
+  "explanation": "brief explanation",
+  "improvements": ["suggestion 1", "suggestion 2"]
+}`
+            }],
+            temperature: 0.2,
+            max_completion_tokens: 300
+          });
+          const responseText = response.choices[0]?.message?.content || "{}";
+          const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            return {
+              tropeId,
+              tropeName,
+              satisfied: parsed.satisfied || false,
+              confidence: Math.max(0, Math.min(1, parsed.confidence || 0)),
+              matchedPatterns: parsed.explanation ? [parsed.explanation] : [],
+              suggestions: parsed.improvements || [],
+              validationMethod: "ai"
+            };
+          }
+        } catch (error) {
+          console.error(`AI validation failed for ${tropeId}:`, error);
+        }
+        return {
+          tropeId,
+          tropeName,
+          satisfied: false,
+          confidence: 0,
+          matchedPatterns: [],
+          suggestions: ["AI validation failed, using pattern matching only"],
+          validationMethod: "ai"
+        };
+      }
+      getConfidenceThreshold(options) {
+        if (options.minimumConfidenceOverride !== void 0) {
+          return options.minimumConfidenceOverride;
+        }
+        switch (options.strength) {
+          case "loose":
+            return 0.3;
+          case "moderate":
+            return 0.5;
+          case "strict":
+            return 0.7;
+          default:
+            return 0.5;
+        }
+      }
+      /**
+       * Clear validation cache
+       */
+      clearCache() {
+        this.validationCache.clear();
+      }
+    };
+  }
+});
+
+// server/utils/divergentExplorer.ts
+import OpenAI6 from "openai";
+function getUncommonDevices(count) {
+  const commonDevices = /* @__PURE__ */ new Set([
+    "metaphor",
+    "simile",
+    "hyperbole",
+    "personification",
+    "alliteration",
+    "onomatopoeia",
+    "oxymoron",
+    "irony",
+    "paradox",
+    "analogy",
+    "antithesis",
+    "juxtaposition",
+    "repetition",
+    "rhetorical_question"
+  ]);
+  const allDevices = loadAllRhetoricalDevices();
+  const allIds = Object.keys(allDevices);
+  const uncommonIds = allIds.filter((id) => !commonDevices.has(id));
+  const shuffled = uncommonIds.sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+  return selected.map((id) => ({
+    id,
+    name: id.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+    definition: allDevices[id] || getDeviceDefinition(id) || "A rhetorical device"
+  }));
+}
+function buildExplorationPrompt(theme, device) {
+  const deviceAnchor = device ? `
+**CREATIVE ANCHOR - Use this rhetorical device as your starting point:**
+Device: ${device.name}
+Definition: ${device.definition}
+
+Your creative directions MUST explore how this device could be applied unexpectedly.
+Think about: What visual metaphors does this device suggest? What unexpected domains
+could this device connect to? How could this device create tension or surprise?
+
+` : "";
+  return `You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
+and unexpected creative directions for the given theme.
+
+CRITICAL RULES FOR THIS PHASE:
+1. Each direction must explore a COMPLETELY DIFFERENT conceptual territory
+2. AVOID legal/forensic/courtroom imagery (overused)
+3. AVOID medical/clinical imagery (overused)
+4. EMBRACE strange connections to: food, music, architecture, astronomy, textiles, geology, botany, dance, mathematics, weather
+5. PRIORITIZE surprise and distinctiveness over everything else
+6. Each direction should feel like it came from a different creative mind
+
+${deviceAnchor}Theme to explore: ${theme}
+
+Generate 5 radically different creative directions. Each must be THEMATICALLY DISTINCT from the others.
+
+Format each as:
+DIRECTION [N]:
+Entry Point: [unexpected starting perspective - NOT legal, medical, or forensic]
+Connection: [surprising link to an unrelated domain like music, architecture, food, nature, astronomy]
+Core Tension: [the paradox or insight at the heart]
+Provocative Phrase: [single memorable expression]
+Visual Spark: [unexpected imagery - be specific and visual]
+
+Remember: The goal is MAXIMUM DIVERGENCE. If two directions feel similar, one of them is wrong.
+Each direction should feel like it could anchor an entirely different campaign.`;
+}
 async function exploreDivergently(userBrief, options = {}) {
-  const openai17 = new OpenAI5({ apiKey: process.env.OPENAI_API_KEY });
+  const openai17 = new OpenAI6({ apiKey: process.env.OPENAI_API_KEY });
   const {
     poolSize = 15,
     personaRotation = "weighted",
@@ -2407,16 +3131,21 @@ async function exploreDivergently(userBrief, options = {}) {
   console.log(`   Pool size target: ${poolSize}`);
   console.log(`   Persona rotation: ${personaRotation}`);
   const iterationsNeeded = Math.ceil(poolSize / 5);
+  const deviceAnchors = getUncommonDevices(iterationsNeeded);
+  console.log(`   \u{1F3AD} Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
+  deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
   console.log(`   \u{1F680} Running ${iterationsNeeded} persona iterations in parallel...`);
   const personaIterations = Array.from({ length: iterationsNeeded }, (_, i) => {
     const persona = selectPersona(i, personaRotation, personaCounts);
     personaCounts[persona.id] = (personaCounts[persona.id] || 0) + 1;
     const temperature = Math.min(1 + persona.temperatureModifier, maxTemperature);
-    return { persona, temperature };
+    const device = deviceAnchors[i];
+    return { persona, temperature, device };
   });
-  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature }) => {
+  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device }) => {
     try {
-      const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature);
+      console.log(`   \u{1F3A8} ${persona.name} exploring with device: ${device?.name || "none"}`);
+      const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature, device);
       return rawIdeas.map((idea) => ({ idea, persona }));
     } catch (error) {
       console.error(`   \u26A0\uFE0F Failed generation for persona ${persona.name}:`, error);
@@ -2548,8 +3277,8 @@ function selectPersona(index, rotation, counts) {
       return CREATIVE_PERSONAS[index % CREATIVE_PERSONAS.length];
   }
 }
-async function generateRawIdeas(openai17, theme, persona, temperature) {
-  const prompt = DIVERGENT_EXPLORATION_PROMPT.replace("{theme}", theme);
+async function generateRawIdeas(openai17, theme, persona, temperature, device) {
+  const prompt = buildExplorationPrompt(theme, device);
   const response = await openai17.chat.completions.create({
     model: "gpt-5.2",
     messages: [
@@ -2565,7 +3294,8 @@ async function generateRawIdeas(openai17, theme, persona, temperature) {
     const phrase = d.match(/Provocative Phrase:\s*(.+?)(?=\n|$)/)?.[1] || "";
     const visual = d.match(/Visual Spark:\s*(.+?)(?=\n|$)/)?.[1] || "";
     const tension = d.match(/Core Tension:\s*(.+?)(?=\n|$)/)?.[1] || "";
-    return `${phrase} | ${tension} | ${visual}`.trim();
+    const connection = d.match(/Connection:\s*(.+?)(?=\n|$)/)?.[1] || "";
+    return `${phrase} | ${tension} | ${visual} | ${connection}`.trim();
   }).filter((idea) => idea.length > 10);
 }
 function calculateDistinctiveness(embedding, existingEmbeddings, historicalEmbeddings) {
@@ -2620,24 +3350,68 @@ function identifyCompatibleTropes(idea) {
   }
   return compatible.slice(0, 5);
 }
+function extractThemes(idea) {
+  const themes = /* @__PURE__ */ new Set();
+  const lowerIdea = idea.toLowerCase();
+  const themeClusters = {
+    "legal/forensic": ["court", "trial", "evidence", "verdict", "guilty", "innocent", "judge", "jury", "witness", "testimony", "forensic", "suspect", "accused", "prosecution", "defense", "alibi", "confession", "interrogat", "detective", "crime", "mugshot", "fingerprint"],
+    "medical/clinical": ["doctor", "hospital", "surgery", "diagnosis", "patient", "clinical", "medical", "prescription", "symptom", "cure", "treatment", "autopsy", "morgue", "surgical", "operating"],
+    "military/war": ["battle", "soldier", "army", "war", "combat", "weapon", "mission", "tactical", "strategic", "victory", "defeat", "enemy", "troops", "military"],
+    "religious/spiritual": ["church", "temple", "prayer", "sacred", "divine", "holy", "spiritual", "ritual", "worship", "blessing", "sermon", "confession", "redemption", "salvation"],
+    "nature/organic": ["garden", "forest", "ocean", "mountain", "river", "flower", "tree", "seed", "bloom", "harvest", "organic", "natural", "wildlife", "ecosystem"],
+    "technology/digital": ["code", "algorithm", "digital", "software", "hardware", "computer", "data", "network", "cyber", "virtual", "pixel", "binary", "upload", "download"],
+    "art/museum": ["gallery", "museum", "canvas", "sculpture", "exhibition", "masterpiece", "artistic", "curator", "collection", "frame", "portrait"],
+    "theater/performance": ["stage", "actor", "script", "audience", "curtain", "spotlight", "performance", "drama", "scene", "rehearsal", "applause"],
+    "food/culinary": ["recipe", "ingredient", "kitchen", "chef", "taste", "flavor", "cook", "restaurant", "menu", "dish", "appetite"],
+    "sports/competition": ["champion", "athlete", "race", "score", "team", "compete", "victory", "trophy", "training", "coach", "stadium"]
+  };
+  for (const [theme, keywords] of Object.entries(themeClusters)) {
+    if (keywords.some((kw) => lowerIdea.includes(kw))) {
+      themes.add(theme);
+    }
+  }
+  return themes;
+}
+function hasThematicCollision(seed1, seed2) {
+  const themes1 = extractThemes(seed1);
+  const themes2 = extractThemes(seed2);
+  for (const theme of themes1) {
+    if (themes2.has(theme)) {
+      return true;
+    }
+  }
+  return false;
+}
 function deduplicateSeeds(seeds) {
   const unique = [];
-  const SIMILARITY_THRESHOLD = 0.85;
+  const EMBEDDING_SIMILARITY_THRESHOLD = 0.75;
   for (const seed of seeds) {
-    const isDuplicate = unique.some(
-      (existing) => cosineSimilarity(seed.embedding, existing.embedding) > SIMILARITY_THRESHOLD
+    const isSimilarEmbedding = unique.some(
+      (existing) => cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
     );
-    if (!isDuplicate) {
+    const hasThemeCollision = unique.some(
+      (existing) => hasThematicCollision(seed.rawIdea, existing.rawIdea)
+    );
+    if (!isSimilarEmbedding && !hasThemeCollision) {
       unique.push(seed);
+      console.log(`   \u2705 Seed accepted: "${seed.rawIdea.substring(0, 50)}..." (themes: ${[...extractThemes(seed.rawIdea)].join(", ") || "none"})`);
+    } else if (isSimilarEmbedding) {
+      console.log(`   \u26A0\uFE0F Seed rejected (embedding similarity): "${seed.rawIdea.substring(0, 50)}..."`);
+    } else if (hasThemeCollision) {
+      console.log(`   \u26A0\uFE0F Seed rejected (theme collision): "${seed.rawIdea.substring(0, 50)}..." collides with existing theme`);
     }
+  }
+  if (unique.length < 3) {
+    console.warn(`   \u26A0\uFE0F Only ${unique.length} unique seeds after deduplication - consider regenerating with different prompts`);
   }
   return unique;
 }
-var CREATIVE_PERSONAS, DIVERGENT_EXPLORATION_PROMPT;
+var CREATIVE_PERSONAS;
 var init_divergentExplorer = __esm({
   "server/utils/divergentExplorer.ts"() {
     "use strict";
     init_embeddingSimilarity();
+    init_tropeConstraints();
     CREATIVE_PERSONAS = [
       {
         id: "maverick",
@@ -2690,41 +3464,11 @@ You believe the best advertising doesn't sell products\u2014it creates moments o
 human connection. Your concepts make people feel seen and understood.`
       }
     ];
-    DIVERGENT_EXPLORATION_PROMPT = `
-You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
-and unexpected creative directions for the given theme.
-
-CRITICAL RULES FOR THIS PHASE:
-1. IGNORE all advertising conventions and best practices
-2. DO NOT think about rhetorical devices or persuasion techniques
-3. DO NOT optimize for clarity or commercial viability
-4. EMBRACE strange connections, unusual metaphors, and unexpected angles
-5. PRIORITIZE surprise and distinctiveness over everything else
-
-Theme to explore: {theme}
-
-Generate 5 radically different creative directions. For each:
-- Start from an unexpected entry point (NOT the obvious angle)
-- Make surprising connections to unrelated domains
-- Propose imagery or scenarios that feel fresh and unprecedented
-- Express the core tension or insight in a single provocative phrase
-
-Format each as:
-DIRECTION [N]:
-Entry Point: [unexpected starting perspective]
-Connection: [surprising link to unrelated domain]
-Core Tension: [the paradox or insight at the heart]
-Provocative Phrase: [single memorable expression]
-Visual Spark: [unexpected imagery]
-
-Remember: The goal is DIVERGENCE. Generate ideas that would make a traditional
-creative director uncomfortable. We'll refine later\u2014now we explore.
-`;
   }
 });
 
 // server/utils/progressiveEvolution.ts
-import OpenAI6 from "openai";
+import OpenAI7 from "openai";
 async function initializeSoftTokens(seed, blockName, tropeConstraint) {
   const maskEmbedding = await getEmbedding("[MASK]");
   const tokenCounts = {
@@ -2840,7 +3584,7 @@ var init_progressiveEvolution = __esm({
     };
     ProgressiveEvolutionEngine = class {
       constructor(seedOrOptions, refinementSteps = 5) {
-        this.openai = new OpenAI6({ apiKey: process.env.OPENAI_API_KEY });
+        this.openai = new OpenAI7({ apiKey: process.env.OPENAI_API_KEY });
         if (seedOrOptions && "rawIdea" in seedOrOptions) {
           this.options = { maxCycles: refinementSteps, blockSize: 8 };
           this.alphaScheduler = new AlphaScheduler(refinementSteps, "cosine");
@@ -3162,649 +3906,6 @@ Generate ONLY the ${block.name} text, nothing else.`;
           count++;
         }
         return count > 0 ? totalSim / count : 1;
-      }
-    };
-  }
-});
-
-// server/utils/tropeConstraints.ts
-import OpenAI7 from "openai";
-import { readFileSync as readFileSync4, existsSync as existsSync4 } from "fs";
-import { join as join4 } from "path";
-function loadAllRhetoricalDevices() {
-  if (_allRhetoricalDevices) return _allRhetoricalDevices;
-  const possiblePaths = [
-    join4(process.cwd(), "data", "rhetorical_figures_cleaned.json"),
-    join4(process.cwd(), "server", "data", "rhetorical_figures_cleaned.json"),
-    "/var/task/data/rhetorical_figures_cleaned.json"
-  ];
-  for (const p of possiblePaths) {
-    if (existsSync4(p)) {
-      try {
-        const data = JSON.parse(readFileSync4(p, "utf-8"));
-        const devices = {};
-        for (const item of data) {
-          const id = item.figure_name.toLowerCase().replace(/\s+/g, "_");
-          devices[id] = item.definition;
-        }
-        console.log(`\u{1F4DA} TropeConstraints: Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
-        _allRhetoricalDevices = devices;
-        return devices;
-      } catch (error) {
-        console.error(`Error loading rhetorical devices from ${p}:`, error);
-      }
-    }
-  }
-  console.warn("\u26A0\uFE0F rhetorical_figures_cleaned.json not found, using pattern-based devices only");
-  _allRhetoricalDevices = {};
-  return _allRhetoricalDevices;
-}
-function getAllAvailableDeviceIds() {
-  const devices = loadAllRhetoricalDevices();
-  const patternIds = Object.keys(TROPE_PATTERNS);
-  const corpusIds = Object.keys(devices);
-  return Array.from(/* @__PURE__ */ new Set([...patternIds, ...corpusIds]));
-}
-function getDeviceDefinition(deviceId) {
-  const normalizedId = deviceId.toLowerCase().replace(/\s+/g, "_");
-  const pattern = TROPE_PATTERNS[normalizedId];
-  if (pattern) return pattern.description;
-  const devices = loadAllRhetoricalDevices();
-  return devices[normalizedId];
-}
-function validateTropePattern(content, tropeId) {
-  const tropePattern = TROPE_PATTERNS[tropeId];
-  if (!tropePattern) {
-    return { matched: false, patterns: [] };
-  }
-  const matchedPatterns = [];
-  for (const pattern of tropePattern.structuralPatterns) {
-    if (pattern.test(content)) {
-      matchedPatterns.push(pattern.source);
-    }
-  }
-  return {
-    matched: matchedPatterns.length > 0,
-    patterns: matchedPatterns
-  };
-}
-function checkVocabularyAlignment(content, tropeId) {
-  const tropePattern = TROPE_PATTERNS[tropeId];
-  if (!tropePattern) {
-    return { score: 0, matchedWords: [] };
-  }
-  const contentLower = content.toLowerCase();
-  const matchedWords = tropePattern.vocabularyIndicators.filter(
-    (word) => contentLower.includes(word.toLowerCase())
-  );
-  return {
-    score: matchedWords.length / tropePattern.vocabularyIndicators.length,
-    matchedWords
-  };
-}
-function getTropeDetails(tropeId) {
-  const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
-  if (TROPE_PATTERNS[normalizedId]) {
-    return TROPE_PATTERNS[normalizedId];
-  }
-  const definition = getDeviceDefinition(normalizedId);
-  if (definition) {
-    const formattedName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-    return {
-      id: normalizedId,
-      name: formattedName,
-      description: definition,
-      structuralPatterns: [],
-      // No patterns for corpus-only devices
-      vocabularyIndicators: [],
-      examplePhrases: [],
-      minimumConfidence: 0.5
-    };
-  }
-  return void 0;
-}
-function generateTropeConstraintPrompt(tropeIds) {
-  const constraints = [];
-  for (const tropeId of tropeIds) {
-    const details = getTropeDetails(tropeId);
-    if (details) {
-      const examplePart = details.examplePhrases && details.examplePhrases.length > 0 ? `
-  Example: "${details.examplePhrases[0]}"` : "";
-      constraints.push(`- ${details.name}: ${details.description}${examplePart}`);
-    } else {
-      const formattedName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-      constraints.push(`- ${formattedName}`);
-    }
-  }
-  if (constraints.length === 0) {
-    return "";
-  }
-  return `Your response MUST incorporate these rhetorical devices:
-
-${constraints.join("\n\n")}
-
-Ensure the rhetorical structure is clear and effective.`;
-}
-function scoreTropeAlignment(content, tropeIds) {
-  let totalScore = 0;
-  for (const tropeId of tropeIds) {
-    const patternResult = validateTropePattern(content, tropeId);
-    const vocabResult = checkVocabularyAlignment(content, tropeId);
-    const tropeScore = (patternResult.matched ? 0.7 : 0) + vocabResult.score * 0.3;
-    totalScore += tropeScore;
-  }
-  return tropeIds.length > 0 ? totalScore / tropeIds.length : 0;
-}
-var _allRhetoricalDevices, TROPE_PATTERNS, TropeConstraintEngine;
-var init_tropeConstraints = __esm({
-  "server/utils/tropeConstraints.ts"() {
-    "use strict";
-    init_embeddingSimilarity();
-    _allRhetoricalDevices = null;
-    TROPE_PATTERNS = {
-      antithesis: {
-        id: "antithesis",
-        name: "Antithesis",
-        description: "Juxtaposition of contrasting ideas in balanced phrases",
-        structuralPatterns: [
-          /\b(\w+)\s+(?:but|yet|while|whereas)\s+(\w+)\b/i,
-          /\bnot\s+(\w+)[,;]\s*but\s+(\w+)\b/i,
-          /\b(\w+)\s+versus\s+(\w+)\b/i,
-          /\b(\w+)\s+against\s+(\w+)\b/i,
-          /\b(\w+)\s+and\s+(\w+)\s+clash/i
-        ],
-        vocabularyIndicators: ["but", "yet", "while", "whereas", "versus", "against", "contrast", "oppose"],
-        examplePhrases: [
-          "One small step for man, one giant leap for mankind",
-          "Speech is silver, but silence is golden",
-          "Love is an ideal thing, marriage a real thing"
-        ],
-        minimumConfidence: 0.6
-      },
-      paradox: {
-        id: "paradox",
-        name: "Paradox",
-        description: "Self-contradictory statement that reveals deeper truth",
-        structuralPatterns: [
-          /\b(\w+)\s+(?:is|are|was|were)\s+(?:the\s+)?(?:only|true|real)\s+(\w+)\b/i,
-          /\bless\s+is\s+more\b/i,
-          /\bmore\s+is\s+less\b/i,
-          /\bto\s+(\w+)\s+(?:is\s+)?to\s+(\w+)\b/i,
-          /\bthe\s+(\w+)\s+of\s+(\w+)\b.*\bthe\s+\2\s+of\s+\1\b/i
-        ],
-        vocabularyIndicators: ["paradox", "contradiction", "impossibly", "yet", "strange", "truth"],
-        examplePhrases: [
-          "The only constant is change",
-          "Less is more",
-          "I must be cruel to be kind"
-        ],
-        minimumConfidence: 0.65
-      },
-      metaphor: {
-        id: "metaphor",
-        name: "Metaphor",
-        description: "Direct comparison stating one thing is another",
-        structuralPatterns: [
-          /\b(\w+)\s+(?:is|are|was|were)\s+(?:a|an|the)\s+(\w+)\b/i,
-          /\b(\w+)\s+of\s+(\w+)\b/i,
-          /\bthe\s+(\w+)\s+(\w+ed)\b/i,
-          /\b(\w+)\s+becomes?\s+(\w+)\b/i,
-          /\btransforms?\s+into\s+(\w+)\b/i
-        ],
-        vocabularyIndicators: ["is", "becomes", "transforms", "embodies", "represents"],
-        examplePhrases: [
-          "Time is money",
-          "Life is a journey",
-          "The world is a stage"
-        ],
-        minimumConfidence: 0.5
-      },
-      hyperbole: {
-        id: "hyperbole",
-        name: "Hyperbole",
-        description: "Deliberate exaggeration for emphasis",
-        structuralPatterns: [
-          /\b(?:never|always|forever|infinite|endless|eternal)\b/i,
-          /\b(?:million|billion|trillion|thousand)\s+(?:times|years|miles)\b/i,
-          /\b(?:the\s+)?(?:best|worst|greatest|smallest|biggest)\s+(?:ever|in\s+the\s+world|of\s+all\s+time)\b/i,
-          /\bso\s+(\w+)\s+(?:that|it)\b/i,
-          /\b(?:nothing|everything|everyone|no\s+one)\s+(?:can|will|could)\b/i
-        ],
-        vocabularyIndicators: ["never", "always", "forever", "infinite", "endless", "ultimate", "absolute", "every", "nothing"],
-        examplePhrases: [
-          "I have told you a million times",
-          "This bag weighs a ton",
-          "I am so hungry I could eat a horse"
-        ],
-        minimumConfidence: 0.55
-      },
-      chiasmus: {
-        id: "chiasmus",
-        name: "Chiasmus",
-        description: "Reversal of grammatical structures in successive phrases (ABBA pattern)",
-        structuralPatterns: [
-          /\b(\w+)\s+(\w+)[,;]\s+\2\s+\1\b/i,
-          /\b(\w+)\s+to\s+(\w+)[,;]\s+\2\s+to\s+\1\b/i,
-          /\bwhen\s+(\w+)\s+(\w+)[,;]\s+\2\s+\1\b/i,
-          /\b(\w+)\s+the\s+(\w+)[,;]\s+\2\s+the\s+\1\b/i
-        ],
-        vocabularyIndicators: ["not", "but", "first", "last", "begin", "end", "rise", "fall"],
-        examplePhrases: [
-          "Ask not what your country can do for you, ask what you can do for your country",
-          "Never let a fool kiss you or a kiss fool you",
-          "One should eat to live, not live to eat"
-        ],
-        minimumConfidence: 0.7
-      },
-      oxymoron: {
-        id: "oxymoron",
-        name: "Oxymoron",
-        description: "Combination of contradictory terms",
-        structuralPatterns: [
-          /\b(silent|loud)\s+(scream|whisper|noise|sound)\b/i,
-          /\b(beautiful|ugly)\s+(disaster|mess|chaos)\b/i,
-          /\b(dark|bright)\s+(light|darkness|shadow)\b/i,
-          /\b(living|dead)\s+(death|life|corpse)\b/i,
-          /\b(bitter|sweet)\s+(sweet|bitter|taste)\b/i,
-          /\b(cruel|kind)\s+(kindness|cruelty)\b/i
-        ],
-        vocabularyIndicators: ["silent scream", "deafening silence", "living dead", "bittersweet", "alone together"],
-        examplePhrases: [
-          "Deafening silence",
-          "Bittersweet",
-          "Living dead",
-          "Cruel kindness"
-        ],
-        minimumConfidence: 0.75
-      },
-      personification: {
-        id: "personification",
-        name: "Personification",
-        description: "Attribution of human qualities to non-human entities",
-        structuralPatterns: [
-          /\b(?:the\s+)?(\w+)\s+(?:whispers?|speaks?|breathes?|lives?|dies?|sleeps?|wakes?)\b/i,
-          /\b(?:the\s+)?(\w+)\s+(?:feels?|thinks?|knows?|wants?|loves?|hates?)\b/i,
-          /\b(?:the\s+)?(\w+)\s+(?:dances?|sings?|cries?|laughs?|smiles?)\b/i,
-          /\b(?:the\s+)?(\w+)\s+(?:reaches?|grabs?|embraces?|touches?)\b/i
-        ],
-        vocabularyIndicators: ["whisper", "speaks", "breathes", "lives", "feels", "dances", "cries", "heart"],
-        examplePhrases: [
-          "The wind whispered secrets",
-          "Time waits for no one",
-          "The sun smiled down on us"
-        ],
-        minimumConfidence: 0.6
-      },
-      juxtaposition: {
-        id: "juxtaposition",
-        name: "Juxtaposition",
-        description: "Placing contrasting elements side by side",
-        structuralPatterns: [
-          /\bside\s+by\s+side\b/i,
-          /\b(\w+)\s+(?:meets?|and)\s+(\w+)\b/i,
-          /\bcollision\s+of\s+(\w+)\b/i,
-          /\bbetween\s+(\w+)\s+and\s+(\w+)\b/i,
-          /\b(\w+)\s+(?:alongside|beside|next\s+to)\s+(\w+)\b/i
-        ],
-        vocabularyIndicators: ["side by side", "together", "collision", "meets", "between", "contrast"],
-        examplePhrases: [
-          "Youth and age",
-          "Rich and poor side by side",
-          "The collision of old and new"
-        ],
-        minimumConfidence: 0.55
-      },
-      anaphora: {
-        id: "anaphora",
-        name: "Anaphora",
-        description: "Repetition of a word or phrase at the beginning of successive clauses",
-        structuralPatterns: [
-          /^(\w+\s+\w+)[^.!?]*[.!?]\s*\1/im,
-          /\b(I\s+\w+)[^.!?]*[.!?]\s*\1/i,
-          /\b(We\s+\w+)[^.!?]*[.!?]\s*\1/i,
-          /\b(Every\s+\w+)[^.!?]*[.!?]\s*\1/i
-        ],
-        vocabularyIndicators: ["I", "We", "Every", "With", "Through"],
-        examplePhrases: [
-          "I have a dream... I have a dream... I have a dream",
-          "We shall fight on the beaches, we shall fight on the landing grounds, we shall fight in the fields"
-        ],
-        minimumConfidence: 0.7
-      },
-      epistrophe: {
-        id: "epistrophe",
-        name: "Epistrophe",
-        description: "Repetition of a word or phrase at the end of successive clauses",
-        structuralPatterns: [
-          /(\w+)[.!?]\s*[^.!?]*\1[.!?]/i,
-          /\b\w+\s+(\w+)[,;.!?]\s*\w+\s+\1[,;.!?]/i
-        ],
-        vocabularyIndicators: ["again", "forever", "always", "never"],
-        examplePhrases: [
-          "See no evil, hear no evil, speak no evil",
-          "Government of the people, by the people, for the people"
-        ],
-        minimumConfidence: 0.7
-      },
-      synecdoche: {
-        id: "synecdoche",
-        name: "Synecdoche",
-        description: "Part represents the whole or vice versa",
-        structuralPatterns: [
-          /\b(?:all\s+)?(?:hands|heads|eyes|ears|hearts|souls|minds)\s+(?:on\s+deck|in\s+the|together)\b/i,
-          /\b(?:boots|wheels|sails)\s+on\s+the\s+ground\b/i,
-          /\bunder\s+(?:my|your|one)\s+roof\b/i
-        ],
-        vocabularyIndicators: ["hands", "heads", "wheels", "boots", "roof", "bread"],
-        examplePhrases: [
-          "All hands on deck",
-          "Nice wheels (referring to a car)",
-          "Give us this day our daily bread"
-        ],
-        minimumConfidence: 0.6
-      },
-      metonymy: {
-        id: "metonymy",
-        name: "Metonymy",
-        description: "Substitution of related concept for another",
-        structuralPatterns: [
-          /\bthe\s+(?:crown|throne|white\s+house|pentagon|kremlin|hollywood)\b/i,
-          /\bthe\s+(?:pen|sword|press|stage)\b/i,
-          /\bsuits?\b.*\b(?:business|corporate|office)\b/i
-        ],
-        vocabularyIndicators: ["crown", "throne", "pen", "sword", "Hollywood", "Wall Street", "Washington"],
-        examplePhrases: [
-          "The pen is mightier than the sword",
-          "The crown announced new policies",
-          "Hollywood released another blockbuster"
-        ],
-        minimumConfidence: 0.6
-      }
-    };
-    TropeConstraintEngine = class {
-      constructor() {
-        this.openai = new OpenAI7({ apiKey: process.env.OPENAI_API_KEY });
-        this.validationCache = /* @__PURE__ */ new Map();
-        this.tropeEmbeddings = /* @__PURE__ */ new Map();
-      }
-      /**
-       * Initialize trope embeddings for semantic matching
-       */
-      async initialize() {
-        console.log("\u{1F3AD} Initializing TropeConstraintEngine...");
-        for (const [tropeId, pattern] of Object.entries(TROPE_PATTERNS)) {
-          const tropeDescription = `${pattern.name}: ${pattern.description}. Examples: ${pattern.examplePhrases.join("; ")}`;
-          const embedding = await getEmbedding(tropeDescription);
-          this.tropeEmbeddings.set(tropeId, embedding);
-        }
-        console.log(`   \u2705 Initialized ${this.tropeEmbeddings.size} trope embeddings`);
-      }
-      /**
-       * Validate content against a specific trope
-       * Supports all 411 rhetorical devices from the corpus
-       */
-      async validateTropeSatisfaction(content, tropeId, options = {
-        strength: "moderate",
-        useAIFallback: true
-      }) {
-        const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
-        const cacheKey = `${normalizedId}:${content.substring(0, 100)}:${options.strength}`;
-        if (this.validationCache.has(cacheKey)) {
-          return this.validationCache.get(cacheKey);
-        }
-        const tropePattern = TROPE_PATTERNS[normalizedId];
-        if (!tropePattern) {
-          const corpusDefinition = getDeviceDefinition(normalizedId);
-          if (corpusDefinition || options.useAIFallback) {
-            const aiResult = await this.validateWithAI(content, tropeId, options);
-            this.validationCache.set(cacheKey, aiResult);
-            return aiResult;
-          }
-          return {
-            tropeId: normalizedId,
-            tropeName: tropeId,
-            satisfied: false,
-            confidence: 0,
-            matchedPatterns: [],
-            suggestions: [`Unknown rhetorical device: ${tropeId}. Available devices: ${getAllAvailableDeviceIds().length}`],
-            validationMethod: "pattern"
-          };
-        }
-        const patternResult = this.validateWithPatterns(content, tropePattern, options);
-        const confidenceThreshold = this.getConfidenceThreshold(options);
-        const needsAIValidation = options.useAIFallback && patternResult.confidence < confidenceThreshold && patternResult.confidence > 0.2;
-        if (needsAIValidation) {
-          const aiResult = await this.validateWithAI(content, tropeId, options);
-          const hybridResult = {
-            tropeId,
-            tropeName: tropePattern.name,
-            satisfied: patternResult.satisfied || aiResult.satisfied,
-            confidence: Math.max(patternResult.confidence, aiResult.confidence * 0.9),
-            matchedPatterns: [...patternResult.matchedPatterns, ...aiResult.matchedPatterns],
-            suggestions: aiResult.suggestions,
-            validationMethod: "hybrid"
-          };
-          this.validationCache.set(cacheKey, hybridResult);
-          return hybridResult;
-        }
-        this.validationCache.set(cacheKey, patternResult);
-        return patternResult;
-      }
-      /**
-       * Validate content against multiple tropes
-       */
-      async validateMultipleTropes(content, tropeIds, options = { strength: "moderate", useAIFallback: true }) {
-        const results = [];
-        const violations = [];
-        for (const tropeId of tropeIds) {
-          const result = await this.validateTropeSatisfaction(content, tropeId, options);
-          results.push(result);
-          if (!result.satisfied) {
-            violations.push({
-              tropeId,
-              reason: `Content does not satisfy ${result.tropeName} constraints`,
-              severity: options.requiredTropes?.includes(tropeId) ? "error" : "warning",
-              suggestion: result.suggestions[0] || `Consider restructuring to incorporate ${result.tropeName}`
-            });
-          }
-        }
-        const overallSatisfaction = results.length > 0 ? results.filter((r) => r.satisfied).length / results.length : 0;
-        return { results, overallSatisfaction, violations };
-      }
-      /**
-       * Get vocabulary bias for token generation based on trope
-       */
-      getVocabularyBias(tropeId) {
-        const bias = /* @__PURE__ */ new Map();
-        const tropePattern = TROPE_PATTERNS[tropeId];
-        if (!tropePattern) return bias;
-        for (const word of tropePattern.vocabularyIndicators) {
-          bias.set(word.toLowerCase(), 1.5);
-        }
-        for (const pattern of tropePattern.structuralPatterns) {
-          const patternStr = pattern.source;
-          const keywords = patternStr.match(/\b[a-z]{3,}\b/gi) || [];
-          for (const keyword of keywords) {
-            if (!bias.has(keyword.toLowerCase())) {
-              bias.set(keyword.toLowerCase(), 1.2);
-            }
-          }
-        }
-        return bias;
-      }
-      /**
-       * Suggest tropes that match content semantically
-       */
-      async suggestMatchingTropes(content, topK = 3) {
-        const contentEmbedding = await getEmbedding(content);
-        const similarities = [];
-        Array.from(this.tropeEmbeddings.entries()).forEach(([tropeId, tropeEmbedding]) => {
-          const similarity = cosineSimilarity(contentEmbedding, tropeEmbedding);
-          similarities.push({ tropeId, similarity });
-        });
-        return similarities.sort((a, b) => b.similarity - a.similarity).slice(0, topK);
-      }
-      /**
-       * Generate trope-constrained variations of content
-       */
-      async generateConstrainedVariations(content, tropeId, count = 3) {
-        const tropePattern = TROPE_PATTERNS[tropeId];
-        if (!tropePattern) {
-          throw new Error(`Unknown trope: ${tropeId}`);
-        }
-        const response = await this.openai.chat.completions.create({
-          model: "gpt-5.2",
-          messages: [{
-            role: "system",
-            content: `You are an expert in rhetorical devices. Your task is to rewrite content
-to strongly exhibit the ${tropePattern.name} rhetorical device.
-
-${tropePattern.name}: ${tropePattern.description}
-
-Examples of ${tropePattern.name}:
-${tropePattern.examplePhrases.map((p) => `- "${p}"`).join("\n")}
-
-Vocabulary to incorporate: ${tropePattern.vocabularyIndicators.join(", ")}`
-          }, {
-            role: "user",
-            content: `Rewrite this content ${count} different ways, each strongly using ${tropePattern.name}:
-
-"${content}"
-
-Return each variation on a new line, numbered 1-${count}.`
-          }],
-          temperature: 0.8,
-          max_completion_tokens: 500
-        });
-        const responseText = response.choices[0]?.message?.content || "";
-        const variations = responseText.split(/\n\d+\.\s*/).map((v) => v.trim()).filter((v) => v.length > 10);
-        return variations.slice(0, count);
-      }
-      // ============================================
-      // PRIVATE METHODS
-      // ============================================
-      validateWithPatterns(content, tropePattern, options) {
-        const matchedPatterns = [];
-        let patternScore = 0;
-        let vocabularyScore = 0;
-        for (const pattern of tropePattern.structuralPatterns) {
-          if (pattern.test(content)) {
-            matchedPatterns.push(pattern.source);
-            patternScore += 1;
-          }
-        }
-        const contentLower = content.toLowerCase();
-        const matchedVocab = tropePattern.vocabularyIndicators.filter(
-          (word) => contentLower.includes(word.toLowerCase())
-        );
-        vocabularyScore = matchedVocab.length / tropePattern.vocabularyIndicators.length;
-        const patternConfidence = Math.min(patternScore / 2, 1);
-        const vocabConfidence = vocabularyScore;
-        const confidence = patternConfidence * 0.7 + vocabConfidence * 0.3;
-        const threshold = this.getConfidenceThreshold(options);
-        const satisfied = confidence >= threshold;
-        const suggestions = [];
-        if (!satisfied) {
-          if (patternScore === 0) {
-            suggestions.push(`Try using structural patterns like: ${tropePattern.examplePhrases[0]}`);
-          }
-          if (matchedVocab.length < 2) {
-            suggestions.push(`Consider incorporating words like: ${tropePattern.vocabularyIndicators.slice(0, 5).join(", ")}`);
-          }
-        }
-        return {
-          tropeId: tropePattern.id,
-          tropeName: tropePattern.name,
-          satisfied,
-          confidence,
-          matchedPatterns,
-          suggestions,
-          validationMethod: "pattern"
-        };
-      }
-      async validateWithAI(content, tropeId, options) {
-        const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
-        const tropePattern = TROPE_PATTERNS[normalizedId];
-        let tropeName = tropePattern?.name || tropeId;
-        let tropeDescription = tropePattern?.description;
-        if (!tropeDescription) {
-          const corpusDefinition = getDeviceDefinition(normalizedId);
-          if (corpusDefinition) {
-            tropeDescription = corpusDefinition;
-            tropeName = tropeId.split(/[_\s]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-          } else {
-            tropeDescription = `The rhetorical device known as ${tropeId}`;
-          }
-        }
-        try {
-          const response = await this.openai.chat.completions.create({
-            model: "gpt-5.2",
-            messages: [{
-              role: "user",
-              content: `Analyze if this content exhibits the rhetorical device "${tropeName}":
-
-${tropeDescription}
-
-Content: "${content}"
-
-Respond in JSON format:
-{
-  "satisfied": boolean,
-  "confidence": number (0.0 to 1.0),
-  "explanation": "brief explanation",
-  "improvements": ["suggestion 1", "suggestion 2"]
-}`
-            }],
-            temperature: 0.2,
-            max_completion_tokens: 300
-          });
-          const responseText = response.choices[0]?.message?.content || "{}";
-          const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            return {
-              tropeId,
-              tropeName,
-              satisfied: parsed.satisfied || false,
-              confidence: Math.max(0, Math.min(1, parsed.confidence || 0)),
-              matchedPatterns: parsed.explanation ? [parsed.explanation] : [],
-              suggestions: parsed.improvements || [],
-              validationMethod: "ai"
-            };
-          }
-        } catch (error) {
-          console.error(`AI validation failed for ${tropeId}:`, error);
-        }
-        return {
-          tropeId,
-          tropeName,
-          satisfied: false,
-          confidence: 0,
-          matchedPatterns: [],
-          suggestions: ["AI validation failed, using pattern matching only"],
-          validationMethod: "ai"
-        };
-      }
-      getConfidenceThreshold(options) {
-        if (options.minimumConfidenceOverride !== void 0) {
-          return options.minimumConfidenceOverride;
-        }
-        switch (options.strength) {
-          case "loose":
-            return 0.3;
-          case "moderate":
-            return 0.5;
-          case "strict":
-            return 0.7;
-          default:
-            return 0.5;
-        }
-      }
-      /**
-       * Clear validation cache
-       */
-      clearCache() {
-        this.validationCache.clear();
       }
     };
   }
@@ -4847,33 +4948,35 @@ ${seedContext}
 
 ${tropeConstraint}
 
-Generate a complete concept with:
+Generate a complete concept. IMPORTANT: Replace ALL placeholder text with your actual creative content. Do NOT echo template instructions.
 
-# [Compelling Headline]
+# MAIN HEADLINE
+Write your single most powerful headline here (5-10 words, punchy and memorable)
 
-## [Memorable Tagline]
+## TAGLINE
+Write a short, catchy tagline (3-7 words that capture the campaign essence)
 
 **Visual Concept:**
-[Describe the visual in vivid, unexpected detail]
+Describe the visual in vivid, unexpected detail. Be specific about imagery, composition, lighting, and mood.
 
 **Body Copy:**
-[2-3 sentences of persuasive copy]
+Write 2-3 sentences of persuasive copy that supports the concept.
 
 **Headlines:**
-- Option 1: [First headline variation]
-- Option 2: [Second headline variation]
-- Option 3: [Third headline variation]
+- Option 1: First headline variation
+- Option 2: Second headline variation
+- Option 3: Third headline variation
 
 **Rhetorical Analysis:**
-- Device Used: [Name of the primary rhetorical device]
-- How Applied: [Explain specifically how this device is used in the concept - be concrete]
-- Evidence: [Quote the specific phrases or elements that demonstrate the device]
-- Why It Works: [One sentence on why this device is effective for this brief]
+- Device Used: Name the primary rhetorical device
+- How Applied: Explain specifically how this device is used in YOUR concept
+- Evidence: Quote the specific phrases from YOUR concept that demonstrate the device
+- Why It Works: One sentence on why this device is effective for this brief
 
 **Strategic Impact:**
-[One sentence on why this concept will resonate]
+One sentence on why this concept will resonate with the target audience.
 
-Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : variantIndex === 1 ? "emotionally resonant and human" : "strategically sharp and memorable"}.`;
+Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : variantIndex === 1 ? "emotionally resonant and human" : variantIndex === 2 ? "strategically sharp and memorable" : variantIndex === 3 ? "visually striking and unconventional" : "culturally resonant and thought-provoking"}.`;
       }
       /**
        * Parse generation response

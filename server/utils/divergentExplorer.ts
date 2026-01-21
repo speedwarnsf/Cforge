@@ -1,6 +1,7 @@
 /**
  * Divergent Thinking Engine
  * Implements constraint-free ideation with persona-augmented sampling
+ * NOW WITH: Rhetorical device injection for forced creative diversity
  *
  * Integration: Called BEFORE rhetorical constraints are applied
  * Location: server/utils/divergentExplorer.ts
@@ -8,6 +9,39 @@
 
 import OpenAI from 'openai';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
+import { loadAllRhetoricalDevices, getAllAvailableDeviceIds, getDeviceDefinition } from './tropeConstraints';
+
+// ============================================
+// RHETORICAL DEVICE INJECTION
+// ============================================
+
+/**
+ * Get a random selection of lesser-known rhetorical devices
+ * Avoids the common ones (metaphor, simile, hyperbole, etc.)
+ */
+function getUncommonDevices(count: number): Array<{ id: string; name: string; definition: string }> {
+  const commonDevices = new Set([
+    'metaphor', 'simile', 'hyperbole', 'personification', 'alliteration',
+    'onomatopoeia', 'oxymoron', 'irony', 'paradox', 'analogy',
+    'antithesis', 'juxtaposition', 'repetition', 'rhetorical_question'
+  ]);
+
+  const allDevices = loadAllRhetoricalDevices();
+  const allIds = Object.keys(allDevices);
+
+  // Filter to uncommon devices
+  const uncommonIds = allIds.filter(id => !commonDevices.has(id));
+
+  // Shuffle and pick
+  const shuffled = uncommonIds.sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+
+  return selected.map(id => ({
+    id,
+    name: id.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    definition: allDevices[id] || getDeviceDefinition(id) || 'A rhetorical device'
+  }));
+}
 
 // ============================================
 // PERSONA DEFINITIONS
@@ -106,36 +140,49 @@ export interface DivergentPool {
 // DIVERGENT EXPLORATION PROMPT
 // ============================================
 
-const DIVERGENT_EXPLORATION_PROMPT = `
-You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
+/**
+ * Build exploration prompt with optional rhetorical device anchor
+ * The device anchor forces divergent thinking by grounding exploration
+ * in a specific, often unusual rhetorical approach
+ */
+function buildExplorationPrompt(theme: string, device?: { name: string; definition: string }): string {
+  const deviceAnchor = device ? `
+**CREATIVE ANCHOR - Use this rhetorical device as your starting point:**
+Device: ${device.name}
+Definition: ${device.definition}
+
+Your creative directions MUST explore how this device could be applied unexpectedly.
+Think about: What visual metaphors does this device suggest? What unexpected domains
+could this device connect to? How could this device create tension or surprise?
+
+` : '';
+
+  return `You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
 and unexpected creative directions for the given theme.
 
 CRITICAL RULES FOR THIS PHASE:
-1. IGNORE all advertising conventions and best practices
-2. DO NOT think about rhetorical devices or persuasion techniques
-3. DO NOT optimize for clarity or commercial viability
-4. EMBRACE strange connections, unusual metaphors, and unexpected angles
+1. Each direction must explore a COMPLETELY DIFFERENT conceptual territory
+2. AVOID legal/forensic/courtroom imagery (overused)
+3. AVOID medical/clinical imagery (overused)
+4. EMBRACE strange connections to: food, music, architecture, astronomy, textiles, geology, botany, dance, mathematics, weather
 5. PRIORITIZE surprise and distinctiveness over everything else
+6. Each direction should feel like it came from a different creative mind
 
-Theme to explore: {theme}
+${deviceAnchor}Theme to explore: ${theme}
 
-Generate 5 radically different creative directions. For each:
-- Start from an unexpected entry point (NOT the obvious angle)
-- Make surprising connections to unrelated domains
-- Propose imagery or scenarios that feel fresh and unprecedented
-- Express the core tension or insight in a single provocative phrase
+Generate 5 radically different creative directions. Each must be THEMATICALLY DISTINCT from the others.
 
 Format each as:
 DIRECTION [N]:
-Entry Point: [unexpected starting perspective]
-Connection: [surprising link to unrelated domain]
+Entry Point: [unexpected starting perspective - NOT legal, medical, or forensic]
+Connection: [surprising link to an unrelated domain like music, architecture, food, nature, astronomy]
 Core Tension: [the paradox or insight at the heart]
 Provocative Phrase: [single memorable expression]
-Visual Spark: [unexpected imagery]
+Visual Spark: [unexpected imagery - be specific and visual]
 
-Remember: The goal is DIVERGENCE. Generate ideas that would make a traditional
-creative director uncomfortable. We'll refine later—now we explore.
-`;
+Remember: The goal is MAXIMUM DIVERGENCE. If two directions feel similar, one of them is wrong.
+Each direction should feel like it could anchor an entirely different campaign.`;
+}
 
 // ============================================
 // MAIN DIVERGENT EXPLORATION FUNCTION
@@ -171,6 +218,12 @@ export async function exploreDivergently(
   // Generate raw ideas across personas
   const iterationsNeeded = Math.ceil(poolSize / 5); // Each persona generates ~5 ideas
 
+  // Get uncommon rhetorical devices to anchor each persona's exploration
+  // This forces creative diversity by grounding each exploration in different rhetorical territory
+  const deviceAnchors = getUncommonDevices(iterationsNeeded);
+  console.log(`   🎭 Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
+  deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
+
   // PARALLEL OPTIMIZATION: Run all persona iterations in parallel
   console.log(`   🚀 Running ${iterationsNeeded} persona iterations in parallel...`);
 
@@ -178,13 +231,15 @@ export async function exploreDivergently(
     const persona = selectPersona(i, personaRotation, personaCounts);
     personaCounts[persona.id] = (personaCounts[persona.id] || 0) + 1;
     const temperature = Math.min(1.0 + persona.temperatureModifier, maxTemperature);
-    return { persona, temperature };
+    const device = deviceAnchors[i]; // Each persona gets a different device
+    return { persona, temperature, device };
   });
 
   // Generate all raw ideas in parallel across all personas
-  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature }) => {
+  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device }) => {
     try {
-      const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature);
+      console.log(`   🎨 ${persona.name} exploring with device: ${device?.name || 'none'}`);
+      const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device);
       return rawIdeas.map(idea => ({ idea, persona }));
     } catch (error) {
       console.error(`   ⚠️ Failed generation for persona ${persona.name}:`, error);
@@ -384,9 +439,11 @@ async function generateRawIdeas(
   openai: OpenAI,
   theme: string,
   persona: CreativePersona,
-  temperature: number
+  temperature: number,
+  device?: { id: string; name: string; definition: string }
 ): Promise<string[]> {
-  const prompt = DIVERGENT_EXPLORATION_PROMPT.replace('{theme}', theme);
+  // Use the new prompt builder with optional device anchor
+  const prompt = buildExplorationPrompt(theme, device);
 
   const response = await openai.chat.completions.create({
     model: 'gpt-5.2',
@@ -407,7 +464,9 @@ async function generateRawIdeas(
     const phrase = d.match(/Provocative Phrase:\s*(.+?)(?=\n|$)/)?.[1] || '';
     const visual = d.match(/Visual Spark:\s*(.+?)(?=\n|$)/)?.[1] || '';
     const tension = d.match(/Core Tension:\s*(.+?)(?=\n|$)/)?.[1] || '';
-    return `${phrase} | ${tension} | ${visual}`.trim();
+    const connection = d.match(/Connection:\s*(.+?)(?=\n|$)/)?.[1] || '';
+    // Include connection to capture the domain link
+    return `${phrase} | ${tension} | ${visual} | ${connection}`.trim();
   }).filter(idea => idea.length > 10);
 }
 
@@ -486,18 +545,81 @@ function identifyCompatibleTropes(idea: string): string[] {
   return compatible.slice(0, 5);
 }
 
+/**
+ * Extract key themes/concepts from a seed idea for collision detection
+ */
+function extractThemes(idea: string): Set<string> {
+  const themes = new Set<string>();
+  const lowerIdea = idea.toLowerCase();
+
+  // Theme clusters - if ANY word from a cluster appears, the whole theme is flagged
+  const themeClusters: Record<string, string[]> = {
+    'legal/forensic': ['court', 'trial', 'evidence', 'verdict', 'guilty', 'innocent', 'judge', 'jury', 'witness', 'testimony', 'forensic', 'suspect', 'accused', 'prosecution', 'defense', 'alibi', 'confession', 'interrogat', 'detective', 'crime', 'mugshot', 'fingerprint'],
+    'medical/clinical': ['doctor', 'hospital', 'surgery', 'diagnosis', 'patient', 'clinical', 'medical', 'prescription', 'symptom', 'cure', 'treatment', 'autopsy', 'morgue', 'surgical', 'operating'],
+    'military/war': ['battle', 'soldier', 'army', 'war', 'combat', 'weapon', 'mission', 'tactical', 'strategic', 'victory', 'defeat', 'enemy', 'troops', 'military'],
+    'religious/spiritual': ['church', 'temple', 'prayer', 'sacred', 'divine', 'holy', 'spiritual', 'ritual', 'worship', 'blessing', 'sermon', 'confession', 'redemption', 'salvation'],
+    'nature/organic': ['garden', 'forest', 'ocean', 'mountain', 'river', 'flower', 'tree', 'seed', 'bloom', 'harvest', 'organic', 'natural', 'wildlife', 'ecosystem'],
+    'technology/digital': ['code', 'algorithm', 'digital', 'software', 'hardware', 'computer', 'data', 'network', 'cyber', 'virtual', 'pixel', 'binary', 'upload', 'download'],
+    'art/museum': ['gallery', 'museum', 'canvas', 'sculpture', 'exhibition', 'masterpiece', 'artistic', 'curator', 'collection', 'frame', 'portrait'],
+    'theater/performance': ['stage', 'actor', 'script', 'audience', 'curtain', 'spotlight', 'performance', 'drama', 'scene', 'rehearsal', 'applause'],
+    'food/culinary': ['recipe', 'ingredient', 'kitchen', 'chef', 'taste', 'flavor', 'cook', 'restaurant', 'menu', 'dish', 'appetite'],
+    'sports/competition': ['champion', 'athlete', 'race', 'score', 'team', 'compete', 'victory', 'trophy', 'training', 'coach', 'stadium'],
+  };
+
+  for (const [theme, keywords] of Object.entries(themeClusters)) {
+    if (keywords.some(kw => lowerIdea.includes(kw))) {
+      themes.add(theme);
+    }
+  }
+
+  return themes;
+}
+
+/**
+ * Check if two seeds have overlapping themes (thematic collision)
+ */
+function hasThematicCollision(seed1: string, seed2: string): boolean {
+  const themes1 = extractThemes(seed1);
+  const themes2 = extractThemes(seed2);
+
+  // Check for intersection
+  for (const theme of themes1) {
+    if (themes2.has(theme)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
   const unique: CreativeSeed[] = [];
-  const SIMILARITY_THRESHOLD = 0.85;
+  const EMBEDDING_SIMILARITY_THRESHOLD = 0.75; // Lowered from 0.85 to catch more semantic overlap
 
   for (const seed of seeds) {
-    const isDuplicate = unique.some(
-      existing => cosineSimilarity(seed.embedding, existing.embedding) > SIMILARITY_THRESHOLD
+    // Check 1: Embedding similarity (catches paraphrases)
+    const isSimilarEmbedding = unique.some(
+      existing => cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
     );
 
-    if (!isDuplicate) {
+    // Check 2: Thematic collision (catches same conceptual territory)
+    const hasThemeCollision = unique.some(
+      existing => hasThematicCollision(seed.rawIdea, existing.rawIdea)
+    );
+
+    // Only add if BOTH checks pass (not similar AND different theme)
+    if (!isSimilarEmbedding && !hasThemeCollision) {
       unique.push(seed);
+      console.log(`   ✅ Seed accepted: "${seed.rawIdea.substring(0, 50)}..." (themes: ${[...extractThemes(seed.rawIdea)].join(', ') || 'none'})`);
+    } else if (isSimilarEmbedding) {
+      console.log(`   ⚠️ Seed rejected (embedding similarity): "${seed.rawIdea.substring(0, 50)}..."`);
+    } else if (hasThemeCollision) {
+      console.log(`   ⚠️ Seed rejected (theme collision): "${seed.rawIdea.substring(0, 50)}..." collides with existing theme`);
     }
+  }
+
+  // If we have too few unique seeds after dedup, warn
+  if (unique.length < 3) {
+    console.warn(`   ⚠️ Only ${unique.length} unique seeds after deduplication - consider regenerating with different prompts`);
   }
 
   return unique;

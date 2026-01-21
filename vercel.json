@@ -5,7 +5,10 @@
   "functions": {
     "api/index.mjs": {
       "maxDuration": 60,
-      "includeFiles": "data/**"
+      "includeFiles": [
+        "data/**",
+        "data/rhetorical_figures_cleaned.json"
+      ]
     }
   },
   "rewrites": [

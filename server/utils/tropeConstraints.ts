@@ -12,11 +12,12 @@
 
 import OpenAI from 'openai';
 import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
 
 // ============================================
-// DYNAMIC RHETORICAL DEVICE LOADING (411 devices)
+// DYNAMIC RHETORICAL DEVICE LOADING (408 devices)
 // ============================================
 
 interface RhetoricalDevice {
@@ -27,17 +28,35 @@ interface RhetoricalDevice {
 
 let _allRhetoricalDevices: Record<string, string> | null = null;
 
+// Get __dirname equivalent for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 /**
- * Load all 411 rhetorical devices from the corpus
+ * Load all 408 rhetorical devices from the corpus
  */
 export function loadAllRhetoricalDevices(): Record<string, string> {
   if (_allRhetoricalDevices) return _allRhetoricalDevices;
 
+  // Multiple path strategies for different environments (local dev, Vercel, etc.)
   const possiblePaths = [
+    // Relative to this file (most reliable for bundled code)
+    join(__dirname, '..', '..', 'data', 'rhetorical_figures_cleaned.json'),
+    join(__dirname, '..', 'data', 'rhetorical_figures_cleaned.json'),
+    join(__dirname, 'data', 'rhetorical_figures_cleaned.json'),
+    // Relative to process.cwd() (works in local dev)
     join(process.cwd(), 'data', 'rhetorical_figures_cleaned.json'),
     join(process.cwd(), 'server', 'data', 'rhetorical_figures_cleaned.json'),
+    // Vercel serverless paths
     '/var/task/data/rhetorical_figures_cleaned.json',
+    '/var/task/server/data/rhetorical_figures_cleaned.json',
+    // Vercel with includeFiles puts files relative to function
+    join(process.cwd(), 'api', 'data', 'rhetorical_figures_cleaned.json'),
   ];
+
+  console.log(`🔍 Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
+  console.log(`   __dirname: ${__dirname}`);
+  console.log(`   process.cwd(): ${process.cwd()}`);
 
   for (const p of possiblePaths) {
     if (existsSync(p)) {
@@ -58,7 +77,8 @@ export function loadAllRhetoricalDevices(): Record<string, string> {
     }
   }
 
-  console.warn('⚠️ rhetorical_figures_cleaned.json not found, using pattern-based devices only');
+  console.warn('⚠️ rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only');
+  console.warn(`   Searched paths: ${possiblePaths.join(', ')}`);
   _allRhetoricalDevices = {};
   return _allRhetoricalDevices;
 }

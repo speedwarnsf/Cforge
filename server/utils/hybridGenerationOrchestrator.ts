@@ -538,35 +538,39 @@ ${seedContext}
 
 ${tropeConstraint}
 
-Generate a complete concept with:
+Generate a complete concept. IMPORTANT: Replace ALL placeholder text with your actual creative content. Do NOT echo template instructions.
 
-# [Compelling Headline]
+# MAIN HEADLINE
+Write your single most powerful headline here (5-10 words, punchy and memorable)
 
-## [Memorable Tagline]
+## TAGLINE
+Write a short, catchy tagline (3-7 words that capture the campaign essence)
 
 **Visual Concept:**
-[Describe the visual in vivid, unexpected detail]
+Describe the visual in vivid, unexpected detail. Be specific about imagery, composition, lighting, and mood.
 
 **Body Copy:**
-[2-3 sentences of persuasive copy]
+Write 2-3 sentences of persuasive copy that supports the concept.
 
 **Headlines:**
-- Option 1: [First headline variation]
-- Option 2: [Second headline variation]
-- Option 3: [Third headline variation]
+- Option 1: First headline variation
+- Option 2: Second headline variation
+- Option 3: Third headline variation
 
 **Rhetorical Analysis:**
-- Device Used: [Name of the primary rhetorical device]
-- How Applied: [Explain specifically how this device is used in the concept - be concrete]
-- Evidence: [Quote the specific phrases or elements that demonstrate the device]
-- Why It Works: [One sentence on why this device is effective for this brief]
+- Device Used: Name the primary rhetorical device
+- How Applied: Explain specifically how this device is used in YOUR concept
+- Evidence: Quote the specific phrases from YOUR concept that demonstrate the device
+- Why It Works: One sentence on why this device is effective for this brief
 
 **Strategic Impact:**
-[One sentence on why this concept will resonate]
+One sentence on why this concept will resonate with the target audience.
 
 Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
         variantIndex === 1 ? 'emotionally resonant and human' :
-          'strategically sharp and memorable'}.`;
+          variantIndex === 2 ? 'strategically sharp and memorable' :
+          variantIndex === 3 ? 'visually striking and unconventional' :
+          'culturally resonant and thought-provoking'}.`;
   }
 
   /**
