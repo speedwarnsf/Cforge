@@ -241,7 +241,7 @@ Return your response as JSON with this structure:
       model: "gpt-5.2",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2, // Slightly higher temperature for creative refinement
-      max_tokens: 500,
+      max_completion_tokens: 500,
       response_format: { type: "json_object" }
     });
     const refinementEndTime = Date.now();

@@ -535,8 +535,9 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     
     console.log(`📝 Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
 
+    console.log('🚀 Calling OpenAI API with model: gpt-5.2');
     const response = await openai.chat.completions.create({
-      model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
       messages: [
         {
           role: "system",
@@ -547,11 +548,8 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
           content: userMessage
         }
       ],
-      max_tokens: 400, // Reduced for concise advertising copy
-      temperature: Math.min(0.95, getToneTemperature(request.tone) + (Math.random() * 0.2)), // Add randomization for variety
-      top_p: 0.9, // Add nucleus sampling for more diverse outputs
-      frequency_penalty: 0.3, // Reduce repetition
-      presence_penalty: 0.2 // Encourage new topics
+      max_completion_tokens: 1200, // GPT-5.2 requires more tokens for internal processing
+      temperature: Math.min(0.95, getToneTemperature(request.tone) + (Math.random() * 0.2))
     });
 
     const endTime = Date.now();
@@ -573,8 +571,13 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     console.log(`Total tokens: ${tokensUsed}`);
     console.log(`Estimated Cost: $${cost.toFixed(4)}`);
 
-    const content = response.choices[0].message.content || "No response generated";
-    
+    // Extract content from response
+    const content = response.choices[0]?.message?.content || "No response generated";
+
+    if (!content || content === "No response generated") {
+      console.error('❌ No content in GPT-5.2 response. Completion tokens:', completionTokens);
+    }
+
     // Generate visual prompt
     console.log("Generating visual prompt for:", request.query, request.tone);
     const visualPrompt = await generateVisualPrompt(request.query, request.tone, content);
@@ -785,7 +788,7 @@ OUTPUT: "steaming coffee cup on volcanic crater edge, dramatic backlighting, ste
             content: `Visual concept: "${visualConcept}"\nStyle: ${styleDirection}\n\nCreate MidJourney prompt:`
           }
         ],
-        max_tokens: 50,
+        max_completion_tokens: 50,
         temperature: 0.6
       });
       

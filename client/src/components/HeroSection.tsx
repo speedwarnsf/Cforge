@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand-logo";
 import { useVideo } from "@/hooks/use-video";
@@ -7,8 +7,7 @@ import { Grid3X3, Lightbulb } from "lucide-react";
 import backgroundVideo from "@assets/clean_anvil_video.mp4";
 
 export default function HeroSection() {
-  const { isForgeAnimating } = useVideo();
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { isForgeAnimating, videoRef, playInitialAnimation } = useVideo();
   const [location] = useLocation();
   const [videoLoaded, setVideoLoaded] = useState(false);
 
@@ -23,7 +22,7 @@ export default function HeroSection() {
         isolation: 'isolate'
       }}
     >
-      {/* Background Video */}
+      {/* Background Video - controlled by VideoContext for forge animations */}
       <video
         ref={videoRef}
         style={{
@@ -34,13 +33,16 @@ export default function HeroSection() {
           height: '100%',
           objectFit: 'cover',
           zIndex: 1,
-          backgroundColor: '#0f172a'
+          backgroundColor: '#0f172a',
+          opacity: isForgeAnimating ? 1.0 : 0.6
         }}
-        autoPlay
         muted
-        loop
         playsInline
-        onLoadedData={() => setVideoLoaded(true)}
+        onLoadedData={() => {
+          setVideoLoaded(true);
+          // Play initial animation when video loads
+          playInitialAnimation();
+        }}
       >
         <source src={backgroundVideo} type="video/mp4" />
       </video>

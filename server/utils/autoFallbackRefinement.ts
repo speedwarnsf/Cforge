@@ -11,7 +11,7 @@ async function generateOpenAIResponse(prompt: string, tone: string, temperature:
       { role: 'user', content: prompt }
     ],
     temperature,
-    max_tokens: 800
+    max_completion_tokens: 1200
   });
   return response.choices[0]?.message?.content || '';
 }

@@ -541,7 +541,7 @@ Focus on words that serve the rhetorical device and creative direction.`;
       model: 'gpt-5.2',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
-      max_tokens: 500
+      max_completion_tokens: 500
     });
 
     try {
@@ -600,7 +600,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
       model: 'gpt-5.2',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
-      max_tokens: block.name === 'bodyCopy' ? 200 : 50
+      max_completion_tokens: block.name === 'bodyCopy' ? 200 : 50
     });
 
     return response.choices[0]?.message?.content?.trim() || '';

@@ -880,6 +880,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Multi-variant generation endpoint
   app.post("/api/generate-multivariant", generateMultivariant);
 
+  // Streaming multi-variant generation with SSE progress updates
+  app.post("/api/generate-multivariant-stream", async (req, res) => {
+    const { generateMultivariantStream } = await import('./routes/generateMultivariantStream');
+    return generateMultivariantStream(req, res);
+  });
+
   // Debug/testing page
   app.get("/debug", (req, res) => {
     res.sendFile(require('path').join(process.cwd(), 'debug-app.html'));

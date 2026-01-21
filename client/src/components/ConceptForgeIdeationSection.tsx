@@ -9,7 +9,7 @@ import SessionHistory from "./session-history";
 import PromptRefinementPanel from "./PromptRefinementPanel";
 import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
-import backgroundVideo from "@assets/social_dy15._A_cinematic_3D_animation_of_a_glowing_steel_anvil_a_ham_5df17e83-ef82-4ad7-9c2f-eba2e3b511df_1_1750830507241.mp4";
+import { useVideo } from "@/hooks/use-video";
 
 
 
@@ -20,6 +20,7 @@ interface ConceptForgeIdeationSectionProps {
 
 export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComplete }: ConceptForgeIdeationSectionProps) {
   const [location] = useLocation();
+  const { startForgeLoop, stopForgeLoop, setGenerationStatus, addGenerationLog, clearGenerationLogs } = useVideo();
   const [brief, setBrief] = useState("");
   const [selectedLens, setSelectedLens] = useState("bold");
   const [isLoading, setIsLoading] = useState(false);
@@ -115,68 +116,215 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   ];
 
   const handleGenerate = async () => {
-    setIsLoading(true); 
-    
-    // Clear any previous results
+    console.log('🚀 handleGenerate called');
+    setIsLoading(true);
     setResults([]);
-    
-    // Trigger the forge animation
-    await onSubmit();
-    
+
+    // Start forge animation loop (wrapped in try-catch)
+    try {
+      console.log('🎬 Starting forge loop...');
+      startForgeLoop();
+      setGenerationStatus({ step: 'analyzing', progress: 10, detail: 'Analyzing your creative brief...' });
+    } catch (e) {
+      console.error('🎬 Error starting forge:', e);
+    }
+
     // Prepare generation data
     const data = {
-      query: selectedPrompt || brief, // Use enhanced prompt if available
+      query: selectedPrompt || brief,
       tone: selectedLens,
       includeCliches: allowCliches,
       deepScan: imageAnalysisEnabled,
       conceptCount: mode === 'multi' ? variantCount : 1,
       projectId: "concept_forge_session"
     };
-    
-    fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(async (res) => {
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || errorData.error || `API error: ${res.status}`);
+
+    console.log('📤 Sending request with data:', data);
+
+    // Determine which endpoint to use based on concept count
+    const isMultivariant = data.conceptCount > 1;
+
+    // Clear previous logs and set initial status
+    clearGenerationLogs();
+    setGenerationStatus({ step: 'analyzing', progress: 5, detail: 'Starting generation...', logs: [] });
+    addGenerationLog('Initializing generation pipeline...');
+
+    try {
+      if (isMultivariant) {
+        // Use streaming endpoint for multivariant
+        addGenerationLog(`Requesting ${data.conceptCount} concepts with hybrid mode`);
+
+        const res = await fetch('/api/generate-multivariant-stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...data,
+            enableHybridMode: true
+          })
+        });
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status}`);
+        }
+
+        // Process SSE stream
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let finalResult: any = null;
+
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n\n');
+            buffer = lines.pop() || ''; // Keep incomplete chunk
+
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const event = JSON.parse(line.slice(6));
+
+                  switch (event.type) {
+                    case 'progress':
+                      setGenerationStatus(prev => ({
+                        ...prev!,
+                        step: event.data.step,
+                        progress: event.data.progress,
+                        detail: event.data.detail
+                      }));
+                      break;
+
+                    case 'log':
+                      addGenerationLog(event.data.message.replace(/^\[.*?\]\s*/, '')); // Remove timestamp prefix
+                      break;
+
+                    case 'variant':
+                      addGenerationLog(`Generated variant ${event.data.index + 1}: ${event.data.variant.headlines?.[0]?.substring(0, 40)}...`);
+                      break;
+
+                    case 'complete':
+                      finalResult = event.data;
+                      addGenerationLog(`Complete! ${event.data.outputs?.length || 0} concepts generated`);
+                      break;
+
+                    case 'error':
+                      throw new Error(event.data.message);
+                  }
+                } catch (parseErr) {
+                  console.warn('Failed to parse SSE event:', parseErr);
+                }
+              }
+            }
+          }
+        }
+
+        if (finalResult && finalResult.outputs) {
+          // Parse multiple concepts for local display
+          const parsedConcepts = finalResult.outputs.map((output: any, idx: number) => ({
+            headline: output.headlines?.[0] || `Concept ${idx + 1}`,
+            devices: output.rhetoricalDevice || 'metaphor',
+            rationale: output.visualDescription?.substring(0, 100) + '...' || 'Generated concept'
+          }));
+
+          setResults(parsedConcepts);
+          setGenerationStatus(prev => ({
+            ...prev!,
+            step: 'complete',
+            progress: 100,
+            detail: `${finalResult.outputs.length} concepts generated!`
+          }));
+
+          // Stop the forge animation
+          stopForgeLoop();
+          setIsLoading(false);
+
+          if (onGenerateComplete) {
+            onGenerateComplete(finalResult);
+          }
+        } else {
+          throw new Error('No results received from streaming endpoint');
+        }
+
+      } else {
+        // Single concept - use original endpoint
+        addGenerationLog('Requesting single concept generation');
+        setGenerationStatus({ step: 'exploring', progress: 25, detail: 'Exploring creative directions...', logs: [] });
+
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        addGenerationLog('Processing response...');
+        setGenerationStatus(prev => ({ ...prev!, step: 'generating', progress: 50, detail: 'Generating concept...' }));
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || errorData.error || `API error: ${res.status}`);
+        }
+
+        const result = await res.json();
+        console.log('📥 Received response:', result);
+
+        addGenerationLog('Evaluating quality...');
+        setGenerationStatus(prev => ({ ...prev!, step: 'evaluating', progress: 75, detail: 'Evaluating quality...' }));
+
+        if (result.error) {
+          throw new Error(result.error);
+        }
+
+        const content = result.content || '';
+
+        // Extract headline from content
+        const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.+?)(?:\n|\*\*)/);
+        const headline = headlineMatch ? headlineMatch[1].trim() : 'No headline found';
+
+        // Extract devices
+        const devicesMatch = content.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*|$)/i);
+        const devices = devicesMatch ? devicesMatch[1].trim() : 'No devices found';
+
+        const parsedConcept = {
+          headline,
+          devices,
+          rationale: `Generated concept ID: ${result.conceptId || 'unknown'}`
+        };
+
+        addGenerationLog('Saving to history...');
+        setGenerationStatus(prev => ({ ...prev!, step: 'saving', progress: 90, detail: 'Saving...' }));
+
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        setResults([parsedConcept]);
+        addGenerationLog('Complete!');
+        setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: 'Complete!' }));
+
+        // Stop the forge animation
+        stopForgeLoop();
+        setIsLoading(false);
+
+        if (onGenerateComplete) {
+          onGenerateComplete(result);
+        }
       }
-      return res.json();
-    }).then((res) => {
-      if (res.error) {
-        throw new Error(res.error);
-      } 
-      
-      // Parse the AI response content
-      const content = res.content || '';
-      
-      // Extract headline from content
-      const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.+?)(?:\n|\*\*)/);
-      const headline = headlineMatch ? headlineMatch[1].trim() : 'No headline found';
-      
-      // Extract devices - look for rhetorical devices in content
-      const devicesMatch = content.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*|$)/i);
-      const devices = devicesMatch ? devicesMatch[1].trim() : 'No devices found';
-      
-      const parsedConcept = {
-        headline,
-        devices,
-        rationale: `Generated concept ID: ${res.conceptId || 'unknown'}`
-      };
-      
-      setResults([parsedConcept]); 
-      setIsLoading(false); 
-    }).catch((err) => {
-      console.error('Generation failed:', err);
-      // Show error in results area for debugging
+    } catch (err: any) {
+      console.error('❌ Generation failed:', err);
+      try {
+        stopForgeLoop();
+        setGenerationStatus(null);
+      } catch (e) {
+        console.error('Error stopping forge:', e);
+      }
       setResults([{
         headline: 'Generation Error',
         devices: err.message || 'Unknown error',
         rationale: 'Please check browser console and try again'
       }]);
       setIsLoading(false);
-    });
+    }
   };
 
   const handleFeedback = async (index: number, type: string) => {
@@ -195,8 +343,6 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
     }
   };
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
     <div id="ideation-section" className="min-h-screen relative py-20" style={{ zIndex: 30000 }}>

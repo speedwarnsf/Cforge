@@ -159,7 +159,6 @@ export async function exploreDivergently(
     historicalEmbeddings = []
   } = options;
 
-  const seeds: CreativeSeed[] = [];
   const personaCounts: Record<string, number> = {};
 
   // Extract theme from user brief
@@ -172,61 +171,71 @@ export async function exploreDivergently(
   // Generate raw ideas across personas
   const iterationsNeeded = Math.ceil(poolSize / 5); // Each persona generates ~5 ideas
 
-  for (let i = 0; i < iterationsNeeded; i++) {
+  // PARALLEL OPTIMIZATION: Run all persona iterations in parallel
+  console.log(`   🚀 Running ${iterationsNeeded} persona iterations in parallel...`);
+
+  const personaIterations = Array.from({ length: iterationsNeeded }, (_, i) => {
     const persona = selectPersona(i, personaRotation, personaCounts);
     personaCounts[persona.id] = (personaCounts[persona.id] || 0) + 1;
+    const temperature = Math.min(1.0 + persona.temperatureModifier, maxTemperature);
+    return { persona, temperature };
+  });
 
-    const temperature = Math.min(
-      1.0 + persona.temperatureModifier,
-      maxTemperature
-    );
-
+  // Generate all raw ideas in parallel across all personas
+  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature }) => {
     try {
-      const rawIdeas = await generateRawIdeas(
-        openai,
-        theme,
-        persona,
-        temperature
-      );
-
-      for (const idea of rawIdeas) {
-        if (seeds.length >= poolSize) break;
-
-        const embedding = await getEmbedding(idea);
-
-        // Calculate distinctiveness against existing seeds and history
-        const distinctiveness = calculateDistinctiveness(
-          embedding,
-          seeds.map(s => s.embedding),
-          historicalEmbeddings
-        );
-
-        // Check thematic coherence with original brief
-        const coherence = await checkThematicCoherence(
-          idea,
-          userBrief,
-          openai
-        );
-
-        // Identify compatible rhetorical tropes
-        const compatibleTropes = identifyCompatibleTropes(idea);
-
-        seeds.push({
-          id: `seed_${Date.now()}_${seeds.length}`,
-          rawIdea: idea,
-          persona,
-          embedding,
-          distinctivenessScore: distinctiveness,
-          thematicCoherence: coherence,
-          tropeCompatibility: compatibleTropes,
-          timestamp: new Date()
-        });
-      }
+      const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature);
+      return rawIdeas.map(idea => ({ idea, persona }));
     } catch (error) {
       console.error(`   ⚠️ Failed generation for persona ${persona.name}:`, error);
+      return [];
     }
+  });
 
-    if (seeds.length >= poolSize) break;
+  const allIdeaResults = await Promise.all(ideaGenerationPromises);
+  const allIdeas = allIdeaResults.flat().slice(0, poolSize);
+
+  console.log(`   📝 Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
+
+  // PARALLEL OPTIMIZATION: Process all ideas (embedding + coherence) in parallel
+  const seedPromises = allIdeas.map(async ({ idea, persona }, index) => {
+    try {
+      // Run embedding and coherence check in parallel for each idea
+      const [embedding, coherence] = await Promise.all([
+        getEmbedding(idea),
+        checkThematicCoherence(idea, userBrief, openai)
+      ]);
+
+      const compatibleTropes = identifyCompatibleTropes(idea);
+
+      return {
+        id: `seed_${Date.now()}_${index}`,
+        rawIdea: idea,
+        persona,
+        embedding,
+        distinctivenessScore: 0, // Will be calculated after all embeddings are ready
+        thematicCoherence: coherence,
+        tropeCompatibility: compatibleTropes,
+        timestamp: new Date()
+      } as CreativeSeed;
+    } catch (error) {
+      console.error(`   ⚠️ Failed processing idea ${index}:`, error);
+      return null;
+    }
+  });
+
+  const seedResults = await Promise.all(seedPromises);
+  const seeds = seedResults.filter((s): s is CreativeSeed => s !== null);
+
+  // Calculate distinctiveness now that we have all embeddings
+  for (let i = 0; i < seeds.length; i++) {
+    const seed = seeds[i];
+    const otherEmbeddings = seeds.filter((_, j) => j !== i).map(s => s.embedding);
+    seed.distinctivenessScore = calculateDistinctiveness(
+      seed.embedding,
+      otherEmbeddings,
+      historicalEmbeddings
+    );
   }
 
   // Deduplicate seeds
@@ -333,7 +342,7 @@ async function extractTheme(brief: string, openai: OpenAI): Promise<string> {
 Return ONLY the theme, nothing else.`
     }],
     temperature: 0.3,
-    max_tokens: 20
+    max_completion_tokens: 20
   });
 
   return response.choices[0]?.message?.content?.trim() || brief.split(' ').slice(0, 5).join(' ');
@@ -386,7 +395,7 @@ async function generateRawIdeas(
       { role: 'user', content: prompt }
     ],
     temperature,
-    max_tokens: 1500
+    max_completion_tokens: 1500
   });
 
   const content = response.choices[0]?.message?.content || '';
@@ -440,7 +449,7 @@ Consider: Does the idea serve the brief's goals even if the approach is unconven
 Return ONLY a decimal number between 0.0 and 1.0.`
     }],
     temperature: 0.2,
-    max_tokens: 10
+    max_completion_tokens: 10
   });
 
   const score = parseFloat(response.choices[0]?.message?.content || '0.5');

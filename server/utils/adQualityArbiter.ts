@@ -39,7 +39,7 @@ Inspired By: ${concept.rhetoricalExample}
       model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1, // Low temperature for consistent scoring
-      max_tokens: 300,
+      max_completion_tokens: 300,
       response_format: { type: "json_object" }
     });
 

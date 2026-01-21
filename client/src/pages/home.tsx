@@ -5,48 +5,37 @@ import { useVideo } from "@/hooks/use-video";
 import { Button } from "@/components/ui/button";
 import { History } from "lucide-react";
 import { Link } from "wouter";
-import { useRef, useState, useEffect } from "react";
-import backgroundVideo from "@assets/social_dy15._A_cinematic_3D_animation_of_a_glowing_steel_anvil_a_ham_5df17e83-ef82-4ad7-9c2f-eba2e3b511df_1_1750830507241.mp4";
+import { useRef, useEffect } from "react";
 import conceptForgeLogo from "@assets/Headline_1752875122000.png";
+import backgroundVideo from "@assets/clean_anvil_video.mp4";
 
 export default function Home() {
-  const { playForgeAnimation } = useVideo();
+  const { playForgeAnimation, videoRef, isForgeAnimating, playInitialAnimation } = useVideo();
   const aiGeneratorRef = useRef<any>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  
-  // Aggressive cache busting timestamp - v1752887800
-  const cacheBuster = Date.now() + Math.random();
 
   // Parallax scroll effect with logo fade-out
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const parallaxSpeed = -0.4; // Parallax for video and overlay
-      
-      // Apply parallax to video background
-      if (videoRef.current) {
-        videoRef.current.style.transform = `translateX(-50%) translateY(${scrollY * parallaxSpeed}px) translateZ(0)`;
-      }
-      
+      const parallaxSpeed = -0.4;
+
       if (overlayRef.current) {
         overlayRef.current.style.transform = `translateY(${scrollY * parallaxSpeed}px) translateZ(0)`;
       }
-      
-      // Fade out logo as user scrolls to prevent blocking content  
+
+      // Fade out logo as user scrolls to prevent blocking content
       if (logoRef.current) {
-        const fadeStart = 150; // Start fading after 150px scroll
-        const fadeDistance = 250; // Complete fade by 400px scroll
+        const fadeStart = 150;
+        const fadeDistance = 250;
         let opacity = 1;
-        
+
         if (scrollY > fadeStart) {
           opacity = Math.max(0, 1 - (scrollY - fadeStart) / fadeDistance);
         }
-        
+
         logoRef.current.style.opacity = opacity.toString();
-        // Don't modify transform - let CSS handle positioning
       }
     };
 
@@ -82,31 +71,23 @@ export default function Home() {
     <div className="min-h-screen text-white relative" style={{ background: 'transparent !important' }}>
       {/* Parallax Background Container */}
       <div className="fixed top-0 left-0 w-full h-screen overflow-hidden" style={{ zIndex: 0 }}>
-        {/* Global Background Video - TEMPORARILY DISABLED FOR VISIBILITY TESTING */}
+        {/* Anvil Video Background */}
         <video
           ref={videoRef}
+          className="w-full h-full object-cover"
           style={{
-            position: 'absolute !important' as any,
-            top: '0vh !important' as any,
-            left: '50% !important' as any,
-            transform: 'translateX(-50%) translateZ(0) !important' as any,
-            width: '150vw !important' as any,
-            height: '60vh !important' as any,
-            zIndex: '1 !important' as any,
-            backgroundColor: 'transparent !important' as any,
-            objectFit: 'cover !important' as any,
-            willChange: 'transform !important' as any,
-            display: 'none !important' as any,  // VIDEO COMPLETELY DISABLED FOR VISIBILITY TESTING
+            opacity: isForgeAnimating ? 1 : 0.6,
+            transition: 'opacity 0.5s ease'
           }}
-          autoPlay
           muted
-          loop
           playsInline
-          preload="metadata"
-          poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMwZjE3MmEiLz4KPC9zdmc+"
-          onLoadedData={() => setVideoLoaded(true)}
+          preload="auto"
+          onLoadedData={() => {
+            console.log('🎬 Video loaded in Home, triggering initial animation');
+            playInitialAnimation();
+          }}
         >
-          <source src={`${backgroundVideo}?v=${cacheBuster}`} type="video/mp4" />
+          <source src={backgroundVideo} type="video/mp4" />
         </video>
 
         {/* Dark Blue/Slate Multiply Gradient - Over video and extending to background */}

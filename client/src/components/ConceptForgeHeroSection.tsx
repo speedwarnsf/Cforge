@@ -1,12 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useVideo } from "@/hooks/use-video";
 import { ArrowRight, Play } from "lucide-react";
 import backgroundVideo from "@assets/clean_anvil_video.mp4";
 
 export default function ConceptForgeHeroSection() {
-  const { isForgeAnimating } = useVideo();
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { videoRef, isForgeAnimating, playInitialAnimation } = useVideo();
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   const scrollToIdeation = () => {
@@ -16,28 +15,30 @@ export default function ConceptForgeHeroSection() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* VIDEO COMPLETELY DISABLED FOR VISIBILITY TESTING */}
-      {false && (
-        <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            onLoadedData={() => setVideoLoaded(true)}
-          >
-            <source src={backgroundVideo} type="video/mp4" />
-          </video>
-          
-          {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/60"></div>
-        </div>
-      )}
-      
-      {/* Dark overlay for readability - always visible when video disabled */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      {/* Anvil Video Background */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          style={{
+            opacity: isForgeAnimating ? 1 : 0.6,
+            transition: 'opacity 0.5s ease'
+          }}
+          muted
+          playsInline
+          preload="auto"
+          onLoadedData={() => {
+            setVideoLoaded(true);
+            console.log('🎬 Video loaded in HeroSection, triggering initial animation');
+            playInitialAnimation();
+          }}
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+        </video>
+
+        {/* Dark overlay for readability */}
+        <div className={`absolute inset-0 transition-opacity duration-500 ${isForgeAnimating ? 'bg-black/40' : 'bg-black/60'}`}></div>
+      </div>
 
       {/* Hero Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">

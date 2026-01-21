@@ -200,15 +200,65 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
   useImperativeHandle(ref, () => ({
     triggerGeneration: (data: any) => {
       console.log('🎯 AiGenerator received generation data:', data);
-      
+
       // Store the completion callback for later use
       setCompletionCallback(() => data.onCompleteCallback);
-      
-      // Set the LoadingWindow state immediately (for backup display)
+
+      // Check if this is already a completed result (multivariant response)
+      if (data.success && data.outputs) {
+        console.log('🎯 AiGenerator: Received pre-generated multivariant results');
+        // Transform multivariant outputs to concept format and display them
+        const concepts = data.outputs.map((output: any, index: number) => ({
+          id: output.conceptId || `multi_${Date.now()}_${index}`,
+          content: output.content || `**HEADLINE**\n${output.headlines?.[0] || 'Generated Concept'}\n\n**VISUAL CONCEPT**\n${output.visualDescription || 'Visual concept'}`,
+          tone: output.tone || data.metadata?.tone || 'bold',
+          visualPrompt: output.visualDescription || '',
+          tokens: 0,
+          processingTime: data.metadata?.totalTime ? `${data.metadata.totalTime}ms` : 'N/A',
+          originalityCheck: { confidence: (output.originalityScore || 50) / 100 },
+          rhetoricalDevice: output.rhetoricalDevice || 'metaphor'
+        }));
+
+        setCurrentConcepts(concepts);
+        setBriefCollapsed(true);
+        setIsGenerating(false);
+        setIsLoadingWindowOpen(false);
+
+        // Call completion callback
+        if (data.onCompleteCallback) {
+          data.onCompleteCallback();
+        }
+        return;
+      }
+
+      // Check if this is a single concept response (already generated)
+      if (data.content && data.conceptId) {
+        console.log('🎯 AiGenerator: Received pre-generated single concept');
+        setCurrentConcepts([{
+          id: data.conceptId,
+          content: data.content,
+          tone: data.tone,
+          visualPrompt: data.visualPrompt,
+          tokens: data.tokens,
+          processingTime: data.processingTime,
+          originalityCheck: data.originalityCheck
+        }]);
+        setBriefCollapsed(true);
+        setIsGenerating(false);
+        setIsLoadingWindowOpen(false);
+
+        // Call completion callback
+        if (data.onCompleteCallback) {
+          data.onCompleteCallback();
+        }
+        return;
+      }
+
+      // Otherwise, trigger a new generation
       setIsLoadingWindowOpen(true);
       setIsGenerating(true);
       setCurrentConcepts([]); // Clear previous results
-      
+
       // Update the form with the data from ConceptForgeIdeationSection
       form.reset({
         query: data.query,
@@ -218,7 +268,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
         conceptCount: data.conceptCount,
         projectId: "concept_forge_session"
       });
-      
+
       // Trigger the generation
       generateMutation.mutate({
         query: data.query,

@@ -7,6 +7,7 @@ import { VideoProvider } from "@/hooks/use-video";
 import { PasswordGate } from "@/components/PasswordGate";
 import InstallPWA from "@/components/InstallPWA";
 import OfflineIndicator from "@/components/OfflineIndicator";
+import GenerationStatusOverlay from "@/components/GenerationStatusOverlay";
 
 import Home from "@/pages/home";
 import MultivariantPage from "@/pages/multivariant";
@@ -36,6 +37,7 @@ function App() {
           <Toaster />
           <OfflineIndicator />
           <InstallPWA />
+          <GenerationStatusOverlay />
 
           <PasswordGate>
             <div className="concept-forge-app">

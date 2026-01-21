@@ -158,8 +158,7 @@ Do not include any commentary, references to this process, or extra text.`;
           { role: "user", content: `Generate an original advertising concept for: ${request.query}\n\nTone: ${request.tone}\n\nAvoid ALL references to color symbolism, ribbons, tapestry, threads, rising voices, or breaking chains. Create something genuinely innovative.` }
         ],
         temperature: 0.9,
-        max_tokens: 800,
-        response_format: { type: "json_object" }
+        max_completion_tokens: 1200
       });
 
       const responseContent = completion.choices[0].message.content;

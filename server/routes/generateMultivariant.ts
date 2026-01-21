@@ -445,16 +445,20 @@ export async function generateMultivariant(req: Request, res: Response) {
     const {
       query,
       tone,
-      maxOutputs = 3,
+      maxOutputs,
+      conceptCount, // Client sends conceptCount, map to maxOutputs
       avoidCliches = true,
       enableIterativeRefinement = true,
       enableHybridMode = true,
       hybridConfig
-    }: MultivariantRequest = req.body;
+    }: MultivariantRequest & { conceptCount?: number } = req.body;
+
+    // Use conceptCount if provided, otherwise maxOutputs, default to 3
+    const variantCount = conceptCount || maxOutputs || 3;
 
     // Start performance tracking
     performanceTracker.startTracking();
-    console.log(`🚀 Starting multi-variant generation: "${query}" (${tone}, max ${maxOutputs})`);
+    console.log(`🚀 Starting multi-variant generation: "${query}" (${tone}, max ${variantCount})`);
 
     const startTime = Date.now();
 
@@ -481,7 +485,7 @@ export async function generateMultivariant(req: Request, res: Response) {
           userBrief: query,
           tone,
           requestedTropes: hybridConfig?.requestedTropes,
-          variantCount: maxOutputs,
+          variantCount: variantCount,
           sessionId: `session_${Date.now()}`
         });
 
@@ -518,13 +522,57 @@ export async function generateMultivariant(req: Request, res: Response) {
         console.log(`   Creativity Score: ${(hybridResult.metadata.creativityScore * 100).toFixed(1)}%`);
         console.log(`   Divergent Pool: ${hybridResult.metadata.divergentPoolSize} seeds`);
 
+        // **SAVE TO SUPABASE** - Save each hybrid concept to the database
+        const { logSession } = await import('../supabaseClient');
+        const conceptIds: string[] = [];
+
+        for (let i = 0; i < outputs.length; i++) {
+          const output = outputs[i];
+
+          // Build structured response content matching legacy format
+          const structuredContent = `**RHETORICAL DEVICE:** ${output.rhetoricalDevice}
+
+**VISUAL CONCEPT:**
+${output.visualDescription}
+
+**HEADLINES:**
+${output.headlines.map((h: string, idx: number) => `${idx + 1}. ${h}`).join('\n')}
+
+${output.tagline ? `**TAGLINE:** ${output.tagline}\n` : ''}
+${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
+**Prompt:** ${query}`;
+
+          const conceptId = await logSession({
+            userId: null,
+            prompt: query,
+            response: structuredContent,
+            model: 'gpt-5.2',
+            tone: tone,
+            tokensUsed: 0,
+            processingTimeMs: endTime - startTime
+          });
+
+          if (conceptId) {
+            conceptIds.push(conceptId);
+            // Update the output with the database ID
+            outputs[i] = { ...output, conceptId };
+            console.log(`✅ Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
+          } else {
+            console.error(`❌ Failed to save hybrid concept ${i + 1} to Supabase`);
+            conceptIds.push(`failed-${Date.now()}-${i}`);
+          }
+        }
+
+        console.log(`📦 Saved ${conceptIds.filter(id => !id.startsWith('failed')).length}/${outputs.length} hybrid concepts to database`);
+
         return res.json({
           success: true,
           outputs,
           metadata: {
             generationMode: 'hybrid',
             ...hybridResult.metadata,
-            totalTime: endTime - startTime
+            totalTime: endTime - startTime,
+            savedCount: conceptIds.filter(id => !id.startsWith('failed')).length
           }
         });
       } catch (hybridError) {
@@ -653,7 +701,7 @@ export async function generateMultivariant(req: Request, res: Response) {
               { role: "user", content: prompt }
             ],
             temperature: 1.4, // Higher temperature for maximum creative divergence
-            max_tokens: 800, // Increased for Markdown format
+            max_completion_tokens: 1200, // GPT-5.2 requires more tokens
             // Removed response_format: json_object since we're now using Markdown
           });
           const apiEndTime = Date.now();
@@ -736,7 +784,7 @@ export async function generateMultivariant(req: Request, res: Response) {
               model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
-              max_tokens: 800,
+              max_completion_tokens: 1200, // GPT-5.2 requires more tokens
               // Removed response_format: json_object since we're now using Markdown
             });
             
@@ -1117,7 +1165,7 @@ export async function generateMultivariant(req: Request, res: Response) {
     // Rank outputs by originality score descending - ensure minimum 3 for multivariant
     const rankedOutputs = diversifiedOutputs
       .sort((a, b) => b.originalityScore - a.originalityScore)
-      .slice(0, Math.max(3, maxOutputs));
+      .slice(0, Math.max(3, variantCount));
     
     // Log each concept individually as structured JSON
     const { logSession } = await import('../supabaseClient');
