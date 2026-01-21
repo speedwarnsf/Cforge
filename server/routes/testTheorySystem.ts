@@ -70,11 +70,11 @@ export async function testTheorySystem(req: Request, res: Response) {
       ]
     });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Theory system test error:', error);
-    res.status(500).json({ 
-      error: 'Theory system test failed', 
-      details: error.message 
+    res.status(500).json({
+      error: 'Theory system test failed',
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 }

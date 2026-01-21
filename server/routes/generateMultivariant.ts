@@ -42,8 +42,8 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
 
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY
+      process.env.SUPABASE_URL || '',
+      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || ''
     );
 
     // Get 50 most recent concept logs
@@ -214,6 +214,13 @@ interface MultivariantOutput {
       coherence: number;
       distinctiveness: number;
       overall: number;
+    };
+    rhetoricalAnalysis?: {
+      deviceName: string;
+      deviceDefinition: string;
+      applicationExplanation: string;
+      textualEvidence: string[];
+      effectivenessNote?: string;
     };
   };
 }
@@ -498,12 +505,13 @@ export async function generateMultivariant(req: Request, res: Response) {
           hybridMetadata: {
             creativeSeedOrigin: variant.creativeSeedOrigin,
             evolutionPath: variant.evolutionPath,
-            scores: variant.scores
+            scores: variant.scores,
+            // Detailed rhetorical analysis explaining how the device was applied
+            rhetoricalAnalysis: variant.rhetoricalAnalysis
           }
         }));
 
         const endTime = Date.now();
-        performanceTracker.stopTracking();
 
         console.log(`✅ Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
         console.log(`   Mode: ${hybridResult.metadata.mode}`);
@@ -911,7 +919,27 @@ export async function generateMultivariant(req: Request, res: Response) {
           const targetAudience = deriveTargetAudience(query, tone);
           
           // Skip iterative refinement for multivariant to avoid failures
-          let refinementResult = {
+          let refinementResult: {
+            visualDescription: string;
+            headlines: string[];
+            rhetoricalDevice: string;
+            tone: string;
+            targetAudience: string;
+            iteration_number: number;
+            evaluation: {
+              originality_confidence: number;
+              originality_feedback: string;
+              audience_resonance: string;
+              audience_feedback: string;
+              award_potential: string;
+              award_feedback: string;
+              relevance_score: number;
+              relevance_feedback: string;
+              passes_all_thresholds: boolean;
+              failed_criteria: string[];
+            };
+            final_status: 'Passed' | 'Needs Review' | 'Failed';
+          } = {
             visualDescription: parsed.visual,
             headlines: parsed.headlines,
             rhetoricalDevice: completion.device,
@@ -923,7 +951,7 @@ export async function generateMultivariant(req: Request, res: Response) {
               originality_feedback: "Original concept",
               audience_resonance: "Medium",
               audience_feedback: "Good audience appeal",
-              award_potential: "Medium", 
+              award_potential: "Medium",
               award_feedback: "Strong creative potential",
               relevance_score: 75,
               relevance_feedback: "Relevant to brief",
@@ -953,7 +981,11 @@ export async function generateMultivariant(req: Request, res: Response) {
                 enableIterativeRefinement
               );
               if (fullRefinementResult) {
-                refinementResult = fullRefinementResult;
+                refinementResult = {
+                  ...fullRefinementResult,
+                  tone: tone,
+                  targetAudience: targetAudience
+                };
               }
             } catch (error) {
               console.log('⚠️ Refinement skipped due to error:', error);
@@ -1025,7 +1057,7 @@ export async function generateMultivariant(req: Request, res: Response) {
             relevanceFeedback: refinementResult.evaluation.relevance_feedback,
             passesAllThresholds: refinementResult.evaluation.passes_all_thresholds,
             failedCriteria: refinementResult.evaluation.failed_criteria,
-            finalStatus: refinementResult.final_status
+            finalStatus: refinementResult.final_status as 'Passed' | 'Needs Review' | 'Failed'
           });
         }
       }

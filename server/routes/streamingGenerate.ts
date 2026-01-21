@@ -1,7 +1,7 @@
 // Streaming multivariant generation endpoint
 import express from 'express';
 import { createStreamingResponse, streamMultivariantGeneration } from '../utils/responsiveStreaming';
-import { generateAiResponse } from '../utils/openAiHelper';
+import { generateAiResponse } from '../services/openai';
 import { aiRequestFormSchema } from '../../shared/schema';
 
 const router = express.Router();

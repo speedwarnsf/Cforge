@@ -545,6 +545,10 @@ export class TrajectoryStorage {
    * Save trajectory to database
    */
   async saveTrajectory(trajectory: Trajectory): Promise<boolean> {
+    if (!supabase) {
+      console.log('⚠️ Supabase not configured, skipping trajectory save');
+      return false;
+    }
     try {
       const { error } = await supabase.from('evolution_trajectories').insert({
         id: trajectory.id,
@@ -586,6 +590,10 @@ export class TrajectoryStorage {
     minScore?: number;
     sessionId?: string;
   } = {}): Promise<Trajectory[]> {
+    if (!supabase) {
+      console.log('⚠️ Supabase not configured, returning empty trajectories');
+      return [];
+    }
     try {
       let query = supabase
         .from('evolution_trajectories')
@@ -651,6 +659,9 @@ export class TrajectoryStorage {
     averageScore: number;
     averageSteps: number;
   }> {
+    if (!supabase) {
+      return { totalTrajectories: 0, averageLoss: 0, averageScore: 0, averageSteps: 0 };
+    }
     try {
       const { data, error } = await supabase
         .from('evolution_trajectories')

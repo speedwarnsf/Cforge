@@ -4,6 +4,7 @@
  */
 
 import OpenAI from 'openai';
+import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 export interface TokenUsage {
   promptTokens: number;
@@ -35,7 +36,7 @@ export async function createCompletionWithTracking(
   openai: OpenAI,
   options: {
     model: string;
-    messages: Array<{ role: string; content: string }>;
+    messages: ChatCompletionMessageParam[];
     temperature?: number;
     max_tokens?: number;
   }

@@ -123,7 +123,7 @@ export async function originalityArbiter(
         historicalSimilarities: historicalSimilarities.slice(0, 3)
       }
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Originality Arbiter error:', error);
     return {
       arbiterName: 'Originality Arbiter',
@@ -131,7 +131,7 @@ export async function originalityArbiter(
       passed: true,
       reasoning: 'Unable to assess originality due to technical error',
       suggestions: ['Manual originality review recommended'],
-      metadata: { error: error.message }
+      metadata: { error: error instanceof Error ? error.message : String(error) }
     };
   }
 }
@@ -189,7 +189,7 @@ export async function relevanceArbiter(
         semanticAlignment: relevanceScore
       }
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Relevance Arbiter error:', error);
     return {
       arbiterName: 'Relevance Arbiter',
@@ -197,7 +197,7 @@ export async function relevanceArbiter(
       passed: true,
       reasoning: 'Unable to assess relevance due to technical error',
       suggestions: ['Manual relevance review recommended'],
-      metadata: { error: error.message }
+      metadata: { error: error instanceof Error ? error.message : String(error) }
     };
   }
 }
@@ -247,7 +247,7 @@ export async function culturalSensitivityArbiter(
         maxSensitivityScore: highestSensitivityScore
       }
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Cultural Sensitivity Arbiter error:', error);
     return {
       arbiterName: 'Cultural Sensitivity Arbiter',
@@ -255,7 +255,7 @@ export async function culturalSensitivityArbiter(
       passed: true,
       reasoning: 'Unable to assess cultural sensitivity due to technical error',
       suggestions: ['Manual cultural sensitivity review recommended'],
-      metadata: { error: error.message }
+      metadata: { error: error instanceof Error ? error.message : String(error) }
     };
   }
 }
@@ -319,7 +319,7 @@ Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"]
         detailedAnalysis: analysisResult.analysis
       }
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Advertising Practicality Arbiter error:', error);
     return {
       arbiterName: 'Advertising Practicality Arbiter',
@@ -327,7 +327,7 @@ Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"]
       passed: false,
       reasoning: 'Unable to assess advertising practicality due to technical error',
       suggestions: ['Manual practicality review recommended'],
-      metadata: { error: error.message }
+      metadata: { error: error instanceof Error ? error.message : String(error) }
     };
   }
 }
@@ -394,7 +394,7 @@ Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device
         detailedAnalysis: analysisResult.analysis
       }
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Rhetorical Strength Arbiter error:', error);
     return {
       arbiterName: 'Rhetorical Strength Arbiter',
@@ -402,7 +402,7 @@ Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device
       passed: true,
       reasoning: 'Unable to assess rhetorical strength due to technical error',
       suggestions: ['Manual rhetorical review recommended'],
-      metadata: { error: error.message }
+      metadata: { error: error instanceof Error ? error.message : String(error) }
     };
   }
 }

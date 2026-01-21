@@ -182,8 +182,9 @@ async function exportHistoryToGoogleDoc() {
       });
       
       console.log('✅ Google Docs export complete and shared with dustinyork15@gmail.com');
-    } catch (shareError) {
-      console.log(`⚠️  Could not share document: ${shareError.message}`);
+    } catch (shareError: unknown) {
+      const message = shareError instanceof Error ? shareError.message : String(shareError);
+      console.log(`⚠️  Could not share document: ${message}`);
       console.log('📧 You can manually share the document using the URL below');
     }
     

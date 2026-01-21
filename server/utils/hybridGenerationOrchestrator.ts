@@ -26,7 +26,8 @@ import {
   TropeValidationResult,
   ValidationOptions,
   generateTropeConstraintPrompt,
-  scoreTropeAlignment
+  scoreTropeAlignment,
+  getDeviceDefinition
 } from './tropeConstraints';
 import {
   TrajectoryCapture,
@@ -100,6 +101,14 @@ export interface HybridGenerationOutput {
   };
 }
 
+export interface RhetoricalAnalysis {
+  deviceName: string;
+  deviceDefinition: string;
+  applicationExplanation: string;  // How the device was applied in this concept
+  textualEvidence: string[];       // Specific phrases/elements that demonstrate the device
+  effectivenessNote?: string;      // Why this device works for this concept
+}
+
 export interface HybridVariant {
   id: string;
   visualDescription: string;
@@ -107,6 +116,7 @@ export interface HybridVariant {
   tagline?: string;
   bodyCopy?: string;
   rhetoricalDevice: string;
+  rhetoricalAnalysis?: RhetoricalAnalysis;  // NEW: Detailed explanation of device application
   creativeSeedOrigin?: {
     personaId: string;
     personaName: string;
@@ -422,13 +432,27 @@ ${seed?.persona.systemPromptOverride || ''}`
             console.log('Quality evaluation skipped');
           }
 
+          // Determine the device for this variant
+          const deviceForVariant = tropesToUse[i % tropesToUse.length] || 'metaphor';
+          const deviceDefinition = getDeviceDefinition(deviceForVariant) || '';
+
+          // Build full rhetorical analysis
+          const rhetoricalAnalysis: RhetoricalAnalysis | undefined = parsed.rhetoricalAnalysis ? {
+            deviceName: parsed.rhetoricalAnalysis.deviceUsed || deviceForVariant,
+            deviceDefinition: deviceDefinition,
+            applicationExplanation: parsed.rhetoricalAnalysis.howApplied,
+            textualEvidence: parsed.rhetoricalAnalysis.evidence ? [parsed.rhetoricalAnalysis.evidence] : [],
+            effectivenessNote: parsed.rhetoricalAnalysis.whyItWorks
+          } : undefined;
+
           const variant: HybridVariant = {
             id: `hybrid_${Date.now()}_${i}`,
             visualDescription: parsed.visual,
             headlines: parsed.headlines,
             tagline: parsed.tagline,
             bodyCopy: parsed.bodyCopy,
-            rhetoricalDevice: tropesToUse[i % tropesToUse.length] || 'metaphor',
+            rhetoricalDevice: deviceForVariant,
+            rhetoricalAnalysis,  // Include the detailed analysis
             creativeSeedOrigin: seed ? {
               personaId: seed.persona.id,
               personaName: seed.persona.name,
@@ -503,6 +527,12 @@ Generate a complete concept with:
 - Option 2: [Second headline variation]
 - Option 3: [Third headline variation]
 
+**Rhetorical Analysis:**
+- Device Used: [Name of the primary rhetorical device]
+- How Applied: [Explain specifically how this device is used in the concept - be concrete]
+- Evidence: [Quote the specific phrases or elements that demonstrate the device]
+- Why It Works: [One sentence on why this device is effective for this brief]
+
 **Strategic Impact:**
 [One sentence on why this concept will resonate]
 
@@ -519,6 +549,12 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
     headlines: string[];
     tagline?: string;
     bodyCopy?: string;
+    rhetoricalAnalysis?: {
+      deviceUsed: string;
+      howApplied: string;
+      evidence: string;
+      whyItWorks: string;
+    };
   } | null {
     try {
       const lines = content.split('\n');
@@ -528,6 +564,12 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
       let bodyCopy = '';
       const headlines: string[] = [];
       let currentSection = '';
+
+      // Rhetorical analysis fields
+      let deviceUsed = '';
+      let howApplied = '';
+      let evidence = '';
+      let whyItWorks = '';
 
       for (const line of lines) {
         const trimmed = line.trim();
@@ -546,8 +588,18 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
           if (match && match[1]) bodyCopy = match[1];
         } else if (trimmed.startsWith('**Headlines:**')) {
           currentSection = 'headlines';
+        } else if (trimmed.startsWith('**Rhetorical Analysis:**')) {
+          currentSection = 'rhetoricalAnalysis';
         } else if (trimmed.startsWith('**Strategic Impact:**')) {
           currentSection = 'other';
+        } else if (trimmed.startsWith('- Device Used:')) {
+          deviceUsed = trimmed.replace('- Device Used:', '').trim();
+        } else if (trimmed.startsWith('- How Applied:')) {
+          howApplied = trimmed.replace('- How Applied:', '').trim();
+        } else if (trimmed.startsWith('- Evidence:')) {
+          evidence = trimmed.replace('- Evidence:', '').trim();
+        } else if (trimmed.startsWith('- Why It Works:')) {
+          whyItWorks = trimmed.replace('- Why It Works:', '').trim();
         } else if (trimmed.startsWith('- Option') || (currentSection === 'headlines' && trimmed.startsWith('- '))) {
           const headlineText = trimmed.replace(/^-\s*(Option\s*\d+:\s*)?/, '').replace(/\*\*/g, '').trim();
           if (headlineText && headlineText.length < 100) {
@@ -569,11 +621,20 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
         return null;
       }
 
+      // Build rhetorical analysis if we have any fields
+      const rhetoricalAnalysis = (deviceUsed || howApplied || evidence || whyItWorks) ? {
+        deviceUsed,
+        howApplied,
+        evidence,
+        whyItWorks
+      } : undefined;
+
       return {
         visual: visual.trim(),
         headlines,
         tagline: tagline || undefined,
-        bodyCopy: bodyCopy.trim() || undefined
+        bodyCopy: bodyCopy.trim() || undefined,
+        rhetoricalAnalysis
       };
     } catch (error) {
       console.error('Parse error:', error);

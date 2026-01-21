@@ -26,11 +26,11 @@ class PerformanceMonitor {
   private apiCalls: ApiCallMetric[] = [];
   private maxHistorySize = 1000;
 
-  startTimer(operation: string): () => void {
+  startTimer(operation: string): (success?: boolean, metadata?: Record<string, any>) => number {
     const startTime = performance.now();
     const timestamp = Date.now();
-    
-    return (success: boolean = true, metadata?: Record<string, any>) => {
+
+    return (success: boolean = true, metadata?: Record<string, any>): number => {
       const duration = performance.now() - startTime;
       
       this.addMetric({

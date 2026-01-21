@@ -1059,10 +1059,9 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
 
 
       {/* Loading Window - Debug State */}
-      <LoadingWindow 
-        isLoading={isLoadingWindowOpen} 
+      <LoadingWindow
+        isLoading={isLoadingWindowOpen}
         onClose={() => setIsLoadingWindowOpen(false)}
-        mode="single"
       />
 
       {/* Results Display Component */}

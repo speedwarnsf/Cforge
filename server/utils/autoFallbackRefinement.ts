@@ -1,5 +1,20 @@
 // Auto-fallback refinement for low-sophistication outputs
-import { generateOpenAIResponse } from './openAiHelper';
+import OpenAI from 'openai';
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generateOpenAIResponse(prompt: string, tone: string, temperature: number): Promise<string> {
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
+    messages: [
+      { role: 'system', content: `You are a creative advertising expert. Tone: ${tone}` },
+      { role: 'user', content: prompt }
+    ],
+    temperature,
+    max_tokens: 800
+  });
+  return response.choices[0]?.message?.content || '';
+}
 
 export interface SophisticationScores {
   originality: number;

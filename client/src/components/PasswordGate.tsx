@@ -36,7 +36,7 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
       }
     `;
     document.head.appendChild(style);
-    return () => document.head.removeChild(style);
+    return () => { document.head.removeChild(style); };
   }, []);
 
   useEffect(() => {

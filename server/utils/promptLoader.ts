@@ -15,7 +15,7 @@ export function loadPrompt(filename: string, variables: Record<string, string>):
   let template = fs.readFileSync(promptPath, "utf8");
   for (const [key, value] of Object.entries(variables)) {
     const placeholder = `{${key}}`;
-    template = template.replaceAll(placeholder, value);
+    template = template.split(placeholder).join(value);
   }
   return template;
 }

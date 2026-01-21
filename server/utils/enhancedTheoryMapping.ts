@@ -23,8 +23,20 @@ function loadRetrievalCorpus() {
   return { campaigns: [] };
 }
 
+interface CorpusEntry {
+  campaign: string;
+  brand: string;
+  year: number;
+  headline: string;
+  rhetoricalDevices: string[];
+  rationale: string;
+  outcome: string;
+  whenToUse: string;
+  whenNotToUse: string;
+}
+
 const retrievalCorpusData = loadRetrievalCorpus();
-const retrievalCorpus = retrievalCorpusData.campaigns;
+const retrievalCorpus: CorpusEntry[] = retrievalCorpusData.campaigns || [];
 
 // Performance caching for theory queries
 const corpusQueryCache = new Map<string, any[]>();
@@ -97,7 +109,7 @@ const THEORY_MAP: { [key: string]: string[] } = {
   'motives': ['Burke'],
   'pentad': ['Burke'],
   'dramatism': ['Burke'],
-  'hierarchy': ['Burke'],
+  'hierarchy': ['Burke', 'Lupton'],
   'scapegoat': ['Burke'],
   'terministic screens': ['Burke'],
   'symbolic action': ['Burke'],
@@ -162,7 +174,7 @@ const THEORY_MAP: { [key: string]: string[] } = {
   'cross-cultural': ['Messaris'],  // Edge: Global health visuals
   'provocative': ['Messaris'],
   'striking': ['Messaris'],
-  'visual rhetoric': ['Messaris'],
+  'visual rhetoric': ['Messaris', 'Phillips & McQuarrie', 'Foss'],
 
   // Lupton: Typography, design theory, grids
   'typography': ['Lupton'],
@@ -172,7 +184,6 @@ const THEORY_MAP: { [key: string]: string[] } = {
   'deconstruction': ['Lupton'],
   'accessibility': ['Lupton'],
   'voice': ['Lupton'],
-  'hierarchy': ['Lupton'],
   'contrast': ['Lupton'],
   'repetition': ['Lupton'],
   'alignment': ['Lupton'],
@@ -203,7 +214,6 @@ const THEORY_MAP: { [key: string]: string[] } = {
   'evidence': ['Tufte'],
 
   // Phillips & McQuarrie: Visual rhetoric typology
-  'visual rhetoric': ['Phillips & McQuarrie', 'Foss'],
   'typology': ['Phillips & McQuarrie'],
   'figures': ['Phillips & McQuarrie'],
   'schemes': ['Phillips & McQuarrie'],

@@ -37,9 +37,6 @@ function loadRetrievalCorpus() {
   return { campaigns: [] };
 }
 
-const retrievalCorpusData = loadRetrievalCorpus();
-const retrievalCorpus = retrievalCorpusData.campaigns;
-
 interface CorpusEntry {
   campaign: string;
   brand: string;
@@ -51,6 +48,9 @@ interface CorpusEntry {
   whenToUse: string;
   whenNotToUse: string;
 }
+
+const retrievalCorpusData = loadRetrievalCorpus();
+const retrievalCorpus: CorpusEntry[] = retrievalCorpusData.campaigns || [];
 
 interface RetrievalCacheRecord {
   promptHash: string;

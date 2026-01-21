@@ -2,7 +2,7 @@
 import { Response } from 'express';
 
 export interface StreamingResponse {
-  write: (data: string) => void;
+  write: (data: string | object) => void;
   end: () => void;
 }
 
@@ -19,7 +19,7 @@ export function createStreamingResponse(res: Response): StreamingResponse {
   });
 
   return {
-    write: (data: string) => {
+    write: (data: string | object) => {
       res.write(`data: ${JSON.stringify(data)}\n\n`);
     },
     end: () => {

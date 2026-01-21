@@ -391,6 +391,10 @@ export class ProgressiveEvolutionEngine {
   }
 
   async initialize(): Promise<void> {
+    if (!this.state) {
+      throw new Error('ProgressiveEvolutionEngine: state not initialized');
+    }
+
     const blockNames: ConceptBlock['name'][] = [
       'headline', 'tagline', 'bodyCopy', 'visualConcept', 'rhetoricalCraft'
     ];
@@ -402,13 +406,13 @@ export class ProgressiveEvolutionEngine {
         this.state.creativeSeed.tropeCompatibility[0] || 'Metaphor'
       );
 
-      this.state!.blocks.push({
+      this.state.blocks.push({
         id: `block_${name}_${Date.now()}`,
         name,
         tokens,
         state: TokenState.MASK,
         currentState: TokenState.MASK,
-        tropeConstraints: [this.state!.creativeSeed.tropeCompatibility[0] || 'Metaphor'],
+        tropeConstraints: [this.state.creativeSeed.tropeCompatibility[0] || 'Metaphor'],
         coherenceScore: 0,
         committed: false,
         content: ''
@@ -419,6 +423,7 @@ export class ProgressiveEvolutionEngine {
   }
 
   async evolveBlock(blockIndex: number): Promise<ConceptBlock> {
+    if (!this.state) throw new Error('State not initialized');
     const block = this.state.blocks[blockIndex];
     const alpha = this.alphaScheduler.getCurrentAlpha();
     const trope = this.state.creativeSeed.tropeCompatibility[0] || 'Metaphor';
@@ -428,7 +433,7 @@ export class ProgressiveEvolutionEngine {
     // Stage 1->2: Generate vocabulary distribution from LLM
     const vocabDistribution = await this.generateVocabularyDistribution(
       block,
-      this.state.creativeSeed
+      this.state!.creativeSeed
     );
 
     // Stage 2->3: Blend tokens with vocabulary (sample a few tokens for efficiency)
@@ -460,6 +465,7 @@ export class ProgressiveEvolutionEngine {
     blockIndex: number,
     arbiterEvaluation: ArbiterEvaluation
   ): Promise<{ success: boolean; content: string }> {
+    if (!this.state) throw new Error('State not initialized');
     const block = this.state.blocks[blockIndex];
 
     // Check if arbiter requirements are met
@@ -490,6 +496,7 @@ export class ProgressiveEvolutionEngine {
     blockIndex: number,
     regressionDepth: 'soft' | 'full'
   ): Promise<void> {
+    if (!this.state) throw new Error('State not initialized');
     const block = this.state.blocks[blockIndex];
 
     if (regressionDepth === 'soft') {
@@ -573,6 +580,7 @@ Focus on words that serve the rhetorical device and creative direction.`;
   }
 
   private async sampleFromDistributions(block: ConceptBlock): Promise<string> {
+    if (!this.state) throw new Error('State not initialized');
     // Use LLM to generate coherent text from token distributions
     const topTokens = block.tokens.slice(0, 10).map(t => {
       const sorted = Array.from(t.distribution.entries())
@@ -599,11 +607,13 @@ Generate ONLY the ${block.name} text, nothing else.`;
   }
 
   advanceAlpha(): number {
+    if (!this.state) throw new Error('State not initialized');
     this.state.iterationCount++;
     return this.alphaScheduler.advance();
   }
 
   getState(): EvolutionState {
+    if (!this.state) throw new Error('State not initialized');
     return { ...this.state };
   }
 
@@ -611,6 +621,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
     evaluateBlock: (block: ConceptBlock, index: number) => Promise<ArbiterEvaluation>
   ): Promise<EvolutionState> {
     await this.initialize();
+    if (!this.state) throw new Error('State not initialized');
 
     const MAX_ITERATIONS = 5;
     const MAX_REGRESSIONS_PER_BLOCK = 2;
@@ -668,6 +679,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
   }
 
   private async calculateGlobalCoherence(): Promise<number> {
+    if (!this.state) throw new Error('State not initialized');
     const contents = this.state.blocks.map(b => b.content).filter(c => c);
     if (contents.length < 2) return 1.0;
 
