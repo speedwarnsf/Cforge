@@ -540,33 +540,33 @@ ${seedContext}
 
 ${tropeConstraint}
 
-Generate a complete concept. IMPORTANT: Replace ALL placeholder text with your actual creative content. Do NOT echo template instructions.
+Generate a complete concept. Write ACTUAL creative content for each section - do NOT echo instructions or placeholders.
 
-# MAIN HEADLINE
-Write your single most powerful headline here (5-10 words, punchy and memorable)
+Respond in EXACTLY this format:
 
-## TAGLINE
-Write a short, catchy tagline (3-7 words that capture the campaign essence)
+# [Your powerful 5-10 word headline here]
+
+## [Your catchy 3-7 word tagline here]
 
 **Visual Concept:**
-Describe the visual in vivid, unexpected detail. Be specific about imagery, composition, lighting, and mood.
+[Your vivid, detailed visual description with specific imagery, composition, lighting, and mood]
 
 **Body Copy:**
-Write 2-3 sentences of persuasive copy that supports the concept.
+[Your 2-3 sentences of persuasive copy]
 
 **Headlines:**
-- Option 1: First headline variation
-- Option 2: Second headline variation
-- Option 3: Third headline variation
+1. [First headline variation]
+2. [Second headline variation]
+3. [Third headline variation]
 
 **Rhetorical Analysis:**
-- Device Used: Name the primary rhetorical device
-- How Applied: Explain specifically how this device is used in YOUR concept
-- Evidence: Quote the specific phrases from YOUR concept that demonstrate the device
-- Why It Works: One sentence on why this device is effective for this brief
+- Device Used: [Name the rhetorical device]
+- How Applied: [Explain how it's used in your concept]
+- Evidence: [Quote specific phrases from your concept]
+- Why It Works: [One sentence on effectiveness]
 
 **Strategic Impact:**
-One sentence on why this concept will resonate with the target audience.
+[One sentence on audience resonance]
 
 Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
         variantIndex === 1 ? 'emotionally resonant and human' :
@@ -609,9 +609,23 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
         const trimmed = line.trim();
 
         if (trimmed.startsWith('# ')) {
-          headline = trimmed.substring(2).trim();
+          const extracted = trimmed.substring(2).trim();
+          // Filter out placeholder text - must not be in brackets or be instruction text
+          if (extracted && !extracted.startsWith('[') && !extracted.endsWith(']') &&
+              !extracted.toLowerCase().includes('headline here') &&
+              !extracted.toLowerCase().includes('main headline') &&
+              extracted.length > 3) {
+            headline = extracted;
+          }
         } else if (trimmed.startsWith('## ')) {
-          tagline = trimmed.substring(3).trim();
+          const extracted = trimmed.substring(3).trim();
+          // Filter out placeholder text
+          if (extracted && !extracted.startsWith('[') && !extracted.endsWith(']') &&
+              !extracted.toLowerCase().includes('tagline here') &&
+              extracted.toLowerCase() !== 'tagline' &&
+              extracted.length > 3) {
+            tagline = extracted;
+          }
         } else if (trimmed.startsWith('**Visual Concept:**') || trimmed.startsWith('**Visual:**')) {
           currentSection = 'visual';
           const match = trimmed.match(/\*\*Visual.*?:\*\*\s*(.*)/);
@@ -634,9 +648,13 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
           evidence = trimmed.replace('- Evidence:', '').trim();
         } else if (trimmed.startsWith('- Why It Works:')) {
           whyItWorks = trimmed.replace('- Why It Works:', '').trim();
-        } else if (trimmed.startsWith('- Option') || (currentSection === 'headlines' && trimmed.startsWith('- '))) {
-          const headlineText = trimmed.replace(/^-\s*(Option\s*\d+:\s*)?/, '').replace(/\*\*/g, '').trim();
-          if (headlineText && headlineText.length < 100) {
+        } else if (trimmed.startsWith('- Option') || trimmed.match(/^\d+\./) || (currentSection === 'headlines' && (trimmed.startsWith('- ') || trimmed.match(/^\d+\./)))) {
+          const headlineText = trimmed.replace(/^(-\s*(Option\s*\d+:\s*)?|\d+\.\s*)/, '').replace(/\*\*/g, '').replace(/^\[|\]$/g, '').trim();
+          // Filter out placeholder text
+          if (headlineText && headlineText.length > 3 && headlineText.length < 100 &&
+              !headlineText.toLowerCase().includes('headline') &&
+              !headlineText.toLowerCase().includes('variation') &&
+              !headlineText.startsWith('[') && !headlineText.endsWith(']')) {
             headlines.push(headlineText);
           }
         } else if (currentSection === 'visual' && trimmed && !trimmed.startsWith('**')) {

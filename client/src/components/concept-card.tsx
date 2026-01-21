@@ -103,7 +103,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
       elements.push(
         <div key={index++} className="mt-4 mb-4">
           <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Body Copy</h4>
-          <p className="text-base leading-relaxed whitespace-pre-line">
+          <p className="text-base leading-relaxed whitespace-pre-line break-words">
             {sections.bodyCopy}
           </p>
         </div>
@@ -115,7 +115,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
       elements.push(
         <div key={index++} className="mt-4 mb-4">
           <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Visual Concept</h4>
-          <p className="text-base leading-relaxed whitespace-pre-line">
+          <p className="text-base leading-relaxed whitespace-pre-line break-words">
             {sections.visualConcept}
           </p>
         </div>
@@ -147,7 +147,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
             elements.push(
               <div key={index++} className="mb-4">
                 <h5 className="text-sm font-bold text-gray-800 mb-1">{device.label}</h5>
-                <p className="text-base leading-relaxed whitespace-pre-line">
+                <p className="text-base leading-relaxed whitespace-pre-line break-words">
                   {content}
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
 
       if (jsonData.bodyCopy) {
         elements.push(
-          <p key={currentIndex++} className="text-base whitespace-pre-line mt-4">
+          <p key={currentIndex++} className="text-base whitespace-pre-line break-words mt-4">
             {jsonData.bodyCopy}
           </p>
         );
@@ -209,7 +209,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
 
       if (jsonData.visualConcept) {
         elements.push(
-          <p key={currentIndex++} className="text-base whitespace-pre-line mt-4">
+          <p key={currentIndex++} className="text-base whitespace-pre-line break-words mt-4">
             {jsonData.visualConcept}
           </p>
         );
@@ -229,7 +229,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
             </h4>
           );
           elements.push(
-            <p key={currentIndex++} className="text-base whitespace-pre-line">
+            <p key={currentIndex++} className="text-base whitespace-pre-line break-words">
               {craft.explanation}
             </p>
           );
@@ -243,7 +243,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
           </h4>
         );
         elements.push(
-          <p key={currentIndex++} className="text-base whitespace-pre-line">
+          <p key={currentIndex++} className="text-base whitespace-pre-line break-words">
             {jsonData.strategicImpact}
           </p>
         );
@@ -290,7 +290,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
               ) : headerText === 'TAGLINE' ? (
                 <h3 className="text-base font-medium">{bodyText}</h3>
               ) : (
-                <div className="text-sm whitespace-pre-line">{bodyText}</div>
+                <div className="text-sm whitespace-pre-line break-words">{bodyText}</div>
               )}
             </div>
           </div>
@@ -301,7 +301,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
     // If no sections found, display as plain text
     if (elements.length === 0) {
       return (
-        <div className="text-white leading-relaxed whitespace-pre-line text-sm">
+        <div className="text-white leading-relaxed whitespace-pre-line break-words text-sm">
           {content}
         </div>
       );
@@ -447,7 +447,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
   };
 
   return (
-    <div className="concept-card bg-gray-900 border border-gray-700 p-6">
+    <div className="concept-card bg-gray-900 border border-gray-700 p-4 sm:p-6 overflow-hidden w-full max-w-full">
       <div className="flex items-start justify-between mb-4">
         <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-3">
@@ -489,7 +489,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 overflow-hidden break-words">
         {parseContentWithProperSpacing(concept.content)}
       </div>
 

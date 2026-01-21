@@ -424,6 +424,10 @@ html {
     border-radius: 8px;
     color: white;
     font-family: system-ui, Arial, sans-serif;
+    overflow: hidden;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   .feedback-buttons {
@@ -1135,18 +1139,32 @@ button[type="submit"]:not(:disabled):hover {
   padding: 20px;
   border-radius: 10px;
   border: 1px solid #444;
+  overflow: hidden;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .concept-card {
+    padding: 12px;
+  }
 }
 
 .concept-card h3 {
   font-size: 18px;
   margin-bottom: 10px;
   color: #fff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .concept-card p {
   margin-bottom: 10px;
   font-size: 14px;
   color: #ccc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .feedback-buttons {
