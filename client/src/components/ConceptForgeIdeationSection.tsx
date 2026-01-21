@@ -133,11 +133,19 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       projectId: "concept_forge_session"
     };
     
-    fetch('/api/generate', { 
-      method: 'POST', 
-      headers: { 'Content-Type': 'application/json' }, 
-      body: JSON.stringify(data) 
-    }).then(res => res.json()).then((res) => { 
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
+    }).then((res) => {
+      if (res.error) {
+        throw new Error(res.error);
+      } 
       
       // Parse the AI response content
       const content = res.content || '';
@@ -158,9 +166,11 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       
       setResults([parsedConcept]); 
       setIsLoading(false); 
-    }).catch(() => {
+    }).catch((err) => {
+      console.error('Generation failed:', err);
       setResults([]);
       setIsLoading(false);
+      // TODO: Show user-facing error toast
     });
   };
 
