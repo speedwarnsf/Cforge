@@ -35,6 +35,12 @@ import {
 } from './trajectoryTraining';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
 import { evaluateAdQuality } from './adQualityArbiter';
+import {
+  selectVariedTropes,
+  recordTropeUsage,
+  getTropeExplorationStats,
+  TropeSelection
+} from './tropeVarietySelector';
 
 // ============================================
 // CONFIGURATION
@@ -45,6 +51,7 @@ interface HybridConfig {
   enableProgressiveEvolution: boolean;
   enableTrajectoryCapture: boolean;
   enableTropeConstraints: boolean;
+  enableTropeVariety: boolean;  // NEW: Enforce variety in trope selection
   fallbackToLegacy: boolean;
   divergentPoolSize: number;
   maxEvolutionCycles: number;
@@ -57,6 +64,7 @@ const DEFAULT_CONFIG: HybridConfig = {
   enableProgressiveEvolution: true,
   enableTrajectoryCapture: true,
   enableTropeConstraints: true,
+  enableTropeVariety: true,  // Strongly favor unexplored devices from 411 corpus
   fallbackToLegacy: true,
   divergentPoolSize: 15,
   maxEvolutionCycles: 50,
@@ -318,10 +326,33 @@ export class HybridGenerationOrchestrator {
     const variantCount = input.variantCount || 3;
     const variants: HybridVariant[] = [];
 
-    // Determine tropes to use
-    const tropesToUse = input.requestedTropes ||
-      (seed?.tropeCompatibility.slice(0, 2)) ||
-      ['metaphor', 'antithesis'];
+    // Determine tropes to use - with variety enforcement from 411 device corpus
+    let tropesToUse: string[];
+    let selectedTropeDetails: TropeSelection[] = [];
+
+    if (input.requestedTropes && input.requestedTropes.length > 0) {
+      // User explicitly requested specific tropes
+      tropesToUse = input.requestedTropes;
+      console.log(`   🎯 Using user-requested tropes: ${tropesToUse.join(', ')}`);
+    } else if (config.enableTropeVariety) {
+      // Select varied tropes from full 411 corpus, favoring unexplored
+      console.log('   🎭 Selecting varied tropes from 411-device corpus...');
+      selectedTropeDetails = await selectVariedTropes({
+        tone: input.tone,
+        count: Math.max(3, variantCount),
+        preferUnexplored: true,
+        maxUsageCount: 5
+      });
+      tropesToUse = selectedTropeDetails.map(t => t.deviceId);
+
+      // Log exploration stats
+      const stats = await getTropeExplorationStats();
+      console.log(`   📊 Corpus exploration: ${stats.explorationPercentage.toFixed(1)}% (${stats.exploredCount}/${stats.totalDevices} devices used)`);
+    } else {
+      // Fallback to seed compatibility or defaults
+      tropesToUse = seed?.tropeCompatibility.slice(0, 2) || ['metaphor', 'antithesis'];
+      console.log(`   🔄 Using fallback tropes: ${tropesToUse.join(', ')}`);
+    }
 
     // Generate constraint prompt
     const tropeConstraint = generateTropeConstraintPrompt(tropesToUse);
@@ -423,6 +454,14 @@ ${seed?.persona.systemPromptOverride || ''}`
       } catch (error) {
         console.error(`Failed to generate variant ${i}:`, error);
       }
+    }
+
+    // Record trope usage for variety tracking (only if we generated variants)
+    if (variants.length > 0 && config.enableTropeVariety) {
+      // Get unique tropes actually used in variants
+      const usedTropes = Array.from(new Set(variants.map(v => v.rhetoricalDevice)));
+      await recordTropeUsage(usedTropes);
+      console.log(`   📝 Recorded usage for ${usedTropes.length} devices: ${usedTropes.join(', ')}`);
     }
 
     return variants;
