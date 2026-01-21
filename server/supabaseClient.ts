@@ -263,3 +263,213 @@ export async function getAllConceptsFromSupabase(): Promise<any[]> {
     return [];
   }
 }
+
+// ============================================
+// CREATIVE BRIEFS MANAGEMENT
+// ============================================
+
+export interface CreativeBrief {
+  id?: string;
+  user_id: string | null;
+  name: string | null;           // Optional name for starred/named briefs
+  query: string;                  // The creative brief text
+  tone: string;
+  concept_count: number;
+  hybrid_config?: any;            // JSON for additional settings
+  is_starred: boolean;
+  last_used_at: string;
+  created_at?: string;
+  times_used: number;
+}
+
+/**
+ * Save a creative brief (auto-save on generation)
+ * If a similar brief exists (same query), update it instead of creating new
+ */
+export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'created_at'>): Promise<string | null> {
+  if (!supabase) {
+    console.log('Supabase not configured, skipping brief save');
+    return null;
+  }
+
+  try {
+    // Check if a brief with the same query already exists
+    const { data: existing } = await supabase
+      .from('creative_briefs')
+      .select('id, times_used')
+      .eq('query', brief.query)
+      .single();
+
+    if (existing) {
+      // Update existing brief
+      const { data, error } = await supabase
+        .from('creative_briefs')
+        .update({
+          tone: brief.tone,
+          concept_count: brief.concept_count,
+          hybrid_config: brief.hybrid_config,
+          last_used_at: new Date().toISOString(),
+          times_used: (existing.times_used || 0) + 1
+        })
+        .eq('id', existing.id)
+        .select();
+
+      if (error) {
+        console.error('Error updating creative brief:', error);
+        return null;
+      }
+
+      console.log('📝 Updated existing creative brief');
+      return existing.id;
+    } else {
+      // Insert new brief
+      const { data, error } = await supabase
+        .from('creative_briefs')
+        .insert([{
+          user_id: brief.user_id || 'guest',
+          name: brief.name,
+          query: brief.query.substring(0, 5000),
+          tone: brief.tone,
+          concept_count: brief.concept_count,
+          hybrid_config: brief.hybrid_config,
+          is_starred: brief.is_starred || false,
+          last_used_at: new Date().toISOString(),
+          times_used: 1
+        }])
+        .select();
+
+      if (error) {
+        console.error('Error saving creative brief:', error);
+        return null;
+      }
+
+      console.log('📝 Saved new creative brief');
+      return (data as any)?.[0]?.id || null;
+    }
+  } catch (error) {
+    console.error('Error in saveCreativeBrief:', error);
+    return null;
+  }
+}
+
+/**
+ * Get all creative briefs, sorted by last used
+ */
+export async function getCreativeBriefs(options?: {
+  limit?: number;
+  starredOnly?: boolean;
+}): Promise<CreativeBrief[]> {
+  if (!supabase) {
+    console.log('Supabase not configured');
+    return [];
+  }
+
+  try {
+    let query = supabase
+      .from('creative_briefs')
+      .select('*')
+      .order('last_used_at', { ascending: false });
+
+    if (options?.starredOnly) {
+      query = query.eq('is_starred', true);
+    }
+
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Error fetching creative briefs:', error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Error in getCreativeBriefs:', error);
+    return [];
+  }
+}
+
+/**
+ * Update brief name (for naming favorites)
+ */
+export async function updateBriefName(briefId: string, name: string): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    const { error } = await supabase
+      .from('creative_briefs')
+      .update({ name })
+      .eq('id', briefId);
+
+    if (error) {
+      console.error('Error updating brief name:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in updateBriefName:', error);
+    return false;
+  }
+}
+
+/**
+ * Toggle brief starred status
+ */
+export async function toggleBriefStarred(briefId: string): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    // Get current status
+    const { data: current } = await supabase
+      .from('creative_briefs')
+      .select('is_starred')
+      .eq('id', briefId)
+      .single();
+
+    if (!current) return false;
+
+    // Toggle it
+    const { error } = await supabase
+      .from('creative_briefs')
+      .update({ is_starred: !current.is_starred })
+      .eq('id', briefId);
+
+    if (error) {
+      console.error('Error toggling brief starred:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in toggleBriefStarred:', error);
+    return false;
+  }
+}
+
+/**
+ * Delete a creative brief
+ */
+export async function deleteCreativeBrief(briefId: string): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    const { error } = await supabase
+      .from('creative_briefs')
+      .delete()
+      .eq('id', briefId);
+
+    if (error) {
+      console.error('Error deleting creative brief:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in deleteCreativeBrief:', error);
+    return false;
+  }
+}

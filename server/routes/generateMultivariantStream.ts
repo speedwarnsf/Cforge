@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { HybridGenerationOrchestrator } from '../utils/hybridGenerationOrchestrator';
-import { logSession } from '../supabaseClient';
+import { logSession, saveCreativeBrief } from '../supabaseClient';
 
 interface StreamEvent {
   type: 'progress' | 'log' | 'variant' | 'complete' | 'error';
@@ -57,6 +57,19 @@ export async function generateMultivariantStream(req: Request, res: Response) {
 
     log(`Starting generation for: "${query.substring(0, 50)}..."`);
     updateProgress('analyzing', 5, 'Analyzing your creative brief...');
+
+    // Auto-save the creative brief to history (non-blocking)
+    saveCreativeBrief({
+      user_id: null,
+      name: null,
+      query,
+      tone,
+      concept_count: conceptCount,
+      hybrid_config: hybridConfig || null,
+      is_starred: false,
+      last_used_at: new Date().toISOString(),
+      times_used: 1
+    }).catch(err => console.log('Brief auto-save skipped:', err.message));
 
     if (enableHybridMode) {
       log('Hybrid mode enabled - using CREATIVEDC + EvoToken-DLM pipeline');

@@ -2205,12 +2205,17 @@ var init_openai = __esm({
 var supabaseClient_exports = {};
 __export(supabaseClient_exports, {
   clearUsedExamples: () => clearUsedExamples,
+  deleteCreativeBrief: () => deleteCreativeBrief,
   getAllConceptsFromSupabase: () => getAllConceptsFromSupabase,
+  getCreativeBriefs: () => getCreativeBriefs,
   getRhetoricalDeviceUsage: () => getRhetoricalDeviceUsage,
   getUsedExamples: () => getUsedExamples,
   logSession: () => logSession,
   markExampleAsUsed: () => markExampleAsUsed,
+  saveCreativeBrief: () => saveCreativeBrief,
   supabase: () => supabase2,
+  toggleBriefStarred: () => toggleBriefStarred,
+  updateBriefName: () => updateBriefName,
   updateRhetoricalDeviceUsage: () => updateRhetoricalDeviceUsage
 });
 import { createClient as createClient3 } from "@supabase/supabase-js";
@@ -2366,6 +2371,119 @@ async function getAllConceptsFromSupabase() {
   } catch (error) {
     console.error("Error in getAllConceptsFromSupabase:", error);
     return [];
+  }
+}
+async function saveCreativeBrief(brief) {
+  if (!supabase2) {
+    console.log("Supabase not configured, skipping brief save");
+    return null;
+  }
+  try {
+    const { data: existing } = await supabase2.from("creative_briefs").select("id, times_used").eq("query", brief.query).single();
+    if (existing) {
+      const { data, error } = await supabase2.from("creative_briefs").update({
+        tone: brief.tone,
+        concept_count: brief.concept_count,
+        hybrid_config: brief.hybrid_config,
+        last_used_at: (/* @__PURE__ */ new Date()).toISOString(),
+        times_used: (existing.times_used || 0) + 1
+      }).eq("id", existing.id).select();
+      if (error) {
+        console.error("Error updating creative brief:", error);
+        return null;
+      }
+      console.log("\u{1F4DD} Updated existing creative brief");
+      return existing.id;
+    } else {
+      const { data, error } = await supabase2.from("creative_briefs").insert([{
+        user_id: brief.user_id || "guest",
+        name: brief.name,
+        query: brief.query.substring(0, 5e3),
+        tone: brief.tone,
+        concept_count: brief.concept_count,
+        hybrid_config: brief.hybrid_config,
+        is_starred: brief.is_starred || false,
+        last_used_at: (/* @__PURE__ */ new Date()).toISOString(),
+        times_used: 1
+      }]).select();
+      if (error) {
+        console.error("Error saving creative brief:", error);
+        return null;
+      }
+      console.log("\u{1F4DD} Saved new creative brief");
+      return data?.[0]?.id || null;
+    }
+  } catch (error) {
+    console.error("Error in saveCreativeBrief:", error);
+    return null;
+  }
+}
+async function getCreativeBriefs(options) {
+  if (!supabase2) {
+    console.log("Supabase not configured");
+    return [];
+  }
+  try {
+    let query = supabase2.from("creative_briefs").select("*").order("last_used_at", { ascending: false });
+    if (options?.starredOnly) {
+      query = query.eq("is_starred", true);
+    }
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
+    const { data, error } = await query;
+    if (error) {
+      console.error("Error fetching creative briefs:", error);
+      return [];
+    }
+    return data || [];
+  } catch (error) {
+    console.error("Error in getCreativeBriefs:", error);
+    return [];
+  }
+}
+async function updateBriefName(briefId, name) {
+  if (!supabase2) return false;
+  try {
+    const { error } = await supabase2.from("creative_briefs").update({ name }).eq("id", briefId);
+    if (error) {
+      console.error("Error updating brief name:", error);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error in updateBriefName:", error);
+    return false;
+  }
+}
+async function toggleBriefStarred(briefId) {
+  if (!supabase2) return false;
+  try {
+    const { data: current } = await supabase2.from("creative_briefs").select("is_starred").eq("id", briefId).single();
+    if (!current) return false;
+    const { error } = await supabase2.from("creative_briefs").update({ is_starred: !current.is_starred }).eq("id", briefId);
+    if (error) {
+      console.error("Error toggling brief starred:", error);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error in toggleBriefStarred:", error);
+    return false;
+  }
+}
+async function deleteCreativeBrief(briefId) {
+  if (!supabase2) return false;
+  try {
+    const { error } = await supabase2.from("creative_briefs").delete().eq("id", briefId);
+    if (error) {
+      console.error("Error deleting creative brief:", error);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error in deleteCreativeBrief:", error);
+    return false;
   }
 }
 var supabaseUrl, supabaseKey, supabase2;
@@ -5316,6 +5434,17 @@ async function generateMultivariantStream(req, res) {
     }
     log(`Starting generation for: "${query.substring(0, 50)}..."`);
     updateProgress("analyzing", 5, "Analyzing your creative brief...");
+    saveCreativeBrief({
+      user_id: null,
+      name: null,
+      query,
+      tone,
+      concept_count: conceptCount,
+      hybrid_config: hybridConfig || null,
+      is_starred: false,
+      last_used_at: (/* @__PURE__ */ new Date()).toISOString(),
+      times_used: 1
+    }).catch((err) => console.log("Brief auto-save skipped:", err.message));
     if (enableHybridMode) {
       log("Hybrid mode enabled - using CREATIVEDC + EvoToken-DLM pipeline");
       updateProgress("analyzing", 10, "Initializing hybrid generation system...");
@@ -9339,6 +9468,83 @@ async function registerRoutes(app2) {
     } catch (error) {
       console.error("Error refining prompt:", error);
       res.status(500).json({ error: "Failed to refine prompt" });
+    }
+  });
+  app2.get("/api/briefs", async (req, res) => {
+    try {
+      const starred = req.query.starred === "true";
+      const limit = parseInt(req.query.limit) || 50;
+      const briefs = await getCreativeBriefs({
+        starredOnly: starred,
+        limit
+      });
+      res.json(briefs);
+    } catch (error) {
+      console.error("Get briefs error:", error);
+      res.status(500).json({ message: "Failed to fetch creative briefs" });
+    }
+  });
+  app2.post("/api/briefs", async (req, res) => {
+    try {
+      const { query, tone, conceptCount, hybridConfig, name, isStarred } = req.body;
+      if (!query || !tone) {
+        return res.status(400).json({ message: "Query and tone are required" });
+      }
+      const briefId = await saveCreativeBrief({
+        user_id: null,
+        name: name || null,
+        query,
+        tone,
+        concept_count: conceptCount || 1,
+        hybrid_config: hybridConfig || null,
+        is_starred: isStarred || false,
+        last_used_at: (/* @__PURE__ */ new Date()).toISOString(),
+        times_used: 1
+      });
+      res.json({ id: briefId, success: !!briefId });
+    } catch (error) {
+      console.error("Save brief error:", error);
+      res.status(500).json({ message: "Failed to save creative brief" });
+    }
+  });
+  app2.patch("/api/briefs/:id/name", async (req, res) => {
+    try {
+      const { name } = req.body;
+      const success = await updateBriefName(req.params.id, name);
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to update brief name" });
+      }
+    } catch (error) {
+      console.error("Update brief name error:", error);
+      res.status(500).json({ message: "Failed to update brief name" });
+    }
+  });
+  app2.patch("/api/briefs/:id/star", async (req, res) => {
+    try {
+      const success = await toggleBriefStarred(req.params.id);
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to toggle starred status" });
+      }
+    } catch (error) {
+      console.error("Toggle star error:", error);
+      res.status(500).json({ message: "Failed to toggle starred status" });
+    }
+  });
+  app2.delete("/api/briefs/:id", async (req, res) => {
+    try {
+      const success = await deleteCreativeBrief(req.params.id);
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to delete brief" });
+      }
+    } catch (error) {
+      console.error("Delete brief error:", error);
+      res.status(500).json({ message: "Failed to delete brief" });
     }
   });
   const httpServer = createServer(app2);

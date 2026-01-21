@@ -3,7 +3,14 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { aiRequestFormSchema } from "@shared/schema";
 import { generateAiResponse } from "./services/openai";
-import { logSession } from "./supabaseClient";
+import {
+  logSession,
+  saveCreativeBrief,
+  getCreativeBriefs,
+  updateBriefName,
+  toggleBriefStarred,
+  deleteCreativeBrief
+} from "./supabaseClient";
 import { generateMultivariant } from "./routes/generateMultivariant";
 import { testTheorySystem } from "./routes/testTheorySystem";
 import { reportSimilarityToRatedConcepts, analyzeFeedbackSimilarity } from "./utils/feedbackSimilarityReporter";
@@ -1292,6 +1299,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error refining prompt:", error);
       res.status(500).json({ error: "Failed to refine prompt" });
+    }
+  });
+
+  // ============================================
+  // CREATIVE BRIEFS HISTORY ENDPOINTS
+  // ============================================
+
+  // Get all creative briefs (history)
+  app.get("/api/briefs", async (req, res) => {
+    try {
+      const starred = req.query.starred === 'true';
+      const limit = parseInt(req.query.limit as string) || 50;
+
+      const briefs = await getCreativeBriefs({
+        starredOnly: starred,
+        limit
+      });
+
+      res.json(briefs);
+    } catch (error) {
+      console.error("Get briefs error:", error);
+      res.status(500).json({ message: "Failed to fetch creative briefs" });
+    }
+  });
+
+  // Save a creative brief (called during generation)
+  app.post("/api/briefs", async (req, res) => {
+    try {
+      const { query, tone, conceptCount, hybridConfig, name, isStarred } = req.body;
+
+      if (!query || !tone) {
+        return res.status(400).json({ message: "Query and tone are required" });
+      }
+
+      const briefId = await saveCreativeBrief({
+        user_id: null,
+        name: name || null,
+        query,
+        tone,
+        concept_count: conceptCount || 1,
+        hybrid_config: hybridConfig || null,
+        is_starred: isStarred || false,
+        last_used_at: new Date().toISOString(),
+        times_used: 1
+      });
+
+      res.json({ id: briefId, success: !!briefId });
+    } catch (error) {
+      console.error("Save brief error:", error);
+      res.status(500).json({ message: "Failed to save creative brief" });
+    }
+  });
+
+  // Update brief name
+  app.patch("/api/briefs/:id/name", async (req, res) => {
+    try {
+      const { name } = req.body;
+      const success = await updateBriefName(req.params.id, name);
+
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to update brief name" });
+      }
+    } catch (error) {
+      console.error("Update brief name error:", error);
+      res.status(500).json({ message: "Failed to update brief name" });
+    }
+  });
+
+  // Toggle brief starred status
+  app.patch("/api/briefs/:id/star", async (req, res) => {
+    try {
+      const success = await toggleBriefStarred(req.params.id);
+
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to toggle starred status" });
+      }
+    } catch (error) {
+      console.error("Toggle star error:", error);
+      res.status(500).json({ message: "Failed to toggle starred status" });
+    }
+  });
+
+  // Delete a creative brief
+  app.delete("/api/briefs/:id", async (req, res) => {
+    try {
+      const success = await deleteCreativeBrief(req.params.id);
+
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ message: "Failed to delete brief" });
+      }
+    } catch (error) {
+      console.error("Delete brief error:", error);
+      res.status(500).json({ message: "Failed to delete brief" });
     }
   });
 

@@ -9,6 +9,7 @@ import SessionHistory from "./session-history";
 import PromptRefinementPanel from "./PromptRefinementPanel";
 import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
+import BriefHistory from "./BriefHistory";
 import { useVideo } from "@/hooks/use-video";
 
 
@@ -452,7 +453,18 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     className="min-h-32 bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 resize-none focus:border-blue-500 focus:ring-blue-500"
                     aria-describedby="brief-length-single"
                   />
-                  
+
+                  {/* Brief History - Load previous briefs */}
+                  <div className="mt-4">
+                    <BriefHistory
+                      currentQuery={brief}
+                      onSelectBrief={(selectedBrief) => {
+                        setBrief(selectedBrief.query);
+                        setSelectedLens(selectedBrief.tone);
+                      }}
+                    />
+                  </div>
+
                   <div id="brief-length-single" className="mt-4 flex justify-between items-center">
                     <span className="text-sm text-gray-400">
                       {brief.length}/1000 characters
@@ -560,6 +572,20 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     className="min-h-32 bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 resize-none focus:border-purple-500 focus:ring-purple-500"
                     aria-describedby="brief-length-multi"
                   />
+
+                  {/* Brief History - Load previous briefs */}
+                  <div className="mt-4">
+                    <BriefHistory
+                      currentQuery={brief}
+                      onSelectBrief={(selectedBrief) => {
+                        setBrief(selectedBrief.query);
+                        setSelectedLens(selectedBrief.tone);
+                        if (selectedBrief.concept_count > 1) {
+                          setVariantCount(selectedBrief.concept_count);
+                        }
+                      }}
+                    />
+                  </div>
 
                   <div id="brief-length-multi" className="mt-4 flex justify-between items-center">
                     <span className="text-sm text-gray-400">
