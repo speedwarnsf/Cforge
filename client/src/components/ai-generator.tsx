@@ -893,6 +893,8 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                       <FormControl>
                         <div className="relative">
                           <textarea
+                            id="ai-generator-query"
+                            name="query"
                             placeholder="Type in the ask. Who's it for? What do they need to know? Why does it matter?"
                             className={`w-full px-4 py-3 border border-gray-600 focus:border-gray-500 focus:outline-none resize-none transition-colors duration-200 text-white placeholder-gray-400 bg-gray-800 leading-relaxed rounded-none ${
                               briefCollapsed ? 'min-h-[60px] text-sm' : 'min-h-[120px] text-sm'
@@ -900,6 +902,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                             value={field.value || ""}
                             onChange={(e) => field.onChange(e.target.value)}
                             maxLength={500}
+                            aria-label="Creative brief"
                           />
                           <div className={`absolute text-xs font-mono rounded border border-gray-300 ${(field.value?.length || 0) > 400 ? 'bg-red-100 text-red-600' : 'bg-white text-gray-600'}`} style={{ right: '20px', bottom: '20px', padding: '4px 8px', width: '72px' }}>
                             {(field.value?.length || 0)}/500
@@ -928,7 +931,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                     <FormItem className="w-full rounded-none border border-gray-300 px-2 py-1 bg-white mt-6">
                       <div className="flex flex-row items-center justify-between">
                         <div className="flex-1">
-                          <FormLabel className="text-sm font-sans font-medium">Include clichés?</FormLabel>
+                          <label htmlFor="include-cliches-toggle" className="text-sm font-sans font-medium cursor-pointer">Include clichés?</label>
                           <FormDescription className="text-sm text-gray-600 font-sans block">
                             Enable familiar tropes and expected imagery in concepts
                           </FormDescription>
@@ -936,7 +939,10 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                         <FormControl>
                           <div style={{ paddingRight: '12px' }}>
                             <button
+                              id="include-cliches-toggle"
                               type="button"
+                              role="switch"
+                              aria-checked={field.value}
                               onClick={() => field.onChange(!field.value)}
                               className={`text-xs font-mono rounded-none border border-gray-300 transition-colors ${
                                 field.value ? 'bg-black text-white' : 'bg-gray-50 text-gray-500'
@@ -958,7 +964,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                     <FormItem className="w-full rounded-none border border-gray-300 px-2 py-1 bg-white mt-6">
                       <div className="flex flex-row items-center justify-between">
                         <div className="flex-1">
-                          <FormLabel className="text-sm font-sans font-medium">Deep Scan Originality Check</FormLabel>
+                          <label htmlFor="deep-scan-toggle" className="text-sm font-sans font-medium cursor-pointer">Deep Scan Originality Check</label>
                           <FormDescription className="text-sm text-gray-600 font-sans block">
                             Include image analysis for visual similarities
                             <span className="block text-xs text-gray-400 mt-1">May take 10-15 seconds longer to complete</span>
@@ -967,7 +973,10 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                         <FormControl>
                           <div style={{ paddingRight: '12px' }}>
                             <button
+                              id="deep-scan-toggle"
                               type="button"
+                              role="switch"
+                              aria-checked={field.value}
                               onClick={() => field.onChange(!field.value)}
                               className={`text-xs font-mono rounded-none border border-gray-300 transition-colors ${
                                 field.value ? 'bg-black text-white' : 'bg-gray-50 text-gray-500'

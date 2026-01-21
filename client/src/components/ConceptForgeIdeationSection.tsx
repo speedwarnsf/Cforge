@@ -281,15 +281,18 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               {/* Creative Brief Input */}
               <Card className="bg-gray-800/30 backdrop-blur-sm border-gray-700">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Your Creative Brief</h3>
+                  <label htmlFor="creative-brief-single" className="text-xl font-semibold text-white mb-4 block">Your Creative Brief</label>
                   <Textarea
+                    id="creative-brief-single"
+                    name="creative-brief-single"
                     value={brief}
                     onChange={(e) => setBrief(e.target.value)}
                     placeholder="Describe your campaign challenge, product, or creative brief. Be specific about your audience, goals, and key messages..."
                     className="min-h-32 bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 resize-none focus:border-blue-500 focus:ring-blue-500"
+                    aria-describedby="brief-length-single"
                   />
                   
-                  <div className="mt-4 flex justify-between items-center">
+                  <div id="brief-length-single" className="mt-4 flex justify-between items-center">
                     <span className="text-sm text-gray-400">
                       {brief.length}/1000 characters
                     </span>
@@ -297,11 +300,11 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                       {brief.length > 50 ? "✓ Good length" : "Add more detail for better results"}
                     </div>
                   </div>
-                  
+
                   {/* Prompt Refinement Panel */}
-                  <PromptRefinementPanel 
-                    query={brief} 
-                    onSelect={(text) => setBrief(text)} 
+                  <PromptRefinementPanel
+                    query={brief}
+                    onSelect={(text) => setBrief(text)}
                   />
                 </CardContent>
               </Card>
@@ -386,15 +389,18 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               {/* Creative Brief Input */}
               <Card className="bg-gray-800/30 backdrop-blur-sm border-gray-700">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Your Creative Brief</h3>
+                  <label htmlFor="creative-brief-multi" className="text-xl font-semibold text-white mb-4 block">Your Creative Brief</label>
                   <Textarea
+                    id="creative-brief-multi"
+                    name="creative-brief-multi"
                     value={brief}
                     onChange={(e) => setBrief(e.target.value)}
                     placeholder="Describe your campaign challenge, product, or creative brief. Be specific about your audience, goals, and key messages..."
                     className="min-h-32 bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-400 resize-none focus:border-purple-500 focus:ring-purple-500"
+                    aria-describedby="brief-length-multi"
                   />
-                  
-                  <div className="mt-4 flex justify-between items-center">
+
+                  <div id="brief-length-multi" className="mt-4 flex justify-between items-center">
                     <span className="text-sm text-gray-400">
                       {brief.length}/1000 characters
                     </span>
