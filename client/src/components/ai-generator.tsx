@@ -132,6 +132,7 @@ interface SingleConcept {
   timestamp: string;
   originalityCheck?: OriginalityCheck;
   rhetoricalDevice?: string;
+  rhetoricalDeviceDefinition?: string;
   iterationType?: 'original' | 'reforge_headline' | 'reforge_tagline' | 'reforge_body' | 'reforge_full';
 }
 
@@ -216,7 +217,8 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
           tokens: 0,
           processingTime: data.metadata?.totalTime ? `${data.metadata.totalTime}ms` : 'N/A',
           originalityCheck: { confidence: (output.originalityScore || 50) / 100 },
-          rhetoricalDevice: output.rhetoricalDevice || 'metaphor'
+          rhetoricalDevice: output.rhetoricalDevice || 'metaphor',
+          rhetoricalDeviceDefinition: output.rhetoricalDeviceDefinition
         }));
 
         setCurrentConcepts(concepts);

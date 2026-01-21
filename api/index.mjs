@@ -4982,6 +4982,7 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
                 tagline: parsed.tagline,
                 bodyCopy: parsed.bodyCopy,
                 rhetoricalDevice: deviceForVariant,
+                rhetoricalDeviceDefinition: deviceDefinition || void 0,
                 rhetoricalAnalysis,
                 creativeSeedOrigin: variantSeed ? {
                   personaId: variantSeed.persona.id,
@@ -5352,8 +5353,10 @@ async function generateMultivariantStream(req, res) {
       for (let i = 0; i < hybridResult.variants.length; i++) {
         const variant = hybridResult.variants[i];
         log(`Saving variant ${i + 1} to Supabase...`);
-        const structuredContent = `**RHETORICAL DEVICE:** ${variant.rhetoricalDevice}
-
+        const deviceDisplayName = variant.rhetoricalDevice.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+        const structuredContent = `**RHETORICAL DEVICE:** ${deviceDisplayName}
+${variant.rhetoricalDeviceDefinition ? `*${variant.rhetoricalDeviceDefinition}*
+` : ""}
 **VISUAL CONCEPT:**
 ${variant.visualDescription}
 
@@ -5378,6 +5381,7 @@ ${variant.bodyCopy ? `**BODY COPY:** ${variant.bodyCopy}
           visualDescription: variant.visualDescription,
           headlines: variant.headlines,
           rhetoricalDevice: variant.rhetoricalDevice,
+          rhetoricalDeviceDefinition: variant.rhetoricalDeviceDefinition,
           originalityScore: Math.round(variant.scores.originality * 100),
           id: variant.id,
           tagline: variant.tagline,

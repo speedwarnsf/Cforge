@@ -23,6 +23,7 @@ interface ConceptCardProps {
       searchPerformed: boolean;
     };
     rhetoricalDevice?: string;
+    rhetoricalDeviceDefinition?: string;
     iterationType?: 'original' | 'reforge_headline' | 'reforge_tagline' | 'reforge_body' | 'reforge_full';
   };
   onRate?: (conceptId: string, rating: 'more_like_this' | 'less_like_this') => void;
@@ -448,16 +449,23 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
   return (
     <div className="concept-card bg-gray-900 border border-gray-700 p-6">
       <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center space-x-3">
-          {index !== undefined && (
-            <div className="w-8 h-8 bg-white text-gray-900 flex items-center justify-center text-sm font-bold">
-              {index + 1}
-            </div>
-          )}
-          {concept.rhetoricalDevice && (
-            <Badge variant="outline" className="text-xs">
-              {concept.rhetoricalDevice}
-            </Badge>
+        <div className="flex flex-col space-y-1">
+          <div className="flex items-center space-x-3">
+            {index !== undefined && (
+              <div className="w-8 h-8 bg-white text-gray-900 flex items-center justify-center text-sm font-bold">
+                {index + 1}
+              </div>
+            )}
+            {concept.rhetoricalDevice && (
+              <Badge variant="outline" className="text-xs">
+                {concept.rhetoricalDevice.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+              </Badge>
+            )}
+          </div>
+          {concept.rhetoricalDeviceDefinition && (
+            <p className="text-xs text-gray-400 italic ml-11 max-w-md">
+              {concept.rhetoricalDeviceDefinition}
+            </p>
           )}
         </div>
         

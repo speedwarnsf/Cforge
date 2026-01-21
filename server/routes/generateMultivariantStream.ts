@@ -103,8 +103,14 @@ export async function generateMultivariantStream(req: Request, res: Response) {
 
         log(`Saving variant ${i + 1} to Supabase...`);
 
-        const structuredContent = `**RHETORICAL DEVICE:** ${variant.rhetoricalDevice}
+        // Format device name for display (title case)
+        const deviceDisplayName = variant.rhetoricalDevice
+          .split('_')
+          .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(' ');
 
+        const structuredContent = `**RHETORICAL DEVICE:** ${deviceDisplayName}
+${variant.rhetoricalDeviceDefinition ? `*${variant.rhetoricalDeviceDefinition}*\n` : ''}
 **VISUAL CONCEPT:**
 ${variant.visualDescription}
 
@@ -129,6 +135,7 @@ ${variant.bodyCopy ? `**BODY COPY:** ${variant.bodyCopy}\n` : ''}
           visualDescription: variant.visualDescription,
           headlines: variant.headlines,
           rhetoricalDevice: variant.rhetoricalDevice,
+          rhetoricalDeviceDefinition: variant.rhetoricalDeviceDefinition,
           originalityScore: Math.round(variant.scores.originality * 100),
           id: variant.id,
           tagline: variant.tagline,

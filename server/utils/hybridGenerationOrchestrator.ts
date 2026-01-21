@@ -120,7 +120,8 @@ export interface HybridVariant {
   tagline?: string;
   bodyCopy?: string;
   rhetoricalDevice: string;
-  rhetoricalAnalysis?: RhetoricalAnalysis;  // NEW: Detailed explanation of device application
+  rhetoricalDeviceDefinition?: string;  // Brief definition of the device (for display)
+  rhetoricalAnalysis?: RhetoricalAnalysis;  // Detailed explanation of device application
   creativeSeedOrigin?: {
     personaId: string;
     personaName: string;
@@ -473,6 +474,7 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
             tagline: parsed.tagline,
             bodyCopy: parsed.bodyCopy,
             rhetoricalDevice: deviceForVariant,
+            rhetoricalDeviceDefinition: deviceDefinition || undefined,
             rhetoricalAnalysis,
             creativeSeedOrigin: variantSeed ? {
               personaId: variantSeed.persona.id,
