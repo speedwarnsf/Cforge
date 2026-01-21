@@ -536,7 +536,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     console.log(`📝 Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2-pro", // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
           role: "system",
@@ -764,7 +764,7 @@ async function generateVisualPrompt(query: string, tone: string, aiResponse: str
       
       // Generate sophisticated prompt from the visual concept
       const promptResponse = await openai.chat.completions.create({
-        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        model: "gpt-5.2-pro", // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
           {
             role: "system",

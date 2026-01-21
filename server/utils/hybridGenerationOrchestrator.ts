@@ -387,7 +387,7 @@ Build upon this creative seed while developing the full concept.
 
       try {
         const response = await this.openai.chat.completions.create({
-          model: 'gpt-4o',
+          model: 'gpt-5.2-pro',
           messages: [
             {
               role: 'system',
@@ -762,7 +762,7 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
     // Simple legacy generation
     for (let i = 0; i < (input.variantCount || 3); i++) {
       const response = await this.openai.chat.completions.create({
-        model: 'gpt-4o',
+        model: 'gpt-5.2-pro',
         messages: [{
           role: 'user',
           content: `Create an advertising concept for: ${input.userBrief}\nTone: ${input.tone}\n\nProvide a visual description and 3 headline options.`

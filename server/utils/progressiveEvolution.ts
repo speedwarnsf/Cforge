@@ -538,7 +538,7 @@ Include 20-30 words with probabilities summing to 1.0.
 Focus on words that serve the rhetorical device and creative direction.`;
 
     const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-5.2-pro',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 500
@@ -597,7 +597,7 @@ Rhetorical device: ${this.state.creativeSeed.tropeCompatibility[0]}
 Generate ONLY the ${block.name} text, nothing else.`;
 
     const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-5.2-pro',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
       max_tokens: block.name === 'bodyCopy' ? 200 : 50

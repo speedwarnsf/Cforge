@@ -152,7 +152,7 @@ Do not include any commentary, references to this process, or extra text.`;
     
     try {
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-5.2-pro",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Generate an original advertising concept for: ${request.query}\n\nTone: ${request.tone}\n\nAvoid ALL references to color symbolism, ribbons, tapestry, threads, rising voices, or breaking chains. Create something genuinely innovative.` }

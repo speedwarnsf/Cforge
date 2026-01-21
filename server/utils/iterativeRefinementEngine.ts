@@ -238,7 +238,7 @@ Return your response as JSON with this structure:
   try {
     const refinementStartTime = Date.now();
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-5.2-pro",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2, // Slightly higher temperature for creative refinement
       max_tokens: 500,

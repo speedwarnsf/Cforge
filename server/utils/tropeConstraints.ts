@@ -574,7 +574,7 @@ export class TropeConstraintEngine {
     }
 
     const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-5.2-pro',
       messages: [{
         role: 'system',
         content: `You are an expert in rhetorical devices. Your task is to rewrite content
@@ -694,7 +694,7 @@ Return each variation on a new line, numbered 1-${count}.`
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: 'gpt-4o',
+        model: 'gpt-5.2-pro',
         messages: [{
           role: 'user',
           content: `Analyze if this content exhibits the rhetorical device "${tropeName}":
