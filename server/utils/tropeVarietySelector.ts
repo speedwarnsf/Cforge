@@ -83,6 +83,15 @@ const TONE_DEVICE_AFFINITIES: Record<string, string[]> = {
  * in the FULL 411 corpus, regardless of tone/lens selection.
  * This ensures systematic exploration of the entire rhetorical device corpus.
  */
+// Overused common devices to STRONGLY AVOID (unless explicitly requested)
+// These are taught in every high school English class - we want to explore the other 390+ devices
+const OVERUSED_COMMON_DEVICES = new Set([
+  'metaphor', 'simile', 'hyperbole', 'personification', 'alliteration',
+  'onomatopoeia', 'oxymoron', 'irony', 'paradox', 'analogy',
+  'antithesis', 'juxtaposition', 'repetition', 'rhetorical_question',
+  'allusion', 'imagery', 'symbolism', 'foreshadowing', 'flashback'
+]);
+
 export async function selectVariedTropes(
   options: TropeSelectionOptions = {}
 ): Promise<TropeSelection[]> {
@@ -101,9 +110,15 @@ export async function selectVariedTropes(
   // Get current usage counts
   const usageCounts = await getRhetoricalDeviceUsage();
 
-  // Filter out excluded devices
+  // Filter out excluded devices AND overused common devices
   const excludeSet = new Set(excludeDevices.map(d => d.toLowerCase().replace(/\s+/g, '_')));
-  const eligibleDevices = allDeviceIds.filter(id => !excludeSet.has(id));
+
+  // Combine explicit exclusions with overused common devices
+  const fullExcludeSet = new Set([...excludeSet, ...OVERUSED_COMMON_DEVICES]);
+  const eligibleDevices = allDeviceIds.filter(id => !fullExcludeSet.has(id));
+
+  console.log(`   🚫 Excluding ${OVERUSED_COMMON_DEVICES.size} overused common devices (metaphor, simile, etc.)`);
+  console.log(`   ✨ ${eligibleDevices.length} uncommon devices available for selection`);
 
   // Categorize devices by usage
   const unexploredDevices: string[] = [];
@@ -150,15 +165,15 @@ export async function selectVariedTropes(
   };
 
   // ============================================
-  // GUARANTEED 50% EXPLORATION FROM FULL CORPUS
+  // GUARANTEED 80% EXPLORATION FROM FULL CORPUS
   // ============================================
-  // This ensures we systematically explore all 411 devices,
-  // not just the ~17 devices affiliated with each tone/lens.
+  // AGGRESSIVE exploration to force use of the full 408-device corpus.
+  // Only 20% of selections can be from previously-used devices.
 
-  const explorationQuota = Math.ceil(count / 2); // At least 50% must be unexplored
-  const toneQuota = count - explorationQuota;     // Remaining can be tone-matched
+  const explorationQuota = Math.ceil(count * 0.8); // At least 80% must be unexplored/lightly-used
+  const toneQuota = count - explorationQuota;      // Only 20% can be familiar devices
 
-  console.log(`   🔬 Exploration quota: ${explorationQuota} unexplored, ${toneQuota} tone-matched`);
+  console.log(`   🔬 AGGRESSIVE exploration quota: ${explorationQuota} unexplored (80%), ${toneQuota} familiar (20%)`);
 
   // PHASE 1: Fill exploration quota from FULL unexplored corpus (ignoring tone)
   // This is the key change - we pick randomly from ALL unexplored devices first

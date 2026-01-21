@@ -15,26 +15,72 @@ import { loadAllRhetoricalDevices, getAllAvailableDeviceIds, getDeviceDefinition
 // RHETORICAL DEVICE INJECTION
 // ============================================
 
+// Overused devices to STRICTLY AVOID - everyone knows these
+const BANNED_COMMON_DEVICES = new Set([
+  'metaphor', 'simile', 'hyperbole', 'personification', 'alliteration',
+  'onomatopoeia', 'oxymoron', 'irony', 'paradox', 'analogy',
+  'antithesis', 'juxtaposition', 'repetition', 'rhetorical_question',
+  'allusion', 'imagery', 'symbolism', 'foreshadowing', 'flashback'
+]);
+
+// Particularly interesting rare devices to PRIORITIZE (weighted selection)
+const PRIORITY_RARE_DEVICES = new Set([
+  'anadiplosis',      // Repetition of last word at start of next clause
+  'antimetabole',     // Repetition in reverse order ("ask not what your country...")
+  'chiasmus',         // ABBA structure
+  'epanalepsis',      // Beginning and ending with same word
+  'polyptoton',       // Repetition of root in different forms
+  'syllepsis',        // One word applying to two others in different senses
+  'zeugma',           // One verb governing multiple objects unexpectedly
+  'catachresis',      // Deliberate misuse of words
+  'litotes',          // Understatement via double negative
+  'meiosis',          // Deliberate understatement
+  'auxesis',          // Arrangement from least to most important
+  'anaphora',         // Repetition at beginning of clauses
+  'epistrophe',       // Repetition at end of clauses
+  'symploce',         // Combination of anaphora and epistrophe
+  'aposiopesis',      // Sudden breaking off mid-sentence
+  'praeteritio',      // Mentioning by saying you won't mention
+  'apophasis',        // Bringing up subject by denying you'll discuss it
+  'synecdoche',       // Part for whole or whole for part
+  'metonymy',         // Associated concept substitution
+  'enthymeme',        // Syllogism with implied premise
+  'apostrophe',       // Addressing absent person/thing
+  'prosopopoeia',     // Giving speech to imaginary/absent person
+  'ekphrasis',        // Vivid description of visual art
+]);
+
 /**
  * Get a random selection of lesser-known rhetorical devices
- * Avoids the common ones (metaphor, simile, hyperbole, etc.)
+ * STRONGLY favors rare, interesting devices over common ones
  */
 function getUncommonDevices(count: number): Array<{ id: string; name: string; definition: string }> {
-  const commonDevices = new Set([
-    'metaphor', 'simile', 'hyperbole', 'personification', 'alliteration',
-    'onomatopoeia', 'oxymoron', 'irony', 'paradox', 'analogy',
-    'antithesis', 'juxtaposition', 'repetition', 'rhetorical_question'
-  ]);
-
   const allDevices = loadAllRhetoricalDevices();
   const allIds = Object.keys(allDevices);
 
-  // Filter to uncommon devices
-  const uncommonIds = allIds.filter(id => !commonDevices.has(id));
+  // Filter out banned common devices
+  const uncommonIds = allIds.filter(id => !BANNED_COMMON_DEVICES.has(id));
 
-  // Shuffle and pick
-  const shuffled = uncommonIds.sort(() => Math.random() - 0.5);
-  const selected = shuffled.slice(0, count);
+  // Separate priority devices from regular uncommon ones
+  const priorityIds = uncommonIds.filter(id => PRIORITY_RARE_DEVICES.has(id));
+  const regularIds = uncommonIds.filter(id => !PRIORITY_RARE_DEVICES.has(id));
+
+  console.log(`   🎲 Device selection: ${priorityIds.length} priority rare, ${regularIds.length} other uncommon`);
+
+  // Weighted selection: 70% from priority rare devices, 30% from other uncommon
+  const priorityCount = Math.ceil(count * 0.7);
+  const regularCount = count - priorityCount;
+
+  // Shuffle both pools
+  const shuffledPriority = priorityIds.sort(() => Math.random() - 0.5);
+  const shuffledRegular = regularIds.sort(() => Math.random() - 0.5);
+
+  // Select from each pool
+  const selectedPriority = shuffledPriority.slice(0, priorityCount);
+  const selectedRegular = shuffledRegular.slice(0, regularCount);
+
+  // Combine and shuffle final selection
+  const selected = [...selectedPriority, ...selectedRegular].sort(() => Math.random() - 0.5);
 
   return selected.map(id => ({
     id,
