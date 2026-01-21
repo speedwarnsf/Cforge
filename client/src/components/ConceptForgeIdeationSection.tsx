@@ -115,9 +115,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   ];
 
   const handleGenerate = async () => {
-    console.log('handleGenerate: Starting'); 
     setIsLoading(true); 
-    console.log('isLoading set to true'); 
     
     // Clear any previous results
     setResults([]);
@@ -140,7 +138,6 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       headers: { 'Content-Type': 'application/json' }, 
       body: JSON.stringify(data) 
     }).then(res => res.json()).then((res) => { 
-      console.log('handleGenerate: API success', res); 
       
       // Parse the AI response content
       const content = res.content || '';
@@ -161,10 +158,9 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       
       setResults([parsedConcept]); 
       setIsLoading(false); 
-    }).catch((err) => { 
-      console.error('handleGenerate: API error', err); 
-      setResults([]); 
-      setIsLoading(false); 
+    }).catch(() => {
+      setResults([]);
+      setIsLoading(false);
     });
   };
 
@@ -174,14 +170,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          conceptId: concept?.id || concept?.conceptId || index, 
-          feedbackType: type 
+        body: JSON.stringify({
+          conceptId: concept?.id || concept?.conceptId || index,
+          feedbackType: type
         })
       });
-      console.log(`Feedback recorded: ${type} for concept ${index}`);
-    } catch (error) {
-      console.error('Feedback failed:', error);
+    } catch {
+      // Silently handle feedback errors
     }
   };
 

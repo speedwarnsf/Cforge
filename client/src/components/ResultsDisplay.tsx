@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface ResultsDisplayProps {
   results: any[];
   onFeedback: (index: number, type: string) => void;
 }
 
-const ResultsDisplay = ({ results, onFeedback }: ResultsDisplayProps) => {
-    console.log('ResultsDisplay: Rendering', results?.length || 0, 'concepts');
-    if (!results || results.length === 0) return <p className="concept-output-area">No results yet. Generate concepts!</p>;
+const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
+    // Don't render anything if no results
+    if (!results || results.length === 0) return null;
 
     return (
         <div className="concept-output-area" style={{ display: 'block !important', zIndex: 30000, maxWidth: '80%', margin: '0 auto' }}>
@@ -31,6 +31,8 @@ const ResultsDisplay = ({ results, onFeedback }: ResultsDisplayProps) => {
             </div>
         </div>
     );
-};
+});
+
+ResultsDisplay.displayName = 'ResultsDisplay';
 
 export default ResultsDisplay;

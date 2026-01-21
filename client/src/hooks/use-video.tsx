@@ -18,20 +18,17 @@ export function VideoProvider({ children }: { children: ReactNode }) {
     // Play initial animation once when component mounts
     if (videoRef.current && !hasPlayedInitial) {
       const video = videoRef.current;
-      console.log("Setting up initial anvil animation");
-      
+
       const handleCanPlay = () => {
         video.removeEventListener('canplay', handleCanPlay);
         video.currentTime = 0;
         video.loop = false;
-        
+
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.then(() => {
             setHasPlayedInitial(true);
-            console.log("Initial animation started normally");
-          }).catch((err) => {
-            console.log("Initial autoplay blocked:", err);
+          }).catch(() => {
             setHasPlayedInitial(true);
           });
         }
@@ -49,30 +46,23 @@ export function VideoProvider({ children }: { children: ReactNode }) {
 
   const playForgeAnimation = (): Promise<void> => {
     return new Promise((resolve) => {
-      console.log("🔥 FORGE ANIMATION TRIGGERED!");
-      
       if (videoRef.current) {
         setIsForgeAnimating(true);
         const video = videoRef.current;
-        
-        console.log("🎬 Starting forge animation - setting opacity to 1.0 and replaying from start");
+
         video.currentTime = 0;
         video.loop = false;
         video.style.opacity = "1.0"; // Full visibility during forge
-        
+
         const handleEnded = () => {
           video.removeEventListener('ended', handleEnded);
           video.style.opacity = "0.3"; // Back to background opacity
           setIsForgeAnimating(false);
-          console.log("✅ Forge animation completed - returning to background mode");
           resolve();
         };
-        
+
         video.addEventListener('ended', handleEnded);
-        video.play().then(() => {
-          console.log("🔥 Forge animation successfully started playing");
-        }).catch((err) => {
-          console.error("❌ Forge animation failed:", err);
+        video.play().catch(() => {
           handleEnded();
         });
       } else {
