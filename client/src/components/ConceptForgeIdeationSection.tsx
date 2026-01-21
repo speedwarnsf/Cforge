@@ -137,9 +137,10 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
-    }).then(res => {
+    }).then(async (res) => {
       if (!res.ok) {
-        throw new Error(`API error: ${res.status} ${res.statusText}`);
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || errorData.error || `API error: ${res.status}`);
       }
       return res.json();
     }).then((res) => {
@@ -168,9 +169,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       setIsLoading(false); 
     }).catch((err) => {
       console.error('Generation failed:', err);
-      setResults([]);
+      // Show error in results area for debugging
+      setResults([{
+        headline: 'Generation Error',
+        devices: err.message || 'Unknown error',
+        rationale: 'Please check browser console and try again'
+      }]);
       setIsLoading(false);
-      // TODO: Show user-facing error toast
     });
   };
 

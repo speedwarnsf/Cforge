@@ -7920,6 +7920,13 @@ setInterval(() => {
   toDelete.forEach((key) => rateLimitMap.delete(key));
 }, 5 * 60 * 1e3);
 async function registerRoutes(app2) {
+  app2.get("/api/health", (req, res) => {
+    res.json({
+      status: "ok",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      model: "gpt-5.2"
+    });
+  });
   app2.post("/api/generate", async (req, res) => {
     try {
       const conceptCount = req.body?.conceptCount || 1;
@@ -8149,8 +8156,12 @@ async function registerRoutes(app2) {
           errors: error.errors
         });
       }
+      const errorMessage = error instanceof Error ? error.message : "Failed to generate response";
+      const errorStack = error instanceof Error ? error.stack : void 0;
       res.status(500).json({
-        message: error instanceof Error ? error.message : "Failed to generate response"
+        message: errorMessage,
+        error: errorMessage,
+        stack: process.env.NODE_ENV !== "production" ? errorStack : void 0
       });
     }
   });

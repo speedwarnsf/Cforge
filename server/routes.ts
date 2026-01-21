@@ -57,6 +57,15 @@ setInterval(() => {
 }, 5 * 60 * 1000); // Cleanup every 5 minutes
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint
+  app.get("/api/health", (req, res) => {
+    res.json({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      model: "gpt-5.2"
+    });
+  });
+
   // Generate AI response
   app.post("/api/generate", async (req, res) => {
     try {
@@ -335,16 +344,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     } catch (error) {
       console.error("Generate API Error:", error);
-      
+
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ 
-          message: "Validation error", 
-          errors: error.errors 
+        return res.status(400).json({
+          message: "Validation error",
+          errors: error.errors
         });
       }
-      
-      res.status(500).json({ 
-        message: error instanceof Error ? error.message : "Failed to generate response" 
+
+      // Return detailed error for debugging
+      const errorMessage = error instanceof Error ? error.message : "Failed to generate response";
+      const errorStack = error instanceof Error ? error.stack : undefined;
+
+      res.status(500).json({
+        message: errorMessage,
+        error: errorMessage,
+        stack: process.env.NODE_ENV !== 'production' ? errorStack : undefined
       });
     }
   });
