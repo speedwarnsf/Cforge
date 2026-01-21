@@ -448,7 +448,7 @@ export async function generateMultivariant(req: Request, res: Response) {
       maxOutputs = 3,
       avoidCliches = true,
       enableIterativeRefinement = true,
-      enableHybridMode = false,
+      enableHybridMode = true,
       hybridConfig
     }: MultivariantRequest = req.body;
 
