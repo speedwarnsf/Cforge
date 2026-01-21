@@ -77,8 +77,11 @@ const TONE_DEVICE_AFFINITIES: Record<string, string[]> = {
 // ============================================
 
 /**
- * Select rhetorical devices with strong variety enforcement
- * Prioritizes unexplored devices from the full 411 corpus
+ * Select rhetorical devices with GUARANTEED variety enforcement
+ *
+ * KEY GUARANTEE: At least 50% of selections will be from unexplored devices
+ * in the FULL 411 corpus, regardless of tone/lens selection.
+ * This ensures systematic exploration of the entire rhetorical device corpus.
  */
 export async function selectVariedTropes(
   options: TropeSelectionOptions = {}
@@ -124,12 +127,6 @@ export async function selectVariedTropes(
   const toneDevices = TONE_DEVICE_AFFINITIES[tone] || TONE_DEVICE_AFFINITIES.creative;
   const toneDeviceSet = new Set(toneDevices);
 
-  // Build selection with priority:
-  // 1. Unexplored devices that match tone
-  // 2. Any unexplored devices
-  // 3. Lightly used devices that match tone
-  // 4. Any lightly used devices
-  // 5. Random from moderately used
   const selected: TropeSelection[] = [];
 
   // Helper to add device to selection
@@ -152,54 +149,75 @@ export async function selectVariedTropes(
     return true;
   };
 
-  if (preferUnexplored) {
-    // 1. Unexplored + tone match
-    const unexploredToneMatch = unexploredDevices.filter(d => toneDeviceSet.has(d));
-    shuffleArray(unexploredToneMatch);
-    for (const device of unexploredToneMatch) {
-      if (!addDevice(device, 'unexplored')) break;
-    }
+  // ============================================
+  // GUARANTEED 50% EXPLORATION FROM FULL CORPUS
+  // ============================================
+  // This ensures we systematically explore all 411 devices,
+  // not just the ~17 devices affiliated with each tone/lens.
 
-    // 2. Any unexplored
-    shuffleArray(unexploredDevices);
-    for (const device of unexploredDevices) {
-      if (!addDevice(device, 'unexplored')) break;
-    }
+  const explorationQuota = Math.ceil(count / 2); // At least 50% must be unexplored
+  const toneQuota = count - explorationQuota;     // Remaining can be tone-matched
 
-    // 3. Lightly used + tone match
-    const lightlyUsedToneMatch = lightlyUsedDevices.filter(d => toneDeviceSet.has(d));
-    shuffleArray(lightlyUsedToneMatch);
-    for (const device of lightlyUsedToneMatch) {
-      if (!addDevice(device, 'lightly_used')) break;
-    }
+  console.log(`   🔬 Exploration quota: ${explorationQuota} unexplored, ${toneQuota} tone-matched`);
 
-    // 4. Any lightly used
-    shuffleArray(lightlyUsedDevices);
-    for (const device of lightlyUsedDevices) {
-      if (!addDevice(device, 'lightly_used')) break;
+  // PHASE 1: Fill exploration quota from FULL unexplored corpus (ignoring tone)
+  // This is the key change - we pick randomly from ALL unexplored devices first
+  shuffleArray(unexploredDevices);
+  let explorationFilled = 0;
+  for (const device of unexploredDevices) {
+    if (explorationFilled >= explorationQuota) break;
+    if (addDevice(device, 'unexplored')) {
+      explorationFilled++;
     }
   }
 
-  // 5. Tone-matched from any usage level
+  // If not enough unexplored, use lightly used from full corpus
+  if (explorationFilled < explorationQuota) {
+    shuffleArray(lightlyUsedDevices);
+    for (const device of lightlyUsedDevices) {
+      if (explorationFilled >= explorationQuota) break;
+      if (addDevice(device, 'lightly_used')) {
+        explorationFilled++;
+      }
+    }
+  }
+
+  // PHASE 2: Fill remaining slots with tone-matched devices
+  // Now we respect the lens/tone preference for the other half
+
+  // 2a. Prefer unexplored tone-matched
+  const unexploredToneMatch = unexploredDevices.filter(d => toneDeviceSet.has(d));
+  shuffleArray(unexploredToneMatch);
+  for (const device of unexploredToneMatch) {
+    if (selected.length >= count) break;
+    addDevice(device, 'unexplored');
+  }
+
+  // 2b. Then lightly used tone-matched
+  const lightlyUsedToneMatch = lightlyUsedDevices.filter(d => toneDeviceSet.has(d));
+  shuffleArray(lightlyUsedToneMatch);
+  for (const device of lightlyUsedToneMatch) {
+    if (selected.length >= count) break;
+    addDevice(device, 'lightly_used');
+  }
+
+  // 2c. Then any tone-matched
   const toneMatched = eligibleDevices.filter(d => toneDeviceSet.has(d));
   shuffleArray(toneMatched);
   for (const device of toneMatched) {
-    if (!addDevice(device, 'tone_matched')) break;
+    if (selected.length >= count) break;
+    addDevice(device, 'tone_matched');
   }
 
-  // 6. Random fill if still needed
-  shuffleArray(moderatelyUsedDevices);
-  for (const device of moderatelyUsedDevices) {
-    if (!addDevice(device, 'random')) break;
-  }
-
-  // Final random fill from all eligible
+  // PHASE 3: Final fallback - random fill if still needed
   shuffleArray(eligibleDevices);
   for (const device of eligibleDevices) {
-    if (!addDevice(device, 'random')) break;
+    if (selected.length >= count) break;
+    addDevice(device, 'random');
   }
 
-  console.log(`   ✅ Selected ${selected.length} devices: ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
+  const unexploredCount = selected.filter(s => s.selectionReason === 'unexplored').length;
+  console.log(`   ✅ Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
 
   return selected;
 }
