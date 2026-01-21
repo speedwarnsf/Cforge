@@ -324,7 +324,7 @@ export async function selectCreativeSeed(
 
 async function extractTheme(brief: string, openai: OpenAI): Promise<string> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2-pro',
+    model: 'gpt-5.2',
     messages: [{
       role: 'user',
       content: `Extract the core theme/subject from this creative brief in 3-5 words:
@@ -380,7 +380,7 @@ async function generateRawIdeas(
   const prompt = DIVERGENT_EXPLORATION_PROMPT.replace('{theme}', theme);
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2-pro',
+    model: 'gpt-5.2',
     messages: [
       { role: 'system', content: persona.systemPromptOverride },
       { role: 'user', content: prompt }
@@ -428,7 +428,7 @@ async function checkThematicCoherence(
   openai: OpenAI
 ): Promise<number> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2-pro',
+    model: 'gpt-5.2',
     messages: [{
       role: 'user',
       content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):

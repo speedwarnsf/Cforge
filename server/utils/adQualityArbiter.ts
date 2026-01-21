@@ -36,7 +36,7 @@ Inspired By: ${concept.rhetoricalExample}
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-5.2-pro", // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1, // Low temperature for consistent scoring
       max_tokens: 300,

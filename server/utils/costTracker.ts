@@ -23,7 +23,7 @@ export interface APICallResult {
 
 // GPT pricing per 1K tokens (as of 2026)
 const MODEL_PRICING: Record<string, { input: number; output: number }> = {
-  'gpt-5.2-pro': { input: 0.01, output: 0.03 },
+  'gpt-5.2': { input: 0.01, output: 0.03 },
   'gpt-4o': { input: 0.005, output: 0.015 },
   'gpt-4o-mini': { input: 0.00015, output: 0.0006 },
   'text-embedding-3-large': { input: 0.00013, output: 0 },
@@ -61,7 +61,7 @@ export async function createCompletionWithTracking(
     const totalTokens = promptTokens + completionTokens;
     
     // Calculate accurate cost based on model pricing
-    const pricing = MODEL_PRICING[options.model] || MODEL_PRICING['gpt-5.2-pro'];
+    const pricing = MODEL_PRICING[options.model] || MODEL_PRICING['gpt-5.2'];
     const estimatedCost = (promptTokens / 1000) * pricing.input + (completionTokens / 1000) * pricing.output;
     
     console.log(`✅ Tokens used: prompt=${promptTokens}, completion=${completionTokens} (total=${totalTokens})`);

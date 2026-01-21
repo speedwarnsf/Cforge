@@ -158,7 +158,7 @@ export async function generateAiResponse(options: {
   maxAttempts?: number;
   similarityThreshold?: number;
 }): Promise<string[]> {
-  const model = options.model || "gpt-5.2-pro";
+  const model = options.model || "gpt-5.2";
   const maxAttempts = options.maxAttempts || 3;
   const similarityThreshold = options.similarityThreshold || 0.85;
 

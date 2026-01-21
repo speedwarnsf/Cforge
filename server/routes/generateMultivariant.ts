@@ -644,7 +644,7 @@ export async function generateMultivariant(req: Request, res: Response) {
         (async () => {
           const apiStartTime = Date.now();
           const response = await openai.chat.completions.create({
-            model: "gpt-5.2-pro", // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
             messages: [
               { 
                 role: "system", 
@@ -733,7 +733,7 @@ export async function generateMultivariant(req: Request, res: Response) {
             });
             
             const regeneratedResponse = await openai.chat.completions.create({
-              model: "gpt-5.2-pro",
+              model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
               max_tokens: 800,

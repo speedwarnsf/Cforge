@@ -5,7 +5,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 async function generateOpenAIResponse(prompt: string, tone: string, temperature: number): Promise<string> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2-pro',
+    model: 'gpt-5.2',
     messages: [
       { role: 'system', content: `You are a creative advertising expert. Tone: ${tone}` },
       { role: 'user', content: prompt }

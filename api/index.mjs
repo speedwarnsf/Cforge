@@ -1946,8 +1946,8 @@ HEADLINE LENGTH EXAMPLES:
 CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with an unexpected angle that makes the target audience think "I never thought of it that way." Your concept must be laser-focused on solving THIS brief.`;
     console.log(`\u{1F4DD} Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
     const response = await openai4.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
           role: "system",
@@ -2127,8 +2127,8 @@ async function generateVisualPrompt(query, tone, aiResponse) {
       const visualConcept = visualConceptMatch[1].trim();
       console.log("SUCCESS: Visual concept extracted:", visualConcept);
       const promptResponse = await openai4.chat.completions.create({
-        model: "gpt-5.2-pro",
-        // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        model: "gpt-5.2",
+        // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
           {
             role: "system",
@@ -2487,7 +2487,7 @@ Do not include any commentary, references to this process, or extra text.`;
     attempts++;
     try {
       const completion = await openai16.chat.completions.create({
-        model: "gpt-5.2-pro",
+        model: "gpt-5.2",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Generate an original advertising concept for: ${request.query}
@@ -3411,7 +3411,7 @@ async function selectCreativeSeed(pool, criteria = {
 }
 async function extractTheme(brief, openai17) {
   const response = await openai17.chat.completions.create({
-    model: "gpt-5.2-pro",
+    model: "gpt-5.2",
     messages: [{
       role: "user",
       content: `Extract the core theme/subject from this creative brief in 3-5 words:
@@ -3450,7 +3450,7 @@ function selectPersona(index, rotation, counts) {
 async function generateRawIdeas(openai17, theme, persona, temperature) {
   const prompt = DIVERGENT_EXPLORATION_PROMPT.replace("{theme}", theme);
   const response = await openai17.chat.completions.create({
-    model: "gpt-5.2-pro",
+    model: "gpt-5.2",
     messages: [
       { role: "system", content: persona.systemPromptOverride },
       { role: "user", content: prompt }
@@ -3479,7 +3479,7 @@ function calculateDistinctiveness(embedding, existingEmbeddings, historicalEmbed
 }
 async function checkThematicCoherence(idea, brief, openai17) {
   const response = await openai17.chat.completions.create({
-    model: "gpt-5.2-pro",
+    model: "gpt-5.2",
     messages: [{
       role: "user",
       content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):
@@ -3850,7 +3850,7 @@ Return as JSON: {"word1": 0.15, "word2": 0.12, ...}
 Include 20-30 words with probabilities summing to 1.0.
 Focus on words that serve the rhetorical device and creative direction.`;
     const response = await this.openai.chat.completions.create({
-      model: "gpt-5.2-pro",
+      model: "gpt-5.2",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
       max_tokens: 500
@@ -3898,7 +3898,7 @@ Rhetorical device: ${this.state.creativeSeed.tropeCompatibility[0]}
 
 Generate ONLY the ${block.name} text, nothing else.`;
     const response = await this.openai.chat.completions.create({
-      model: "gpt-5.2-pro",
+      model: "gpt-5.2",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.8,
       max_tokens: block.name === "bodyCopy" ? 200 : 50
@@ -4370,7 +4370,7 @@ var TropeConstraintEngine = class {
       throw new Error(`Unknown trope: ${tropeId}`);
     }
     const response = await this.openai.chat.completions.create({
-      model: "gpt-5.2-pro",
+      model: "gpt-5.2",
       messages: [{
         role: "system",
         content: `You are an expert in rhetorical devices. Your task is to rewrite content
@@ -4455,7 +4455,7 @@ Return each variation on a new line, numbered 1-${count}.`
     }
     try {
       const response = await this.openai.chat.completions.create({
-        model: "gpt-5.2-pro",
+        model: "gpt-5.2",
         messages: [{
           role: "user",
           content: `Analyze if this content exhibits the rhetorical device "${tropeName}":
@@ -5034,8 +5034,8 @@ Inspired By: ${concept.rhetoricalExample}
 `;
   try {
     const completion = await openai5.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
@@ -5504,7 +5504,7 @@ Build upon this creative seed while developing the full concept.
       );
       try {
         const response = await this.openai.chat.completions.create({
-          model: "gpt-5.2-pro",
+          model: "gpt-5.2",
           messages: [
             {
               role: "system",
@@ -5796,7 +5796,7 @@ Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : var
     const variants = [];
     for (let i = 0; i < (input.variantCount || 3); i++) {
       const response = await this.openai.chat.completions.create({
-        model: "gpt-5.2-pro",
+        model: "gpt-5.2",
         messages: [{
           role: "user",
           content: `Create an advertising concept for: ${input.userBrief}
@@ -5934,8 +5934,8 @@ Tone: ${concept.tone}
 `;
   try {
     const completion = await openai6.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
@@ -6053,8 +6053,8 @@ Target Audience: ${concept.targetAudience}
 Be rigorous in your evaluation, referencing the standards of globally awarded campaigns. Consider whether this work would likely be shortlisted or win in a top-tier creative competition.`;
   try {
     const completion = await openai7.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
@@ -6113,8 +6113,8 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai8.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       max_tokens: 300,
@@ -6165,8 +6165,8 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai9.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       max_tokens: 300,
@@ -6222,8 +6222,8 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai10.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       max_tokens: 300,
@@ -6387,8 +6387,8 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
   try {
     const arbiterStartTime = Date.now();
     const response = await openai11.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: relevancePrompt }],
       temperature: 0.3
     });
@@ -6570,7 +6570,7 @@ Return your response as JSON with this structure:
   try {
     const refinementStartTime = Date.now();
     const response = await openai12.chat.completions.create({
-      model: "gpt-5.2-pro",
+      model: "gpt-5.2",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2,
       // Slightly higher temperature for creative refinement
@@ -6642,8 +6642,8 @@ Respond in JSON format:
   ]
 }`;
     const response = await openai13.chat.completions.create({
-      model: "gpt-5.2-pro",
-      // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "user", content: analysisPrompt }],
       response_format: { type: "json_object" },
       temperature: 0.3
@@ -7266,8 +7266,8 @@ async function generateMultivariant(req, res) {
         (async () => {
           const apiStartTime = Date.now();
           const response = await openai15.chat.completions.create({
-            model: "gpt-5.2-pro",
-            // the newest OpenAI model is "gpt-5.2-pro" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            model: "gpt-5.2",
+            // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
             messages: [
               {
                 role: "system",
@@ -7340,7 +7340,7 @@ async function generateMultivariant(req, res) {
               rhetoricalExample: completion.example
             });
             const regeneratedResponse = await openai15.chat.completions.create({
-              model: "gpt-5.2-pro",
+              model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
               max_tokens: 800
