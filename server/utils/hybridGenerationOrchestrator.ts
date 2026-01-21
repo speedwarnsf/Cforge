@@ -522,6 +522,27 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
   }
 
   /**
+   * Get visual theme constraint for variant diversity
+   */
+  private getVisualThemeConstraint(variantIndex: number): string {
+    const visualThemes = [
+      'Set your visual in an URBAN STREET SCENE - graffiti walls, neon signs, gritty textures, city energy',
+      'Set your visual in NATURAL OUTDOOR ENVIRONMENT - forest, beach, desert, mountains, organic textures',
+      'Set your visual in DOMESTIC/HOME SETTING - living room, bedroom, bathroom, real-life intimate spaces',
+      'Set your visual in INDUSTRIAL/WAREHOUSE SPACE - exposed brick, steel beams, raw concrete, machinery',
+      'Set your visual in RETRO/VINTAGE SETTING - 70s living room, 50s diner, art deco theater, nostalgic spaces',
+      'Set your visual in SURREAL/FANTASY ENVIRONMENT - dreamscape, underwater, clouds, impossible architecture',
+      'Set your visual in SPORTS/ATHLETIC CONTEXT - gym, stadium, track, pool, athletic achievement',
+      'Set your visual in TRANSPORTATION SETTING - car interior, train station, airport, on the road',
+      'Set your visual in OFFICE/WORKSPACE - desk setup, conference room, co-working space, productivity',
+      'Set your visual in CULTURAL/HISTORICAL SETTING - ancient ruins, traditional architecture, cultural landmarks'
+    ];
+
+    // Use modulo to cycle through themes if more variants than themes
+    return visualThemes[variantIndex % visualThemes.length];
+  }
+
+  /**
    * Build generation prompt
    */
   private buildGenerationPrompt(
@@ -572,7 +593,12 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
         variantIndex === 1 ? 'emotionally resonant and human' :
           variantIndex === 2 ? 'strategically sharp and memorable' :
           variantIndex === 3 ? 'visually striking and unconventional' :
-          'culturally resonant and thought-provoking'}.`;
+          'culturally resonant and thought-provoking'}.
+
+CRITICAL VISUAL DIVERSITY REQUIREMENT:
+${this.getVisualThemeConstraint(variantIndex)}
+
+DO NOT use these overused visual settings: kitchen, gallery, museum, stark white table, clinical lab, test kitchen, pitch-black void, floating objects on slabs.`;
   }
 
   /**
