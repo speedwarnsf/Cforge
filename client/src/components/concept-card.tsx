@@ -447,7 +447,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
   };
 
   return (
-    <div className="concept-card bg-gray-900 border border-gray-700 p-4 sm:p-6 overflow-hidden w-full max-w-full">
+    <div className="concept-card bg-gray-900 border border-gray-700 p-4 sm:p-6 overflow-hidden" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-3">
@@ -489,7 +489,7 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
         </div>
       </div>
 
-      <div className="mb-6 overflow-hidden break-words">
+      <div className="mb-6 overflow-hidden" style={{ wordWrap: 'break-word', overflowWrap: 'break-word', wordBreak: 'break-word', maxWidth: '100%' }}>
         {parseContentWithProperSpacing(concept.content)}
       </div>
 

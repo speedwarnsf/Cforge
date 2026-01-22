@@ -635,8 +635,8 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
 
       {/* Show full-screen results when response exists */}
       {(response || currentConcepts.length > 0) && !isGenerating && (
-        <div className="fixed inset-0 bg-slate-900 text-white z-50 overflow-y-auto overflow-x-hidden">
-          <div className="max-w-6xl mx-auto p-4 sm:p-8 w-full">
+        <div className="fixed inset-0 bg-slate-900 text-white z-50 overflow-y-auto overflow-x-hidden" style={{ maxWidth: '100vw' }}>
+          <div className="mx-auto p-4 sm:p-8" style={{ maxWidth: 'min(72rem, calc(100vw - 2rem))', width: '100%', boxSizing: 'border-box' }}>
             {currentConcepts.length > 1 ? (
               // Multi-concept display using ConceptCard
               <div className="space-y-6">
@@ -649,9 +649,9 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                   </BodyText>
                 </div>
                 
-                <div className="grid gap-6 w-full overflow-hidden">
+                <div className="grid gap-6 overflow-hidden" style={{ width: '100%', maxWidth: '100%' }}>
                   {currentConcepts.map((concept, index) => (
-                    <div key={concept.conceptId || concept.id} className="bg-white w-full overflow-hidden">
+                    <div key={concept.conceptId || concept.id} className="bg-white overflow-hidden" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                       <ConceptCard
                         concept={concept}
                         onRate={async (conceptId, rating) => {
