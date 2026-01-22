@@ -587,9 +587,6 @@ Respond in EXACTLY this format:
 **Body Copy:**
 [Your 2-3 sentences of persuasive copy]
 
-**Headline:**
-[One powerful, memorable headline - 5-12 words]
-
 **Rhetorical Analysis:**
 - Device Used: [Name the rhetorical device]
 - How Applied: [Explain how it's used in your concept]
