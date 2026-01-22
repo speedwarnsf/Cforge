@@ -127,8 +127,8 @@ ${variant.rhetoricalDeviceDefinition ? `*${variant.rhetoricalDeviceDefinition}*\
 **VISUAL CONCEPT:**
 ${variant.visualDescription}
 
-**HEADLINES:**
-${variant.headlines.map((h: string, idx: number) => `${idx + 1}. ${h}`).join('\n')}
+**HEADLINE:**
+${variant.headlines[0] || 'No headline generated'}
 
 ${variant.tagline ? `**TAGLINE:** ${variant.tagline}\n` : ''}
 ${variant.bodyCopy ? `**BODY COPY:** ${variant.bodyCopy}\n` : ''}

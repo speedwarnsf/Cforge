@@ -265,14 +265,14 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
       .replace(/⚡\s*/g, '')
       .replace(/[\u2022\u2023\u25E6\u2043\u2219\u25AA\u25AB\u25CF\u25E6\u26A1]/g, '')
       .replace(/^\s*[-\*\+\•⚡]\s*/gm, '')
-      .replace(/^\s*\d+\.\s*/gm, '')
+      // Don't remove numbered lines - they contain headlines!
       .replace(/^\s*[a-zA-Z]\.\s*/gm, '')
       .replace(/\n\s*\n\s*\n/g, '\n\n')
       .replace(/^\s+/gm, '')
-      .replace(/\s{2,}/g, ' ')
       .trim();
 
-    const sections = cleanContent.split(/(HEADLINE:|TAGLINE:|BODY COPY:|VISUAL CONCEPT:)/gi);
+    // Match both singular and plural forms
+    const sections = cleanContent.split(/(HEADLINES?:|TAGLINE:|BODY COPY:|VISUAL CONCEPT:|RHETORICAL DEVICE:)/gi);
     
     for (let i = 1; i < sections.length; i += 2) {
       const headerText = sections[i].replace(':', '').trim().toUpperCase();

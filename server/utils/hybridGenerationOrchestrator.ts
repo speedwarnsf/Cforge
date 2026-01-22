@@ -587,10 +587,8 @@ Respond in EXACTLY this format:
 **Body Copy:**
 [Your 2-3 sentences of persuasive copy]
 
-**Headlines:**
-1. [First headline variation]
-2. [Second headline variation]
-3. [Third headline variation]
+**Headline:**
+[One powerful, memorable headline - 5-12 words]
 
 **Rhetorical Analysis:**
 - Device Used: [Name the rhetorical device]
@@ -672,8 +670,16 @@ DO NOT use these overused visual settings: kitchen, gallery, museum, stark white
           currentSection = 'bodyCopy';
           const match = trimmed.match(/\*\*Body Copy:\*\*\s*(.*)/);
           if (match && match[1]) bodyCopy = match[1];
-        } else if (trimmed.startsWith('**Headlines:**')) {
-          currentSection = 'headlines';
+        } else if (trimmed.startsWith('**Headline:**') || trimmed.startsWith('**Headlines:**')) {
+          currentSection = 'headline';
+          // Check if headline is on the same line
+          const match = trimmed.match(/\*\*Headlines?:\*\*\s*(.*)/);
+          if (match && match[1] && match[1].length > 3) {
+            const headlineText = match[1].replace(/^\[|\]$/g, '').trim();
+            if (!headlineText.toLowerCase().includes('headline') && !headlineText.startsWith('[')) {
+              headlines.push(headlineText);
+            }
+          }
         } else if (trimmed.startsWith('**Rhetorical Analysis:**')) {
           currentSection = 'rhetoricalAnalysis';
         } else if (trimmed.startsWith('**Strategic Impact:**')) {
@@ -686,10 +692,18 @@ DO NOT use these overused visual settings: kitchen, gallery, museum, stark white
           evidence = trimmed.replace('- Evidence:', '').trim();
         } else if (trimmed.startsWith('- Why It Works:')) {
           whyItWorks = trimmed.replace('- Why It Works:', '').trim();
-        } else if (trimmed.startsWith('- Option') || trimmed.match(/^\d+\./) || (currentSection === 'headlines' && (trimmed.startsWith('- ') || trimmed.match(/^\d+\./)))) {
+        } else if (currentSection === 'headline' && trimmed && !trimmed.startsWith('**') && headlines.length === 0) {
+          // Capture the single headline (may or may not have number prefix)
           const headlineText = trimmed.replace(/^(-\s*(Option\s*\d+:\s*)?|\d+\.\s*)/, '').replace(/\*\*/g, '').replace(/^\[|\]$/g, '').trim();
-          // Filter out placeholder text
-          if (headlineText && headlineText.length > 3 && headlineText.length < 100 &&
+          if (headlineText && headlineText.length > 3 && headlineText.length < 150 &&
+              !headlineText.toLowerCase().includes('headline') &&
+              !headlineText.startsWith('[') && !headlineText.endsWith(']')) {
+            headlines.push(headlineText);
+          }
+        } else if (trimmed.startsWith('- Option') || trimmed.match(/^\d+\./)) {
+          // Legacy support for numbered headlines
+          const headlineText = trimmed.replace(/^(-\s*(Option\s*\d+:\s*)?|\d+\.\s*)/, '').replace(/\*\*/g, '').replace(/^\[|\]$/g, '').trim();
+          if (headlineText && headlineText.length > 3 && headlineText.length < 150 &&
               !headlineText.toLowerCase().includes('headline') &&
               !headlineText.toLowerCase().includes('variation') &&
               !headlineText.startsWith('[') && !headlineText.endsWith(']')) {
