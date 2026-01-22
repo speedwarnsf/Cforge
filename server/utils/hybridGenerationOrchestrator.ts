@@ -456,7 +456,11 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
           }
 
           // Determine the device for this variant
-          const deviceForVariant = tropesToUse[i % tropesToUse.length] || 'metaphor';
+          // For single variants, randomize from available tropes instead of always using index 0
+          const deviceIndex = variantCount === 1
+            ? Math.floor(Math.random() * tropesToUse.length)
+            : i % tropesToUse.length;
+          const deviceForVariant = tropesToUse[deviceIndex] || 'metaphor';
           const deviceDefinition = getDeviceDefinition(deviceForVariant) || '';
 
           // Build full rhetorical analysis
