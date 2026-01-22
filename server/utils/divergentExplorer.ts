@@ -639,33 +639,40 @@ function hasThematicCollision(seed1: string, seed2: string): boolean {
 
 function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
   const unique: CreativeSeed[] = [];
-  const EMBEDDING_SIMILARITY_THRESHOLD = 0.75; // Lowered from 0.85 to catch more semantic overlap
+  const EMBEDDING_SIMILARITY_THRESHOLD = 0.92; // Raised - only block near-identical ideas
+  const usedPersonas = new Set<string>();
 
   for (const seed of seeds) {
-    // Check 1: Embedding similarity (catches paraphrases)
+    // Check 1: Embedding similarity (only catches near-duplicates now)
     const isSimilarEmbedding = unique.some(
       existing => cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
     );
 
-    // Check 2: Thematic collision (catches same conceptual territory)
-    const hasThemeCollision = unique.some(
-      existing => hasThematicCollision(seed.rawIdea, existing.rawIdea)
-    );
+    // Check 2: Same persona already used (force persona diversity)
+    const samePersonaUsed = usedPersonas.has(seed.persona.id) && unique.length >= 3;
 
-    // Only add if BOTH checks pass (not similar AND different theme)
-    if (!isSimilarEmbedding && !hasThemeCollision) {
+    // Accept if not near-duplicate AND (new persona OR we need more seeds)
+    if (!isSimilarEmbedding && !samePersonaUsed) {
       unique.push(seed);
-      console.log(`   ✅ Seed accepted: "${seed.rawIdea.substring(0, 50)}..." (themes: ${[...extractThemes(seed.rawIdea)].join(', ') || 'none'})`);
+      usedPersonas.add(seed.persona.id);
+      console.log(`   ✅ Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
     } else if (isSimilarEmbedding) {
-      console.log(`   ⚠️ Seed rejected (embedding similarity): "${seed.rawIdea.substring(0, 50)}..."`);
-    } else if (hasThemeCollision) {
-      console.log(`   ⚠️ Seed rejected (theme collision): "${seed.rawIdea.substring(0, 50)}..." collides with existing theme`);
+      console.log(`   ⚠️ Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
+    } else {
+      console.log(`   ⚠️ Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }
   }
 
-  // If we have too few unique seeds after dedup, warn
-  if (unique.length < 3) {
-    console.warn(`   ⚠️ Only ${unique.length} unique seeds after deduplication - consider regenerating with different prompts`);
+  // If we have too few unique seeds, be less strict and add more
+  if (unique.length < 5 && seeds.length > unique.length) {
+    console.log(`   🔄 Relaxing criteria to get more seeds...`);
+    for (const seed of seeds) {
+      if (unique.length >= 5) break;
+      if (!unique.some(u => u.rawIdea === seed.rawIdea)) {
+        unique.push(seed);
+        console.log(`   ✅ Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
+      }
+    }
   }
 
   return unique;

@@ -577,9 +577,9 @@ Generate a complete concept. Write ACTUAL creative content for each section - do
 
 Respond in EXACTLY this format:
 
-# [Your powerful 5-10 word headline here]
+# [Write ONE punchy headline - MAX 6 words, like a billboard]
 
-## [Your catchy 3-7 word tagline here]
+## [Write ONE memorable tagline - MAX 5 words]
 
 **Visual Concept:**
 [Your vivid, detailed visual description with specific imagery, composition, lighting, and mood]
