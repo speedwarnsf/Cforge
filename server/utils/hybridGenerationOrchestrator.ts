@@ -409,7 +409,8 @@ Use a completely different visual approach and angle than other variants.
         input.tone,
         seedContext,
         tropeConstraint,
-        i
+        i,
+        variantCount
       );
 
       try {
@@ -524,7 +525,7 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
   /**
    * Get visual theme constraint for variant diversity
    */
-  private getVisualThemeConstraint(variantIndex: number): string {
+  private getVisualThemeConstraint(variantIndex: number, totalVariants: number = 1): string {
     const visualThemes = [
       'Set your visual in an URBAN STREET SCENE - graffiti walls, neon signs, gritty textures, city energy',
       'Set your visual in NATURAL OUTDOOR ENVIRONMENT - forest, beach, desert, mountains, organic textures',
@@ -538,7 +539,13 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
       'Set your visual in CULTURAL/HISTORICAL SETTING - ancient ruins, traditional architecture, cultural landmarks'
     ];
 
-    // Use modulo to cycle through themes if more variants than themes
+    // For single variants, randomize the theme selection
+    if (totalVariants === 1) {
+      const randomIndex = Math.floor(Math.random() * visualThemes.length);
+      return visualThemes[randomIndex];
+    }
+
+    // For multiple variants, cycle through themes
     return visualThemes[variantIndex % visualThemes.length];
   }
 
@@ -550,7 +557,8 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
     tone: string,
     seedContext: string,
     tropeConstraint: string,
-    variantIndex: number
+    variantIndex: number,
+    totalVariants: number = 1
   ): string {
     return `Create a breakthrough advertising concept for:
 
@@ -596,7 +604,7 @@ Make this variant ${variantIndex === 0 ? 'the boldest and most unexpected' :
           'culturally resonant and thought-provoking'}.
 
 CRITICAL VISUAL DIVERSITY REQUIREMENT:
-${this.getVisualThemeConstraint(variantIndex)}
+${this.getVisualThemeConstraint(variantIndex, totalVariants)}
 
 DO NOT use these overused visual settings: kitchen, gallery, museum, stark white table, clinical lab, test kitchen, pitch-black void, floating objects on slabs.`;
   }
