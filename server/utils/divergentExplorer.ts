@@ -186,12 +186,30 @@ export interface DivergentPool {
 // DIVERGENT EXPLORATION PROMPT
 // ============================================
 
+// Metaphor domains to rotate through - ensures no two iterations use the same domain
+const METAPHOR_DOMAINS = [
+  'ASTRONOMY (stars, eclipses, gravity, nebulae, constellations, dark matter, orbits)',
+  'ARCHITECTURE (blueprints, foundations, facades, load-bearing walls, doorways, thresholds)',
+  'MUSIC (rhythm, silence, crescendo, resonance, harmony, dissonance, improvisation)',
+  'GEOLOGY (erosion, strata, tectonic shifts, crystals, fossils, pressure, metamorphosis)',
+  'BOTANY (roots, grafting, cross-pollination, pruning, dormancy, phototropism)',
+  'TEXTILES (weaving, thread count, unraveling, stitching, dyeing, patina)',
+  'MATHEMATICS (prime numbers, asymptotes, fractals, infinity, proofs, variables)',
+  'WEATHER (pressure systems, fog, the eye of storms, updrafts, refraction)',
+  'DANCE (choreography, improvisation, balance, tension, release, negative space)',
+  'CARTOGRAPHY (borders, uncharted territory, legends, scale, projections, meridians)',
+];
+
 /**
  * Build exploration prompt with optional rhetorical device anchor
  * The device anchor forces divergent thinking by grounding exploration
  * in a specific, often unusual rhetorical approach
  */
-function buildExplorationPrompt(theme: string, device?: { name: string; definition: string }): string {
+function buildExplorationPrompt(
+  theme: string,
+  device?: { name: string; definition: string },
+  domainIndex?: number
+): string {
   const deviceAnchor = device ? `
 **CREATIVE ANCHOR - Use this rhetorical device as your starting point:**
 Device: ${device.name}
@@ -203,6 +221,22 @@ could this device connect to? How could this device create tension or surprise?
 
 ` : '';
 
+  // Force a specific domain if provided
+  const assignedDomain = domainIndex !== undefined
+    ? METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length]
+    : null;
+
+  const domainConstraint = assignedDomain ? `
+**MANDATORY METAPHOR DOMAIN - You MUST ground ALL 5 directions in this domain:**
+${assignedDomain}
+
+Do NOT use food, fermentation, cooking, baking, or culinary metaphors.
+Do NOT use medical, clinical, or healthcare imagery.
+Do NOT use legal, courtroom, or forensic imagery.
+Your ideas must draw from ${assignedDomain.split(' ')[0]} concepts ONLY.
+
+` : '';
+
   return `You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
 and unexpected creative directions for the given theme.
 
@@ -210,18 +244,18 @@ CRITICAL RULES FOR THIS PHASE:
 1. Each direction must explore a COMPLETELY DIFFERENT conceptual territory
 2. AVOID legal/forensic/courtroom imagery (overused)
 3. AVOID medical/clinical imagery (overused)
-4. EMBRACE strange connections to: food, music, architecture, astronomy, textiles, geology, botany, dance, mathematics, weather
+4. AVOID food/fermentation/cooking/baking metaphors (overused in this context)
 5. PRIORITIZE surprise and distinctiveness over everything else
 6. Each direction should feel like it came from a different creative mind
 
-${deviceAnchor}Theme to explore: ${theme}
+${domainConstraint}${deviceAnchor}Theme to explore: ${theme}
 
 Generate 5 radically different creative directions. Each must be THEMATICALLY DISTINCT from the others.
 
 Format each as:
 DIRECTION [N]:
-Entry Point: [unexpected starting perspective - NOT legal, medical, or forensic]
-Connection: [surprising link to an unrelated domain like music, architecture, food, nature, astronomy]
+Entry Point: [unexpected starting perspective - NOT legal, medical, forensic, or food-related]
+Connection: [surprising link to ${assignedDomain ? assignedDomain.split(' ')[0] : 'an unrelated domain'}]
 Core Tension: [the paradox or insight at the heart]
 Provocative Phrase: [single memorable expression]
 Visual Spark: [unexpected imagery - be specific and visual]
@@ -278,14 +312,16 @@ export async function exploreDivergently(
     personaCounts[persona.id] = (personaCounts[persona.id] || 0) + 1;
     const temperature = Math.min(1.0 + persona.temperatureModifier, maxTemperature);
     const device = deviceAnchors[i]; // Each persona gets a different device
-    return { persona, temperature, device };
+    const domainIndex = i; // Each iteration explores a DIFFERENT metaphor domain
+    return { persona, temperature, device, domainIndex };
   });
 
   // Generate all raw ideas in parallel across all personas
-  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device }) => {
+  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
     try {
-      console.log(`   🎨 ${persona.name} exploring with device: ${device?.name || 'none'}`);
-      const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device);
+      const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(' ')[0];
+      console.log(`   🎨 ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
+      const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map(idea => ({ idea, persona }));
     } catch (error) {
       console.error(`   ⚠️ Failed generation for persona ${persona.name}:`, error);
@@ -486,10 +522,11 @@ async function generateRawIdeas(
   theme: string,
   persona: CreativePersona,
   temperature: number,
-  device?: { id: string; name: string; definition: string }
+  device?: { id: string; name: string; definition: string },
+  domainIndex?: number
 ): Promise<string[]> {
-  // Use the new prompt builder with optional device anchor
-  const prompt = buildExplorationPrompt(theme, device);
+  // Use the new prompt builder with optional device anchor AND mandatory domain
+  const prompt = buildExplorationPrompt(theme, device, domainIndex);
 
   const response = await openai.chat.completions.create({
     model: 'gpt-5.2',
@@ -608,7 +645,7 @@ function extractThemes(idea: string): Set<string> {
     'technology/digital': ['code', 'algorithm', 'digital', 'software', 'hardware', 'computer', 'data', 'network', 'cyber', 'virtual', 'pixel', 'binary', 'upload', 'download'],
     'art/museum': ['gallery', 'museum', 'canvas', 'sculpture', 'exhibition', 'masterpiece', 'artistic', 'curator', 'collection', 'frame', 'portrait'],
     'theater/performance': ['stage', 'actor', 'script', 'audience', 'curtain', 'spotlight', 'performance', 'drama', 'scene', 'rehearsal', 'applause'],
-    'food/culinary': ['recipe', 'ingredient', 'kitchen', 'chef', 'taste', 'flavor', 'cook', 'restaurant', 'menu', 'dish', 'appetite'],
+    'food/culinary': ['recipe', 'ingredient', 'kitchen', 'chef', 'taste', 'flavor', 'cook', 'restaurant', 'menu', 'dish', 'appetite', 'bread', 'dough', 'yeast', 'ferment', 'proof', 'rise', 'bake', 'sourdough', 'starter', 'flour', 'crust', 'crumb', 'knead', 'oven', 'leaven'],
     'sports/competition': ['champion', 'athlete', 'race', 'score', 'team', 'compete', 'victory', 'trophy', 'training', 'coach', 'stadium'],
   };
 
@@ -641,6 +678,7 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
   const unique: CreativeSeed[] = [];
   const EMBEDDING_SIMILARITY_THRESHOLD = 0.92; // Raised - only block near-identical ideas
   const usedPersonas = new Set<string>();
+  const usedThemes = new Set<string>(); // Track used metaphor domains
 
   for (const seed of seeds) {
     // Check 1: Embedding similarity (only catches near-duplicates now)
@@ -651,13 +689,22 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
     // Check 2: Same persona already used (force persona diversity)
     const samePersonaUsed = usedPersonas.has(seed.persona.id) && unique.length >= 3;
 
-    // Accept if not near-duplicate AND (new persona OR we need more seeds)
-    if (!isSimilarEmbedding && !samePersonaUsed) {
+    // Check 3: Thematic collision - don't allow same metaphor domain twice
+    const seedThemes = extractThemes(seed.rawIdea);
+    const hasThemeCollision = [...seedThemes].some(theme => usedThemes.has(theme)) && unique.length >= 2;
+
+    // Accept if not near-duplicate AND (new persona OR we need more seeds) AND no theme collision
+    if (!isSimilarEmbedding && !samePersonaUsed && !hasThemeCollision) {
       unique.push(seed);
       usedPersonas.add(seed.persona.id);
+      // Add all themes from this seed to used themes
+      seedThemes.forEach(theme => usedThemes.add(theme));
       console.log(`   ✅ Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`      Themes: ${[...seedThemes].join(', ') || 'none detected'}`);
     } else if (isSimilarEmbedding) {
       console.log(`   ⚠️ Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
+    } else if (hasThemeCollision) {
+      console.log(`   ⚠️ Seed rejected (theme collision: ${[...seedThemes].join(', ')}): "${seed.rawIdea.substring(0, 50)}..."`);
     } else {
       console.log(`   ⚠️ Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }

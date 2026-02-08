@@ -3190,7 +3190,7 @@ function getUncommonDevices(count) {
     definition: allDevices[id] || getDeviceDefinition(id) || "A rhetorical device"
   }));
 }
-function buildExplorationPrompt(theme, device) {
+function buildExplorationPrompt(theme, device, domainIndex) {
   const deviceAnchor = device ? `
 **CREATIVE ANCHOR - Use this rhetorical device as your starting point:**
 Device: ${device.name}
@@ -3201,6 +3201,17 @@ Think about: What visual metaphors does this device suggest? What unexpected dom
 could this device connect to? How could this device create tension or surprise?
 
 ` : "";
+  const assignedDomain = domainIndex !== void 0 ? METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length] : null;
+  const domainConstraint = assignedDomain ? `
+**MANDATORY METAPHOR DOMAIN - You MUST ground ALL 5 directions in this domain:**
+${assignedDomain}
+
+Do NOT use food, fermentation, cooking, baking, or culinary metaphors.
+Do NOT use medical, clinical, or healthcare imagery.
+Do NOT use legal, courtroom, or forensic imagery.
+Your ideas must draw from ${assignedDomain.split(" ")[0]} concepts ONLY.
+
+` : "";
   return `You are in PURE EXPLORATION MODE. Your task is to generate surprising, unconventional,
 and unexpected creative directions for the given theme.
 
@@ -3208,18 +3219,18 @@ CRITICAL RULES FOR THIS PHASE:
 1. Each direction must explore a COMPLETELY DIFFERENT conceptual territory
 2. AVOID legal/forensic/courtroom imagery (overused)
 3. AVOID medical/clinical imagery (overused)
-4. EMBRACE strange connections to: food, music, architecture, astronomy, textiles, geology, botany, dance, mathematics, weather
+4. AVOID food/fermentation/cooking/baking metaphors (overused in this context)
 5. PRIORITIZE surprise and distinctiveness over everything else
 6. Each direction should feel like it came from a different creative mind
 
-${deviceAnchor}Theme to explore: ${theme}
+${domainConstraint}${deviceAnchor}Theme to explore: ${theme}
 
 Generate 5 radically different creative directions. Each must be THEMATICALLY DISTINCT from the others.
 
 Format each as:
 DIRECTION [N]:
-Entry Point: [unexpected starting perspective - NOT legal, medical, or forensic]
-Connection: [surprising link to an unrelated domain like music, architecture, food, nature, astronomy]
+Entry Point: [unexpected starting perspective - NOT legal, medical, forensic, or food-related]
+Connection: [surprising link to ${assignedDomain ? assignedDomain.split(" ")[0] : "an unrelated domain"}]
 Core Tension: [the paradox or insight at the heart]
 Provocative Phrase: [single memorable expression]
 Visual Spark: [unexpected imagery - be specific and visual]
@@ -3250,12 +3261,14 @@ async function exploreDivergently(userBrief, options = {}) {
     personaCounts[persona.id] = (personaCounts[persona.id] || 0) + 1;
     const temperature = Math.min(1 + persona.temperatureModifier, maxTemperature);
     const device = deviceAnchors[i];
-    return { persona, temperature, device };
+    const domainIndex = i;
+    return { persona, temperature, device, domainIndex };
   });
-  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device }) => {
+  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
     try {
-      console.log(`   \u{1F3A8} ${persona.name} exploring with device: ${device?.name || "none"}`);
-      const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature, device);
+      const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(" ")[0];
+      console.log(`   \u{1F3A8} ${persona.name} exploring ${domain} with device: ${device?.name || "none"}`);
+      const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map((idea) => ({ idea, persona }));
     } catch (error) {
       console.error(`   \u26A0\uFE0F Failed generation for persona ${persona.name}:`, error);
@@ -3387,8 +3400,8 @@ function selectPersona(index, rotation, counts) {
       return CREATIVE_PERSONAS[index % CREATIVE_PERSONAS.length];
   }
 }
-async function generateRawIdeas(openai17, theme, persona, temperature, device) {
-  const prompt = buildExplorationPrompt(theme, device);
+async function generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex) {
+  const prompt = buildExplorationPrompt(theme, device, domainIndex);
   const response = await openai17.chat.completions.create({
     model: "gpt-5.2",
     messages: [
@@ -3472,7 +3485,7 @@ function extractThemes(idea) {
     "technology/digital": ["code", "algorithm", "digital", "software", "hardware", "computer", "data", "network", "cyber", "virtual", "pixel", "binary", "upload", "download"],
     "art/museum": ["gallery", "museum", "canvas", "sculpture", "exhibition", "masterpiece", "artistic", "curator", "collection", "frame", "portrait"],
     "theater/performance": ["stage", "actor", "script", "audience", "curtain", "spotlight", "performance", "drama", "scene", "rehearsal", "applause"],
-    "food/culinary": ["recipe", "ingredient", "kitchen", "chef", "taste", "flavor", "cook", "restaurant", "menu", "dish", "appetite"],
+    "food/culinary": ["recipe", "ingredient", "kitchen", "chef", "taste", "flavor", "cook", "restaurant", "menu", "dish", "appetite", "bread", "dough", "yeast", "ferment", "proof", "rise", "bake", "sourdough", "starter", "flour", "crust", "crumb", "knead", "oven", "leaven"],
     "sports/competition": ["champion", "athlete", "race", "score", "team", "compete", "victory", "trophy", "training", "coach", "stadium"]
   };
   for (const [theme, keywords] of Object.entries(themeClusters)) {
@@ -3482,41 +3495,45 @@ function extractThemes(idea) {
   }
   return themes;
 }
-function hasThematicCollision(seed1, seed2) {
-  const themes1 = extractThemes(seed1);
-  const themes2 = extractThemes(seed2);
-  for (const theme of themes1) {
-    if (themes2.has(theme)) {
-      return true;
-    }
-  }
-  return false;
-}
 function deduplicateSeeds(seeds) {
   const unique = [];
-  const EMBEDDING_SIMILARITY_THRESHOLD = 0.75;
+  const EMBEDDING_SIMILARITY_THRESHOLD = 0.92;
+  const usedPersonas = /* @__PURE__ */ new Set();
+  const usedThemes = /* @__PURE__ */ new Set();
   for (const seed of seeds) {
     const isSimilarEmbedding = unique.some(
       (existing) => cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
     );
-    const hasThemeCollision = unique.some(
-      (existing) => hasThematicCollision(seed.rawIdea, existing.rawIdea)
-    );
-    if (!isSimilarEmbedding && !hasThemeCollision) {
+    const samePersonaUsed = usedPersonas.has(seed.persona.id) && unique.length >= 3;
+    const seedThemes = extractThemes(seed.rawIdea);
+    const hasThemeCollision = [...seedThemes].some((theme) => usedThemes.has(theme)) && unique.length >= 2;
+    if (!isSimilarEmbedding && !samePersonaUsed && !hasThemeCollision) {
       unique.push(seed);
-      console.log(`   \u2705 Seed accepted: "${seed.rawIdea.substring(0, 50)}..." (themes: ${[...extractThemes(seed.rawIdea)].join(", ") || "none"})`);
+      usedPersonas.add(seed.persona.id);
+      seedThemes.forEach((theme) => usedThemes.add(theme));
+      console.log(`   \u2705 Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`      Themes: ${[...seedThemes].join(", ") || "none detected"}`);
     } else if (isSimilarEmbedding) {
-      console.log(`   \u26A0\uFE0F Seed rejected (embedding similarity): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   \u26A0\uFE0F Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
     } else if (hasThemeCollision) {
-      console.log(`   \u26A0\uFE0F Seed rejected (theme collision): "${seed.rawIdea.substring(0, 50)}..." collides with existing theme`);
+      console.log(`   \u26A0\uFE0F Seed rejected (theme collision: ${[...seedThemes].join(", ")}): "${seed.rawIdea.substring(0, 50)}..."`);
+    } else {
+      console.log(`   \u26A0\uFE0F Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }
   }
-  if (unique.length < 3) {
-    console.warn(`   \u26A0\uFE0F Only ${unique.length} unique seeds after deduplication - consider regenerating with different prompts`);
+  if (unique.length < 5 && seeds.length > unique.length) {
+    console.log(`   \u{1F504} Relaxing criteria to get more seeds...`);
+    for (const seed of seeds) {
+      if (unique.length >= 5) break;
+      if (!unique.some((u) => u.rawIdea === seed.rawIdea)) {
+        unique.push(seed);
+        console.log(`   \u2705 Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
+      }
+    }
   }
   return unique;
 }
-var BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS;
+var BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS, METAPHOR_DOMAINS;
 var init_divergentExplorer = __esm({
   "server/utils/divergentExplorer.ts"() {
     "use strict";
@@ -3642,6 +3659,18 @@ into powerful positioning. You make brands memorable by making them uncomfortabl
 You believe the best advertising doesn't sell products\u2014it creates moments of genuine
 human connection. Your concepts make people feel seen and understood.`
       }
+    ];
+    METAPHOR_DOMAINS = [
+      "ASTRONOMY (stars, eclipses, gravity, nebulae, constellations, dark matter, orbits)",
+      "ARCHITECTURE (blueprints, foundations, facades, load-bearing walls, doorways, thresholds)",
+      "MUSIC (rhythm, silence, crescendo, resonance, harmony, dissonance, improvisation)",
+      "GEOLOGY (erosion, strata, tectonic shifts, crystals, fossils, pressure, metamorphosis)",
+      "BOTANY (roots, grafting, cross-pollination, pruning, dormancy, phototropism)",
+      "TEXTILES (weaving, thread count, unraveling, stitching, dyeing, patina)",
+      "MATHEMATICS (prime numbers, asymptotes, fractals, infinity, proofs, variables)",
+      "WEATHER (pressure systems, fog, the eye of storms, updrafts, refraction)",
+      "DANCE (choreography, improvisation, balance, tension, release, negative space)",
+      "CARTOGRAPHY (borders, uncharted territory, legends, scale, projections, meridians)"
     ];
   }
 });
@@ -5048,7 +5077,8 @@ Use a completely different visual approach and angle than other variants.
             input.tone,
             seedContext,
             tropeConstraint,
-            i
+            i,
+            variantCount
           );
           try {
             const response = await this.openai.chat.completions.create({
@@ -5084,7 +5114,8 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
               } catch (e) {
                 console.log(`   Quality evaluation skipped for variant ${i}`);
               }
-              const deviceForVariant = tropesToUse[i % tropesToUse.length] || "metaphor";
+              const deviceIndex = variantCount === 1 ? Math.floor(Math.random() * tropesToUse.length) : i % tropesToUse.length;
+              const deviceForVariant = tropesToUse[deviceIndex] || "metaphor";
               const deviceDefinition = getDeviceDefinition(deviceForVariant) || "";
               const rhetoricalAnalysis = parsed.rhetoricalAnalysis ? {
                 deviceName: parsed.rhetoricalAnalysis.deviceUsed || deviceForVariant,
@@ -5140,9 +5171,31 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
         return variants;
       }
       /**
+       * Get visual theme constraint for variant diversity
+       */
+      getVisualThemeConstraint(variantIndex, totalVariants = 1) {
+        const visualThemes = [
+          "Set your visual in an URBAN STREET SCENE - graffiti walls, neon signs, gritty textures, city energy",
+          "Set your visual in NATURAL OUTDOOR ENVIRONMENT - forest, beach, desert, mountains, organic textures",
+          "Set your visual in DOMESTIC/HOME SETTING - living room, bedroom, bathroom, real-life intimate spaces",
+          "Set your visual in INDUSTRIAL/WAREHOUSE SPACE - exposed brick, steel beams, raw concrete, machinery",
+          "Set your visual in RETRO/VINTAGE SETTING - 70s living room, 50s diner, art deco theater, nostalgic spaces",
+          "Set your visual in SURREAL/FANTASY ENVIRONMENT - dreamscape, underwater, clouds, impossible architecture",
+          "Set your visual in SPORTS/ATHLETIC CONTEXT - gym, stadium, track, pool, athletic achievement",
+          "Set your visual in TRANSPORTATION SETTING - car interior, train station, airport, on the road",
+          "Set your visual in OFFICE/WORKSPACE - desk setup, conference room, co-working space, productivity",
+          "Set your visual in CULTURAL/HISTORICAL SETTING - ancient ruins, traditional architecture, cultural landmarks"
+        ];
+        if (totalVariants === 1) {
+          const randomIndex = Math.floor(Math.random() * visualThemes.length);
+          return visualThemes[randomIndex];
+        }
+        return visualThemes[variantIndex % visualThemes.length];
+      }
+      /**
        * Build generation prompt
        */
-      buildGenerationPrompt(brief, tone, seedContext, tropeConstraint, variantIndex) {
+      buildGenerationPrompt(brief, tone, seedContext, tropeConstraint, variantIndex, totalVariants = 1) {
         return `Create a breakthrough advertising concept for:
 
 **Brief:** ${brief}
@@ -5152,35 +5205,35 @@ ${seedContext}
 
 ${tropeConstraint}
 
-Generate a complete concept. IMPORTANT: Replace ALL placeholder text with your actual creative content. Do NOT echo template instructions.
+Generate a complete concept. Write ACTUAL creative content for each section - do NOT echo instructions or placeholders.
 
-# MAIN HEADLINE
-Write your single most powerful headline here (5-10 words, punchy and memorable)
+Respond in EXACTLY this format:
 
-## TAGLINE
-Write a short, catchy tagline (3-7 words that capture the campaign essence)
+# [Write ONE headline that PROVOKES, CHALLENGES, or makes a BOLD CLAIM. 4-8 words. Examples of great headlines: "Think Different" / "Got Milk?" / "We Try Harder" / "The Pause That Refreshes" / "What Happens in Vegas Stays in Vegas". Your headline should create TENSION, ask a PROVOCATIVE QUESTION, or make an UNEXPECTED PROMISE. NOT a product description. NOT abstract poetry.]
+
+## [Write ONE tagline - MAX 5 words]
 
 **Visual Concept:**
-Describe the visual in vivid, unexpected detail. Be specific about imagery, composition, lighting, and mood.
+[Your vivid, detailed visual description with specific imagery, composition, lighting, and mood]
 
 **Body Copy:**
-Write 2-3 sentences of persuasive copy that supports the concept.
-
-**Headlines:**
-- Option 1: First headline variation
-- Option 2: Second headline variation
-- Option 3: Third headline variation
+[Your 2-3 sentences of persuasive copy]
 
 **Rhetorical Analysis:**
-- Device Used: Name the primary rhetorical device
-- How Applied: Explain specifically how this device is used in YOUR concept
-- Evidence: Quote the specific phrases from YOUR concept that demonstrate the device
-- Why It Works: One sentence on why this device is effective for this brief
+- Device Used: [Name the rhetorical device]
+- How Applied: [Explain how it's used in your concept]
+- Evidence: [Quote specific phrases from your concept]
+- Why It Works: [One sentence on effectiveness]
 
 **Strategic Impact:**
-One sentence on why this concept will resonate with the target audience.
+[One sentence on audience resonance]
 
-Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : variantIndex === 1 ? "emotionally resonant and human" : variantIndex === 2 ? "strategically sharp and memorable" : variantIndex === 3 ? "visually striking and unconventional" : "culturally resonant and thought-provoking"}.`;
+Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : variantIndex === 1 ? "emotionally resonant and human" : variantIndex === 2 ? "strategically sharp and memorable" : variantIndex === 3 ? "visually striking and unconventional" : "culturally resonant and thought-provoking"}.
+
+CRITICAL VISUAL DIVERSITY REQUIREMENT:
+${this.getVisualThemeConstraint(variantIndex, totalVariants)}
+
+DO NOT use these overused visual settings: kitchen, gallery, museum, stark white table, clinical lab, test kitchen, pitch-black void, floating objects on slabs.`;
       }
       /**
        * Parse generation response
@@ -5201,9 +5254,15 @@ Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : var
           for (const line of lines) {
             const trimmed = line.trim();
             if (trimmed.startsWith("# ")) {
-              headline = trimmed.substring(2).trim();
+              const extracted = trimmed.substring(2).trim();
+              if (extracted && !extracted.startsWith("[") && !extracted.endsWith("]") && !extracted.toLowerCase().includes("headline here") && !extracted.toLowerCase().includes("main headline") && extracted.length > 3) {
+                headline = extracted;
+              }
             } else if (trimmed.startsWith("## ")) {
-              tagline = trimmed.substring(3).trim();
+              const extracted = trimmed.substring(3).trim();
+              if (extracted && !extracted.startsWith("[") && !extracted.endsWith("]") && !extracted.toLowerCase().includes("tagline here") && extracted.toLowerCase() !== "tagline" && extracted.length > 3) {
+                tagline = extracted;
+              }
             } else if (trimmed.startsWith("**Visual Concept:**") || trimmed.startsWith("**Visual:**")) {
               currentSection = "visual";
               const match = trimmed.match(/\*\*Visual.*?:\*\*\s*(.*)/);
@@ -5212,8 +5271,15 @@ Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : var
               currentSection = "bodyCopy";
               const match = trimmed.match(/\*\*Body Copy:\*\*\s*(.*)/);
               if (match && match[1]) bodyCopy = match[1];
-            } else if (trimmed.startsWith("**Headlines:**")) {
-              currentSection = "headlines";
+            } else if (trimmed.startsWith("**Headline:**") || trimmed.startsWith("**Headlines:**")) {
+              currentSection = "headline";
+              const match = trimmed.match(/\*\*Headlines?:\*\*\s*(.*)/);
+              if (match && match[1] && match[1].length > 3) {
+                const headlineText = match[1].replace(/^\[|\]$/g, "").trim();
+                if (!headlineText.toLowerCase().includes("headline") && !headlineText.startsWith("[")) {
+                  headlines.push(headlineText);
+                }
+              }
             } else if (trimmed.startsWith("**Rhetorical Analysis:**")) {
               currentSection = "rhetoricalAnalysis";
             } else if (trimmed.startsWith("**Strategic Impact:**")) {
@@ -5226,9 +5292,14 @@ Make this variant ${variantIndex === 0 ? "the boldest and most unexpected" : var
               evidence = trimmed.replace("- Evidence:", "").trim();
             } else if (trimmed.startsWith("- Why It Works:")) {
               whyItWorks = trimmed.replace("- Why It Works:", "").trim();
-            } else if (trimmed.startsWith("- Option") || currentSection === "headlines" && trimmed.startsWith("- ")) {
-              const headlineText = trimmed.replace(/^-\s*(Option\s*\d+:\s*)?/, "").replace(/\*\*/g, "").trim();
-              if (headlineText && headlineText.length < 100) {
+            } else if (currentSection === "headline" && trimmed && !trimmed.startsWith("**") && headlines.length === 0) {
+              const headlineText = trimmed.replace(/^(-\s*(Option\s*\d+:\s*)?|\d+\.\s*)/, "").replace(/\*\*/g, "").replace(/^\[|\]$/g, "").trim();
+              if (headlineText && headlineText.length > 3 && headlineText.length < 150 && !headlineText.toLowerCase().includes("headline") && !headlineText.startsWith("[") && !headlineText.endsWith("]")) {
+                headlines.push(headlineText);
+              }
+            } else if (trimmed.startsWith("- Option") || trimmed.match(/^\d+\./)) {
+              const headlineText = trimmed.replace(/^(-\s*(Option\s*\d+:\s*)?|\d+\.\s*)/, "").replace(/\*\*/g, "").replace(/^\[|\]$/g, "").trim();
+              if (headlineText && headlineText.length > 3 && headlineText.length < 150 && !headlineText.toLowerCase().includes("headline") && !headlineText.toLowerCase().includes("variation") && !headlineText.startsWith("[") && !headlineText.endsWith("]")) {
                 headlines.push(headlineText);
               }
             } else if (currentSection === "visual" && trimmed && !trimmed.startsWith("**")) {
@@ -5489,8 +5560,8 @@ ${variant.rhetoricalDeviceDefinition ? `*${variant.rhetoricalDeviceDefinition}*
 **VISUAL CONCEPT:**
 ${variant.visualDescription}
 
-**HEADLINES:**
-${variant.headlines.map((h, idx) => `${idx + 1}. ${h}`).join("\n")}
+**HEADLINE:**
+${variant.headlines[0] || "No headline generated"}
 
 ${variant.tagline ? `**TAGLINE:** ${variant.tagline}
 ` : ""}

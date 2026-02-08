@@ -577,9 +577,9 @@ Generate a complete concept. Write ACTUAL creative content for each section - do
 
 Respond in EXACTLY this format:
 
-# [Write ONE punchy headline - MAX 6 words, like a billboard]
+# [Write ONE headline that PROVOKES, CHALLENGES, or makes a BOLD CLAIM. 4-8 words. Examples of great headlines: "Think Different" / "Got Milk?" / "We Try Harder" / "The Pause That Refreshes" / "What Happens in Vegas Stays in Vegas". Your headline should create TENSION, ask a PROVOCATIVE QUESTION, or make an UNEXPECTED PROMISE. NOT a product description. NOT abstract poetry.]
 
-## [Write ONE memorable tagline - MAX 5 words]
+## [Write ONE tagline - MAX 5 words]
 
 **Visual Concept:**
 [Your vivid, detailed visual description with specific imagery, composition, lighting, and mood]
