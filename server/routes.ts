@@ -166,37 +166,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         userRatings: userRatings
       });
 
-      // TIGHTENED DIVERSITY ENFORCEMENT: Check originality >60 and regenerate up to 2 times
+      // Log originality score (no longer retrying to avoid timeout)
       if (aiResponse.concepts.length > 0) {
         const firstConcept = aiResponse.concepts[0];
-        let originalityScore = firstConcept.originalityCheck?.confidence ? 
+        const originalityScore = firstConcept.originalityCheck?.confidence ? 
           firstConcept.originalityCheck.confidence * 100 : 0;
-        
-        console.log(`🎯 DIVERSITY ENFORCED: Initial Score ${originalityScore.toFixed(2)}`);
-        
-        let attempts = 0;
-        while (originalityScore < 60 && attempts < 2) {
-          attempts++;
-          console.log(`🔄 DIVERSITY ENFORCED: Regenerating (Attempt ${attempts}) for better originality (score: ${originalityScore.toFixed(2)} < 60)`);
-          
-          // Add progressively stronger diversity requirements
-          const regenerationQuery = enhancedQuery + 
-            ` CRITICAL REGENERATION ${attempts}: Use highly unique rhetorical combinations, avoid common phrases, create unprecedented creative angles with maximum originality. Apply diverse language patterns and innovative conceptual frameworks.`;
-          
-          aiResponse = await generateAiResponse({
-            query: regenerationQuery,
-            tone: validatedData.tone,
-            includeCliches: validatedData.includeCliches,
-            deepScan: validatedData.deepScan,
-            conceptCount: validatedData.conceptCount,
-            projectId: validatedData.projectId,
-            userRatings: userRatings
-          });
-          
-          originalityScore = aiResponse.concepts[0]?.originalityCheck?.confidence ? 
-            aiResponse.concepts[0].originalityCheck.confidence * 100 : 0;
-          console.log(`🎯 DIVERSITY ENFORCED: Regenerated Score ${originalityScore.toFixed(2)} (Attempt ${attempts})`);
-        }
+        console.log(`🎯 ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
       }
 
       // Determine iteration type based on query content
@@ -234,31 +209,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
           originalityConfidence: concept.originalityCheck?.confidence
         });
         
-        // **FEEDBACK SIMILARITY ANALYSIS**: Analyze single concept generation
+        // **FEEDBACK SIMILARITY ANALYSIS**: Fire-and-forget (non-blocking for performance)
         if (conceptId && validatedData.projectId) {
-          try {
-            await reportSimilarityToRatedConcepts(
-              validatedData.projectId,
-              concept.content,
-              0.75 // similarity threshold
-            );
-            
-            const feedbackAnalysis = await analyzeFeedbackSimilarity(
-              validatedData.projectId,
-              concept.content,
-              {
-                similarityThreshold: 0.70,
-                detailedReport: false,
-                includeScoring: true
+          Promise.resolve().then(async () => {
+            try {
+              await reportSimilarityToRatedConcepts(validatedData.projectId!, concept.content, 0.75);
+              const feedbackAnalysis = await analyzeFeedbackSimilarity(validatedData.projectId!, concept.content, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
+              if (feedbackAnalysis.overallScore !== 0) {
+                console.log(`🎯 Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
               }
-            );
-            
-            if (feedbackAnalysis.overallScore !== 0) {
-              console.log(`🎯 Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+            } catch (feedbackError) {
+              console.log(`📊 Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
             }
-          } catch (feedbackError) {
-            console.log(`📊 Feedback analysis skipped for single concept:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
-          }
+          });
         }
 
         // Return single concept in legacy format for backward compatibility
@@ -302,31 +265,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           conceptIds.push(conceptId || `concept_${Date.now()}_${i}`);
           
-          // **FEEDBACK SIMILARITY ANALYSIS**: Analyze multi-concept generations
+          // **FEEDBACK SIMILARITY ANALYSIS**: Fire-and-forget (non-blocking)
           if (conceptId && validatedData.projectId) {
-            try {
-              await reportSimilarityToRatedConcepts(
-                validatedData.projectId,
-                concept.content,
-                0.75 // similarity threshold
-              );
-              
-              const feedbackAnalysis = await analyzeFeedbackSimilarity(
-                validatedData.projectId,
-                concept.content,
-                {
-                  similarityThreshold: 0.70,
-                  detailedReport: false,
-                  includeScoring: true
+            const idx = i;
+            const projId = validatedData.projectId;
+            const conceptContent = concept.content;
+            Promise.resolve().then(async () => {
+              try {
+                await reportSimilarityToRatedConcepts(projId, conceptContent, 0.75);
+                const feedbackAnalysis = await analyzeFeedbackSimilarity(projId, conceptContent, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
+                if (feedbackAnalysis.overallScore !== 0) {
+                  console.log(`🎯 Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
                 }
-              );
-              
-              if (feedbackAnalysis.overallScore !== 0) {
-                console.log(`🎯 Multi-concept ${i + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+              } catch (feedbackError) {
+                console.log(`📊 Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
               }
-            } catch (feedbackError) {
-              console.log(`📊 Feedback analysis skipped for multi-concept ${i + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
-            }
+            });
           }
         }
         

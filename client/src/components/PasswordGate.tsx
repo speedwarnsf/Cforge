@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import backgroundVideo from "@assets/clean_anvil_video.mp4";
+// Use static video path for better bundle optimization
+const backgroundVideo = "/videos/clean_anvil_video_optimized.mp4";
 
 // Secure beta access credentials
 const CORRECT_PASSWORD = 'beta-access-2026';

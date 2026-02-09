@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand-logo";
 import { useVideo } from "@/hooks/use-video";
-import backgroundVideo from "@assets/social_dy15._A_cinematic_3D_animation_of_a_glowing_steel_anvil_a_ham_5df17e83-ef82-4ad7-9c2f-eba2e3b511df_1_1750830507241.mp4";
+// Use static video path for better bundle optimization
+const backgroundVideo = "/videos/clean_anvil_video_optimized.mp4";
 
 export default function ConceptForgeHero() {
   const { isForgeAnimating } = useVideo();

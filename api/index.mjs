@@ -1994,32 +1994,17 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
         console.error("\u274C Error performing originality check:", error);
       }
     }
-    let arbiterResults = null;
-    try {
-      const { comprehensiveConceptEvaluation: comprehensiveConceptEvaluation2 } = await Promise.resolve().then(() => (init_embeddingArbiters(), embeddingArbiters_exports));
-      const historicalConcepts = await getHistoricalConcepts();
-      console.log("\u{1F504} Starting four-arbiter evaluation for concept...");
-      const arbiterStartTime = Date.now();
-      arbiterResults = await comprehensiveConceptEvaluation2(
-        content,
-        request.query,
-        historicalConcepts,
-        {
-          useConfigurableThresholds: true,
-          // Enable optimized thresholds
-          runAllArbiters: true
-        }
-      );
-      const arbiterEndTime = Date.now();
-      console.log(`\u{1F50D} Five Arbiter Evaluation: ${arbiterEndTime - arbiterStartTime}ms`);
-      console.log(`\u{1F4CA} Arbiter Results: Overall Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
-      if (!arbiterResults.overallPassed) {
-        console.log(`\u26A0\uFE0F Concept needs review: ${arbiterResults.summary}`);
-        console.log(`\u{1F4A1} Recommendations: ${arbiterResults.recommendations.join(", ")}`);
+    Promise.resolve().then(async () => {
+      try {
+        const { comprehensiveConceptEvaluation: comprehensiveConceptEvaluation2 } = await Promise.resolve().then(() => (init_embeddingArbiters(), embeddingArbiters_exports));
+        const historicalConcepts = await getHistoricalConcepts();
+        const arbiterStartTime = Date.now();
+        const arbiterResults = await comprehensiveConceptEvaluation2(content, request.query, historicalConcepts, { useConfigurableThresholds: true, runAllArbiters: true });
+        console.log(`\u{1F50D} Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
+      } catch (error) {
+        console.error("\u26A0\uFE0F Arbiter evaluation failed:", error);
       }
-    } catch (error) {
-      console.error("\u26A0\uFE0F Arbiter evaluation failed:", error);
-    }
+    });
     return {
       content: content.replace(/[\u0000-\u001F\u007F-\u009F]/g, ""),
       // Remove control characters
@@ -8664,25 +8649,8 @@ async function registerRoutes(app2) {
       });
       if (aiResponse.concepts.length > 0) {
         const firstConcept = aiResponse.concepts[0];
-        let originalityScore = firstConcept.originalityCheck?.confidence ? firstConcept.originalityCheck.confidence * 100 : 0;
-        console.log(`\u{1F3AF} DIVERSITY ENFORCED: Initial Score ${originalityScore.toFixed(2)}`);
-        let attempts = 0;
-        while (originalityScore < 60 && attempts < 2) {
-          attempts++;
-          console.log(`\u{1F504} DIVERSITY ENFORCED: Regenerating (Attempt ${attempts}) for better originality (score: ${originalityScore.toFixed(2)} < 60)`);
-          const regenerationQuery = enhancedQuery + ` CRITICAL REGENERATION ${attempts}: Use highly unique rhetorical combinations, avoid common phrases, create unprecedented creative angles with maximum originality. Apply diverse language patterns and innovative conceptual frameworks.`;
-          aiResponse = await generateAiResponse({
-            query: regenerationQuery,
-            tone: validatedData.tone,
-            includeCliches: validatedData.includeCliches,
-            deepScan: validatedData.deepScan,
-            conceptCount: validatedData.conceptCount,
-            projectId: validatedData.projectId,
-            userRatings
-          });
-          originalityScore = aiResponse.concepts[0]?.originalityCheck?.confidence ? aiResponse.concepts[0].originalityCheck.confidence * 100 : 0;
-          console.log(`\u{1F3AF} DIVERSITY ENFORCED: Regenerated Score ${originalityScore.toFixed(2)} (Attempt ${attempts})`);
-        }
+        const originalityScore = firstConcept.originalityCheck?.confidence ? firstConcept.originalityCheck.confidence * 100 : 0;
+        console.log(`\u{1F3AF} ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
       }
       const isReforge = validatedData.query.includes("[REFORGE:");
       let iterationType = "original";
@@ -8713,28 +8681,17 @@ async function registerRoutes(app2) {
           originalityConfidence: concept.originalityCheck?.confidence
         });
         if (conceptId && validatedData.projectId) {
-          try {
-            await reportSimilarityToRatedConcepts(
-              validatedData.projectId,
-              concept.content,
-              0.75
-              // similarity threshold
-            );
-            const feedbackAnalysis = await analyzeFeedbackSimilarity(
-              validatedData.projectId,
-              concept.content,
-              {
-                similarityThreshold: 0.7,
-                detailedReport: false,
-                includeScoring: true
+          Promise.resolve().then(async () => {
+            try {
+              await reportSimilarityToRatedConcepts(validatedData.projectId, concept.content, 0.75);
+              const feedbackAnalysis = await analyzeFeedbackSimilarity(validatedData.projectId, concept.content, { similarityThreshold: 0.7, detailedReport: false, includeScoring: true });
+              if (feedbackAnalysis.overallScore !== 0) {
+                console.log(`\u{1F3AF} Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
               }
-            );
-            if (feedbackAnalysis.overallScore !== 0) {
-              console.log(`\u{1F3AF} Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+            } catch (feedbackError) {
+              console.log(`\u{1F4CA} Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
             }
-          } catch (feedbackError) {
-            console.log(`\u{1F4CA} Feedback analysis skipped for single concept:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
-          }
+          });
         }
         res.json({
           id: storedRequest?.id || Date.now(),
@@ -8770,28 +8727,20 @@ async function registerRoutes(app2) {
           });
           conceptIds.push(conceptId || `concept_${Date.now()}_${i}`);
           if (conceptId && validatedData.projectId) {
-            try {
-              await reportSimilarityToRatedConcepts(
-                validatedData.projectId,
-                concept.content,
-                0.75
-                // similarity threshold
-              );
-              const feedbackAnalysis = await analyzeFeedbackSimilarity(
-                validatedData.projectId,
-                concept.content,
-                {
-                  similarityThreshold: 0.7,
-                  detailedReport: false,
-                  includeScoring: true
+            const idx = i;
+            const projId = validatedData.projectId;
+            const conceptContent = concept.content;
+            Promise.resolve().then(async () => {
+              try {
+                await reportSimilarityToRatedConcepts(projId, conceptContent, 0.75);
+                const feedbackAnalysis = await analyzeFeedbackSimilarity(projId, conceptContent, { similarityThreshold: 0.7, detailedReport: false, includeScoring: true });
+                if (feedbackAnalysis.overallScore !== 0) {
+                  console.log(`\u{1F3AF} Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
                 }
-              );
-              if (feedbackAnalysis.overallScore !== 0) {
-                console.log(`\u{1F3AF} Multi-concept ${i + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+              } catch (feedbackError) {
+                console.log(`\u{1F4CA} Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
               }
-            } catch (feedbackError) {
-              console.log(`\u{1F4CA} Feedback analysis skipped for multi-concept ${i + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
-            }
+            });
           }
         }
         res.json({

@@ -603,36 +603,18 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       }
     }
 
-    // Run four-arbiter evaluation system
-    let arbiterResults = null;
-    try {
-      const { comprehensiveConceptEvaluation } = await import('../utils/embeddingArbiters.js');
-      const historicalConcepts = await getHistoricalConcepts();
-      
-      console.log('🔄 Starting four-arbiter evaluation for concept...');
-      const arbiterStartTime = Date.now();
-      
-      arbiterResults = await comprehensiveConceptEvaluation(
-        content,
-        request.query,
-        historicalConcepts,
-        {
-          useConfigurableThresholds: true, // Enable optimized thresholds
-          runAllArbiters: true
-        }
-      );
-      
-      const arbiterEndTime = Date.now();
-      console.log(`🔍 Five Arbiter Evaluation: ${arbiterEndTime - arbiterStartTime}ms`);
-      console.log(`📊 Arbiter Results: Overall Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
-      
-      if (!arbiterResults.overallPassed) {
-        console.log(`⚠️ Concept needs review: ${arbiterResults.summary}`);
-        console.log(`💡 Recommendations: ${arbiterResults.recommendations.join(', ')}`);
+    // Run arbiter evaluation in background (non-blocking for performance)
+    Promise.resolve().then(async () => {
+      try {
+        const { comprehensiveConceptEvaluation } = await import('../utils/embeddingArbiters.js');
+        const historicalConcepts = await getHistoricalConcepts();
+        const arbiterStartTime = Date.now();
+        const arbiterResults = await comprehensiveConceptEvaluation(content, request.query, historicalConcepts, { useConfigurableThresholds: true, runAllArbiters: true });
+        console.log(`🔍 Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
+      } catch (error) {
+        console.error('⚠️ Arbiter evaluation failed:', error);
       }
-    } catch (error) {
-      console.error('⚠️ Arbiter evaluation failed:', error);
-    }
+    });
 
     return {
       content: content.replace(/[\u0000-\u001F\u007F-\u009F]/g, ''), // Remove control characters

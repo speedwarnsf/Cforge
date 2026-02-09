@@ -4,7 +4,8 @@ import { BrandLogo } from "@/components/brand-logo";
 import { useVideo } from "@/hooks/use-video";
 import { Link, useLocation } from "wouter";
 import { Grid3X3, Lightbulb } from "lucide-react";
-import backgroundVideo from "@assets/clean_anvil_video.mp4";
+// Use static video path for better bundle optimization
+const backgroundVideo = "/videos/clean_anvil_video_optimized.mp4";
 
 export default function HeroSection() {
   const { isForgeAnimating, videoRef, playInitialAnimation } = useVideo();

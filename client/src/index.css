@@ -4,6 +4,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Custom Properties for dynamic viewport handling */
+:root {
+  --vh: 1vh;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improved touch interactions */
+@media (hover: none) {
+  /* Touch devices - improve button interactions */
+  button, .button, [role="button"] {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    transform: translateZ(0); /* Enable hardware acceleration */
+  }
+  
+  button:active, .button:active, [role="button"]:active {
+    transform: scale(0.98) translateZ(0);
+    transition: transform 0.1s ease;
+  }
+}
+
 /* MOBILE TEXT WRAPPING FIX - NUCLEAR */
 html {
   overflow-x: hidden !important;

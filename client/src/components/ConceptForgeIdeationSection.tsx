@@ -11,6 +11,10 @@ import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
 import BriefHistory from "./BriefHistory";
 import { useVideo } from "@/hooks/use-video";
+import { EnhancedLoadingOverlay } from "@/components/ui/enhanced-loading";
+import { apiClient, handleAPIError } from "@/lib/apiClient";
+import { useViewport, useTouchFeedback } from "@/hooks/useMobileOptimizations";
+import { toast } from "@/hooks/use-toast";
 
 
 
@@ -117,20 +121,31 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   ];
 
   const handleGenerate = async () => {
-    console.log('🚀 handleGenerate called');
+    console.log('🚀 Enhanced generation starting');
     setIsLoading(true);
     setResults([]);
 
-    // Start forge animation loop (wrapped in try-catch)
-    try {
-      console.log('🎬 Starting forge loop...');
-      startForgeLoop();
-      setGenerationStatus({ step: 'analyzing', progress: 10, detail: 'Analyzing your creative brief...' });
-    } catch (e) {
-      console.error('🎬 Error starting forge:', e);
+    // Validate input
+    if (!brief.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Brief Required',
+        description: 'Please enter a creative brief before generating concepts.'
+      });
+      setIsLoading(false);
+      return;
     }
 
-    // Prepare generation data
+    // Start forge animation and set initial state
+    try {
+      startForgeLoop();
+      setGenerationStatus({ step: 'analyzing', progress: 5, detail: 'Analyzing your creative brief...' });
+      clearGenerationLogs();
+      addGenerationLog('🚀 Initializing enhanced generation pipeline...');
+    } catch (e) {
+      console.warn('Animation start failed:', e);
+    }
+
     const data = {
       query: selectedPrompt || brief,
       tone: selectedLens,
@@ -140,94 +155,54 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       projectId: "concept_forge_session"
     };
 
-    console.log('📤 Sending request with data:', data);
-
-    // Determine which endpoint to use based on concept count
     const isMultivariant = data.conceptCount > 1;
-
-    // Clear previous logs and set initial status
-    clearGenerationLogs();
-    setGenerationStatus({ step: 'analyzing', progress: 5, detail: 'Starting generation...', logs: [] });
-    addGenerationLog('Initializing generation pipeline...');
 
     try {
       if (isMultivariant) {
-        // Use streaming endpoint for multivariant
-        addGenerationLog(`Requesting ${data.conceptCount} concepts with hybrid mode`);
+        // Enhanced multivariant generation with streaming
+        addGenerationLog(`🎯 Requesting ${data.conceptCount} concepts with hybrid mode`);
+        setGenerationStatus(prev => ({ ...prev!, step: 'exploring', progress: 15, detail: 'Exploring creative directions...' }));
 
-        const res = await fetch('/api/generate-multivariant-stream', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            enableHybridMode: true
-          })
-        });
+        const finalResult = await apiClient.streamGeneration(
+          '/api/generate-multivariant-stream',
+          { ...data, enableHybridMode: true },
+          (event) => {
+            switch (event.type) {
+              case 'progress':
+                setGenerationStatus(prev => ({
+                  ...prev!,
+                  step: event.data.step,
+                  progress: event.data.progress,
+                  detail: event.data.detail
+                }));
+                break;
 
-        if (!res.ok) {
-          throw new Error(`API error: ${res.status}`);
-        }
+              case 'log':
+                const cleanMessage = event.data.message.replace(/^\[.*?\]\s*/, '');
+                addGenerationLog(cleanMessage);
+                break;
 
-        // Process SSE stream
-        const reader = res.body?.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-        let finalResult: any = null;
-
-        if (reader) {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n\n');
-            buffer = lines.pop() || ''; // Keep incomplete chunk
-
-            for (const line of lines) {
-              if (line.startsWith('data: ')) {
-                try {
-                  const event = JSON.parse(line.slice(6));
-
-                  switch (event.type) {
-                    case 'progress':
-                      setGenerationStatus(prev => ({
-                        ...prev!,
-                        step: event.data.step,
-                        progress: event.data.progress,
-                        detail: event.data.detail
-                      }));
-                      break;
-
-                    case 'log':
-                      addGenerationLog(event.data.message.replace(/^\[.*?\]\s*/, '')); // Remove timestamp prefix
-                      break;
-
-                    case 'variant':
-                      addGenerationLog(`Generated variant ${event.data.index + 1}: ${event.data.variant.headlines?.[0]?.substring(0, 40)}...`);
-                      break;
-
-                    case 'complete':
-                      finalResult = event.data;
-                      addGenerationLog(`Complete! ${event.data.outputs?.length || 0} concepts generated`);
-                      break;
-
-                    case 'error':
-                      throw new Error(event.data.message);
-                  }
-                } catch (parseErr) {
-                  console.warn('Failed to parse SSE event:', parseErr);
+              case 'variant':
+                const headline = event.data.variant.headlines?.[0];
+                if (headline) {
+                  addGenerationLog(`✨ Generated variant ${event.data.index + 1}: "${headline.substring(0, 40)}${headline.length > 40 ? '...' : ''}"`);
                 }
-              }
+                break;
+
+              case 'complete':
+                addGenerationLog(`🎉 Complete! ${event.data.outputs?.length || 0} concepts generated`);
+                break;
             }
           }
-        }
+        );
 
-        if (finalResult && finalResult.outputs) {
-          // Parse multiple concepts for local display
+        if (finalResult?.outputs) {
           const parsedConcepts = finalResult.outputs.map((output: any, idx: number) => ({
+            id: output.id || `concept-${idx}`,
             headline: output.headlines?.[0] || `Concept ${idx + 1}`,
             devices: output.rhetoricalDevice || 'metaphor',
-            rationale: output.visualDescription?.substring(0, 100) + '...' || 'Generated concept'
+            rationale: output.visualDescription?.substring(0, 100) + (output.visualDescription?.length > 100 ? '...' : '') || 'Generated concept',
+            originalityScore: output.originalityCheck?.confidence || 0
           }));
 
           setResults(parsedConcepts);
@@ -235,95 +210,89 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
             ...prev!,
             step: 'complete',
             progress: 100,
-            detail: `${finalResult.outputs.length} concepts generated!`
+            detail: `🎯 ${finalResult.outputs.length} breakthrough concepts ready!`
           }));
 
-          // Stop the forge animation
-          stopForgeLoop();
-          setIsLoading(false);
+          // Success feedback
+          toast({
+            title: 'Concepts Generated!',
+            description: `Successfully created ${finalResult.outputs.length} unique concepts.`
+          });
 
           if (onGenerateComplete) {
             onGenerateComplete(finalResult);
           }
         } else {
-          throw new Error('No results received from streaming endpoint');
+          throw new Error('No valid concepts received from generation service');
         }
 
       } else {
-        // Single concept - use original endpoint
-        addGenerationLog('Requesting single concept generation');
-        setGenerationStatus({ step: 'exploring', progress: 25, detail: 'Exploring creative directions...', logs: [] });
+        // Enhanced single concept generation
+        addGenerationLog('🎯 Requesting premium single concept generation');
+        setGenerationStatus(prev => ({ ...prev!, step: 'exploring', progress: 25, detail: 'Exploring creative directions...' }));
 
-        const res = await fetch('/api/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+        const result = await apiClient.post('/api/generate', data);
 
-        addGenerationLog('Processing response...');
-        setGenerationStatus(prev => ({ ...prev!, step: 'generating', progress: 50, detail: 'Generating concept...' }));
+        addGenerationLog('🔍 Evaluating concept quality...');
+        setGenerationStatus(prev => ({ ...prev!, step: 'evaluating', progress: 75, detail: 'Running quality analysis...' }));
 
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.message || errorData.error || `API error: ${res.status}`);
+        if (!result || result.error) {
+          throw new Error(result?.error || 'Invalid response from generation service');
         }
 
-        const result = await res.json();
-        console.log('📥 Received response:', result);
-
-        addGenerationLog('Evaluating quality...');
-        setGenerationStatus(prev => ({ ...prev!, step: 'evaluating', progress: 75, detail: 'Evaluating quality...' }));
-
-        if (result.error) {
-          throw new Error(result.error);
-        }
-
+        // Enhanced content parsing
         const content = result.content || '';
-
-        // Extract headline from content
         const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.+?)(?:\n|\*\*)/);
-        const headline = headlineMatch ? headlineMatch[1].trim() : 'No headline found';
-
-        // Extract devices
         const devicesMatch = content.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*|$)/i);
-        const devices = devicesMatch ? devicesMatch[1].trim() : 'No devices found';
+        
+        const headline = headlineMatch?.[1]?.trim() || 'No headline found';
+        const devices = devicesMatch?.[1]?.trim() || 'No devices found';
 
         const parsedConcept = {
+          id: result.conceptId || `concept-${Date.now()}`,
           headline,
           devices,
-          rationale: `Generated concept ID: ${result.conceptId || 'unknown'}`
+          rationale: `Generated concept with ${result.tokens || 0} tokens`,
+          originalityScore: result.originalityCheck?.confidence || 0
         };
 
-        addGenerationLog('Saving to history...');
-        setGenerationStatus(prev => ({ ...prev!, step: 'saving', progress: 90, detail: 'Saving...' }));
-
-        await new Promise(resolve => setTimeout(resolve, 300));
-
         setResults([parsedConcept]);
-        addGenerationLog('Complete!');
-        setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: 'Complete!' }));
+        
+        addGenerationLog('💎 Concept ready!');
+        setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: '🎉 Breakthrough concept created!' }));
 
-        // Stop the forge animation
-        stopForgeLoop();
-        setIsLoading(false);
+        // Success feedback
+        toast({
+          title: 'Concept Created!',
+          description: `"${headline}" - Ready to make an impact.`
+        });
 
         if (onGenerateComplete) {
           onGenerateComplete(result);
         }
       }
-    } catch (err: any) {
-      console.error('❌ Generation failed:', err);
+
+    } catch (error) {
+      console.error('❌ Enhanced generation failed:', error);
+      handleAPIError(error);
+      
+      // Set error state with helpful message
+      const errorHeadline = error instanceof Error ? error.message : 'Generation failed';
+      setResults([{
+        id: 'error',
+        headline: 'Generation Error',
+        devices: errorHeadline,
+        rationale: 'Please try again or adjust your brief for better results.',
+        originalityScore: 0
+      }]);
+
+    } finally {
       try {
         stopForgeLoop();
         setGenerationStatus(null);
       } catch (e) {
-        console.error('Error stopping forge:', e);
+        console.warn('Animation cleanup failed:', e);
       }
-      setResults([{
-        headline: 'Generation Error',
-        devices: err.message || 'Unknown error',
-        rationale: 'Please check browser console and try again'
-      }]);
       setIsLoading(false);
     }
   };
@@ -331,16 +300,25 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   const handleFeedback = async (index: number, type: string) => {
     try {
       const concept = results[index];
-      await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          conceptId: concept?.id || concept?.conceptId || index,
-          feedbackType: type
-        })
+      if (!concept) return;
+
+      await apiClient.post('/api/feedback', {
+        conceptId: concept.id || `concept-${index}`,
+        feedbackType: type,
+        brief: brief,
+        tone: selectedLens
       });
-    } catch {
-      // Silently handle feedback errors
+
+      // Optimistic UI feedback
+      toast({
+        title: type === 'like' ? 'Feedback Saved' : 'Noted',
+        description: type === 'like' ? 'We\'ll generate similar concepts in the future.' : 'We\'ll avoid similar approaches.',
+        duration: 2000
+      });
+
+    } catch (error) {
+      console.warn('Feedback submission failed:', error);
+      // Don't show error toast for feedback - it's not critical
     }
   };
 

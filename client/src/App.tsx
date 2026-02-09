@@ -8,45 +8,53 @@ import { PasswordGate } from "@/components/PasswordGate";
 import InstallPWA from "@/components/InstallPWA";
 import OfflineIndicator from "@/components/OfflineIndicator";
 import GenerationStatusOverlay from "@/components/GenerationStatusOverlay";
+import { Suspense, lazy } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
-import Home from "@/pages/home";
-import MultivariantPage from "@/pages/multivariant";
-import TestAdmin from "@/pages/TestAdmin";
-import Review from "@/pages/Review";
-import CorpusDownload from "@/pages/corpus-download";
-import NotFound from "@/pages/not-found";
+// Code splitting - lazy load pages for better performance
+const Home = lazy(() => import("@/pages/home"));
+const MultivariantPage = lazy(() => import("@/pages/multivariant"));
+const TestAdmin = lazy(() => import("@/pages/TestAdmin"));
+const Review = lazy(() => import("@/pages/Review"));
+const CorpusDownload = lazy(() => import("@/pages/corpus-download"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/multivariant" component={MultivariantPage} />
-      <Route path="/test-admin" component={TestAdmin} />
-      <Route path="/review" component={Review} />
-      <Route path="/corpus" component={CorpusDownload} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/multivariant" component={MultivariantPage} />
+        <Route path="/test-admin" component={TestAdmin} />
+        <Route path="/review" component={Review} />
+        <Route path="/corpus" component={CorpusDownload} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <VideoProvider>
-        <TooltipProvider>
-          <Toaster />
-          <OfflineIndicator />
-          <InstallPWA />
-          <GenerationStatusOverlay />
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <VideoProvider>
+          <TooltipProvider>
+            <Toaster />
+            <OfflineIndicator />
+            <InstallPWA />
+            <GenerationStatusOverlay />
 
-          <PasswordGate>
-            <div className="concept-forge-app">
-              <Router />
-            </div>
-          </PasswordGate>
-        </TooltipProvider>
-      </VideoProvider>
-    </QueryClientProvider>
+            <PasswordGate>
+              <div className="concept-forge-app">
+                <Router />
+              </div>
+            </PasswordGate>
+          </TooltipProvider>
+        </VideoProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

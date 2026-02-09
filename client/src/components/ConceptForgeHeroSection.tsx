@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useVideo } from "@/hooks/use-video";
 import { ArrowRight, Play } from "lucide-react";
-import backgroundVideo from "@assets/clean_anvil_video.mp4";
+// Use static video path for better bundle optimization
+const backgroundVideo = "/videos/clean_anvil_video_optimized.mp4";
 
 export default function ConceptForgeHeroSection() {
   const { videoRef, isForgeAnimating, playInitialAnimation } = useVideo();

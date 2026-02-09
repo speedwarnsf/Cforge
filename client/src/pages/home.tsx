@@ -7,7 +7,9 @@ import { History } from "lucide-react";
 import { Link } from "wouter";
 import { useRef, useEffect } from "react";
 import conceptForgeLogo from "@assets/Headline_1752875122000.png";
-import backgroundVideo from "@assets/clean_anvil_video.mp4";
+// Use static video paths for better bundle optimization
+const backgroundVideoOptimized = "/videos/clean_anvil_video_optimized.mp4";
+const backgroundVideoFallback = "/videos/clean_anvil_video_optimized.mp4"; // Use optimized for both
 
 export default function Home() {
   const { playForgeAnimation, videoRef, isForgeAnimating, playInitialAnimation } = useVideo();
@@ -71,7 +73,7 @@ export default function Home() {
     <div className="min-h-screen text-white relative" style={{ background: 'transparent !important' }}>
       {/* Parallax Background Container */}
       <div className="fixed top-0 left-0 w-full h-screen overflow-hidden" style={{ zIndex: 0 }}>
-        {/* Anvil Video Background */}
+        {/* Optimized Anvil Video Background */}
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -81,13 +83,23 @@ export default function Home() {
           }}
           muted
           playsInline
-          preload="auto"
+          preload="metadata" // Changed from "auto" to reduce initial load
+          poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjMUUyOTNiIi8+Cjwvc3ZnPgo=" // Dark placeholder
           onLoadedData={() => {
-            console.log('🎬 Video loaded in Home, triggering initial animation');
+            console.log('🎬 Optimized video loaded in Home, triggering initial animation');
             playInitialAnimation();
           }}
+          onError={(e) => {
+            console.warn('🎬 Video load error, falling back to original');
+            // Fallback to original video if optimized version fails
+            e.currentTarget.src = backgroundVideoFallback;
+          }}
         >
-          <source src={backgroundVideo} type="video/mp4" />
+          <source src={backgroundVideoOptimized} type="video/mp4" />
+          <source src={backgroundVideoFallback} type="video/mp4" />
+          <div className="w-full h-full bg-slate-900 flex items-center justify-center text-white text-sm">
+            Video not supported
+          </div>
         </video>
 
         {/* Dark Blue/Slate Multiply Gradient - Over video and extending to background */}
