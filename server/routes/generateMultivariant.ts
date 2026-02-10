@@ -43,7 +43,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL || '',
-      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || ''
+      process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || ''
     );
 
     // Get 50 most recent concept logs

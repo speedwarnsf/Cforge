@@ -27,7 +27,7 @@ async function getHistoricalConcepts(limit: number = 50): Promise<string[]> {
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || ''
+      process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || ''
     );
 
     const { data: recentConcepts, error } = await supabase
