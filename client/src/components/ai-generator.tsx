@@ -243,6 +243,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
           visualPrompt: data.visualPrompt,
           tokens: data.tokens,
           processingTime: data.processingTime,
+          timestamp: new Date().toISOString(),
           originalityCheck: data.originalityCheck
         }]);
         setBriefCollapsed(true);

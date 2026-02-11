@@ -83,7 +83,7 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   // Temporarily using 3001 for testing
-  const port = process.env.PORT || 3001;
+  const port = Number(process.env.PORT || 3001);
   
   server.on('error', (err: any) => {
     if (err.code === 'EADDRINUSE') {

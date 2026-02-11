@@ -1,9 +1,7 @@
 import ConceptForgeIdeationSection from "@/components/ConceptForgeIdeationSection";
 import AiGenerator from "@/components/ai-generator";
-import SessionHistory from "@/components/session-history";
 import { useVideo } from "@/hooks/use-video";
 import { Button } from "@/components/ui/button";
-import { History } from "lucide-react";
 import { Link } from "wouter";
 import { useRef, useEffect } from "react";
 import conceptForgeLogo from "@assets/Headline_1752875122000.png";
@@ -105,75 +103,62 @@ export default function Home() {
         {/* Dark Blue/Slate Multiply Gradient - Over video and extending to background */}
         <div 
           ref={overlayRef}
-          className="global-gradient-overlay"
+          className="global-gradient-overlay absolute top-0 left-0 w-screen pointer-events-none"
           style={{
-            position: 'absolute !important' as any,
-            top: '0px !important' as any,
-            left: '0px !important' as any,
-            width: '100vw !important' as any,
-            height: '200vh !important' as any,
-            background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(51, 65, 85, 0.5) 30%, rgba(30, 58, 138, 0.3) 60%, rgba(15, 23, 42, 0.6) 100%), linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(51, 65, 85, 0.4) 50%, rgba(30, 58, 138, 0.2) 100%) !important' as any,
-            mixBlendMode: 'multiply !important' as any,
-            zIndex: '2 !important' as any,
-            pointerEvents: 'none !important' as any,
-            display: 'block !important' as any,
-            opacity: '1 !important' as any
+            height: '200vh',
+            background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(51, 65, 85, 0.5) 30%, rgba(30, 58, 138, 0.3) 60%, rgba(15, 23, 42, 0.6) 100%), linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(51, 65, 85, 0.4) 50%, rgba(30, 58, 138, 0.2) 100%)',
+            mixBlendMode: 'multiply',
+            zIndex: 2,
           }}
         />
 
         {/* ConceptForge Logo - Inside hero container */}
         <div 
           ref={logoRef}
+          className="absolute pointer-events-none px-5"
           style={{
-            position: 'absolute !important' as any,
-            top: '15vh !important' as any,
-            left: '50% !important' as any,
-            transform: 'translateX(-50%) scale(1.2) translateZ(0) !important' as any,
-            zIndex: '5 !important' as any,
-            width: 'auto !important' as any,
-            maxWidth: '450px !important' as any,
-            padding: '0 20px !important' as any,
-            pointerEvents: 'none !important' as any,
-            opacity: '1 !important' as any
+            top: '15vh',
+            left: '50%',
+            transform: 'translateX(-50%) scale(1.2) translateZ(0)',
+            zIndex: 5,
+            maxWidth: '450px',
           }}
         >
           <img 
             src={conceptForgeLogo} 
             alt="ConceptForge" 
+            className="w-full h-auto max-w-[450px]"
             style={{
-              width: '100% !important' as any,
-              height: 'auto !important' as any,
-              maxWidth: '450px !important' as any,
-              filter: 'drop-shadow(0 8px 25px rgba(0, 0, 0, 0.9)) !important' as any
+              filter: 'drop-shadow(0 8px 25px rgba(0, 0, 0, 0.9))',
             }}
           />
         </div>
 
       </div>
 
-      {/* Admin Navigation - Fixed Position - Cache Bust v1752940350 */}
-      <div className="fixed right-4 top-4 flex gap-2 z-50" data-cache-bust="1752940350">
-        <Link href="/test-admin">
-          <Button 
-            variant="outline" 
-            size="sm"
-            style={{ backgroundColor: 'rgba(107, 114, 128, 0.7)', borderColor: 'rgba(107, 114, 128, 0.7)' }}
-            className="text-xs px-2 py-0.5 h-6 text-gray-300 hover:text-white transition-all"
-          >
-            Test
-          </Button>
-        </Link>
-        <Link href="/review">
-          <Button 
-            variant="outline" 
-            size="sm"
-            style={{ backgroundColor: 'rgba(107, 114, 128, 0.7)', borderColor: 'rgba(107, 114, 128, 0.7)' }}
-            className="text-xs px-2 py-0.5 h-6 text-gray-300 hover:text-white transition-all"
-          >
-            Review
-          </Button>
-        </Link>
-      </div>
+      {/* Admin Navigation - Only visible in development or with ?admin query param */}
+      {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
+        <div className="fixed right-4 top-4 flex gap-2 z-50">
+          <Link href="/test-admin">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
+            >
+              Test
+            </Button>
+          </Link>
+          <Link href="/review">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
+            >
+              Review
+            </Button>
+          </Link>
+        </div>
+      )}
 
       {/* Background Continuation Layer - Minimal Height */}
       <div 

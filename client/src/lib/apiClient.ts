@@ -42,7 +42,7 @@ class APIClient {
       ...headers
     };
 
-    let lastError: Error;
+    let lastError: Error = new Error('Request failed');
     
     for (let attempt = 0; attempt <= retries; attempt++) {
       try {

@@ -138,10 +138,7 @@ ${variant.bodyCopy ? `**BODY COPY:** ${variant.bodyCopy}\n` : ''}
           userId: null,
           prompt: query,
           response: structuredContent,
-          model: 'gpt-5.2',
           tone: tone,
-          tokensUsed: 0,
-          processingTimeMs: Date.now() - startTime
         });
 
         const output = {

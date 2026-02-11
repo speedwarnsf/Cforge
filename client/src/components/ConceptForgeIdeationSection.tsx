@@ -51,7 +51,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
     {
       icon: Target,
       title: "Your personalized brainstorm partner",
-      subtitle: "Workshop and refine fresh new ideas that remain<br/>true to your creative voice.",
+      subtitle: "Workshop and refine fresh new ideas that remain true to your creative voice.",
       gradient: "from-blue-500 to-blue-600",
       textGradient: "linear-gradient(to right, #60a5fa, #a78bfa)" // Blue to purple
     },
@@ -231,7 +231,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         addGenerationLog('🎯 Requesting premium single concept generation');
         setGenerationStatus(prev => ({ ...prev!, step: 'exploring', progress: 25, detail: 'Exploring creative directions...' }));
 
-        const result = await apiClient.post('/api/generate', data);
+        const result = await apiClient.post<any>('/api/generate', data);
 
         addGenerationLog('🔍 Evaluating concept quality...');
         setGenerationStatus(prev => ({ ...prev!, step: 'evaluating', progress: 75, detail: 'Running quality analysis...' }));
@@ -370,8 +370,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                   </h4>
                   <p 
                     className="text-gray-400 max-w-xl mx-auto text-sm"
-                    dangerouslySetInnerHTML={{ __html: item.subtitle }}
-                  ></p>
+                  >{item.subtitle}</p>
                 </div>
               );
             })}
@@ -379,13 +378,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         </div>
 
         {/* Generation Mode Toggle */}
-        <div className="flex justify-center gap-4 mb-12" style={{ marginTop: '90px' }}>
+        <div className="flex justify-center gap-3 sm:gap-4 mb-12" style={{ marginTop: '90px' }}>
           <Button
             onClick={() => {
               setMode("single");
               localStorage.setItem('conceptForge_mode', 'single');
             }}
-            className={`px-8 py-4 rounded-lg text-lg font-semibold transition-all ${
+            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all ${
               mode === "single" 
                 ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-2 border-blue-600" 
                 : "bg-gray-800 border-2 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500"
@@ -399,7 +398,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               setMode("multi");
               localStorage.setItem('conceptForge_mode', 'multi');
             }}
-            className={`px-8 py-4 rounded-lg text-lg font-semibold transition-all ${
+            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all ${
               mode === "multi" 
                 ? "bg-purple-600 hover:bg-purple-700 text-white shadow-lg border-2 border-purple-600" 
                 : "bg-gray-800 border-2 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500"

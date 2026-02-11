@@ -15,7 +15,7 @@ interface VideoContextType {
   stopForgeLoop: () => void;
   isForgeAnimating: boolean;
   generationStatus: GenerationStatus | null;
-  setGenerationStatus: (status: GenerationStatus | null) => void;
+  setGenerationStatus: React.Dispatch<React.SetStateAction<GenerationStatus | null>>;
   addGenerationLog: (message: string) => void;
   clearGenerationLogs: () => void;
 }

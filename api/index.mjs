@@ -1590,7 +1590,7 @@ async function getHistoricalConcepts(limit = 50) {
     const { createClient: createClient5 } = await import("@supabase/supabase-js");
     const supabase5 = createClient5(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || ""
+      process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || ""
     );
     const { data: recentConcepts, error } = await supabase5.from("concept_logs").select("response").order("created_at", { ascending: false }).limit(limit);
     if (error || !recentConcepts) {
@@ -5557,10 +5557,7 @@ ${variant.bodyCopy ? `**BODY COPY:** ${variant.bodyCopy}
           userId: null,
           prompt: query,
           response: structuredContent,
-          model: "gpt-5.2",
-          tone,
-          tokensUsed: 0,
-          processingTimeMs: Date.now() - startTime
+          tone
         });
         const output = {
           visualDescription: variant.visualDescription,
@@ -7430,7 +7427,7 @@ async function checkHistoricalSimilarity(visualDescription, headlines) {
     const { createClient: createClient5 } = await import("@supabase/supabase-js");
     const supabase5 = createClient5(
       process.env.SUPABASE_URL || "",
-      process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || ""
+      process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || ""
     );
     const { data: recentConcepts, error } = await supabase5.from("concept_logs").select("response").order("created_at", { ascending: false }).limit(50);
     if (error || !recentConcepts) {
@@ -7811,14 +7808,11 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
             userId: null,
             prompt: query,
             response: structuredContent,
-            model: "gpt-5.2",
-            tone,
-            tokensUsed: 0,
-            processingTimeMs: endTime - startTime
+            tone
           });
           if (conceptId) {
             conceptIds2.push(conceptId);
-            outputs[i] = { ...output, conceptId };
+            outputs[i].conceptId = conceptId;
             console.log(`\u2705 Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
           } else {
             console.error(`\u274C Failed to save hybrid concept ${i + 1} to Supabase`);

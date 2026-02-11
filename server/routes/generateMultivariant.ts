@@ -546,16 +546,13 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
             userId: null,
             prompt: query,
             response: structuredContent,
-            model: 'gpt-5.2',
             tone: tone,
-            tokensUsed: 0,
-            processingTimeMs: endTime - startTime
           });
 
           if (conceptId) {
             conceptIds.push(conceptId);
             // Update the output with the database ID
-            outputs[i] = { ...output, conceptId };
+            (outputs[i] as any).conceptId = conceptId;
             console.log(`✅ Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
           } else {
             console.error(`❌ Failed to save hybrid concept ${i + 1} to Supabase`);
