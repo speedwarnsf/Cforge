@@ -64,12 +64,12 @@ interface HybridConfig {
 
 const DEFAULT_CONFIG: HybridConfig = {
   enableDivergentExploration: true,
-  enableProgressiveEvolution: true,
+  enableProgressiveEvolution: false,  // PERF: Disabled - adds ~5s with minimal quality gain
   enableTrajectoryCapture: true,
   enableTropeConstraints: true,
   enableTropeVariety: true,  // Strongly favor unexplored devices from 411 corpus
   fallbackToLegacy: true,
-  divergentPoolSize: 15,
+  divergentPoolSize: 5,  // PERF: Reduced from 15 - 1 iteration instead of 3
   maxEvolutionCycles: 50,
   tropeValidationStrength: 'moderate',
   creativityLevel: 'balanced'
@@ -434,26 +434,16 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
         const parsed = this.parseResponse(content);
 
         if (parsed) {
-          // Calculate scores with full functionality
+          // PERF: Skip expensive embedding + evaluateAdQuality calls during generation
+          // These added ~3-5s per variant. Use heuristic scores instead.
           const combinedContent = `${parsed.visual} ${parsed.headlines.join(' ')}`;
-
-          // Get embedding for distinctiveness (runs in parallel across variants)
-          const embedding = await getEmbedding(combinedContent);
-          const distinctiveness = 0.5 + Math.random() * 0.2; // Base score, refined post-collection
-
-          // Run quality evaluation
-          let coherence = 0.7;
-          try {
-            const quality = await evaluateAdQuality({
-              visualDescription: parsed.visual,
-              headlines: parsed.headlines,
-              rhetoricalDevice: tropesToUse[i % tropesToUse.length] || 'metaphor',
-              rhetoricalExample: seed?.rawIdea || ''
-            });
-            coherence = (quality.professionalism_score + quality.clarity_score + quality.freshness_score) / 300;
-          } catch (e) {
-            console.log(`   Quality evaluation skipped for variant ${i}`);
-          }
+          const distinctiveness = 0.5 + Math.random() * 0.2;
+          
+          // PERF: Use word-count heuristics instead of GPT quality evaluation
+          const wordCount = combinedContent.split(/\s+/).length;
+          const headlineQuality = parsed.headlines.length >= 1 && parsed.headlines[0].length > 5 ? 0.8 : 0.6;
+          const visualQuality = parsed.visual.length > 50 ? 0.8 : 0.6;
+          const coherence = (headlineQuality + visualQuality) / 2;
 
           // Determine the device for this variant
           // For single variants, randomize from available tropes instead of always using index 0

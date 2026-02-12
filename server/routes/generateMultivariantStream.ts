@@ -77,7 +77,7 @@ export async function generateMultivariantStream(req: Request, res: Response) {
 
       const orchestrator = new HybridGenerationOrchestrator({
         enableDivergentExploration: hybridConfig?.enableDivergentExploration ?? true,
-        enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? true,
+        enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? false,  // PERF: Disabled by default
         enableTropeConstraints: hybridConfig?.enableTropeConstraints ?? true,
         creativityLevel: hybridConfig?.creativityLevel ?? 'balanced',
         fallbackToLegacy: true,

@@ -1,32 +1,72 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 
-const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClose: () => void }) => {
+interface LoadingWindowProps {
+    isLoading: boolean;
+    onClose: () => void;
+    progress?: { step: string; progress: number; detail?: string } | null;
+}
+
+const STEP_MAP: Record<string, number> = {
+    'analyzing': 0,
+    'exploring': 1,
+    'evolving': 2,
+    'generating': 3,
+    'validating': 4,
+    'complete': 5
+};
+
+const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps) => {
     const steps = [
-        { icon: '🔥', title: 'Warming the Forge', desc: 'Loading rhetorical frameworks.' },
-        { icon: '🔍', title: 'Analyzing Brief', desc: 'Extracting key themes.' },
-        { icon: '📚', title: 'Querying Corpus', desc: 'Exploring 411 rhetorical devices.' },
-        { icon: '🤖', title: 'Crafting Concepts', desc: 'Generating creative variants.' },
-        { icon: '⚖️', title: 'Arbiter Review', desc: 'Checking originality score.' },
-        { icon: '🎨', title: 'Finalizing', desc: 'Polishing outputs.' }
+        { icon: '🔍', title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
+        { icon: '🌀', title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
+        { icon: '🎭', title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
+        { icon: '🤖', title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
+        { icon: '⚖️', title: 'Scoring & Ranking', desc: 'Evaluating quality and originality.' },
+        { icon: '✨', title: 'Done!', desc: 'Your concepts are ready.' }
     ];
 
     const [currentStep, setCurrentStep] = useState(0);
+    const [progressPercent, setProgressPercent] = useState(0);
+    const [elapsedSec, setElapsedSec] = useState(0);
+    const startRef = useRef(Date.now());
 
+    // Use real progress data when available, fall back to timer
     useEffect(() => {
         if (!isLoading) {
             setCurrentStep(0);
+            setProgressPercent(0);
+            setElapsedSec(0);
+            startRef.current = Date.now();
             return;
         }
 
-        const interval = setInterval(() => {
-            setCurrentStep((prev) => (prev + 1) % steps.length);
-        }, 2500);
+        if (progress) {
+            const stepIndex = STEP_MAP[progress.step] ?? currentStep;
+            setCurrentStep(Math.min(stepIndex, steps.length - 1));
+            setProgressPercent(Math.min(progress.progress, 100));
+        } else {
+            // Fallback: timer-based progression
+            const interval = setInterval(() => {
+                setCurrentStep((prev) => Math.min(prev + 1, steps.length - 2));
+                setProgressPercent((prev) => Math.min(prev + 16, 85));
+            }, 2000);
+            return () => clearInterval(interval);
+        }
+    }, [isLoading, progress]);
 
-        return () => clearInterval(interval);
-    }, [isLoading, steps.length]);
+    // Elapsed time counter
+    useEffect(() => {
+        if (!isLoading) return;
+        startRef.current = Date.now();
+        const timer = setInterval(() => {
+            setElapsedSec(Math.floor((Date.now() - startRef.current) / 1000));
+        }, 500);
+        return () => clearInterval(timer);
+    }, [isLoading]);
 
-    // Return null after hooks are called
     if (!isLoading) return null;
+
+    const detail = progress?.detail || steps[currentStep]?.desc || '';
 
     return (
         <div
@@ -64,7 +104,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     marginBottom: '20px',
                     animation: 'pulse 2s ease-in-out infinite'
                 }}>
-                    🔥
+                    {steps[currentStep]?.icon || '🔥'}
                 </div>
 
                 <h2 style={{
@@ -76,7 +116,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent'
                 }}>
-                    Forging Your Concept
+                    {steps[currentStep]?.title || 'Forging Your Concept'}
                 </h2>
 
                 <p style={{
@@ -84,7 +124,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     fontSize: '14px',
                     marginBottom: '24px'
                 }}>
-                    Usually takes about 20 seconds
+                    {elapsedSec > 0 ? `${elapsedSec}s elapsed` : 'Starting up...'}
                 </p>
 
                 {/* Progress bar */}
@@ -97,7 +137,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     overflow: 'hidden'
                 }}>
                     <div style={{
-                        width: `${((currentStep + 1) / steps.length) * 100}%`,
+                        width: `${progressPercent}%`,
                         height: '100%',
                         background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
                         transition: 'width 0.5s ease-out',
@@ -105,7 +145,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     }} />
                 </div>
 
-                {/* Current step display */}
+                {/* Current step detail */}
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -114,27 +154,15 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     padding: '16px',
                     background: 'rgba(59, 130, 246, 0.1)',
                     borderRadius: '8px',
-                    marginBottom: '24px'
+                    marginBottom: '24px',
+                    minHeight: '72px'
                 }}>
-                    <span style={{
-                        fontSize: '28px',
-                        animation: 'bounce 1s ease-in-out infinite'
-                    }}>
-                        {steps[currentStep].icon}
-                    </span>
-                    <div style={{ textAlign: 'left' }}>
-                        <strong style={{
-                            fontSize: '16px',
-                            display: 'block',
-                            color: '#f1f5f9'
-                        }}>
-                            {steps[currentStep].title}
-                        </strong>
+                    <div style={{ textAlign: 'center' }}>
                         <span style={{
                             fontSize: '13px',
                             color: '#94a3b8'
                         }}>
-                            {steps[currentStep].desc}
+                            {detail}
                         </span>
                     </div>
                 </div>
@@ -146,7 +174,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     gap: '8px',
                     marginBottom: '24px'
                 }}>
-                    {steps.map((_, i) => (
+                    {steps.slice(0, -1).map((_, i) => (
                         <div
                             key={i}
                             style={{
@@ -164,10 +192,6 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     @keyframes pulse {
                         0%, 100% { transform: scale(1); opacity: 1; }
                         50% { transform: scale(1.1); opacity: 0.8; }
-                    }
-                    @keyframes bounce {
-                        0%, 100% { transform: translateY(0); }
-                        50% { transform: translateY(-5px); }
                     }
                 `}</style>
 

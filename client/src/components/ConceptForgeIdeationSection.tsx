@@ -25,7 +25,7 @@ interface ConceptForgeIdeationSectionProps {
 
 export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComplete }: ConceptForgeIdeationSectionProps) {
   const [location] = useLocation();
-  const { startForgeLoop, stopForgeLoop, setGenerationStatus, addGenerationLog, clearGenerationLogs } = useVideo();
+  const { startForgeLoop, stopForgeLoop, generationStatus, setGenerationStatus, addGenerationLog, clearGenerationLogs } = useVideo();
   const [brief, setBrief] = useState("");
   const [selectedLens, setSelectedLens] = useState("bold");
   const [isLoading, setIsLoading] = useState(false);
@@ -734,7 +734,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       </div>
 
       {/* Loading Window */}
-      <LoadingWindow isLoading={isLoading} onClose={() => setIsLoading(false)} />
+      <LoadingWindow isLoading={isLoading} onClose={() => setIsLoading(false)} progress={generationStatus} />
       
       {/* Results Display */}
       <ResultsDisplay results={results} onFeedback={(index, type) => fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ type, conceptId: index }) })} />
