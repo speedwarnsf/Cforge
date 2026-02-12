@@ -84,7 +84,7 @@ const LoadingWindow = memo(({ isLoading, onClose }: { isLoading: boolean; onClos
                     fontSize: '14px',
                     marginBottom: '24px'
                 }}>
-                    This may take 15-30 seconds
+                    Usually takes about 20 seconds
                 </p>
 
                 {/* Progress bar */}

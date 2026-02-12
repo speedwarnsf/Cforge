@@ -275,7 +275,7 @@ const ProgressIndicator = ({ step, onStepChange, isActive }: {
       <div className="text-center">
         <h3 className="text-xl font-bold text-white mb-3">Forging Creative Concepts...</h3>
         <p className="text-slate-300 text-base leading-relaxed mb-4">
-          Processing: {steps[step]}... (ETA: 45-110s)
+          Processing: {steps[step]}...
         </p>
       </div>
 
@@ -513,7 +513,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                 {/* Time estimate */}
                 <div className="mt-8 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
                   <p className="text-slate-400 text-sm">
-                    <strong className="text-white">Processing Time:</strong> 30-60 seconds for enterprise-grade quality evaluation
+                    <strong className="text-white">Processing Time:</strong> ~20-30 seconds for quality evaluation
                   </p>
                   <p className="text-slate-500 text-xs mt-1">
                     This ensures theoretically-grounded, original concepts with professional impact assessment
@@ -669,7 +669,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                         maxLength={500}
                         {...field}
                       />
-                      <div className="absolute bottom-3 right-3 text-xs text-gray-600 font-mono bg-white px-2 py-1 rounded">
+                      <div className="absolute bottom-3 right-3 text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1 rounded">
                         {field.value?.length || 0}/500
                       </div>
                     </div>
@@ -697,11 +697,11 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
               control={form.control}
               name="avoidCliches"
               render={({ field }) => (
-                <FormItem className="w-full rounded-none border border-gray-300 px-2 py-1 bg-white mt-6">
+                <FormItem className="w-full rounded-none border border-gray-600 px-2 py-1 bg-gray-800 mt-6">
                   <div className="flex flex-row items-center justify-between">
                     <div className="flex-1">
-                      <label className="text-sm font-sans font-medium">Include clichés?</label>
-                      <div className="text-sm text-gray-600 font-sans">
+                      <label className="text-sm font-sans font-medium text-white">Include clichés?</label>
+                      <div className="text-sm text-gray-400 font-sans">
                         Enable familiar tropes and expected imagery in concepts
                       </div>
                     </div>
@@ -727,13 +727,13 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
               control={form.control}
               name="deepScan"
               render={({ field }) => (
-                <FormItem className="w-full rounded-none border border-gray-300 px-2 py-1 bg-white mt-6">
+                <FormItem className="w-full rounded-none border border-gray-600 px-2 py-1 bg-gray-800 mt-6">
                   <div className="flex flex-row items-center justify-between">
                     <div className="flex-1">
-                      <label className="text-sm font-sans font-medium">Deep Scan Originality Check</label>
-                      <div className="text-sm text-gray-600 font-sans block">
+                      <label className="text-sm font-sans font-medium text-white">Deep Scan Originality Check</label>
+                      <div className="text-sm text-gray-400 font-sans block">
                         Include image analysis for visual similarities
-                        <span className="block text-xs text-gray-400 mt-1">May take 10-15 seconds longer to complete</span>
+                        <span className="block text-xs text-gray-500 mt-1">May take 10-15 seconds longer to complete</span>
                       </div>
                     </div>
                     <FormControl>
@@ -800,7 +800,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
               key={`example-${example.tone}-${index}`}
               type="button"
               onClick={() => form.setValue("tone", example.tone)}
-              className="p-6 bg-white border border-gray-100 hover:border-gray-300 text-left transition-all duration-200 shadow-lg hover:shadow-xl group rounded-none"
+              className="p-6 bg-gray-800 border border-gray-700 hover:border-gray-500 text-left transition-all duration-200 shadow-lg hover:shadow-xl group rounded-none"
             >
               <div className="flex items-center space-x-3 mb-3">
                 <div className="w-3 h-3" style={{ 
@@ -809,14 +809,14 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                                  example.tone === "conversational" ? "#FFD23F" : 
                                  example.tone === "technical" ? "#1A1A1A" : "#888888" 
                 }}></div>
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide font-mono">
+                <span className="text-xs font-medium text-gray-400 uppercase tracking-wide font-mono">
                   {example.tone === "creative" ? "Bold Concepting" :
                    example.tone === "analytical" ? "Strategic Persuasion" :
                    example.tone === "conversational" ? "Conversational Hook" :
                    example.tone === "technical" ? "Simplified Systems" : "Core Idea Finder"}
                 </span>
               </div>
-              <p className="text-gray-500 text-sm leading-relaxed font-sans">
+              <p className="text-gray-400 text-sm leading-relaxed font-sans">
                 {example.tone === "creative" ? "Big ideas. Loud and clear." :
                  example.tone === "analytical" ? "Logic-driven impact." :
                  example.tone === "conversational" ? "Sticky, shareable, social." :
@@ -906,7 +906,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                         </p>
                       )}
                       
-                      <div className="flex space-x-4 pt-4 border-t border-gray-600">
+                      <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-600">
                         <Button
                           variant="outline"
                           onClick={() => {

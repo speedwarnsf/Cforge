@@ -65,7 +65,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
     {
       icon: BookOpen,
       title: "Your bank for the best ideas",
-      subtitle: "Save unlimited ideas. Come back anytime<br/>to build your next hit.",
+      subtitle: "Save unlimited ideas. Come back anytime to build your next hit.",
       gradient: "from-green-500 to-green-600",
       textGradient: "linear-gradient(to right, #4ade80, #60a5fa)" // Green to blue
     }
