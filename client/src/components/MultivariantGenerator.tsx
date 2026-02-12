@@ -5,10 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Lightbulb, ChevronDown, Copy, X } from "lucide-react";
+import { Loader2, Lightbulb, ChevronDown, Copy, X, Star, Download, LayoutGrid } from "lucide-react";
 import { Link } from "wouter";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { H2, BodyText, Caption } from "./Typography";
+import ArbiterScoreViz from "./ArbiterScoreViz";
+import { saveConceptsToHistory, toggleFavorite as toggleLocalFavorite, StoredConcept } from "@/lib/conceptStorage";
+import { exportConceptsAsPDF, exportConceptsAsPresentation } from "@/lib/conceptExport";
 import SessionHistory from "./session-history";
 import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from './ResultsDisplay';
@@ -329,6 +332,16 @@ interface MultivariantOutput {
   rhetoricalDevice: string;
   originalityScore: number;
   id: string;
+  tagline?: string;
+  bodyCopy?: string;
+  fullMarkdown?: string;
+  professionalismScore?: number;
+  clarityScore?: number;
+  freshnessScore?: number;
+  resonanceScore?: number;
+  awardsScore?: number;
+  finalStatus?: string;
+  passesAllThresholds?: boolean;
   example?: {
     campaign_name: string;
     brand: string;
@@ -434,13 +447,39 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
         throw new Error('Failed to generate variants');
       }
       
-      return response.json() as Promise<MultivariantOutput[]>;
+      const json = await response.json();
+      // Handle both hybrid {success, outputs} and legacy array format
+      return (json.outputs || json) as MultivariantOutput[];
     },
     onSuccess: (data) => {
       setIsLoadingWindowOpen(false);
       setResults(data);
       setBriefCollapsed(true);
       setContentFadingOut(false);
+      
+      // Save to localStorage history
+      const stored: StoredConcept[] = data.map(r => ({
+        id: r.id,
+        timestamp: new Date().toISOString(),
+        prompt: form.getValues('query'),
+        tone: form.getValues('tone'),
+        headlines: r.headlines,
+        tagline: r.tagline,
+        bodyCopy: r.bodyCopy,
+        visualDescription: r.visualDescription,
+        rhetoricalDevice: r.rhetoricalDevice,
+        originalityScore: r.originalityScore,
+        fullMarkdown: r.fullMarkdown,
+        professionalismScore: r.professionalismScore,
+        clarityScore: r.clarityScore,
+        freshnessScore: r.freshnessScore,
+        resonanceScore: r.resonanceScore,
+        awardsScore: r.awardsScore,
+        finalStatus: r.finalStatus,
+        isFavorite: false,
+      }));
+      saveConceptsToHistory(stored);
+      
       toast({
         title: "Variants Generated",
         description: `Generated ${data.length} creative variants`,
@@ -484,7 +523,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
       {/* Enhanced Loading Animation */}
       {generateMutation.isPending && (
         <div className="fixed inset-0 bg-slate-900/95 text-white z-50 flex items-center justify-center">
-          <div className="text-center max-w-2xl px-8">
+          <div className="text-center max-w-2xl px-4 sm:px-8">
             <div className="flex flex-col items-center justify-center py-16 text-center">
               {/* Animated brand logo */}
               <BrandLogo size="lg" animate={true} className="mb-8" />
@@ -846,7 +885,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
       {/* Results - Unified with single concept format */}
       {results.length > 0 && (
         <div className="fixed inset-0 bg-slate-900 text-white z-50 overflow-y-auto">
-          <div className="max-w-6xl mx-auto p-8">
+          <div className="max-w-6xl mx-auto px-4 py-6 sm:p-8">
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-white mb-2">
                 {results.length} Variants Generated
@@ -860,7 +899,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
               {results.map((result, index) => (
                 <div key={result.id} className="space-y-6">
                       <div className="bg-gray-800 p-6 rounded-lg">
-                        <h3 className="text-xl font-bold text-white mb-4">
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
                           Variant {index + 1}
                         </h3>
                         
@@ -890,13 +929,16 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                           </p>
                         </div>
                         
-                        {/* Originality Score */}
-                        <div className="mb-4">
-                          <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Originality Score</h4>
-                          <p className="text-green-400 font-mono">
-                            {Math.round(result.originalityScore)}% confidence
-                          </p>
-                        </div>
+                        {/* Arbiter Score Visualization */}
+                        <ArbiterScoreViz
+                          originalityScore={Math.round(result.originalityScore)}
+                          professionalismScore={result.professionalismScore}
+                          clarityScore={result.clarityScore}
+                          freshnessScore={result.freshnessScore}
+                          resonanceScore={result.resonanceScore}
+                          awardsScore={result.awardsScore}
+                          finalStatus={result.finalStatus}
+                        />
                       </div>
                       
                       {/* **Step 3: Rhetorical Example Metadata Display** */}
@@ -906,45 +948,57 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                         </p>
                       )}
                       
-                      <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-600">
+                      <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 border-t border-gray-600">
                         <Button
                           variant="outline"
+                          size="sm"
                           onClick={() => {
                             const text = result.headlines.join('\n') + '\n\nVisual: ' + result.visualDescription;
                             navigator.clipboard.writeText(text);
-                            toast({
-                              title: "Copied to clipboard",
-                              duration: 2000,
-                            });
+                            toast({ title: "Copied to clipboard", duration: 2000 });
                           }}
-                          className="bg-transparent border-gray-500 text-gray-300 hover:bg-gray-800"
+                          className="bg-transparent border-gray-500 text-gray-300 hover:bg-gray-800 text-xs"
                         >
-                          <Copy className="w-4 h-4 mr-2" />
+                          <Copy className="w-3.5 h-3.5 mr-1.5" />
                           Copy
                         </Button>
                         
-                        {/* **Step 2: Feedback Buttons** */}
                         <Button
                           variant="outline"
-                          onClick={() => handleFeedback(result.id, "more_like_this")}
-                          className="bg-transparent border-green-500 text-green-300 hover:bg-green-800"
+                          size="sm"
+                          onClick={() => {
+                            const nowFav = toggleLocalFavorite(result.id);
+                            toast({ title: nowFav ? '⭐ Favorited' : 'Unfavorited', duration: 1500 });
+                          }}
+                          className="bg-transparent border-amber-600 text-amber-300 hover:bg-amber-900/30 text-xs"
                         >
-                          👍 More Like This
+                          <Star className="w-3.5 h-3.5 mr-1.5" />
+                          Favorite
+                        </Button>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleFeedback(result.id, "more_like_this")}
+                          className="bg-transparent border-green-500 text-green-300 hover:bg-green-800 text-xs"
+                        >
+                          👍 More
                         </Button>
                         
                         <Button
                           variant="outline"
+                          size="sm"
                           onClick={() => handleFeedback(result.id, "less_like_this")}
-                          className="bg-transparent border-red-500 text-red-300 hover:bg-red-800"
+                          className="bg-transparent border-red-500 text-red-300 hover:bg-red-800 text-xs"
                         >
-                          👎 Less Like This
+                          👎 Less
                         </Button>
                       </div>
                 </div>
               ))}
             </div>
 
-            <div className="flex items-center justify-center space-x-4 mt-8 pt-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-8 pt-8">
                 <Button
                   variant="ghost"
                   onClick={clearResponse}
@@ -952,6 +1006,50 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                 >
                   <X className="w-4 h-4 mr-2" />
                   New Brief
+                </Button>
+                <Link href="/gallery">
+                  <Button variant="outline" className="bg-transparent border-gray-500 text-gray-300 hover:bg-gray-800">
+                    <LayoutGrid className="w-4 h-4 mr-2" />
+                    Gallery
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const stored: StoredConcept[] = results.map(r => ({
+                      id: r.id, timestamp: new Date().toISOString(), prompt: form.getValues('query'),
+                      tone: form.getValues('tone'), headlines: r.headlines, tagline: r.tagline,
+                      bodyCopy: r.bodyCopy, visualDescription: r.visualDescription,
+                      rhetoricalDevice: r.rhetoricalDevice, originalityScore: r.originalityScore,
+                      professionalismScore: r.professionalismScore, clarityScore: r.clarityScore,
+                      freshnessScore: r.freshnessScore, resonanceScore: r.resonanceScore,
+                      awardsScore: r.awardsScore, finalStatus: r.finalStatus, isFavorite: false,
+                    }));
+                    exportConceptsAsPDF(stored);
+                  }}
+                  className="bg-transparent border-gray-500 text-gray-300 hover:bg-gray-800"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  PDF Export
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const stored: StoredConcept[] = results.map(r => ({
+                      id: r.id, timestamp: new Date().toISOString(), prompt: form.getValues('query'),
+                      tone: form.getValues('tone'), headlines: r.headlines, tagline: r.tagline,
+                      bodyCopy: r.bodyCopy, visualDescription: r.visualDescription,
+                      rhetoricalDevice: r.rhetoricalDevice, originalityScore: r.originalityScore,
+                      professionalismScore: r.professionalismScore, clarityScore: r.clarityScore,
+                      freshnessScore: r.freshnessScore, resonanceScore: r.resonanceScore,
+                      awardsScore: r.awardsScore, finalStatus: r.finalStatus, isFavorite: false,
+                    }));
+                    exportConceptsAsPresentation(stored);
+                  }}
+                  className="bg-transparent border-gray-500 text-gray-300 hover:bg-gray-800"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Deck Export
                 </Button>
             </div>
           </div>

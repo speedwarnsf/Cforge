@@ -18,6 +18,7 @@ const MultivariantPage = lazy(() => import("@/pages/multivariant"));
 const TestAdmin = lazy(() => import("@/pages/TestAdmin"));
 const Review = lazy(() => import("@/pages/Review"));
 const CorpusDownload = lazy(() => import("@/pages/corpus-download"));
+const Gallery = lazy(() => import("@/pages/gallery"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -29,6 +30,7 @@ function Router() {
         <Route path="/test-admin" component={TestAdmin} />
         <Route path="/review" component={Review} />
         <Route path="/corpus" component={CorpusDownload} />
+        <Route path="/gallery" component={Gallery} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
