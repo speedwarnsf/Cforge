@@ -9,7 +9,7 @@ import InstallPWA from "@/components/InstallPWA";
 import OfflineIndicator from "@/components/OfflineIndicator";
 import GenerationStatusOverlay from "@/components/GenerationStatusOverlay";
 import { Suspense, lazy } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import { PageLoadingSkeleton } from "@/components/SkeletonLoaders";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Code splitting - lazy load pages for better performance
@@ -23,7 +23,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
   return (
-    <Suspense fallback={<LoadingSpinner />}>
+    <Suspense fallback={<PageLoadingSkeleton />}>
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/multivariant" component={MultivariantPage} />
@@ -49,7 +49,7 @@ function App() {
             <GenerationStatusOverlay />
 
             <PasswordGate>
-              <div className="concept-forge-app">
+              <div className="concept-forge-app" role="application" aria-label="ConceptForge">
                 <Router />
               </div>
             </PasswordGate>

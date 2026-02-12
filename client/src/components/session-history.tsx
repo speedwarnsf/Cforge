@@ -11,6 +11,8 @@ import { Download, Search, ChevronDown, ChevronUp, History, Star, StarOff } from
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { H2, BodyText, Caption } from "./Typography";
+import { useDebounce } from "@/hooks/use-debounce";
+import { ApiErrorDisplay } from "./ErrorBoundary";
 
 interface HistoryEntry {
   id: string;
@@ -41,15 +43,17 @@ export default function SessionHistory({ currentResponse, onAddToHistory }: Sess
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
 
+  const debouncedSearch = useDebounce(searchTerm, 250);
+
   // Fetch permanent history from Supabase
-  const { data: permanentHistory } = useQuery({
+  const { data: permanentHistory, error: historyError, refetch: refetchHistory } = useQuery({
     queryKey: ['/api/history'],
     queryFn: async () => {
       const response = await fetch('/api/history');
-      if (!response.ok) return [];
+      if (!response.ok) throw new Error(`Failed to load history (${response.status})`);
       return response.json();
     },
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 30000,
   });
 
   // Add current response to session history when it changes
@@ -60,12 +64,12 @@ export default function SessionHistory({ currentResponse, onAddToHistory }: Sess
     }
   }, [currentResponse]);
 
-  // Filter and search entries
+  // Filter and search entries (using debounced search for performance)
   const filteredEntries = [...sessionEntries, ...(permanentHistory || [])]
     .filter(entry => {
-      const matchesSearch = entry.prompt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           entry.content.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesSearch;
+      if (!debouncedSearch.trim()) return true;
+      const q = debouncedSearch.toLowerCase();
+      return entry.prompt.toLowerCase().includes(q) || entry.content.toLowerCase().includes(q);
     })
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
@@ -569,8 +573,19 @@ export default function SessionHistory({ currentResponse, onAddToHistory }: Sess
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 bg-white/10 backdrop-blur-sm border-0 text-white placeholder-gray-400 rounded-none w-full focus:border-0 focus:ring-0"
+              aria-label="Search session history"
+              type="search"
             />
           </div>
+
+          {/* Error display for history loading */}
+          {historyError && (
+            <ApiErrorDisplay 
+              error={historyError instanceof Error ? historyError : new Error(String(historyError))} 
+              onRetry={() => refetchHistory()} 
+              message="Failed to load session history" 
+            />
+          )}
 
           {/* Export Controls - Responsive Layout - Cache Bust v1752940350 */}
           <div data-cache-bust="1752940350">

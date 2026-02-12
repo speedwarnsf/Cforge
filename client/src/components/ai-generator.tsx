@@ -517,7 +517,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
       <div className="relative">
       {/* Loading Animation with White Square Logo */}
       {isGenerating && (
-        <div className="fixed inset-0 bg-slate-900/90 text-white z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-slate-900/90 text-white z-50 flex items-center justify-center" role="alert" aria-live="assertive" aria-label="Generating concepts">
           <div className="text-center">
             <div className="flex flex-col items-center justify-center py-16 text-center">
               {/* ConceptForge Logo */}
@@ -955,9 +955,16 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                             value={field.value || ""}
                             onChange={(e) => field.onChange(e.target.value)}
                             maxLength={500}
-                            aria-label="Creative brief"
+                            aria-label="Creative brief - describe your campaign challenge"
+                            aria-describedby="brief-char-count"
                           />
-                          <div className={`absolute text-xs font-mono rounded border border-gray-300 ${(field.value?.length || 0) > 400 ? 'bg-red-100 text-red-600' : 'bg-white text-gray-600'}`} style={{ right: '20px', bottom: '20px', padding: '4px 8px', width: '72px' }}>
+                          <div 
+                            id="brief-char-count"
+                            className={`absolute text-xs font-mono rounded border border-gray-300 ${(field.value?.length || 0) > 400 ? 'bg-red-100 text-red-600' : 'bg-white text-gray-600'}`} 
+                            style={{ right: '20px', bottom: '20px', padding: '4px 8px', width: '72px' }}
+                            aria-live="polite"
+                            aria-label={`${field.value?.length || 0} of 500 characters used`}
+                          >
                             {(field.value?.length || 0)}/500
                           </div>
                         </div>

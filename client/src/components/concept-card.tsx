@@ -33,7 +33,7 @@ interface ConceptCardProps {
 
 
 
-export default function ConceptCard({ concept, onRate, showRating = true, index }: ConceptCardProps) {
+const ConceptCard = React.memo(function ConceptCard({ concept, onRate, showRating = true, index }: ConceptCardProps) {
   const { toast } = useToast();
   const [currentRating, setCurrentRating] = useState<'more_like_this' | 'less_like_this' | null>(null);
 
@@ -447,12 +447,16 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
   };
 
   return (
-    <div className="concept-card bg-gray-900 border border-gray-700 p-4 sm:p-6 overflow-hidden" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+    <article 
+      className="concept-card bg-gray-900 border border-gray-700 p-4 sm:p-6 overflow-hidden" 
+      style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', wordWrap: 'break-word', overflowWrap: 'break-word' }}
+      aria-label={`Concept ${index !== undefined ? index + 1 : ''}: ${concept.rhetoricalDevice || 'creative concept'}`}
+    >
       <div className="flex items-start justify-between mb-4">
         <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-3">
             {index !== undefined && (
-              <div className="w-8 h-8 bg-white text-gray-900 flex items-center justify-center text-sm font-bold">
+              <div className="w-8 h-8 bg-white text-gray-900 flex items-center justify-center text-sm font-bold" aria-hidden="true">
                 {index + 1}
               </div>
             )}
@@ -469,22 +473,24 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
           )}
         </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" role="group" aria-label="Concept actions">
           <Button
             variant="ghost"
             size="sm"
             onClick={copyToClipboard}
-            className="text-gray-300 hover:text-white"
+            className="text-gray-300 hover:text-white min-w-[36px] min-h-[36px]"
+            aria-label="Copy concept to clipboard"
           >
-            <Copy className="w-4 h-4" />
+            <Copy className="w-4 h-4" aria-hidden="true" />
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={downloadAsDoc}
-            className="text-gray-300 hover:text-white"
+            className="text-gray-300 hover:text-white min-w-[36px] min-h-[36px]"
+            aria-label="Download concept as HTML file"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
           </Button>
         </div>
       </div>
@@ -511,33 +517,39 @@ export default function ConceptCard({ concept, onRate, showRating = true, index 
       )}
 
       {showRating && (
-        <div className="flex items-center justify-between pt-4">
-          <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-between pt-4 flex-wrap gap-2">
+          <div className="flex items-center space-x-3" role="group" aria-label="Rate this concept">
             <Button
               variant={currentRating === 'more_like_this' ? "default" : "outline"}
               size="sm"
               onClick={() => handleRate('more_like_this')}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 min-h-[36px]"
+              aria-pressed={currentRating === 'more_like_this'}
+              aria-label="I want more concepts like this"
             >
-              <ThumbsUp className="w-4 h-4" />
+              <ThumbsUp className="w-4 h-4" aria-hidden="true" />
               <span>More like this</span>
             </Button>
             <Button
               variant={currentRating === 'less_like_this' ? "destructive" : "outline"}
               size="sm"
               onClick={() => handleRate('less_like_this')}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 min-h-[36px]"
+              aria-pressed={currentRating === 'less_like_this'}
+              aria-label="I want fewer concepts like this"
             >
-              <ThumbsDown className="w-4 h-4" />
+              <ThumbsDown className="w-4 h-4" aria-hidden="true" />
               <span>Less like this</span>
             </Button>
           </div>
           
-          <div className="text-xs text-gray-400">
+          <div className="text-xs text-gray-400" aria-label={`${concept.tokens} tokens, ${concept.processingTime} processing time`}>
             {concept.tokens} tokens • {concept.processingTime}
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
-}
+});
+
+export default ConceptCard;

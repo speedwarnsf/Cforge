@@ -47,7 +47,7 @@ function getStatusBadge(status?: string) {
   );
 }
 
-export default function ArbiterScoreViz({
+const ArbiterScoreViz = React.memo(function ArbiterScoreViz({
   originalityScore = 0,
   professionalismScore = 0,
   clarityScore = 0,
@@ -72,10 +72,10 @@ export default function ArbiterScoreViz({
 
   if (compact) {
     return (
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5" role="list" aria-label="Quality scores">
         {scores.map(s => (
-          <div key={s.short} className="flex items-center gap-1 bg-gray-800/60 px-2 py-1 rounded text-xs">
-            <span className="text-gray-400">{s.short}</span>
+          <div key={s.short} className="flex items-center gap-1 bg-gray-800/60 px-2 py-1 rounded text-xs" role="listitem" aria-label={`${s.name}: ${s.value}%`}>
+            <span className="text-gray-400" aria-hidden="true">{s.short}</span>
             <span className={`font-bold ${getGradeColor(s.value)}`}>{s.value}</span>
           </div>
         ))}
@@ -85,7 +85,7 @@ export default function ArbiterScoreViz({
   }
 
   return (
-    <div className="arbiter-scores">
+    <div className="arbiter-scores" role="region" aria-label="Quality arbiter scores">
       <div className="flex items-center gap-2 mb-3">
         <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide">Quality Arbiter Scores</h4>
         {finalStatus && getStatusBadge(finalStatus)}
@@ -121,8 +121,8 @@ export default function ArbiterScoreViz({
         {/* Grade Cards */}
         <div className={`grid grid-cols-3 gap-2 ${scores.length >= 3 ? 'w-full md:w-1/2' : 'w-full'}`}>
           {scores.map(s => (
-            <div key={s.short} className="bg-gray-800/40 border border-gray-700/50 rounded-lg p-2.5 text-center">
-              <div className={`text-xl font-black ${getGradeColor(s.value)}`}>
+            <div key={s.short} className="bg-gray-800/40 border border-gray-700/50 rounded-lg p-2.5 text-center" aria-label={`${s.name}: ${getGradeLetter(s.value)} (${s.value}%)`}>
+              <div className={`text-xl font-black ${getGradeColor(s.value)}`} aria-hidden="true">
                 {getGradeLetter(s.value)}
               </div>
               <div className="text-xs text-gray-400 mt-0.5">{s.name}</div>
@@ -133,4 +133,6 @@ export default function ArbiterScoreViz({
       </div>
     </div>
   );
-}
+});
+
+export default ArbiterScoreViz;
