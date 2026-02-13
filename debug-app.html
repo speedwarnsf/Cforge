@@ -89,7 +89,7 @@
                 const response = await fetch(`${API_BASE}/api/history`);
                 const data = await response.json();
                 
-                results.innerHTML = `✅ Server is responding!
+                results.innerHTML = `Server is responding!
                 
 API Endpoint: ${API_BASE}/api/history
 Status: ${response.status}
@@ -97,10 +97,10 @@ Response: ${JSON.stringify(data, null, 2)}
 
 Server is working correctly. The main app should be accessible.`;
                 
-                document.getElementById('server-status').innerHTML = '✅ Online and responding';
+                document.getElementById('server-status').innerHTML = 'Online and responding';
             } catch (error) {
-                results.innerHTML = `❌ Server connection failed: ${error.message}`;
-                document.getElementById('server-status').innerHTML = '❌ Connection failed';
+                results.innerHTML = `Server connection failed: ${error.message}`;
+                document.getElementById('server-status').innerHTML = 'Connection failed';
             }
         }
 
@@ -126,13 +126,13 @@ Server is working correctly. The main app should be accessible.`;
                 
                 const data = await response.json();
                 
-                results.innerHTML = `✅ Single test completed!
+                results.innerHTML = `Single test completed!
                 
 Generated ${data.length} concepts:
 ${JSON.stringify(data, null, 2)}`;
                 
             } catch (error) {
-                results.innerHTML = `❌ Test failed: ${error.message}`;
+                results.innerHTML = `Test failed: ${error.message}`;
             }
         }
 
@@ -182,7 +182,7 @@ ${JSON.stringify(data, null, 2)}`;
                 }
             }
             
-            results.innerHTML = `✅ All tests completed!
+            results.innerHTML = `All tests completed!
             
 Summary:
 - Successful tests: ${successCount}/10
@@ -206,7 +206,7 @@ You can now use the review page to provide feedback on generated concepts.`;
 ${data.map((entry, i) => `${i + 1}. ${entry.prompt} (${entry.tone}) - ${new Date(entry.timestamp).toLocaleString()}`).join('\n')}`;
                 
             } catch (error) {
-                results.innerHTML = `❌ Failed to fetch history: ${error.message}`;
+                results.innerHTML = `Failed to fetch history: ${error.message}`;
             }
         }
 
