@@ -13,12 +13,12 @@ export async function evaluateAwardsJuryScore(concept: {
 
 You will judge each concept according to the past 30 years of award-winning campaigns and their common hallmarks:
 
-✅ Originality and freshness of the idea
-✅ Cultural relevance and resonance
-✅ Exceptional craft and execution quality
-✅ Simplicity and clarity of the concept
-✅ Emotional impact on the audience
-✅ Relevance to the brand's identity and goals
+Originality and freshness of the idea
+Cultural relevance and resonance
+Exceptional craft and execution quality
+Simplicity and clarity of the concept
+Emotional impact on the audience
+Relevance to the brand's identity and goals
 
 Use the following criteria with weights in your judgment:
 

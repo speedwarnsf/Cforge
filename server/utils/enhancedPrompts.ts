@@ -53,20 +53,20 @@ ${deviceInstructions}
 6. **DIFFERENTIATION**: Why this stands out from category norms
 
 **ORIGINALITY FILTERS**:
-❌ REJECT: Generic motivational language
-❌ REJECT: Category clichés or overused tropes  
-❌ REJECT: Celebrity endorsement concepts without substance
-❌ REJECT: Features-focused messaging without emotional hook
-✅ APPROVE: Unexpected angles that reframe the conversation
-✅ APPROVE: Authentic human insights expressed powerfully
-✅ APPROVE: Strategic creativity that drives business results
+REJECT: Generic motivational language
+REJECT: Category clichés or overused tropes  
+REJECT: Celebrity endorsement concepts without substance
+REJECT: Features-focused messaging without emotional hook
+APPROVE: Unexpected angles that reframe the conversation
+APPROVE: Authentic human insights expressed powerfully
+APPROVE: Strategic creativity that drives business results
 
 Remember: Great advertising doesn't just communicate - it changes how people think, feel, and act.`;
 }
 
 function buildDeviceInstructions(devices: string[], liked: string[], disliked: string[]): string {
   const deviceList = devices.map(device => {
-    const preference = liked.includes(device) ? '🔥 PREFERRED' : 
+    const preference = liked.includes(device) ? 'PREFERRED' : 
                      disliked.includes(device) ? '❄️ AVOID' : '';
     return `• ${device} ${preference}`;
   }).join('\n');
@@ -87,14 +87,14 @@ function buildDeviceInstructions(devices: string[], liked: string[], disliked: s
 function getToneInstructions(tone: string): string {
   const toneMap: Record<string, string> = {
     'bold': `
-🔥 **BOLD CONCEPTING**: Create concepts that demand attention and make bold statements
+**BOLD CONCEPTING**: Create concepts that demand attention and make bold statements
 • Use powerful, unexpected metaphors and striking contrasts
 • Push creative boundaries while staying strategically sound
 • Think "Super Bowl commercial" energy and memorability
 • Channel the confidence of brands like Nike, Apple, or Old Spice`,
 
     'strategic': `
-🎯 **STRATEGIC PERSUASION**: Build logically compelling concepts with emotional depth  
+**STRATEGIC PERSUASION**: Build logically compelling concepts with emotional depth  
 • Lead with insights that make audiences think differently
 • Use sophisticated rhetorical structures (chiasmus, antithesis)
 • Balance rational benefits with emotional resonance
@@ -108,14 +108,14 @@ function getToneInstructions(tone: string): string {
 • Think social-first, conversation-worthy content`,
 
     'simplified': `
-⚡ **SIMPLIFIED SYSTEMS**: Cut through complexity with crystalline clarity
+**SIMPLIFIED SYSTEMS**: Cut through complexity with crystalline clarity
 • Transform technical concepts into human language
 • Use powerful analogies and clear visual metaphors  
 • Make the complex feel simple and accessible
 • Think "explain like I'm 5" but with sophisticated execution`,
 
     'core': `
-🎯 **CORE IDEA FINDER**: Distill to the essential truth that changes everything
+**CORE IDEA FINDER**: Distill to the essential truth that changes everything
 • Find the one insight that makes all other messaging secondary
 • Strip away noise to reveal the compelling core
 • Use paradox and surprise to reveal deeper truths

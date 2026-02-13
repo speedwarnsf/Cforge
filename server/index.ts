@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 (async () => {
   // Start precomputing corpus embeddings in background
   precomputeCorpusEmbeddings().catch(err => {
-    console.error("❌ Failed to precompute corpus embeddings:", err);
+    console.error("Failed to precompute corpus embeddings:", err);
   });
   
   // Pre-warm theory cache for improved performance

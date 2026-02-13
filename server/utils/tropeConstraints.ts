@@ -77,7 +77,7 @@ export function loadAllRhetoricalDevices(): Record<string, string> {
     }
   }
 
-  console.warn('⚠️ rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only');
+  console.warn('rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only');
   console.warn(`   Searched paths: ${possiblePaths.join(', ')}`);
   _allRhetoricalDevices = {};
   return _allRhetoricalDevices;
@@ -405,7 +405,7 @@ export class TropeConstraintEngine {
    * Initialize trope embeddings for semantic matching
    */
   async initialize(): Promise<void> {
-    console.log('🎭 Initializing TropeConstraintEngine...');
+    console.log('Initializing TropeConstraintEngine...');
 
     for (const [tropeId, pattern] of Object.entries(TROPE_PATTERNS)) {
       const tropeDescription = `${pattern.name}: ${pattern.description}. Examples: ${pattern.examplePhrases.join('; ')}`;
@@ -413,7 +413,7 @@ export class TropeConstraintEngine {
       this.tropeEmbeddings.set(tropeId, embedding);
     }
 
-    console.log(`   ✅ Initialized ${this.tropeEmbeddings.size} trope embeddings`);
+    console.log(`   Initialized ${this.tropeEmbeddings.size} trope embeddings`);
   }
 
   /**

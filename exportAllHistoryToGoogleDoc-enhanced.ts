@@ -191,7 +191,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
     
-    console.log('📄 Creating comprehensive Google Doc...');
+    console.log('Creating comprehensive Google Doc...');
     
     // Create the document
     const createResponse = await docs.documents.create({
@@ -201,7 +201,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
     
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
     
     console.log('✍️ Formatting and inserting concepts with clean styling...');
     
@@ -310,20 +310,20 @@ async function exportAllHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Google Docs export complete with clean formatting.');
+      console.log('Google Docs export complete with clean formatting.');
     } catch (shareError) {
-      console.log(`⚠️ Could not share document: ${shareError.message}`);
+      console.log(`Could not share document: ${shareError.message}`);
       console.log('📧 You can manually share the document using the URL below');
     }
     
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`✅ Export complete! Document URL: ${documentUrl}`);
+    console.log(`Export complete! Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${allConcepts.length} concepts with enhanced formatting`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

@@ -24,7 +24,7 @@ async function testMultivariantSimple() {
     }
 
     const data = await response.json();
-    console.log('✅ Response received');
+    console.log('Response received');
     console.log('📊 Results count:', data.concepts?.length || 0);
     
     if (data.concepts && data.concepts.length > 0) {
@@ -35,12 +35,12 @@ async function testMultivariantSimple() {
       console.log('  Device:', concept.rhetoricalDevice);
       console.log('  Score:', concept.originalityScore);
     } else {
-      console.log('❌ No concepts generated');
+      console.log('No concepts generated');
       console.log('Raw response:', JSON.stringify(data, null, 2));
     }
     
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
   }
 }
 

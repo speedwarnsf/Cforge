@@ -56,7 +56,7 @@ export default function Home() {
       const enhancedGenerationData = {
         ...generationData,
         onCompleteCallback: () => {
-          console.log('🎯 Home: Generation completed, notifying ConceptForge');
+          console.log('Home: Generation completed, notifying ConceptForge');
           if (originalOnComplete) {
             originalOnComplete();
           }

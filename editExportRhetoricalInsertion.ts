@@ -126,7 +126,7 @@ function fixMissingRhetoricalSection(content: string): string {
   const hasCraft = content.includes('**RHETORICAL CRAFT') || content.includes('**Rhetorical Craft');
   
   if (hasCraft) {
-    console.log("✅ Rhetorical craft section already exists");
+    console.log("Rhetorical craft section already exists");
     return content;
   }
   
@@ -134,7 +134,7 @@ function fixMissingRhetoricalSection(content: string): string {
   const parsed = parseMarkdownContent(content);
   
   if (!parsed.headline || !parsed.bodyCopy) {
-    console.log("❌ Cannot fix rhetorical section - missing base content");
+    console.log("Cannot fix rhetorical section - missing base content");
     return content;
   }
   
@@ -150,11 +150,11 @@ function fixMissingRhetoricalSection(content: string): string {
       '**STRATEGIC IMPACT:**',
       `${rhetoricalAnalysis}\n\n**STRATEGIC IMPACT:**`
     );
-    console.log("✅ Added rhetorical craft section before strategic impact");
+    console.log("Added rhetorical craft section before strategic impact");
     return updatedContent;
   } else {
     const updatedContent = content + `\n\n${rhetoricalAnalysis}`;
-    console.log("✅ Added rhetorical craft section at end");
+    console.log("Added rhetorical craft section at end");
     return updatedContent;
   }
 }
@@ -173,15 +173,15 @@ async function updateConceptInDatabase(conceptId: string, updatedContent: string
     .eq('id', conceptId);
   
   if (error) {
-    console.error("❌ Error updating concept:", error);
+    console.error("Error updating concept:", error);
     throw error;
   }
   
-  console.log("✅ Concept updated in database successfully");
+  console.log("Concept updated in database successfully");
 }
 
 async function exportToGoogleDocs(parsed: any, conceptId: string): Promise<string> {
-  console.log("📄 Exporting to Google Docs with enhanced formatting...");
+  console.log("Exporting to Google Docs with enhanced formatting...");
   
   // Set up Google Docs API
   const auth = new google.auth.GoogleAuth({
@@ -279,7 +279,7 @@ async function exportToGoogleDocs(parsed: any, conceptId: string): Promise<strin
   });
   
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log(`✅ Document exported and shared: ${url}`);
+  console.log(`Document exported and shared: ${url}`);
   
   return url;
 }
@@ -289,15 +289,15 @@ async function editExportRhetoricalInsertion() {
   console.log("══════════════════════════════════════════════════════════");
   
   if (!options.conceptId) {
-    console.error("❌ Error: --conceptId parameter is required");
+    console.error("Error: --conceptId parameter is required");
     return;
   }
   
-  console.log(`🎯 Target Concept ID: ${options.conceptId}`);
+  console.log(`Target Concept ID: ${options.conceptId}`);
   console.log(`🔧 Fix Missing Rhetorical: ${options.fixMissingRhetorical}`);
-  console.log(`✅ Validate All Sections: ${options.validateAllSections}`);
+  console.log(`Validate All Sections: ${options.validateAllSections}`);
   console.log(`📤 Re-export: ${options.reexport}`);
-  console.log(`📄 Export to Google Docs: ${options.exportGoogleDoc}`);
+  console.log(`Export to Google Docs: ${options.exportGoogleDoc}`);
   
   // Initialize Supabase
   const supabase = createClient(
@@ -314,19 +314,19 @@ async function editExportRhetoricalInsertion() {
     .single();
   
   if (error) {
-    console.error("❌ Error fetching concept:", error);
+    console.error("Error fetching concept:", error);
     return;
   }
   
   if (!concepts) {
-    console.error("❌ Concept not found");
+    console.error("Concept not found");
     return;
   }
   
   const concept = concepts as ConceptEntry;
-  console.log(`✅ Found concept: "${concept.prompt.substring(0, 50)}..."`);
-  console.log(`🎨 Tone: ${concept.tone}`);
-  console.log(`📄 Content length: ${concept.response.length}`);
+  console.log(`Found concept: "${concept.prompt.substring(0, 50)}..."`);
+  console.log(`Tone: ${concept.tone}`);
+  console.log(`Content length: ${concept.response.length}`);
   
   // Parse current content
   let content = concept.response;
@@ -334,21 +334,21 @@ async function editExportRhetoricalInsertion() {
   
   console.log("\n📊 CURRENT SECTION ANALYSIS:");
   console.log("════════════════════════════");
-  console.log(`🎯 Headline: ${parsed.headline ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🏷️  Tagline: ${parsed.tagline ? '✅ Found' : '❌ Missing'}`);
-  console.log(`📝 Body Copy: ${parsed.bodyCopy ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🎨 Visual Concept: ${parsed.visualConcept ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🎭 Rhetorical Craft: ${parsed.rhetoricalCraft ? '✅ Found' : '❌ Missing'}`);
-  console.log(`📈 Strategic Impact: ${parsed.strategicImpact ? '✅ Found' : '❌ Missing'}`);
+  console.log(`Headline: ${parsed.headline ? 'Found' : 'Missing'}`);
+  console.log(`Tagline: ${parsed.tagline ? 'Found' : 'Missing'}`);
+  console.log(`Body Copy: ${parsed.bodyCopy ? 'Found' : 'Missing'}`);
+  console.log(`Visual Concept: ${parsed.visualConcept ? 'Found' : 'Missing'}`);
+  console.log(`Rhetorical Craft: ${parsed.rhetoricalCraft ? 'Found' : 'Missing'}`);
+  console.log(`Strategic Impact: ${parsed.strategicImpact ? 'Found' : 'Missing'}`);
   
   // Validate sections if requested
   if (options.validateAllSections) {
     console.log("\n🔍 SECTION VALIDATION:");
     console.log("═════════════════════");
     const validation = validateSections(parsed);
-    console.log(`✅ All sections valid: ${validation.isValid}`);
+    console.log(`All sections valid: ${validation.isValid}`);
     if (!validation.isValid) {
-      console.log(`❌ Missing fields: ${validation.missingFields.join(', ')}`);
+      console.log(`Missing fields: ${validation.missingFields.join(', ')}`);
     }
   }
   
@@ -364,7 +364,7 @@ async function editExportRhetoricalInsertion() {
     
     // Re-parse with updated content
     const updatedParsed = parseMarkdownContent(updatedContent);
-    console.log(`🎭 Rhetorical section status: ${updatedParsed.rhetoricalCraft ? '✅ Added' : '❌ Still missing'}`);
+    console.log(`Rhetorical section status: ${updatedParsed.rhetoricalCraft ? 'Added' : 'Still missing'}`);
   }
   
   // Re-export if requested
@@ -380,18 +380,18 @@ async function editExportRhetoricalInsertion() {
     
     const docUrl = await exportToGoogleDocs(finalParsed, options.conceptId);
     
-    console.log("\n🎯 EXPORT SUMMARY:");
+    console.log("\nEXPORT SUMMARY:");
     console.log("═════════════════");
-    console.log(`📄 Document URL: ${docUrl}`);
-    console.log(`✅ Headlines: ${options.headlineCase} case`);
-    console.log(`📝 Section labels: ${options.sectionLabelsCase} case`);
+    console.log(`Document URL: ${docUrl}`);
+    console.log(`Headlines: ${options.headlineCase} case`);
+    console.log(`Section labels: ${options.sectionLabelsCase} case`);
     console.log(`📖 Body text: ${options.bodyCase} case`);
     console.log(`🔘 Hanging bullets: ${options.enableHangingBullets ? 'enabled' : 'disabled'}`);
     console.log(`📏 Clean spacing: ${options.cleanSpacing ? 'enabled' : 'disabled'}`);
-    console.log(`📄 Single paragraph body: ${options.singleParagraphBody ? 'enabled' : 'disabled'}`);
+    console.log(`Single paragraph body: ${options.singleParagraphBody ? 'enabled' : 'disabled'}`);
   }
   
-  console.log("\n✅ Enhanced Rhetorical Insertion and Export Process Complete!");
+  console.log("\nEnhanced Rhetorical Insertion and Export Process Complete!");
 }
 
 // Run the script

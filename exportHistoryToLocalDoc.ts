@@ -37,7 +37,7 @@ async function exportHistoryToLocalDoc() {
     const historyData: ConceptEntry[] = await response.json();
     
     if (historyData.length === 0) {
-      console.log('⚠️  No session history found. Generate some concepts first.');
+      console.log(' No session history found. Generate some concepts first.');
       return;
     }
     
@@ -82,7 +82,7 @@ async function exportHistoryToLocalDoc() {
         formattedContent += `🟨 CREATED AT\n${entry.timestamp}\n\n`;
         
       } catch (parseError) {
-        console.log(`⚠️  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
@@ -93,8 +93,8 @@ async function exportHistoryToLocalDoc() {
     
     fs.writeFileSync(filepath, formattedContent, 'utf8');
     
-    console.log('✅ Export complete!');
-    console.log(`📄 File saved: ${filename}`);
+    console.log('Export complete!');
+    console.log(`File saved: ${filename}`);
     console.log(`📊 Exported ${historyData.length} concepts successfully`);
     console.log('\n📋 To import to Google Docs:');
     console.log('1. Open Google Docs');
@@ -105,7 +105,7 @@ async function exportHistoryToLocalDoc() {
     return filepath;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     process.exit(1);
   }
 }

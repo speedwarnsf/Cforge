@@ -322,13 +322,13 @@ async function transformAndImportNewEntries() {
       
       if (exists) {
         duplicateCount++;
-        console.log(`⚠️  Duplicate found: ${entry.campaign} - ${entry.brand}`);
+        console.log(` Duplicate found: ${entry.campaign} - ${entry.brand}`);
       } else {
         newEntriesCount++;
       }
     }
     
-    console.log(`\n📈 IMPORT ANALYSIS:`);
+    console.log(`\nIMPORT ANALYSIS:`);
     console.log(`  New entries: ${newEntriesCount}`);
     console.log(`  Duplicates: ${duplicateCount}`);
     
@@ -345,9 +345,9 @@ async function transformAndImportNewEntries() {
       for (const entry of uniqueEntries) {
         const success = importCorpusEntries([entry]);
         if (success) {
-          console.log(`✅ Added: ${entry.campaign} - ${entry.brand} (${entry.year})`);
+          console.log(`Added: ${entry.campaign} - ${entry.brand} (${entry.year})`);
         } else {
-          console.log(`❌ Failed: ${entry.campaign} - ${entry.brand}`);
+          console.log(`Failed: ${entry.campaign} - ${entry.brand}`);
         }
       }
       
@@ -357,12 +357,12 @@ async function transformAndImportNewEntries() {
       
       return true;
     } else {
-      console.log('💡 No new entries to import (all duplicates)');
+      console.log('No new entries to import (all duplicates)');
       return false;
     }
     
   } catch (error) {
-    console.error('❌ Error importing new entries:', error);
+    console.error('Error importing new entries:', error);
     return false;
   }
 }

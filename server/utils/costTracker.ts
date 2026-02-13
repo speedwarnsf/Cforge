@@ -64,7 +64,7 @@ export async function createCompletionWithTracking(
     const pricing = MODEL_PRICING[options.model] || MODEL_PRICING['gpt-5.2'];
     const estimatedCost = (promptTokens / 1000) * pricing.input + (completionTokens / 1000) * pricing.output;
     
-    console.log(`✅ Tokens used: prompt=${promptTokens}, completion=${completionTokens} (total=${totalTokens})`);
+    console.log(`Tokens used: prompt=${promptTokens}, completion=${completionTokens} (total=${totalTokens})`);
     console.log(`💰 Estimated cost: $${estimatedCost.toFixed(4)}`);
     console.log(`⏱️ Duration: ${duration}ms`);
     

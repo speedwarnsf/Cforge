@@ -63,7 +63,7 @@ Tone: ${concept.tone}
     json.resonance_score = Math.max(0, Math.min(100, json.resonance_score));
     json.clarity_score = Math.max(0, Math.min(100, json.clarity_score));
     
-    console.log(`🎭 Audience Empathy - Resonance: ${json.resonance_score}, Clarity: ${json.clarity_score}, Vibe: ${json.vibe}`);
+    console.log(`Audience Empathy - Resonance: ${json.resonance_score}, Clarity: ${json.clarity_score}, Vibe: ${json.vibe}`);
     
     return json;
   } catch (error) {

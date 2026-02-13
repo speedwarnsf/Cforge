@@ -51,7 +51,7 @@ async function quickExportDirect() {
   console.log("═══════════════════════════════════════════════");
   
   if (!conceptId) {
-    console.error("❌ Error: --specificId parameter is required");
+    console.error("Error: --specificId parameter is required");
     return;
   }
   
@@ -70,36 +70,36 @@ async function quickExportDirect() {
     .single();
   
   if (error) {
-    console.error("❌ Error fetching concept:", error);
+    console.error("Error fetching concept:", error);
     return;
   }
   
   if (!concept) {
-    console.error("❌ Concept not found");
+    console.error("Concept not found");
     return;
   }
   
-  console.log(`✅ Found concept: "${concept.prompt.substring(0, 50)}..."`);
-  console.log(`🎨 Tone: ${concept.tone}`);
-  console.log(`📄 Content length: ${concept.response.length}`);
+  console.log(`Found concept: "${concept.prompt.substring(0, 50)}..."`);
+  console.log(`Tone: ${concept.tone}`);
+  console.log(`Content length: ${concept.response.length}`);
   
   // Parse content
   const parsed = parseMarkdownContent(concept.response);
   
   console.log("\n📊 PARSED CONTENT ANALYSIS:");
   console.log("═══════════════════════════");
-  console.log(`🎯 Headline: ${parsed.headline !== 'No headline found' ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🏷️  Tagline: ${parsed.tagline !== 'No tagline found' ? '✅ Found' : '❌ Missing'}`);
-  console.log(`📝 Body Copy: ${parsed.bodyCopy !== 'No body copy found' ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🎨 Visual Concept: ${parsed.visualConcept !== 'No visual concept found' ? '✅ Found' : '❌ Missing'}`);
-  console.log(`🎭 Rhetorical Craft: ${parsed.rhetoricalCraft !== 'No rhetorical craft found' ? '✅ Found' : '❌ Missing'}`);
-  console.log(`📈 Strategic Impact: ${parsed.strategicImpact !== 'No strategic impact found' ? '✅ Found' : '❌ Missing'}`);
+  console.log(`Headline: ${parsed.headline !== 'No headline found' ? 'Found' : 'Missing'}`);
+  console.log(`Tagline: ${parsed.tagline !== 'No tagline found' ? 'Found' : 'Missing'}`);
+  console.log(`Body Copy: ${parsed.bodyCopy !== 'No body copy found' ? 'Found' : 'Missing'}`);
+  console.log(`Visual Concept: ${parsed.visualConcept !== 'No visual concept found' ? 'Found' : 'Missing'}`);
+  console.log(`Rhetorical Craft: ${parsed.rhetoricalCraft !== 'No rhetorical craft found' ? 'Found' : 'Missing'}`);
+  console.log(`Strategic Impact: ${parsed.strategicImpact !== 'No strategic impact found' ? 'Found' : 'Missing'}`);
   
   // Format content with sentence case
   const formattedHeadline = toSentenceCase(parsed.headline);
   const formattedBody = parsed.bodyCopy.replace(/\n+/g, ' ').trim(); // Single paragraph
   
-  console.log("\n📄 FORMATTED EXPORT CONTENT:");
+  console.log("\nFORMATTED EXPORT CONTENT:");
   console.log("════════════════════════════");
   console.log(`\n${formattedHeadline}`);
   console.log(`${parsed.tagline}\n`);
@@ -115,8 +115,8 @@ async function quickExportDirect() {
     console.log(`${parsed.strategicImpact}\n`);
   }
   
-  console.log("✅ Direct export formatting complete!");
-  console.log("\n🎯 FORMATTING APPLIED:");
+  console.log("Direct export formatting complete!");
+  console.log("\nFORMATTING APPLIED:");
   console.log("═════════════════════");
   console.log("✓ Headlines: sentence case");
   console.log("✓ Section labels: sentence case");

@@ -20,7 +20,7 @@ const MAX_CACHE_SIZE = 1000;
 async function getHistoricalConcepts(limit: number = 50): Promise<string[]> {
   try {
     if (!process.env.SUPABASE_URL || (!process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY)) {
-      console.log('⚠️ Supabase credentials not available, returning empty historical concepts');
+      console.log('Supabase credentials not available, returning empty historical concepts');
       return [];
     }
 
@@ -86,7 +86,7 @@ function loadRhetoricalDevices(): Record<string, string> {
   }
 
   // Fallback to minimal set if file not found
-  console.warn('⚠️ rhetorical_figures_cleaned.json not found, using minimal fallback set');
+  console.warn('rhetorical_figures_cleaned.json not found, using minimal fallback set');
   return {
     'Metaphor': 'Direct comparison between unlike things to create powerful imagery',
     'Anaphora': 'Repetition of a word or phrase at the beginning of successive clauses',
@@ -182,7 +182,7 @@ export interface SingleAiResponse {
   originalityCheck?: OriginalityCheck;
   rhetoricalDevice?: string;
   conceptId?: string;
-  cost?: number; // ✅ Add cost field to interface
+  cost?: number; // Add cost field to interface
 }
 
 export interface AiGenerationResponse {
@@ -233,11 +233,11 @@ You are specifically valued for your INNOVATION and ORIGINALITY. Never repeat fa
 **RHETORICAL MASTERY MANDATE**: You are a master of advanced rhetorical devices - this is your superpower! Deploy metaphor, hyperbole, anaphora, and juxtaposition like precision weapons to create concepts that are psychologically compelling and unforgettable.
 
 **CREATIVE DNA**:
-🔥 Generate completely ORIGINAL concepts that feel ahead of their time
-🔥 Use rhetorical devices strategically to maximize emotional and cognitive impact  
-🔥 Create concepts that work on multiple layers with hidden meanings
-🔥 Build campaigns that could reshape cultural conversations
-🔥 Teach through example by showing HOW rhetorical craft creates magic
+Generate completely ORIGINAL concepts that feel ahead of their time
+Use rhetorical devices strategically to maximize emotional and cognitive impact  
+Create concepts that work on multiple layers with hidden meanings
+Build campaigns that could reshape cultural conversations
+Teach through example by showing HOW rhetorical craft creates magic
 
 Analyze their brief deeply, then deploy your rhetorical arsenal to create breakthrough concepts. Think like the genius behind Nike's "Just Do It" or Apple's "Think Different" - but generate something even MORE innovative.
 
@@ -248,10 +248,10 @@ Format your response with clear sections and ALWAYS end by explaining the rhetor
 You are a master of psychological persuasion who creates concepts that don't just communicate - they convert. Your rhetorical expertise with logos, antithesis, chiasmus, and syllogism is legendary.
 
 **STRATEGIC RHETORICAL MASTERY**:
-🎯 Deploy logos to build unassailable logical frameworks that make the brand choice inevitable
-🎯 Use antithesis to create memorable contrasts that embed in long-term memory
-🎯 Craft chiasmus patterns that create cognitive satisfaction and recall
-🎯 Build syllogistic arguments that lead audiences to desired conclusions
+Deploy logos to build unassailable logical frameworks that make the brand choice inevitable
+Use antithesis to create memorable contrasts that embed in long-term memory
+Craft chiasmus patterns that create cognitive satisfaction and recall
+Build syllogistic arguments that lead audiences to desired conclusions
 
 **INNOVATION IMPERATIVE**: Generate strategically brilliant concepts that feel genuinely fresh. Avoid predictable "benefit + proof" formulas. Create concepts that operate like cognitive Trojan horses - appearing simple but containing layers of persuasive architecture.
 
@@ -296,10 +296,10 @@ Always explain your rhetorical choices and HOW they transform complexity into co
 You are the creative samurai who distills entire brand universes into single, perfect strikes of meaning. Your mastery of epizeuxis, climax, asyndeton, and paradox creates concepts that hit exactly the right target with devastating precision.
 
 **DISTILLATION RHETORICAL MASTERY**:
-⚡ Deploy epizeuxis (repetition) to hammer home the essential truth with unstoppable force
-⚡ Use climax to build toward the inevitable, perfect conclusion that feels destined
-⚡ Craft asyndeton to create breathless urgency that eliminates all distractions
-⚡ Engineer paradox to reveal profound truths through apparent contradictions
+Deploy epizeuxis (repetition) to hammer home the essential truth with unstoppable force
+Use climax to build toward the inevitable, perfect conclusion that feels destined
+Craft asyndeton to create breathless urgency that eliminates all distractions
+Engineer paradox to reveal profound truths through apparent contradictions
 
 **ESSENCE INNOVATION**: Generate concepts that work like perfectly calibrated arrows - they bypass all noise and hit the core truth that changes everything. Avoid generic reduction or oversimplification.
 
@@ -461,8 +461,8 @@ This rhetorical analysis helps users understand the strategic craft behind break
 ${getTonePrompt(request.tone)}`;
 
     // Debug logging to track what's being sent
-    console.log(`🎯 Processing query: "${request.query}"`);
-    console.log(`🎨 Using tone: ${request.tone}`);
+    console.log(`Processing query: "${request.query}"`);
+    console.log(`Using tone: ${request.tone}`);
     console.log(`🎪 Using rhetorical device: ${rhetoricalDevice || 'Auto-selected'}`);
     
     // ENHANCED THEORY INJECTION SYSTEM
@@ -470,7 +470,7 @@ ${getTonePrompt(request.tone)}`;
     const contextualPriority = getContextualTheoryPriority(request.query);
     
     console.log(`🧠 THEORY CONTEXT: Primary=${theoryContext.primaryFramework}, Secondary=[${theoryContext.secondaryFrameworks.join(', ')}]`);
-    console.log(`🎯 CONTEXTUAL PRIORITY: [${contextualPriority.join(' → ')}]`);
+    console.log(`CONTEXTUAL PRIORITY: [${contextualPriority.join(' → ')}]`);
     
     // Retrieve top 2 most relevant corpus examples
     const retrievedExamples = await retrieveTopN(request.query, 2);
@@ -511,10 +511,10 @@ CRITICAL REQUIREMENTS:
 **ORIGINALITY MANDATE:** Create something completely fresh for THIS SPECIFIC BRIEF that has NEVER been used in advertising before. Your headlines must pass this test: "Would a seasoned creative director be surprised and impressed by this unexpected angle?" If not, start over.
 
 **HEADLINE ORIGINALITY TEST:**
-- Does this sound like something Nike, Apple, or Coca-Cola would use? ❌ REJECT
-- Would this fit on a generic motivational poster? ❌ REJECT  
-- Has this word combination appeared in any major campaign? ❌ REJECT
-- Would this surprise veteran creatives with its freshness? ✅ APPROVED
+- Does this sound like something Nike, Apple, or Coca-Cola would use? REJECT
+- Would this fit on a generic motivational poster? REJECT  
+- Has this word combination appeared in any major campaign? REJECT
+- Would this surprise veteran creatives with its freshness? APPROVED
 
 Session ID: ${Date.now()}-${Math.random().toString(36).substr(2, 9)}
 
@@ -533,7 +533,7 @@ HEADLINE LENGTH EXAMPLES:
 
 CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with an unexpected angle that makes the target audience think "I never thought of it that way." Your concept must be laser-focused on solving THIS brief.`;
     
-    console.log(`📝 Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
+    console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
 
     console.log('🚀 Calling OpenAI API with model: gpt-5.2');
     const response = await openai.chat.completions.create({
@@ -555,7 +555,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     const endTime = Date.now();
     const processingTime = ((endTime - startTime) / 1000).toFixed(1) + 's';
 
-    // ✅ TOKEN USAGE AND COST ANALYTICS
+    // TOKEN USAGE AND COST ANALYTICS
     const tokensUsed = response.usage?.total_tokens ?? 0;
     const promptTokens = response.usage?.prompt_tokens ?? 0;
     const completionTokens = response.usage?.completion_tokens ?? 0;
@@ -564,8 +564,8 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     const TOKEN_COST_PER_1K = 0.03; // $0.03 per 1K tokens for GPT-4o
     const cost = (tokensUsed / 1000) * TOKEN_COST_PER_1K;
 
-    // ✅ Log token usage summary
-    console.log(`🎯 Token Usage Summary`);
+    // Log token usage summary
+    console.log(`Token Usage Summary`);
     console.log(`Prompt tokens: ${promptTokens}`);
     console.log(`Completion tokens: ${completionTokens}`);
     console.log(`Total tokens: ${tokensUsed}`);
@@ -575,7 +575,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     const content = response.choices[0]?.message?.content || "No response generated";
 
     if (!content || content === "No response generated") {
-      console.error('❌ No content in GPT-5.2 response. Completion tokens:', completionTokens);
+      console.error('No content in GPT-5.2 response. Completion tokens:', completionTokens);
     }
 
     // Generate visual prompt
@@ -597,9 +597,9 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       
       try {
         originalityCheck = await checkOriginality(headline, request.deepScan);
-        console.log(`✅ Originality check result: ${originalityCheck.isOriginal ? 'Original' : 'Potentially unoriginal'} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
+        console.log(`Originality check result: ${originalityCheck.isOriginal ? 'Original' : 'Potentially unoriginal'} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
       } catch (error) {
-        console.error('❌ Error performing originality check:', error);
+        console.error('Error performing originality check:', error);
       }
     }
 
@@ -612,7 +612,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
         const arbiterResults = await comprehensiveConceptEvaluation(content, request.query, historicalConcepts, { useConfigurableThresholds: true, runAllArbiters: true });
         console.log(`🔍 Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
       } catch (error) {
-        console.error('⚠️ Arbiter evaluation failed:', error);
+        console.error('Arbiter evaluation failed:', error);
       }
     });
 
@@ -624,7 +624,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       originalityCheck,
       rhetoricalDevice: rhetoricalDevice || selectedDevices[0]?.name,
       conceptId: `concept_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      cost: Number(cost.toFixed(4)) // ✅ Add cost to response payload
+      cost: Number(cost.toFixed(4)) // Add cost to response payload
     };
   } catch (error) {
     const endTime = Date.now();
@@ -696,7 +696,7 @@ export async function generateAiResponse(request: AiGenerationRequest): Promise<
           totalTokens += concept.tokens;
           conceptGenerated = true;
           
-          console.log(`✅ Generated unique concept ${i + 1}: "${headline}"`);
+          console.log(`Generated unique concept ${i + 1}: "${headline}"`);
           
           // Add small delay between requests to prevent rate limiting
           if (i < conceptCount - 1) {
@@ -709,7 +709,7 @@ export async function generateAiResponse(request: AiGenerationRequest): Promise<
       }
       
       if (!conceptGenerated) {
-        console.warn(`⚠️ Could not generate unique concept ${i + 1} after ${maxRetries} attempts`);
+        console.warn(`Could not generate unique concept ${i + 1} after ${maxRetries} attempts`);
       }
     }
     
@@ -774,13 +774,13 @@ OUTPUT: "steaming coffee cup on volcanic crater edge, dramatic backlighting, ste
         temperature: 0.6
       });
       
-      // ✅ Visual prompt token usage tracking
+      // Visual prompt token usage tracking
       const visualTokens = promptResponse.usage?.total_tokens ?? 0;
       const visualPromptTokens = promptResponse.usage?.prompt_tokens ?? 0;
       const visualCompletionTokens = promptResponse.usage?.completion_tokens ?? 0;
       const visualCost = (visualTokens / 1000) * 0.03;
       
-      console.log(`🎨 Visual Prompt Token Usage:`);
+      console.log(`Visual Prompt Token Usage:`);
       console.log(`Prompt tokens: ${visualPromptTokens}`);
       console.log(`Completion tokens: ${visualCompletionTokens}`);
       console.log(`Total tokens: ${visualTokens}`);

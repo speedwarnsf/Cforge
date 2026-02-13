@@ -46,8 +46,8 @@ async function exportStaticTestConceptToGoogleDoc() {
   
   console.log(`📊 Parsed headline: ${parsed.headline}`);
   console.log(`📊 Parsed tagline: ${parsed.tagline}`);
-  console.log(`📝 Prompt: ${parsed.prompt}`);
-  console.log(`🎨 Tone: ${parsed.tone}`);
+  console.log(`Prompt: ${parsed.prompt}`);
+  console.log(`Tone: ${parsed.tone}`);
 
   // Initialize Google APIs
   const oauth2Client = new google.auth.OAuth2(
@@ -68,7 +68,7 @@ async function exportStaticTestConceptToGoogleDoc() {
   const today = new Date().toLocaleDateString();
   const title = `Concept Forge - Static Test Export ${today}`;
   
-  console.log(`📄 Creating Google Doc: "${title}"`);
+  console.log(`Creating Google Doc: "${title}"`);
   
   const createRes = await docs.documents.create({
     requestBody: { title }
@@ -179,10 +179,10 @@ ${parsed.rhetoricalCraft.replace(/• \*\*/g, '• ').replace(/\*\*/g, '')}`;
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
   
-  console.log("✅ Static test export completed successfully!");
+  console.log("Static test export completed successfully!");
   console.log(`🌐 Google Doc URL: ${url}`);
   console.log("📧 Document shared with: dustinyork15@gmail.com");
-  console.log("\n🎯 Formatting applied:");
+  console.log("\nFormatting applied:");
   console.log("  ✓ Headlines in sentence case");
   console.log("  ✓ Taglines italicized");
   console.log("  ✓ Clean bullet formatting");

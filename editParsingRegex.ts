@@ -98,7 +98,7 @@ function updateFileRegex(filePath: string, update: RegexUpdate): boolean {
     
     if (updated) {
       writeFileSync(filePath, content, 'utf8');
-      console.log(`✅ Updated: ${filePath}`);
+      console.log(`Updated: ${filePath}`);
       return true;
     } else {
       console.log(`⏭️  No changes needed: ${filePath}`);
@@ -106,17 +106,17 @@ function updateFileRegex(filePath: string, update: RegexUpdate): boolean {
     }
     
   } catch (error) {
-    console.log(`❌ Error updating ${filePath}:`, error);
+    console.log(`Error updating ${filePath}:`, error);
     return false;
   }
 }
 
 async function editParsingRegex() {
   console.log(`🔧 Editing parsing regex for: ${updateTarget}`);
-  console.log(`📝 Description: ${description}`);
+  console.log(`Description: ${description}`);
   
   if (!updateTarget || !regexUpdates[updateTarget]) {
-    console.log("❌ Invalid update target. Available targets:");
+    console.log("Invalid update target. Available targets:");
     Object.keys(regexUpdates).forEach(key => {
       console.log(`  - ${key}: ${regexUpdates[key].description}`);
     });
@@ -129,7 +129,7 @@ async function editParsingRegex() {
   const files = findFilesWithParsing('.');
   
   if (files.length === 0) {
-    console.log("❌ No files found with rhetorical craft parsing");
+    console.log("No files found with rhetorical craft parsing");
     return;
   }
   
@@ -145,10 +145,10 @@ async function editParsingRegex() {
     }
   }
   
-  console.log(`\n✅ Updated ${updatedCount} files successfully`);
+  console.log(`\nUpdated ${updatedCount} files successfully`);
   
   if (updatedCount > 0) {
-    console.log("\n🎯 Regex update complete! The parsing should now handle both:");
+    console.log("\nRegex update complete! The parsing should now handle both:");
     console.log("  - **RHETORICAL CRAFT:**");
     console.log("  - **RHETORICAL CRAFT BREAKDOWN:**");
   }

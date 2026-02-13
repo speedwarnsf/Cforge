@@ -13,7 +13,7 @@ async function checkRecentConcepts() {
     
     // Show most recent 5 entries
     const recent = history.slice(0, 5);
-    console.log('\n📝 Most recent concepts:');
+    console.log('\nMost recent concepts:');
     
     recent.forEach((entry: any, index: number) => {
       console.log(`${index + 1}. ${entry.prompt.substring(0, 50)}... (${entry.tone})`);
@@ -38,7 +38,7 @@ async function checkRecentConcepts() {
     }
     
   } catch (error) {
-    console.error('❌ Error checking recent concepts:', error);
+    console.error('Error checking recent concepts:', error);
   }
 }
 

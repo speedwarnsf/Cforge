@@ -59,7 +59,7 @@ async function exportAllHistoryToGoogleDoc() {
     console.log(`📊 Found ${allConcepts.length} total concepts (${sessionData.length} session + ${historicalConcepts.length} database)`);
     
     if (allConcepts.length === 0) {
-      console.log('⚠️  No concepts found to export');
+      console.log(' No concepts found to export');
       return null;
     }
 
@@ -72,7 +72,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
 
-    console.log('📄 Creating comprehensive Google Doc...');
+    console.log('Creating comprehensive Google Doc...');
     const createResponse = await docs.documents.create({
       requestBody: {
         title: `Concept Forge Complete History - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
@@ -80,7 +80,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
 
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
 
     console.log('✍️  Formatting and inserting complete history...');
     
@@ -88,7 +88,7 @@ async function exportAllHistoryToGoogleDoc() {
     allConcepts.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     
     // Build content
-    let content = `# 🎯 Concept Forge Complete History\n\n`;
+    let content = `# Concept Forge Complete History\n\n`;
     content += `**Generated:** ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}\n`;
     content += `**Total Concepts:** ${allConcepts.length}\n\n`;
     content += `## 📊 Important Note About Missing Concepts\n\n`;
@@ -104,28 +104,28 @@ async function exportAllHistoryToGoogleDoc() {
         const entryDate = new Date(entry.timestamp).toLocaleDateString();
         const entryTime = new Date(entry.timestamp).toLocaleTimeString();
         
-        content += `## 🎨 Concept ${index + 1}\n\n`;
-        content += `**📝 Original Prompt:** *${entry.prompt}*\n`;
-        content += `**🎭 Tone:** ${entry.tone.charAt(0).toUpperCase() + entry.tone.slice(1)}\n`;
+        content += `## Concept ${index + 1}\n\n`;
+        content += `**Original Prompt:** *${entry.prompt}*\n`;
+        content += `**Tone:** ${entry.tone.charAt(0).toUpperCase() + entry.tone.slice(1)}\n`;
         content += `**📅 Generated:** ${entryDate} at ${entryTime}\n`;
-        content += `**⚡ Enhanced:** ${entry.enhanced ? 'Yes' : 'No'}\n\n`;
+        content += `**Enhanced:** ${entry.enhanced ? 'Yes' : 'No'}\n\n`;
         
         content += `### 📰 Headline\n${concept.headline}\n\n`;
-        content += `### 🏷️ Tagline\n${concept.tagline}\n\n`;
-        content += `### 📝 Body Copy\n${concept.bodyCopy}\n\n`;
-        content += `### 🎨 Visual Concept\n${concept.visualConcept}\n\n`;
+        content += `###  Tagline\n${concept.tagline}\n\n`;
+        content += `### Body Copy\n${concept.bodyCopy}\n\n`;
+        content += `### Visual Concept\n${concept.visualConcept}\n\n`;
         
-        content += `### 🎭 Rhetorical Craft Analysis\n`;
+        content += `### Rhetorical Craft Analysis\n`;
         concept.rhetoricalCraft.forEach((craft, i) => {
           content += `**${i + 1}. ${craft.device}:** ${craft.explanation}\n`;
         });
         content += `\n`;
         
-        content += `### 🎯 Strategic Impact\n${concept.strategicImpact}\n\n`;
+        content += `### Strategic Impact\n${concept.strategicImpact}\n\n`;
         content += `---\n\n`;
         
       } catch (error) {
-        console.log(`⚠️  Could not parse concept ${index + 1}, adding raw content...`);
+        console.log(` Could not parse concept ${index + 1}, adding raw content...`);
         console.log(`Parse error: ${error.message}`);
         console.log(`Raw content preview: ${entry.content.substring(0, 100)}...`);
         
@@ -133,9 +133,9 @@ async function exportAllHistoryToGoogleDoc() {
         const entryDate = new Date(entry.timestamp || entry.created_at || new Date()).toLocaleDateString();
         const entryTime = new Date(entry.timestamp || entry.created_at || new Date()).toLocaleTimeString();
         
-        content += `## 🎨 Concept ${index + 1} (Raw Format)\n\n`;
-        content += `**📝 Original Prompt:** *${entry.prompt}*\n`;
-        content += `**🎭 Tone:** ${entry.tone.charAt(0).toUpperCase() + entry.tone.slice(1)}\n`;
+        content += `## Concept ${index + 1} (Raw Format)\n\n`;
+        content += `**Original Prompt:** *${entry.prompt}*\n`;
+        content += `**Tone:** ${entry.tone.charAt(0).toUpperCase() + entry.tone.slice(1)}\n`;
         content += `**📅 Generated:** ${entryDate} at ${entryTime}\n\n`;
         content += `**Raw Content:**\n${entry.content.substring(0, 500)}...\n\n`;
         content += `---\n\n`;
@@ -170,20 +170,20 @@ async function exportAllHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Google Docs export complete and shared with dustinyork15@gmail.com');
+      console.log('Google Docs export complete and shared with dustinyork15@gmail.com');
     } catch (shareError) {
-      console.log(`⚠️  Could not share document: ${shareError.message}`);
+      console.log(` Could not share document: ${shareError.message}`);
       console.log('📧 You can manually share the document using the URL below');
     }
 
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`✅ Export complete! Document URL: ${documentUrl}`);
+    console.log(`Export complete! Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${allConcepts.length} concepts successfully`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

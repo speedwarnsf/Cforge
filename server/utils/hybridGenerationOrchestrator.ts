@@ -175,7 +175,7 @@ export class HybridGenerationOrchestrator {
     }
 
     this.initialized = true;
-    console.log('✅ HybridGenerationOrchestrator initialized');
+    console.log('HybridGenerationOrchestrator initialized');
   }
 
   /**
@@ -186,7 +186,7 @@ export class HybridGenerationOrchestrator {
     const effectiveConfig = { ...this.config, ...input.config };
     const onProgress = effectiveConfig.onProgress;
 
-    console.log('🎨 Starting hybrid generation pipeline...');
+    console.log('Starting hybrid generation pipeline...');
     console.log(`   Brief: "${input.userBrief.substring(0, 50)}..."`);
     console.log(`   Tone: ${input.tone}`);
     console.log(`   Requested tropes: ${input.requestedTropes?.join(', ') || 'auto-detect'}`);
@@ -221,7 +221,7 @@ export class HybridGenerationOrchestrator {
           minimumCoherence: 0.5
         });
 
-        console.log(`   ✅ Selected seed from ${selectedSeed.persona.name}: "${selectedSeed.rawIdea.substring(0, 60)}..."`);
+        console.log(`   Selected seed from ${selectedSeed.persona.name}: "${selectedSeed.rawIdea.substring(0, 60)}..."`);
         onProgress?.('exploring', 30, `Selected seed from ${selectedSeed.persona.name}`);
       }
 
@@ -254,12 +254,12 @@ export class HybridGenerationOrchestrator {
         // Run evolution
         evolutionResult = await evolutionEngine.evolve(initialBlocks);
 
-        console.log(`   ✅ Evolution complete: ${evolutionResult.cycles} cycles, coherence: ${(evolutionResult.globalCoherence * 100).toFixed(1)}%`);
+        console.log(`   Evolution complete: ${evolutionResult.cycles} cycles, coherence: ${(evolutionResult.globalCoherence * 100).toFixed(1)}%`);
         onProgress?.('evolving', 40, `Evolution complete: ${evolutionResult.cycles} cycles`);
       }
 
       // PHASE 3: Convergent Generation with Trope Constraints
-      console.log('🎯 PHASE 3: Convergent Generation');
+      console.log('PHASE 3: Convergent Generation');
       onProgress?.('generating', 45, 'Starting convergent generation with trope constraints...');
 
       const variants = await this.generateVariants(
@@ -327,11 +327,11 @@ export class HybridGenerationOrchestrator {
         }
       };
     } catch (error) {
-      console.error('❌ Hybrid generation failed:', error);
+      console.error('Hybrid generation failed:', error);
 
       // Fallback to legacy mode if enabled
       if (effectiveConfig.fallbackToLegacy) {
-        console.log('⚠️ Falling back to legacy generation mode');
+        console.log('Falling back to legacy generation mode');
         return this.legacyFallback(input, startTime);
       }
 
@@ -358,10 +358,10 @@ export class HybridGenerationOrchestrator {
     if (input.requestedTropes && input.requestedTropes.length > 0) {
       // User explicitly requested specific tropes
       tropesToUse = input.requestedTropes;
-      console.log(`   🎯 Using user-requested tropes: ${tropesToUse.join(', ')}`);
+      console.log(`   Using user-requested tropes: ${tropesToUse.join(', ')}`);
     } else if (config.enableTropeVariety) {
       // Select varied tropes from full 411 corpus, favoring unexplored
-      console.log('   🎭 Selecting varied tropes from 411-device corpus...');
+      console.log('   Selecting varied tropes from 411-device corpus...');
       selectedTropeDetails = await selectVariedTropes({
         tone: input.tone,
         count: Math.max(3, variantCount),
@@ -504,13 +504,13 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
     const results = await Promise.all(variantPromises);
     const variants = results.filter((v): v is HybridVariant => v !== null);
 
-    console.log(`   ✅ Generated ${variants.length}/${variantCount} variants`);
+    console.log(`   Generated ${variants.length}/${variantCount} variants`);
 
     // Record trope usage for variety tracking (only if we generated variants)
     if (variants.length > 0 && config.enableTropeVariety) {
       const usedTropes = Array.from(new Set(variants.map(v => v.rhetoricalDevice)));
       await recordTropeUsage(usedTropes);
-      console.log(`   📝 Recorded usage for ${usedTropes.length} devices: ${usedTropes.join(', ')}`);
+      console.log(`   Recorded usage for ${usedTropes.length} devices: ${usedTropes.join(', ')}`);
     }
 
     return variants;

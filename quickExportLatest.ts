@@ -45,12 +45,12 @@ async function quickExport() {
       .limit(1);
     
     if (error || !concepts || concepts.length === 0) {
-      console.error("❌ No concepts found");
+      console.error("No concepts found");
       return;
     }
     
     const concept = concepts[0];
-    console.log(`🎯 Exporting latest concept: "${concept.prompt.substring(0, 40)}..."`);
+    console.log(`Exporting latest concept: "${concept.prompt.substring(0, 40)}..."`);
     
     const parsed = parseMarkdownContent(concept.response);
     
@@ -62,7 +62,7 @@ async function quickExport() {
     console.log(`${parsed.visualConcept}\n`);
     console.log("Rhetorical craft");
     console.log(`${formatBullets(parsed.rhetoricalCraft)}\n`);
-    console.log("✅ Latest concept exported with professional formatting");
+    console.log("Latest concept exported with professional formatting");
     
   } else {
     // Export specific concept by ID
@@ -75,11 +75,11 @@ async function quickExport() {
       .single();
     
     if (error || !concept) {
-      console.error("❌ Concept not found");
+      console.error("Concept not found");
       return;
     }
     
-    console.log(`🎯 Exporting concept: "${concept.prompt.substring(0, 40)}..."`);
+    console.log(`Exporting concept: "${concept.prompt.substring(0, 40)}..."`);
     
     const parsed = parseMarkdownContent(concept.response);
     
@@ -91,7 +91,7 @@ async function quickExport() {
     console.log(`${parsed.visualConcept}\n`);
     console.log("Rhetorical craft");
     console.log(`${formatBullets(parsed.rhetoricalCraft)}\n`);
-    console.log("✅ Concept exported with professional formatting");
+    console.log("Concept exported with professional formatting");
   }
 }
 

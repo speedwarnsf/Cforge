@@ -25,7 +25,7 @@ async function runSimpleTest() {
     }
     
     const result1 = await response1.json();
-    console.log('✅ Baseline concept generated');
+    console.log('Baseline concept generated');
     console.log('ID:', result1.id || 'No ID');
     console.log('Preview:', result1.content?.substring(0, 200) || result1.response?.substring(0, 200) || 'No content');
     
@@ -47,9 +47,9 @@ async function runSimpleTest() {
       });
       
       if (feedbackResponse.ok) {
-        console.log('✅ Feedback applied successfully');
+        console.log('Feedback applied successfully');
       } else {
-        console.log('❌ Feedback failed:', await feedbackResponse.text());
+        console.log('Feedback failed:', await feedbackResponse.text());
       }
     }
     
@@ -69,7 +69,7 @@ async function runSimpleTest() {
     }
     
     const result2 = await response2.json();
-    console.log('✅ Post-feedback concept generated');
+    console.log('Post-feedback concept generated');
     console.log('ID:', result2.id || 'No ID');
     console.log('Preview:', result2.content?.substring(0, 200) || result2.response?.substring(0, 200) || 'No content');
     
@@ -78,15 +78,15 @@ async function runSimpleTest() {
     }
     
     console.log('\n4️⃣ VALIDATION RESULTS:');
-    console.log('✅ Concept Generation: Working');
-    console.log('✅ Retrieval System: Working');
-    console.log('✅ Feedback System: Working');
-    console.log('✅ Round-Robin Pairs: Active');
+    console.log('Concept Generation: Working');
+    console.log('Retrieval System: Working');
+    console.log('Feedback System: Working');
+    console.log('Round-Robin Pairs: Active');
     
-    console.log('\n✅ PREFERENCE MODELING TEST COMPLETED');
+    console.log('\nPREFERENCE MODELING TEST COMPLETED');
     
   } catch (error) {
-    console.error('❌ Test failed:', error.message);
+    console.error('Test failed:', error.message);
   }
 }
 

@@ -15,7 +15,7 @@ async function fixRLS() {
     })
     
     if (error) {
-      console.error('❌ Error:', error.message)
+      console.error('Error:', error.message)
       // Try alternative approach with a permissive policy
       console.log('🔄 Trying alternative: creating permissive policy...')
       const { data: data2, error: error2 } = await supabase.rpc('exec_sql', {
@@ -26,14 +26,14 @@ async function fixRLS() {
       })
       
       if (error2) {
-        console.error('❌ Alternative failed:', error2.message)
-        console.log('💡 Manual fix required: Run this SQL in Supabase dashboard:')
+        console.error('Alternative failed:', error2.message)
+        console.log('Manual fix required: Run this SQL in Supabase dashboard:')
         console.log('   ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;')
         return
       }
     }
     
-    console.log('✅ RLS policy fixed! Database writes should work now.')
+    console.log('RLS policy fixed! Database writes should work now.')
     
     // Test the fix with a simple query
     const { data: testData, error: testError } = await supabase
@@ -42,14 +42,14 @@ async function fixRLS() {
       .limit(1)
       
     if (testError) {
-      console.log('⚠️  Test query failed:', testError.message)
+      console.log(' Test query failed:', testError.message)
     } else {
-      console.log('✅ Test query successful - database is accessible')
+      console.log('Test query successful - database is accessible')
     }
     
   } catch (err) {
-    console.error('❌ Exception:', err.message)
-    console.log('💡 Manual fix required: Go to Supabase dashboard and run:')
+    console.error('Exception:', err.message)
+    console.log('Manual fix required: Go to Supabase dashboard and run:')
     console.log('   ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;')
   }
 }

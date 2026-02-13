@@ -32,28 +32,28 @@ const generationSteps: LoadingStep[] = [
     icon: Sparkles,
     title: 'Exploring Ideas',
     description: 'Searching rhetorical framework library',
-    emoji: '✨'
+    emoji: ''
   },
   {
     id: 'generating',
     icon: Zap,
     title: 'Generating Concepts',
     description: 'Crafting original creative solutions',
-    emoji: '⚡'
+    emoji: ''
   },
   {
     id: 'evaluating',
     icon: Target,
     title: 'Quality Check',
     description: 'Running originality and impact analysis',
-    emoji: '🎯'
+    emoji: ''
   },
   {
     id: 'finalizing',
     icon: CheckCircle,
     title: 'Polishing',
     description: 'Final refinements and optimization',
-    emoji: '✅'
+    emoji: ''
   }
 ];
 

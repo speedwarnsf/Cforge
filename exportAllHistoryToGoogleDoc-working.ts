@@ -60,7 +60,7 @@ async function exportAllHistoryToGoogleDoc() {
   const docs = google.docs({ version: "v1", auth });
   const drive = google.drive({ version: "v3", auth });
 
-  console.log("📄 Creating document...");
+  console.log("Creating document...");
   const docRes = await docs.documents.create({
     requestBody: {
       title: `Concept Forge Export - ${new Date().toLocaleDateString()}`
@@ -68,7 +68,7 @@ async function exportAllHistoryToGoogleDoc() {
   });
 
   const docId = docRes.data.documentId!;
-  console.log(`📄 Document ID: ${docId}`);
+  console.log(`Document ID: ${docId}`);
 
   // Add document header
   await docs.documents.batchUpdate({
@@ -154,7 +154,7 @@ async function exportAllHistoryToGoogleDoc() {
       }
     });
 
-    console.log(`✅ Processed Concept ${i + 1}/${allConcepts.length}`);
+    console.log(`Processed Concept ${i + 1}/${allConcepts.length}`);
   }
 
   // Share the document
@@ -169,8 +169,8 @@ async function exportAllHistoryToGoogleDoc() {
   });
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log(`✅ Google Docs export complete: ${url}`);
-  console.log(`✅ Document shared with ${process.env.GOOGLE_DOC_SHARE_EMAIL}`);
+  console.log(`Google Docs export complete: ${url}`);
+  console.log(`Document shared with ${process.env.GOOGLE_DOC_SHARE_EMAIL}`);
   
   return url;
 }

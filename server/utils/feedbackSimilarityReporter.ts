@@ -27,7 +27,7 @@ async function getRatedConcepts(projectId: string): Promise<{
     .eq("project_id", projectId);
 
   if (ratingsError) {
-    console.warn("⚠️ Failed to fetch ratings:", ratingsError.message);
+    console.warn("Failed to fetch ratings:", ratingsError.message);
     return [];
   }
 
@@ -46,7 +46,7 @@ async function getRatedConcepts(projectId: string): Promise<{
     .in("id", conceptIds);
 
   if (conceptsError) {
-    console.warn("⚠️ Failed to fetch concept embeddings:", conceptsError.message);
+    console.warn("Failed to fetch concept embeddings:", conceptsError.message);
     return [];
   }
 
@@ -193,10 +193,10 @@ export async function analyzeFeedbackSimilarity(
 
   if (detailedReport) {
     console.log(`📊 Feedback Similarity Analysis for Project ${projectId}`);
-    console.log(`🎯 Similar to ${moreLikeThis.length} preferred concepts`);
-    console.log(`❌ Similar to ${lessLikeThis.length} rejected concepts`);
-    console.log(`📈 Overall feedback score: ${overallScore.toFixed(3)}`);
-    console.log(`💡 Recommendation: ${recommendation}`);
+    console.log(`Similar to ${moreLikeThis.length} preferred concepts`);
+    console.log(`Similar to ${lessLikeThis.length} rejected concepts`);
+    console.log(`Overall feedback score: ${overallScore.toFixed(3)}`);
+    console.log(`Recommendation: ${recommendation}`);
   }
 
   return {
@@ -227,16 +227,16 @@ export async function storeConceptEmbedding(
     //   .eq("id", conceptId);
 
     // if (error) {
-    //   console.warn(`⚠️ Failed to store embedding for concept ${conceptId}:`, error.message);
+    //   console.warn(`Failed to store embedding for concept ${conceptId}:`, error.message);
     // } else {
-    //   console.log(`✅ Stored embedding for concept ${conceptId}`);
+    //   console.log(`Stored embedding for concept ${conceptId}`);
     // }
     
     // For testing, just log success
-    console.log(`✅ Embedding ready for concept ${conceptId} (storage pending schema update)`);
+    console.log(`Embedding ready for concept ${conceptId} (storage pending schema update)`);
     
   } catch (error) {
-    console.warn(`⚠️ Error generating embedding for concept ${conceptId}:`, error);
+    console.warn(`Error generating embedding for concept ${conceptId}:`, error);
   }
 }
 
@@ -262,12 +262,12 @@ export async function createConceptRating(
       });
 
     if (error) {
-      console.warn(`⚠️ Failed to store rating for concept ${conceptId}:`, error.message);
+      console.warn(`Failed to store rating for concept ${conceptId}:`, error.message);
     } else {
-      console.log(`✅ Stored ${rating} rating for concept ${conceptId}`);
+      console.log(`Stored ${rating} rating for concept ${conceptId}`);
     }
   } catch (error) {
-    console.warn(`⚠️ Error storing concept rating:`, error);
+    console.warn(`Error storing concept rating:`, error);
   }
 }
 

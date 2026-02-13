@@ -185,7 +185,7 @@ Do not include any commentary, references to this process, or extra text.`;
 
       // If concept passes all checks, return it
       if (!culturalCheck.isSimilar && !clicheCheck.hasCliches && !repetitionCheck.isRepetitive) {
-        console.log(`✅ Enhanced concept generated successfully on attempt ${attempts}`);
+        console.log(`Enhanced concept generated successfully on attempt ${attempts}`);
         return concept;
       }
 
@@ -201,7 +201,7 @@ Do not include any commentary, references to this process, or extra text.`;
       }
 
     } catch (error) {
-      console.error(`❌ Error on attempt ${attempts}:`, error);
+      console.error(`Error on attempt ${attempts}:`, error);
     }
   }
 

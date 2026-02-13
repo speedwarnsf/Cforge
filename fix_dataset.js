@@ -33,11 +33,11 @@ console.log('📊 Using existing complete dataset with', existingDataset.length,
 
 // Create the full dataset file 
 fs.writeFileSync('./rhetorical_figures_full_dataset.json', JSON.stringify(existingDataset, null, 2));
-console.log('✅ rhetorical_figures_full_dataset.json created successfully.');
+console.log('rhetorical_figures_full_dataset.json created successfully.');
 console.log(`📊 Dataset contains ${existingDataset.length} records`);
 
 // Show some sample figures
-console.log('\n📝 Sample figures from full dataset:');
+console.log('\nSample figures from full dataset:');
 existingDataset.slice(0, 5).forEach(fig => {
   console.log(`- ${fig.figure_name}: ${fig.definition.substring(0, 60)}...`);
 });

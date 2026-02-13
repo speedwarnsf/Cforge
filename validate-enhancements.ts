@@ -14,19 +14,19 @@ async function validateEnhancements(): Promise<void> {
     console.log('📊 Checking corpus quality...');
     const validation = await validateCorpus();
     
-    console.log(`✅ Corpus Status: ${validation.isValid ? 'Valid' : 'Invalid'}`);
-    console.log(`📈 Quality Score: ${(validation.stats.qualityScore * 100).toFixed(1)}%`);
+    console.log(`Corpus Status: ${validation.isValid ? 'Valid' : 'Invalid'}`);
+    console.log(`Quality Score: ${(validation.stats.qualityScore * 100).toFixed(1)}%`);
     console.log(`📊 Completeness: ${(validation.stats.completenessScore * 100).toFixed(1)}%`);
-    console.log(`🎯 Diversity: ${(validation.stats.diversityScore * 100).toFixed(1)}%`);
+    console.log(`Diversity: ${(validation.stats.diversityScore * 100).toFixed(1)}%`);
     console.log(`🗂️ Total Campaigns: ${validation.stats.totalCampaigns}`);
     
     if (validation.errors.length > 0) {
-      console.log(`\n❌ Errors found: ${validation.errors.length}`);
+      console.log(`\nErrors found: ${validation.errors.length}`);
       validation.errors.slice(0, 3).forEach(error => console.log(`   - ${error}`));
     }
     
     if (validation.warnings.length > 0) {
-      console.log(`\n⚠️ Warnings found: ${validation.warnings.length}`);
+      console.log(`\nWarnings found: ${validation.warnings.length}`);
       validation.warnings.slice(0, 3).forEach(warning => console.log(`   - ${warning}`));
     }
     
@@ -40,9 +40,9 @@ async function validateEnhancements(): Promise<void> {
     const hasFullRationales = campaigns.filter((c: any) => c.rationale && c.rationale.length >= 20).length;
     const hasDevices = campaigns.filter((c: any) => c.rhetoricalDevices && c.rhetoricalDevices.length > 0).length;
     
-    console.log(`✅ Enhanced fields: ${hasEnhancedFields}/${campaigns.length} campaigns`);
-    console.log(`✅ Full rationales: ${hasFullRationales}/${campaigns.length} campaigns`);
-    console.log(`✅ Rhetorical devices: ${hasDevices}/${campaigns.length} campaigns`);
+    console.log(`Enhanced fields: ${hasEnhancedFields}/${campaigns.length} campaigns`);
+    console.log(`Full rationales: ${hasFullRationales}/${campaigns.length} campaigns`);
+    console.log(`Rhetorical devices: ${hasDevices}/${campaigns.length} campaigns`);
     
     // 3. Check file structure
     console.log('\n📁 Checking enhanced files...');
@@ -55,9 +55,9 @@ async function validateEnhancements(): Promise<void> {
     for (const file of enhancedFiles) {
       try {
         await fs.access(file);
-        console.log(`✅ ${file} exists`);
+        console.log(`${file} exists`);
       } catch {
-        console.log(`❌ ${file} missing`);
+        console.log(`${file} missing`);
       }
     }
     
@@ -74,9 +74,9 @@ async function validateEnhancements(): Promise<void> {
         await fs.access(file);
         const data = await fs.readFile(file, 'utf8');
         const backup = JSON.parse(data);
-        console.log(`✅ ${file} (${backup.campaigns?.length || 0} campaigns)`);
+        console.log(`${file} (${backup.campaigns?.length || 0} campaigns)`);
       } catch {
-        console.log(`⚠️ ${file} not found`);
+        console.log(`${file} not found`);
       }
     }
     
@@ -84,33 +84,33 @@ async function validateEnhancements(): Promise<void> {
     console.log('\n📋 Generating quality report...');
     const report = await generateCorpusReport();
     await fs.writeFile('CORPUS_QUALITY_REPORT.md', report);
-    console.log('✅ Quality report saved to CORPUS_QUALITY_REPORT.md');
+    console.log('Quality report saved to CORPUS_QUALITY_REPORT.md');
     
     // 6. Summary
     console.log('\n🎉 Enhancement Validation Summary:');
     
     if (validation.stats.totalCampaigns >= 200) {
-      console.log('✅ 200 campaign milestone achieved');
+      console.log('200 campaign milestone achieved');
     } else {
-      console.log(`⚠️ Campaign count: ${validation.stats.totalCampaigns}/200`);
+      console.log(`Campaign count: ${validation.stats.totalCampaigns}/200`);
     }
     
     if (validation.stats.qualityScore >= 0.8) {
-      console.log('✅ High quality corpus (80%+)');
+      console.log('High quality corpus (80%+)');
     } else {
-      console.log(`⚠️ Quality score: ${(validation.stats.qualityScore * 100).toFixed(1)}%`);
+      console.log(`Quality score: ${(validation.stats.qualityScore * 100).toFixed(1)}%`);
     }
     
     if (validation.errors.length === 0) {
-      console.log('✅ No validation errors');
+      console.log('No validation errors');
     } else {
-      console.log(`❌ ${validation.errors.length} validation errors`);
+      console.log(`${validation.errors.length} validation errors`);
     }
     
-    console.log('\n✅ All enhancements validated successfully!');
+    console.log('\nAll enhancements validated successfully!');
     
   } catch (error) {
-    console.error('❌ Validation failed:', error);
+    console.error('Validation failed:', error);
     process.exit(1);
   }
 }

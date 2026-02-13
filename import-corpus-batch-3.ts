@@ -299,13 +299,13 @@ async function transformAndImportBatch3() {
       
       if (exists) {
         duplicateCount++;
-        console.log(`⚠️  Duplicate found: ${entry.campaign} - ${entry.brand}`);
+        console.log(` Duplicate found: ${entry.campaign} - ${entry.brand}`);
       } else {
         newEntriesCount++;
       }
     }
     
-    console.log(`\n📈 BATCH 3 ANALYSIS:`);
+    console.log(`\nBATCH 3 ANALYSIS:`);
     console.log(`  New entries: ${newEntriesCount}`);
     console.log(`  Duplicates: ${duplicateCount}`);
     
@@ -322,9 +322,9 @@ async function transformAndImportBatch3() {
       for (const entry of uniqueEntries) {
         const success = importCorpusEntries([entry]);
         if (success) {
-          console.log(`✅ Added: ${entry.campaign} - ${entry.brand} (${entry.year})`);
+          console.log(`Added: ${entry.campaign} - ${entry.brand} (${entry.year})`);
         } else {
-          console.log(`❌ Failed: ${entry.campaign} - ${entry.brand}`);
+          console.log(`Failed: ${entry.campaign} - ${entry.brand}`);
         }
       }
       
@@ -334,12 +334,12 @@ async function transformAndImportBatch3() {
       
       return true;
     } else {
-      console.log('💡 No new entries to import (all duplicates)');
+      console.log('No new entries to import (all duplicates)');
       return false;
     }
     
   } catch (error) {
-    console.error('❌ Error importing batch 3:', error);
+    console.error('Error importing batch 3:', error);
     return false;
   }
 }

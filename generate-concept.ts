@@ -52,14 +52,14 @@ const cleanBulletIndent = getBoolArg('cleanBulletIndent');
 const spacingBetweenSections = getBoolArg('spacingBetweenSections');
 
 console.log(`🚀 Generating concept...`);
-console.log(`📝 Prompt: ${prompt}`);
-console.log(`🎨 Tone: ${tone}`);
-console.log(`📄 Format: ${format}`);
+console.log(`Prompt: ${prompt}`);
+console.log(`Tone: ${tone}`);
+console.log(`Format: ${format}`);
 console.log(`🔧 Force Markdown: ${forceMarkdown}`);
 console.log(`📋 Custom Template: ${markdownTemplate ? 'YES' : 'NO'}`);
-console.log(`🧹 Sanitize: ${sanitize}`);
+console.log(`Sanitize: ${sanitize}`);
 console.log(`📐 Remove All Caps: ${removeAllCaps}`);
-console.log(`📝 Single Paragraph Body: ${singleParagraphBody}`);
+console.log(`Single Paragraph Body: ${singleParagraphBody}`);
 console.log(`☁️ Export to Google Docs: ${exportToGoogleDocs}`);
 
 // Content processing functions
@@ -146,7 +146,7 @@ async function generateConcept() {
     let generatedContent;
     
     if (forceMarkdown && markdownTemplate) {
-      console.log(`🎨 Using custom Markdown template...`);
+      console.log(`Using custom Markdown template...`);
       
       // Create concept using the exact template format
       generatedContent = `# Grove. Grow. Guard.
@@ -227,7 +227,7 @@ Reframes phone accessories from consumption to contribution, creating emotional 
       generatedContent = applyMarkdownTemplate(generatedContent);
     }
 
-    console.log(`✅ Concept generated successfully!`);
+    console.log(`Concept generated successfully!`);
     console.log(`\n${'='.repeat(60)}`);
     console.log("GENERATED CONCEPT:");
     console.log(`${'='.repeat(60)}\n`);
@@ -254,12 +254,12 @@ Reframes phone accessories from consumption to contribution, creating emotional 
         .insert([conceptData]);
 
       if (error) {
-        console.log(`⚠️ Database save error: ${error.message}`);
+        console.log(`Database save error: ${error.message}`);
       } else {
         console.log(`💾 Concept saved to database`);
       }
     } catch (dbError) {
-      console.log(`⚠️ Database connection error:`, dbError);
+      console.log(`Database connection error:`, dbError);
     }
 
     // Export to Google Docs if requested
@@ -327,12 +327,12 @@ Concept Forge AI Ideation System`;
         });
 
         const url = `https://docs.google.com/document/d/${docId}/edit`;
-        console.log(`✅ Google Doc created and shared!`);
+        console.log(`Google Doc created and shared!`);
         console.log(`🌐 Document URL: ${url}`);
         
         return { concept: generatedContent, googleDocUrl: url };
       } catch (exportError) {
-        console.error(`❌ Google Docs export failed:`, exportError);
+        console.error(`Google Docs export failed:`, exportError);
         return { concept: generatedContent, googleDocUrl: null };
       }
     }
@@ -340,7 +340,7 @@ Concept Forge AI Ideation System`;
     return { concept: generatedContent };
 
   } catch (error) {
-    console.error(`❌ Generation failed:`, error);
+    console.error(`Generation failed:`, error);
     process.exit(1);
   }
 }
@@ -378,7 +378,7 @@ generateConcept()
   .then((result) => {
     console.log(`🎉 Generation complete!`);
     if (result.googleDocUrl) {
-      console.log(`📄 Google Doc: ${result.googleDocUrl}`);
+      console.log(`Google Doc: ${result.googleDocUrl}`);
     }
     process.exit(0);
   })

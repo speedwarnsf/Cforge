@@ -27,15 +27,15 @@ dotenv.config();
 
     const res = await docs.documents.create({
       requestBody: {
-        title: '✅ Test Document Created from Replit'
+        title: 'Test Document Created from Replit'
       }
     });
 
-    console.log(`✅ Document created successfully!`);
-    console.log(`📝 Document ID: ${res.data.documentId}`);
+    console.log(`Document created successfully!`);
+    console.log(`Document ID: ${res.data.documentId}`);
     console.log(`🔗 URL: https://docs.google.com/document/d/${res.data.documentId}/edit`);
 
   } catch (error) {
-    console.error('❌ Error creating document:', error);
+    console.error('Error creating document:', error);
   }
 })();

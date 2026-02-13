@@ -61,14 +61,14 @@ export async function applyFeedback(
     // Store updated preferences
     await savePreferences(preferences);
 
-    console.log(`🎯 Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
+    console.log(`Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
     return { 
       status: 'success', 
       message: `Feedback applied and biases updated for ${feedbackType}` 
     };
 
   } catch (error) {
-    console.error('❌ Failed to apply feedback influence:', error);
+    console.error('Failed to apply feedback influence:', error);
     return { 
       status: 'error', 
       message: `Failed to apply feedback: ${error instanceof Error ? error.message : 'Unknown error'}` 
@@ -100,7 +100,7 @@ async function loadPreferences(projectId: string): Promise<UserPreferences> {
       };
     }
   } catch (error) {
-    console.log('⚠️ Could not load preferences from database, using defaults:', error);
+    console.log('Could not load preferences from database, using defaults:', error);
   }
 
   // Return default preferences if none found
@@ -133,9 +133,9 @@ async function savePreferences(preferences: UserPreferences): Promise<void> {
 
     console.log(`💾 User preferences saved for project ${preferences.projectId}`);
   } catch (error) {
-    console.error('❌ Failed to save preferences:', error);
+    console.error('Failed to save preferences:', error);
     // Fall back to in-memory storage (could implement Redis/file storage here)
-    console.log('📝 Using in-memory preference storage as fallback');
+    console.log('Using in-memory preference storage as fallback');
   }
 }
 
@@ -157,7 +157,7 @@ async function ensurePreferencesTable(): Promise<void> {
     }
   } catch (error) {
     // Silently handle table creation issues
-    console.log('⚠️ Could not verify user_preferences table');
+    console.log('Could not verify user_preferences table');
   }
 }
 
@@ -186,7 +186,7 @@ async function updateRetrievalBias(preferences: UserPreferences): Promise<void> 
     }
 
   } catch (error) {
-    console.error('❌ Failed to update retrieval bias:', error);
+    console.error('Failed to update retrieval bias:', error);
   }
 }
 
@@ -214,7 +214,7 @@ async function getFeedbackWeights(projectId: string): Promise<FeedbackWeights[]>
 
     return weights;
   } catch (error) {
-    console.error('❌ Failed to get feedback weights:', error);
+    console.error('Failed to get feedback weights:', error);
     return [];
   }
 }
@@ -238,9 +238,9 @@ async function storeRetrievalBias(biasUpdates: Array<{ conceptId: string; retrie
         .eq('id', bias.conceptId);
     }
 
-    console.log(`✅ Stored retrieval bias for ${biasUpdates.length} concepts`);
+    console.log(`Stored retrieval bias for ${biasUpdates.length} concepts`);
   } catch (error) {
-    console.error('❌ Failed to store retrieval bias:', error);
+    console.error('Failed to store retrieval bias:', error);
   }
 }
 
@@ -261,7 +261,7 @@ export async function getRetrievalBias(conceptId: string): Promise<number> {
 
     return data.retrieval_bias || 1.0;
   } catch (error) {
-    console.error('❌ Failed to get retrieval bias:', error);
+    console.error('Failed to get retrieval bias:', error);
     return 1.0;
   }
 }
@@ -293,7 +293,7 @@ export async function getBiasedConcepts(projectId?: string): Promise<Array<{ con
       feedbackType: concept.feedback_type
     }));
   } catch (error) {
-    console.error('❌ Failed to get biased concepts:', error);
+    console.error('Failed to get biased concepts:', error);
     return [];
   }
 }

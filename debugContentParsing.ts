@@ -65,55 +65,55 @@ function parseMarkdownContent(content: string) {
   const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.*?)(?=\*\*|$)/i);
   if (headlineMatch) {
     sections.headline = clean(headlineMatch[1]);
-    console.log("✅ Headline extracted:", sections.headline);
+    console.log("Headline extracted:", sections.headline);
   } else {
-    console.log("❌ No headline found");
+    console.log("No headline found");
   }
 
   // Extract tagline
   const taglineMatch = content.match(/\*\*TAGLINE:\*\*\s*(.*?)(?=\*\*|$)/i);
   if (taglineMatch) {
     sections.tagline = clean(taglineMatch[1]);
-    console.log("✅ Tagline extracted:", sections.tagline);
+    console.log("Tagline extracted:", sections.tagline);
   } else {
-    console.log("❌ No tagline found");
+    console.log("No tagline found");
   }
 
   // Extract body copy
   const bodyMatch = content.match(/\*\*BODY COPY:\*\*\s*(.*?)(?=\*\*|$)/i);
   if (bodyMatch) {
     sections.bodyCopy = clean(bodyMatch[1]);
-    console.log("✅ Body copy extracted:", sections.bodyCopy.substring(0, 100) + "...");
+    console.log("Body copy extracted:", sections.bodyCopy.substring(0, 100) + "...");
   } else {
-    console.log("❌ No body copy found");
+    console.log("No body copy found");
   }
 
   // Extract visual concept
   const visualMatch = content.match(/\*\*VISUAL CONCEPT:\*\*\s*(.*?)(?=\*\*|$)/i);
   if (visualMatch) {
     sections.visualConcept = clean(visualMatch[1]);
-    console.log("✅ Visual concept extracted:", sections.visualConcept.substring(0, 100) + "...");
+    console.log("Visual concept extracted:", sections.visualConcept.substring(0, 100) + "...");
   } else {
-    console.log("❌ No visual concept found");
+    console.log("No visual concept found");
   }
 
   // Extract rhetorical craft - handle both "RHETORICAL CRAFT:" and "RHETORICAL CRAFT BREAKDOWN:"
   const rhetoricalMatch = content.match(/\*\*RHETORICAL CRAFT(?:\s+BREAKDOWN)?:\*\*\s*(.*?)(?=\*\*|$)/is);
   if (rhetoricalMatch) {
     const rhetoricalText = clean(rhetoricalMatch[1]);
-    console.log("✅ Rhetorical craft extracted:", rhetoricalText.substring(0, 100) + "...");
+    console.log("Rhetorical craft extracted:", rhetoricalText.substring(0, 100) + "...");
     sections.rhetoricalCraft = [rhetoricalText];
   } else {
-    console.log("❌ No rhetorical craft found");
+    console.log("No rhetorical craft found");
   }
 
   // Extract strategic impact
   const strategicMatch = content.match(/\*\*STRATEGIC IMPACT:\*\*\s*(.*?)(?=\*\*|$)/is);
   if (strategicMatch) {
     sections.strategicImpact = clean(strategicMatch[1]);
-    console.log("✅ Strategic impact extracted:", sections.strategicImpact.substring(0, 100) + "...");
+    console.log("Strategic impact extracted:", sections.strategicImpact.substring(0, 100) + "...");
   } else {
-    console.log("❌ No strategic impact found");
+    console.log("No strategic impact found");
   }
 
   return sections;
@@ -146,7 +146,7 @@ function analyzeRawContent(content: string) {
 
 async function debugContentParsing() {
   if (!conceptId) {
-    console.log("❌ Please provide --conceptId parameter");
+    console.log("Please provide --conceptId parameter");
     return;
   }
 
@@ -167,16 +167,16 @@ async function debugContentParsing() {
       .single();
 
     if (error) {
-      console.log("❌ Error fetching concept:", error);
+      console.log("Error fetching concept:", error);
       return;
     }
 
     if (!concept) {
-      console.log("❌ No concept found with that ID");
+      console.log("No concept found with that ID");
       return;
     }
 
-    console.log("✅ Concept found!");
+    console.log("Concept found!");
     console.log("📋 Basic Info:");
     console.log("  ID:", concept.id);
     console.log("  Prompt:", concept.prompt?.substring(0, 50) + "...");
@@ -185,7 +185,7 @@ async function debugContentParsing() {
     console.log("  Response length:", concept.response?.length || 0);
 
     if (!concept.response) {
-      console.log("❌ No response content to analyze");
+      console.log("No response content to analyze");
       return;
     }
 
@@ -199,7 +199,7 @@ async function debugContentParsing() {
     console.log("Detected format:", isMarkdown ? "Markdown" : "Plain text");
 
     if (isMarkdown) {
-      console.log("\n📝 MARKDOWN PARSING RESULTS");
+      console.log("\nMARKDOWN PARSING RESULTS");
       console.log("═══════════════════════════");
       const parsed = parseMarkdownContent(concept.response);
       
@@ -211,11 +211,11 @@ async function debugContentParsing() {
       console.log("  Rhetorical Craft:", parsed.rhetoricalCraft.length > 0 ? "Found" : "(empty)");
       console.log("  Strategic Impact:", parsed.strategicImpact ? parsed.strategicImpact.substring(0, 100) + "..." : "(empty)");
     } else {
-      console.log("❌ Content is not in expected Markdown format");
+      console.log("Content is not in expected Markdown format");
     }
 
   } catch (error) {
-    console.log("❌ Error:", error);
+    console.log("Error:", error);
   }
 }
 

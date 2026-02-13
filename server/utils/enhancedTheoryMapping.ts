@@ -1,5 +1,5 @@
 // 📂 server/utils/enhancedTheoryMapping.ts
-// ✅ Enhanced Theory Injection with Expanded Keyword-to-Theory Mapping
+// Enhanced Theory Injection with Expanded Keyword-to-Theory Mapping
 
 import { performance } from 'perf_hooks';
 import { appendFileSync, readFileSync, existsSync } from 'fs';
@@ -45,7 +45,7 @@ const corpusQueryCache = new Map<string, any[]>();
 export function preWarmTheoryCache(): void {
   const commonTheories = ['Burke', 'Barthes', 'Messaris', 'Tufte', 'Lupton', 'Phillips & McQuarrie', 'Forceville', 'Kress', 'Aristotle'];
   
-  console.log('🔥 Pre-warming theory cache with common frameworks...');
+  console.log('Pre-warming theory cache with common frameworks...');
   
   for (const theory of commonTheories) {
     const startTime = performance.now();
@@ -54,7 +54,7 @@ export function preWarmTheoryCache(): void {
     console.log(`  - ${theory}: ${matches.length} matches cached in ${duration}ms`);
   }
   
-  console.log(`✅ Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
+  console.log(`Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
 }
 
 // A/B testing configuration
@@ -300,7 +300,7 @@ export function generateConceptWithTheoryInject(
     detectedKeywords.flatMap(keyword => THEORY_MAP[keyword])
   ));
   
-  console.log(`🎯 ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(', ')}" → Selected theories: ${selectedTheories.join(', ')}`);
+  console.log(`ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(', ')}" → Selected theories: ${selectedTheories.join(', ')}`);
   
   // Generate theory injection text
   let theoryInjection = "";

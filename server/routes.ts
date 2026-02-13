@@ -101,8 +101,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = aiRequestFormSchema.parse(req.body);
       
-      console.log(`🎯 RECEIVED QUERY: "${validatedData.query}"`);
-      console.log(`🎨 RECEIVED TONE: ${validatedData.tone}`);
+      console.log(`RECEIVED QUERY: "${validatedData.query}"`);
+      console.log(`RECEIVED TONE: ${validatedData.tone}`);
       console.log(`🔍 Deep scan enabled: ${validatedData.deepScan}`);
       
       // ENHANCED DIVERSITY ENFORCEMENT: Apply 3-5 random theories and expanded diverse synonyms
@@ -171,7 +171,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const firstConcept = aiResponse.concepts[0];
         const originalityScore = firstConcept.originalityCheck?.confidence ? 
           firstConcept.originalityCheck.confidence * 100 : 0;
-        console.log(`🎯 ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
+        console.log(`ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
       }
 
       // Determine iteration type based on query content
@@ -216,7 +216,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               await reportSimilarityToRatedConcepts(validatedData.projectId!, concept.content, 0.75);
               const feedbackAnalysis = await analyzeFeedbackSimilarity(validatedData.projectId!, concept.content, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
               if (feedbackAnalysis.overallScore !== 0) {
-                console.log(`🎯 Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                console.log(`Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
               }
             } catch (feedbackError) {
               console.log(`📊 Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
@@ -275,7 +275,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 await reportSimilarityToRatedConcepts(projId, conceptContent, 0.75);
                 const feedbackAnalysis = await analyzeFeedbackSimilarity(projId, conceptContent, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
                 if (feedbackAnalysis.overallScore !== 0) {
-                  console.log(`🎯 Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                  console.log(`Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
                 }
               } catch (feedbackError) {
                 console.log(`📊 Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
@@ -915,7 +915,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         validatedData.conceptId
       );
 
-      console.log(`🎯 Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
+      console.log(`Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
 
       res.json({ 
         success: true,
@@ -1024,7 +1024,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         recentConcepts: z.array(z.string()).optional()
       }).parse(req.body);
 
-      console.log(`🎯 Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
+      console.log(`Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
 
       const concept = await generateEnhancedConcept({
         query: validatedData.query,
@@ -1047,9 +1047,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       if (!conceptId) {
-        console.error('❌ Failed to save concept to Supabase - this should not happen!');
+        console.error('Failed to save concept to Supabase - this should not happen!');
       } else {
-        console.log(`✅ Concept saved to Supabase with ID: ${conceptId}`);
+        console.log(`Concept saved to Supabase with ID: ${conceptId}`);
       }
 
       // Add to in-memory session history as backup

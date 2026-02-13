@@ -178,7 +178,7 @@ function validateStrictFields(content: any, options: FormatOptions): any {
     return content;
   }
   
-  console.log("🔒 Strict field validation enabled");
+  console.log("Strict field validation enabled");
   
   const requiredFields = ['headline', 'tagline', 'bodyCopy', 'visualConcept', 'strategicImpact', 'rhetoricalCraft'];
   const validatedContent = { ...content };
@@ -188,15 +188,15 @@ function validateStrictFields(content: any, options: FormatOptions): any {
     
     // Check if field exists and has meaningful content
     if (!value || typeof value !== 'string' || value.trim().length < 5) {
-      console.log(`⚠️ Field validation failed: ${field} - insufficient content`);
+      console.log(`Field validation failed: ${field} - insufficient content`);
       validatedContent[field] = `[MISSING: ${field.toUpperCase()}]`;
     } else if (value.toLowerCase().includes('no ' + field.toLowerCase().replace('copy', '')) || 
                value.toLowerCase().includes('generated') ||
                value.toLowerCase().includes('placeholder')) {
-      console.log(`⚠️ Field validation failed: ${field} - contains placeholder text`);
+      console.log(`Field validation failed: ${field} - contains placeholder text`);
       validatedContent[field] = `[INVALID: ${field.toUpperCase()}]`;
     } else {
-      console.log(`✅ Field validation passed: ${field}`);
+      console.log(`Field validation passed: ${field}`);
     }
   });
   
@@ -205,19 +205,19 @@ function validateStrictFields(content: any, options: FormatOptions): any {
     // Headline should be concise (2-8 words)
     const headlineWords = validatedContent.headline.split(/\s+/).length;
     if (headlineWords > 8 || headlineWords < 2) {
-      console.log(`⚠️ Headline length validation: ${headlineWords} words (optimal: 2-8)`);
+      console.log(`Headline length validation: ${headlineWords} words (optimal: 2-8)`);
     }
     
     // Body copy should be substantial (minimum 20 words)
     const bodyWords = validatedContent.bodyCopy.split(/\s+/).length;
     if (bodyWords < 20) {
-      console.log(`⚠️ Body copy length validation: ${bodyWords} words (minimum: 20)`);
+      console.log(`Body copy length validation: ${bodyWords} words (minimum: 20)`);
     }
     
     // Tagline should be brief (3-15 words)
     const taglineWords = validatedContent.tagline.split(/\s+/).length;
     if (taglineWords > 15 || taglineWords < 3) {
-      console.log(`⚠️ Tagline length validation: ${taglineWords} words (optimal: 3-15)`);
+      console.log(`Tagline length validation: ${taglineWords} words (optimal: 3-15)`);
     }
   }
   
@@ -242,13 +242,13 @@ function parseMarkdownContent(content: string, options?: FormatOptions) {
   if (options?.debugFieldInjection) {
     console.log("\n🔍 DEBUG FIELD INJECTION:");
     console.log("═══════════════════════════");
-    console.log(`📄 Content length: ${content.length}`);
-    console.log(`🎯 Headline match: ${headlineMatch ? '✅ Found' : '❌ Not found'}`);
-    console.log(`🏷️  Tagline match: ${taglineMatch ? '✅ Found' : '❌ Not found'}`);
-    console.log(`📝 Body copy match: ${bodyMatch ? '✅ Found' : '❌ Not found'}`);
-    console.log(`🎨 Visual concept match: ${visualMatch ? '✅ Found' : '❌ Not found'}`);
-    console.log(`📈 Strategic impact match: ${impactMatch ? '✅ Found' : '❌ Not found'}`);
-    console.log(`🎭 Rhetorical craft match: ${craftMatch ? '✅ Found' : '❌ Not found'}`);
+    console.log(`Content length: ${content.length}`);
+    console.log(`Headline match: ${headlineMatch ? 'Found' : 'Not found'}`);
+    console.log(`Tagline match: ${taglineMatch ? 'Found' : 'Not found'}`);
+    console.log(`Body copy match: ${bodyMatch ? 'Found' : 'Not found'}`);
+    console.log(`Visual concept match: ${visualMatch ? 'Found' : 'Not found'}`);
+    console.log(`Strategic impact match: ${impactMatch ? 'Found' : 'Not found'}`);
+    console.log(`Rhetorical craft match: ${craftMatch ? 'Found' : 'Not found'}`);
     
     if (headlineMatch) console.log(`   → Headline: "${headlineMatch[1].trim()}"`);
     if (taglineMatch) console.log(`   → Tagline: "${taglineMatch[1].trim()}"`);
@@ -341,20 +341,20 @@ async function exportSingleConceptToGoogleDoc() {
     .limit(1);
 
   if (error) {
-    console.error("❌ Error fetching concept:", error);
+    console.error("Error fetching concept:", error);
     return;
   }
 
   if (!concepts || concepts.length === 0) {
-    console.error("❌ No concepts found in database");
+    console.error("No concepts found in database");
     return;
   }
 
   const concept = concepts[0] as ConceptEntry;
-  console.log(`✅ Found most recent concept: ID ${concept.id}`);
-  console.log(`📝 Prompt: ${concept.prompt.substring(0, 50)}...`);
-  console.log(`🎨 Tone: ${concept.tone}`);
-  console.log(`📄 Response preview: ${concept.response.substring(0, 200)}...`);
+  console.log(`Found most recent concept: ID ${concept.id}`);
+  console.log(`Prompt: ${concept.prompt.substring(0, 50)}...`);
+  console.log(`Tone: ${concept.tone}`);
+  console.log(`Response preview: ${concept.response.substring(0, 200)}...`);
 
   // Parse the concept content
   let parsed;
@@ -411,7 +411,7 @@ async function exportSingleConceptToGoogleDoc() {
   const today = new Date().toLocaleDateString();
   const title = `Concept Forge - Live Data Export ${today}`;
   
-  console.log(`📄 Creating Google Doc: "${title}"`);
+  console.log(`Creating Google Doc: "${title}"`);
   
   const createRes = await docs.documents.create({
     requestBody: { title }
@@ -600,10 +600,10 @@ ${parsed.rhetoricalCraft.replace(/- \*\*/g, '• ').replace(/\*\*/g, '')}`;
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
   
-  console.log("✅ Export completed successfully!");
+  console.log("Export completed successfully!");
   console.log(`🌐 Google Doc URL: ${url}`);
   console.log("📧 Document shared with: dustinyork15@gmail.com");
-  console.log("\n🎯 Advanced formatting applied:");
+  console.log("\nAdvanced formatting applied:");
   console.log(`  ✓ Headlines: ${formatOptions.headlinesCase} case with ${formatOptions.headlineStyle} style`);
   console.log(`  ✓ Section labels: ${formatOptions.sectionLabelsCase} case${formatOptions.boldHeaders ? ' (bold)' : ''}`);
   console.log(`  ✓ Body text: ${formatOptions.bodyCase} case${formatOptions.singleParagraphBody ? ' (single paragraph)' : ''}`);

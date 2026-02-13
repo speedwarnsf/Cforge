@@ -81,7 +81,7 @@ Reframes phone accessories from consumption to contribution, creating emotional 
   concept = clean(concept);
   concept = formatRawContent(concept);
   
-  console.log("✅ Concept generated with advanced formatting!");
+  console.log("Concept generated with advanced formatting!");
   console.log("\n" + "=".repeat(80));
   console.log("ADVANCED FORMATTED CONCEPT:");
   console.log("=".repeat(80) + "\n");
@@ -177,10 +177,10 @@ Concept Forge AI - Advanced Formatting System`;
   });
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log("✅ Advanced formatted Google Doc created and shared!");
+  console.log("Advanced formatted Google Doc created and shared!");
   console.log(`🌐 Document URL: ${url}`);
   console.log("📧 Shared with: dustinyork15@gmail.com");
-  console.log("\n🎯 Advanced formatting features applied:");
+  console.log("\nAdvanced formatting features applied:");
   console.log("  ✓ Content sanitization");
   console.log("  ✓ ALL CAPS removal");
   console.log("  ✓ Single paragraph body");

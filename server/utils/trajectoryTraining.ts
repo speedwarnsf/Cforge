@@ -546,7 +546,7 @@ export class TrajectoryStorage {
    */
   async saveTrajectory(trajectory: Trajectory): Promise<boolean> {
     if (!supabase) {
-      console.log('⚠️ Supabase not configured, skipping trajectory save');
+      console.log('Supabase not configured, skipping trajectory save');
       return false;
     }
     try {
@@ -591,7 +591,7 @@ export class TrajectoryStorage {
     sessionId?: string;
   } = {}): Promise<Trajectory[]> {
     if (!supabase) {
-      console.log('⚠️ Supabase not configured, returning empty trajectories');
+      console.log('Supabase not configured, returning empty trajectories');
       return [];
     }
     try {

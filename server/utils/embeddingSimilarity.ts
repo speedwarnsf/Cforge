@@ -62,13 +62,13 @@ async function checkConceptDiversity(concepts: string[], similarityThreshold = 0
       console.log(`🔍 Semantic similarity between concept ${i + 1} and ${j + 1}: ${similarity.toFixed(3)}`);
       
       if (similarity >= similarityThreshold) {
-        console.warn(`⚠️ Concepts ${i + 1} and ${j + 1} are semantically too similar (similarity=${similarity.toFixed(3)}).`);
+        console.warn(`Concepts ${i + 1} and ${j + 1} are semantically too similar (similarity=${similarity.toFixed(3)}).`);
         return false;
       }
     }
   }
   
-  console.log(`✅ All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
+  console.log(`All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
   return true;
 }
 
@@ -105,7 +105,7 @@ async function checkHistoricalSimilarityWithEmbeddings(
   console.log(`🔍 Highest semantic similarity: ${maxSimilarity.toFixed(3)} (threshold: ${similarityThreshold})`);
   
   if (maxSimilarity >= similarityThreshold) {
-    console.warn(`⚠️ New concept is semantically too similar to historical concept (similarity=${maxSimilarity.toFixed(3)})`);
+    console.warn(`New concept is semantically too similar to historical concept (similarity=${maxSimilarity.toFixed(3)})`);
     return { 
       isSimilar: true, 
       mostSimilar: { concept: mostSimilarConcept, similarity: maxSimilarity }
@@ -130,7 +130,7 @@ export async function enforceConceptDiversity(
     try {
       const isDiverse = await checkConceptDiversity(currentConcepts, similarityThreshold);
       if (isDiverse) {
-        console.log(`✅ All concepts passed semantic diversity check on attempt ${attempt}.`);
+        console.log(`All concepts passed semantic diversity check on attempt ${attempt}.`);
         return currentConcepts;
       }
       
@@ -145,7 +145,7 @@ export async function enforceConceptDiversity(
     }
   }
   
-  console.log(`⚠️ Returning concepts despite similarity after ${attempt - 1} attempts.`);
+  console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
   return currentConcepts;
 }
 
@@ -167,7 +167,7 @@ export async function generateAiResponse(options: {
   let diversityPassed = false;
 
   while (attempt <= maxAttempts && !diversityPassed) {
-    console.log(`🎯 Generating concepts (Attempt ${attempt})`);
+    console.log(`Generating concepts (Attempt ${attempt})`);
 
     const completion = await openai.chat.completions.create({
       model,
@@ -185,19 +185,19 @@ export async function generateAiResponse(options: {
       .map(c => sanitizeText(c))
       .filter(Boolean);
 
-    console.log(`✅ Generated ${concepts.length} concepts.`);
+    console.log(`Generated ${concepts.length} concepts.`);
 
     diversityPassed = await checkConceptDiversity(concepts, similarityThreshold);
 
     if (!diversityPassed) {
-      console.warn(`⚠️ Concepts too similar on attempt ${attempt}. Retrying...`);
+      console.warn(`Concepts too similar on attempt ${attempt}. Retrying...`);
     }
 
     attempt++;
   }
 
   if (!diversityPassed) {
-    console.warn(`⚠️ Returning concepts after ${maxAttempts} attempts despite similarity.`);
+    console.warn(`Returning concepts after ${maxAttempts} attempts despite similarity.`);
   } else {
     console.log(`🎉 Diversity check passed.`);
   }

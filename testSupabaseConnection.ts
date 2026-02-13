@@ -21,11 +21,11 @@ async function testSupabaseConnection() {
       .limit(1);
     
     if (error) {
-      console.error('❌ Connection error:', error);
+      console.error('Connection error:', error);
       return false;
     }
     
-    console.log('✅ Connection successful!');
+    console.log('Connection successful!');
     
     // Check table structure
     const { data: tableData, error: tableError } = await supabase
@@ -34,9 +34,9 @@ async function testSupabaseConnection() {
       .limit(1);
     
     if (tableError) {
-      console.error('❌ Table query error:', tableError);
+      console.error('Table query error:', tableError);
     } else {
-      console.log('✅ Table accessible');
+      console.log('Table accessible');
       console.log('📋 Sample record structure:', tableData?.[0] || 'No records found');
     }
     
@@ -46,7 +46,7 @@ async function testSupabaseConnection() {
       .select('*', { count: 'exact', head: true });
     
     if (countError) {
-      console.error('❌ Count error:', countError);
+      console.error('Count error:', countError);
     } else {
       console.log(`📊 Total records: ${count || 0}`);
     }
@@ -54,7 +54,7 @@ async function testSupabaseConnection() {
     return true;
     
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
     return false;
   }
 }

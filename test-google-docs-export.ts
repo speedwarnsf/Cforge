@@ -17,10 +17,10 @@ async function testGoogleDocsExport() {
     }
     
     const historyData = await historyResponse.json();
-    console.log(`✅ Found ${historyData.length} concepts in session history\n`);
+    console.log(`Found ${historyData.length} concepts in session history\n`);
     
     if (historyData.length === 0) {
-      console.log('⚠️  No concepts found. Generating a test concept...');
+      console.log(' No concepts found. Generating a test concept...');
       
       const generateResponse = await fetch('http://localhost:5000/api/generate-enhanced', {
         method: 'POST',
@@ -32,7 +32,7 @@ async function testGoogleDocsExport() {
       });
       
       if (generateResponse.ok) {
-        console.log('✅ Test concept generated\n');
+        console.log('Test concept generated\n');
       }
     }
     
@@ -40,8 +40,8 @@ async function testGoogleDocsExport() {
     console.log('2️⃣ Testing Google Docs API export...');
     const documentUrl = await exportHistoryToGoogleDoc();
     
-    console.log('✅ Google Docs export successful!');
-    console.log(`📄 Document URL: ${documentUrl}\n`);
+    console.log('Google Docs export successful!');
+    console.log(`Document URL: ${documentUrl}\n`);
     
     // Test API endpoint
     console.log('3️⃣ Testing export API endpoint...');
@@ -53,11 +53,11 @@ async function testGoogleDocsExport() {
     
     if (apiResponse.ok) {
       const result = await apiResponse.json();
-      console.log('✅ API endpoint working');
+      console.log('API endpoint working');
       console.log(`📊 Exported ${result.conceptCount} concepts`);
-      console.log(`📄 Document: ${result.documentUrl}\n`);
+      console.log(`Document: ${result.documentUrl}\n`);
     } else {
-      console.log('❌ API endpoint failed');
+      console.log('API endpoint failed');
     }
     
     console.log('🎉 All tests completed successfully!');
@@ -67,7 +67,7 @@ async function testGoogleDocsExport() {
     console.log('• The export includes complete concept analysis and formatting');
     
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
     process.exit(1);
   }
 }

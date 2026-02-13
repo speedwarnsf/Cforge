@@ -1,7 +1,7 @@
 #!/usr/bin/env npx tsx
 
 // Demo script showcasing complete export functionality
-console.log('🎯 CONCEPT FORGE EXPORT DEMO');
+console.log('CONCEPT FORGE EXPORT DEMO');
 console.log('============================\n');
 
 async function demoExportFunctionality() {
@@ -22,11 +22,11 @@ async function demoExportFunctionality() {
 
     if (googleExportResponse.ok) {
       const googleResult = await googleExportResponse.json();
-      console.log(`   ✅ Google Docs export successful!`);
-      console.log(`   📄 Document URL: ${googleResult.documentUrl}`);
+      console.log(`   Google Docs export successful!`);
+      console.log(`   Document URL: ${googleResult.documentUrl}`);
       console.log(`   📊 Exported ${googleResult.conceptCount} concepts\n`);
     } else {
-      console.log('   ❌ Google Docs export failed\n');
+      console.log('   Google Docs export failed\n');
     }
 
     // 3. Demo local file export via API
@@ -39,35 +39,35 @@ async function demoExportFunctionality() {
 
     if (localExportResponse.ok) {
       const localResult = await localExportResponse.json();
-      console.log(`   ✅ Local file export successful!`);
-      console.log(`   📄 File: ${localResult.filename}`);
+      console.log(`   Local file export successful!`);
+      console.log(`   File: ${localResult.filename}`);
       console.log(`   📊 Exported ${localResult.conceptCount} concepts\n`);
     } else {
-      console.log('   ❌ Local file export failed\n');
+      console.log('   Local file export failed\n');
     }
 
     // 4. Summary
     console.log('🎉 EXPORT FUNCTIONALITY DEMO COMPLETE');
     console.log('=====================================\n');
-    console.log('✅ Available Export Methods:');
+    console.log('Available Export Methods:');
     console.log('   • Google Docs API integration (automatic document creation)');
     console.log('   • Local file export (ready for manual Google Docs import)');
     console.log('   • Programmatic API endpoints for both methods\n');
     
-    console.log('✅ Export Features:');
+    console.log('Export Features:');
     console.log('   • Complete concept analysis with rhetorical breakdown');
     console.log('   • Professional formatting with clear section headers');
     console.log('   • Automatic timestamping and metadata');
     console.log('   • Primary/Secondary rhetorical device analysis');
     console.log('   • Strategic impact assessments\n');
 
-    console.log('✅ Ready for Use:');
+    console.log('Ready for Use:');
     console.log('   • Run: npx tsx exportHistoryToGoogleDoc.ts');
     console.log('   • API: POST /api/export-history {"exportType": "google"}');
     console.log('   • API: POST /api/export-history {"exportType": "local"}');
 
   } catch (error) {
-    console.error('❌ Demo failed:', error);
+    console.error('Demo failed:', error);
   }
 }
 

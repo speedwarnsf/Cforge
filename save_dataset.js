@@ -6,5 +6,5 @@ const dataset = [
 ];
 
 fs.writeFileSync("./rhetorical_figures_full_dataset.json", JSON.stringify(dataset, null, 2));
-console.log("✅ rhetorical_figures_full_dataset.json created successfully.");
+console.log("rhetorical_figures_full_dataset.json created successfully.");
 console.log(`📊 Dataset contains ${dataset.length} records`);

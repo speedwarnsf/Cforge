@@ -60,7 +60,7 @@ async function runRetrievalTest(testCase: TestCase): Promise<{
   performanceComparison: any;
 }> {
   console.log(`\n🧪 Testing: ${testCase.name}`);
-  console.log(`📝 Prompt: "${testCase.prompt}"`);
+  console.log(`Prompt: "${testCase.prompt}"`);
   
   // Test enhanced retrieval
   const enhancedStart = performance.now();
@@ -72,8 +72,8 @@ async function runRetrievalTest(testCase: TestCase): Promise<{
   const originalResults = await retrieveTopN(testCase.prompt, 3);
   const originalDuration = performance.now() - originalStart;
   
-  console.log(`⚡ Enhanced retrieval: ${enhancedDuration.toFixed(2)}ms`);
-  console.log(`⚡ Original retrieval: ${originalDuration.toFixed(2)}ms`);
+  console.log(`Enhanced retrieval: ${enhancedDuration.toFixed(2)}ms`);
+  console.log(`Original retrieval: ${originalDuration.toFixed(2)}ms`);
   
   console.log(`\n📊 Enhanced Results:`);
   enhancedResults.forEach((campaign, i) => {
@@ -94,7 +94,7 @@ async function runRetrievalTest(testCase: TestCase): Promise<{
   const enhancedDevices = new Set(enhancedResults.flatMap(c => c.rhetoricalDevices || []));
   const originalDevices = new Set(originalResults.flatMap(c => c.rhetoricalDevices || []));
   
-  console.log(`\n🎯 Diversity Analysis:`);
+  console.log(`\nDiversity Analysis:`);
   console.log(`   Enhanced: ${enhancedBrands.size} brands, ${enhancedDevices.size} devices`);
   console.log(`   Original: ${originalBrands.size} brands, ${originalDevices.size} devices`);
   
@@ -142,7 +142,7 @@ async function testCorpusQuality(): Promise<void> {
     console.log(`   With Rhetorical Devices: ${hasDevices}/${totalCampaigns} (${((hasDevices/totalCampaigns)*100).toFixed(1)}%)`);
     console.log(`   With Awards: ${hasAwards}/${totalCampaigns} (${((hasAwards/totalCampaigns)*100).toFixed(1)}%)`);
     console.log(`   With Impact Metrics: ${hasImpactMetrics}/${totalCampaigns} (${((hasImpactMetrics/totalCampaigns)*100).toFixed(1)}%)`);
-    console.log(`\n🎯 Diversity Metrics:`);
+    console.log(`\nDiversity Metrics:`);
     console.log(`   Unique Brands: ${brands.size}`);
     console.log(`   Year Range: ${yearRange}`);
     console.log(`   Rhetorical Devices: ${devices.size}`);
@@ -154,7 +154,7 @@ async function testCorpusQuality(): Promise<void> {
     campaigns.forEach((campaign: any, index: number) => {
       const key = `${campaign.campaign}-${campaign.brand}`;
       if (duplicateCampaigns.has(key)) {
-        console.log(`⚠️  Potential duplicate: ${campaign.campaign} (${campaign.brand})`);
+        console.log(` Potential duplicate: ${campaign.campaign} (${campaign.brand})`);
       } else {
         duplicateCampaigns.set(key, index);
       }
@@ -165,19 +165,19 @@ async function testCorpusQuality(): Promise<void> {
     });
     
     if (shortRationales.length > 0) {
-      console.log(`\n⚠️  Short rationales found: ${shortRationales.length}`);
+      console.log(`\n Short rationales found: ${shortRationales.length}`);
       shortRationales.slice(0, 3).forEach(campaign => {
         console.log(`   - ${campaign.campaign}: "${campaign.rationale}"`);
       });
     }
     
   } catch (error) {
-    console.error(`❌ Corpus quality test failed:`, error);
+    console.error(`Corpus quality test failed:`, error);
   }
 }
 
 async function runPerformanceBenchmark(): Promise<void> {
-  console.log(`\n⚡ Running Performance Benchmark...`);
+  console.log(`\nRunning Performance Benchmark...`);
   
   const benchmarkPrompts = [
     "Sustainable fashion campaign",
@@ -212,7 +212,7 @@ async function runPerformanceBenchmark(): Promise<void> {
   console.log(`   Success rate: ${((successfulResults.length/results.length)*100).toFixed(1)}%`);
   
   results.forEach(result => {
-    const status = result.success ? '✅' : '❌';
+    const status = result.success ? '' : '';
     const info = result.success ? `${result.count} campaigns` : result.error;
     console.log(`   ${status} ${result.prompt}: ${result.duration.toFixed(2)}ms (${info})`);
   });
@@ -262,12 +262,12 @@ async function main(): Promise<void> {
     
     // Get performance monitor stats
     const perfStats = performanceMonitor.getStats();
-    console.log(`\n⚡ Performance Monitor Stats:`, perfStats);
+    console.log(`\nPerformance Monitor Stats:`, perfStats);
     
-    console.log(`\n✅ All tests completed successfully!`);
+    console.log(`\nAll tests completed successfully!`);
     
   } catch (error) {
-    console.error(`❌ Test suite failed:`, error);
+    console.error(`Test suite failed:`, error);
     process.exit(1);
   }
 }

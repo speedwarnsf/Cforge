@@ -61,7 +61,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
     const recommendationMatch = responseText.match(/Recommendation:\s*([^\n]+)/);
     const recommendation = recommendationMatch ? recommendationMatch[1] : "";
 
-    console.log(`🎯 Relevance Score: ${score}/100`);
+    console.log(`Relevance Score: ${score}/100`);
 
     return {
       raw: responseText,

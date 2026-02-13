@@ -14,8 +14,8 @@ async function testPromptLoader() {
       rhetoricalDevice: "metaphor"
     });
 
-    console.log('✅ Single concept prompt loaded successfully');
-    console.log(`📝 Length: ${singlePrompt.length} characters\n`);
+    console.log('Single concept prompt loaded successfully');
+    console.log(`Length: ${singlePrompt.length} characters\n`);
 
     // Test 2: Multivariant generation with complex variables
     console.log('Test 2: Multivariant Generation with Variables');
@@ -33,8 +33,8 @@ async function testPromptLoader() {
       })
     });
 
-    console.log('✅ Multivariant prompt loaded successfully');
-    console.log(`📝 Length: ${multiPrompt.length} characters`);
+    console.log('Multivariant prompt loaded successfully');
+    console.log(`Length: ${multiPrompt.length} characters`);
     console.log(`🔍 Contains cliche avoidance: ${multiPrompt.includes('BANNED EMPOWERMENT') ? 'Yes' : 'No'}`);
     console.log(`🔍 Contains format instructions: ${multiPrompt.includes('OUTPUT REQUIREMENTS') ? 'Yes' : 'No'}\n`);
 
@@ -48,8 +48,8 @@ async function testPromptLoader() {
       currentDate: new Date().toLocaleDateString()
     });
 
-    console.log('✅ Regeneration prompt loaded successfully');
-    console.log(`📝 Length: ${regenPrompt.length} characters\n`);
+    console.log('Regeneration prompt loaded successfully');
+    console.log(`Length: ${regenPrompt.length} characters\n`);
 
     // Test 4: Modular component loading
     console.log('Test 4: Modular Component Loading');
@@ -60,22 +60,22 @@ async function testPromptLoader() {
       userQuery: "Test query"
     });
 
-    console.log(`✅ Cliche avoidance loaded: ${clicheAvoidance.length} characters`);
-    console.log(`✅ Format instructions loaded: ${formatInstructions.length} characters`);
+    console.log(`Cliche avoidance loaded: ${clicheAvoidance.length} characters`);
+    console.log(`Format instructions loaded: ${formatInstructions.length} characters`);
     console.log(`🔍 Cliche avoidance contains forbidden words: ${clicheAvoidance.includes('BANNED EMPOWERMENT') ? 'Yes' : 'No'}`);
     console.log(`🔍 Format instructions contains requirements: ${formatInstructions.includes('OUTPUT REQUIREMENTS') ? 'Yes' : 'No'}\n`);
 
     console.log('🎉 All prompt loader tests completed successfully!');
     
   } catch (error) {
-    console.error('❌ Prompt loader test failed:', error);
+    console.error('Prompt loader test failed:', error);
     process.exit(1);
   }
 }
 
 // Run the test
 testPromptLoader().then(() => {
-  console.log('\n✅ Prompt loader system is ready for integration!');
+  console.log('\nPrompt loader system is ready for integration!');
   process.exit(0);
 }).catch(error => {
   console.error('Fatal error:', error);

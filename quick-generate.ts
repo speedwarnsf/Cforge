@@ -22,7 +22,7 @@ Reframes phone accessories from consumption to contribution, creating emotional 
 - **Secondary Device:** Metaphor of phone as "seed of change" transforms technology from environmental burden to solution.  
 - **Additional Notes:** Visual progression from device to ecosystem creates powerful cause-effect narrative.`;
 
-  console.log("✅ Concept generated!");
+  console.log("Concept generated!");
   console.log("\n" + "=".repeat(60));
   console.log("GENERATED CONCEPT:");
   console.log("=".repeat(60) + "\n");
@@ -103,7 +103,7 @@ Concept Forge AI - New Markdown Format System`;
   });
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log("✅ Google Doc created and shared!");
+  console.log("Google Doc created and shared!");
   console.log(`🌐 Document URL: ${url}`);
   console.log("📧 Shared with: dustinyork15@gmail.com");
   

@@ -51,9 +51,9 @@ async function debugSingleConceptFetch() {
       .limit(10);
     
     if (allError) {
-      console.error("❌ Error fetching all concepts:", allError);
+      console.error("Error fetching all concepts:", allError);
     } else {
-      console.log(`📈 Found ${allConcepts?.length} recent concepts:`);
+      console.log(`Found ${allConcepts?.length} recent concepts:`);
       allConcepts?.forEach((concept, index) => {
         console.log(`  ${index + 1}. ID: ${concept.id}`);
         console.log(`     Prompt: ${concept.prompt.substring(0, 50)}...`);
@@ -63,7 +63,7 @@ async function debugSingleConceptFetch() {
     }
     
     // Now try to fetch the specific concept by ID
-    console.log(`\n🎯 Attempting to fetch concept ID: ${conceptId}`);
+    console.log(`\nAttempting to fetch concept ID: ${conceptId}`);
     
     const { data: specificConcept, error: specificError } = await supabase
       .from('concept_logs')
@@ -72,14 +72,14 @@ async function debugSingleConceptFetch() {
       .single();
     
     if (specificError) {
-      console.error("❌ Error fetching specific concept:", specificError);
+      console.error("Error fetching specific concept:", specificError);
       
       // Try different ID formats
       console.log("\n🔄 Trying alternative ID formats...");
       
       // Try as integer if it's a number
       if (!isNaN(Number(conceptId))) {
-        console.log(`📝 Trying as row number (LIMIT 1 OFFSET ${Number(conceptId) - 1})...`);
+        console.log(`Trying as row number (LIMIT 1 OFFSET ${Number(conceptId) - 1})...`);
         const { data: byOffset, error: offsetError } = await supabase
           .from('concept_logs')
           .select('*')
@@ -88,9 +88,9 @@ async function debugSingleConceptFetch() {
           .range(Number(conceptId) - 1, Number(conceptId) - 1);
         
         if (offsetError) {
-          console.error("❌ Error fetching by offset:", offsetError);
+          console.error("Error fetching by offset:", offsetError);
         } else if (byOffset && byOffset.length > 0) {
-          console.log("✅ Found concept by offset!");
+          console.log("Found concept by offset!");
           displayConceptDetails(byOffset[0]);
           return;
         }
@@ -105,24 +105,24 @@ async function debugSingleConceptFetch() {
         .limit(5);
       
       if (partialError) {
-        console.error("❌ Error with partial search:", partialError);
+        console.error("Error with partial search:", partialError);
       } else if (partialMatch && partialMatch.length > 0) {
-        console.log(`✅ Found ${partialMatch.length} partial matches:`);
+        console.log(`Found ${partialMatch.length} partial matches:`);
         partialMatch.forEach((concept, index) => {
           console.log(`\n${index + 1}. Concept Details:`);
           displayConceptDetails(concept);
         });
       } else {
-        console.log("❌ No concepts found with partial ID match");
+        console.log("No concepts found with partial ID match");
       }
       
     } else if (specificConcept) {
-      console.log("✅ Successfully found specific concept!");
+      console.log("Successfully found specific concept!");
       displayConceptDetails(specificConcept);
     }
     
   } catch (error) {
-    console.error("❌ Unexpected error:", error);
+    console.error("Unexpected error:", error);
   }
 }
 
@@ -136,16 +136,16 @@ function displayConceptDetails(concept: any) {
   console.log(`  Response Length: ${concept.response?.length || 0} characters`);
   
   if (concept.response) {
-    console.log("\n📄 Response Preview:");
+    console.log("\nResponse Preview:");
     console.log(concept.response.substring(0, 300) + "...");
     
     // Analyze response format
     if (concept.response.includes('# ') && concept.response.includes('**')) {
-      console.log("📝 Format: Markdown detected");
+      console.log("Format: Markdown detected");
     } else if (concept.response.includes('{') && concept.response.includes('}')) {
-      console.log("📝 Format: JSON detected");
+      console.log("Format: JSON detected");
     } else {
-      console.log("📝 Format: Plain text detected");
+      console.log("Format: Plain text detected");
     }
   }
 }

@@ -33,9 +33,9 @@ async function generateTestConcept(options: TestConceptOptions = {}) {
   const requireAllSections = getArg('requireAllSections', options.requireAllSections || false);
   
   console.log("🚀 Generating test concept using server endpoint...");
-  console.log(`📝 Prompt: ${prompt}`);
-  console.log(`🎨 Tone: ${tone}`);
-  console.log(`✅ Require all sections: ${requireAllSections}`);
+  console.log(`Prompt: ${prompt}`);
+  console.log(`Tone: ${tone}`);
+  console.log(`Require all sections: ${requireAllSections}`);
   
   const testPrompt = prompt;
   const testTone = tone;
@@ -59,7 +59,7 @@ async function generateTestConcept(options: TestConceptOptions = {}) {
 
     const result = await response.json();
     
-    console.log("✅ Concept generated successfully via server!");
+    console.log("Concept generated successfully via server!");
     console.log(`📊 Response length: ${result.content?.length || 0} characters`);
     console.log(`🆔 Concept ID: ${result.id || 'not provided'}`);
     
@@ -85,7 +85,7 @@ async function generateTestConcept(options: TestConceptOptions = {}) {
     return result;
 
   } catch (error) {
-    console.error("❌ Generation failed:", error);
+    console.error("Generation failed:", error);
     
     // Fallback: show manual generation command
     console.log("\n🔧 Alternative: Generate manually in the web app:");

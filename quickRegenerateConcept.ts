@@ -31,11 +31,11 @@ async function quickRegenerateConcept() {
       .single();
     
     if (fetchError || !originalConcept) {
-      console.error("❌ Failed to fetch original concept:", fetchError);
+      console.error("Failed to fetch original concept:", fetchError);
       return;
     }
     
-    console.log("✅ Original concept retrieved:");
+    console.log("Original concept retrieved:");
     console.log(`  Prompt: ${originalConcept.prompt}`);
     console.log(`  Tone: ${originalConcept.tone}`);
     console.log(`  Created: ${originalConcept.created_at}`);
@@ -44,7 +44,7 @@ async function quickRegenerateConcept() {
     // Create a cleaned version without calling OpenAI
     const cleanedResponse = createCleanedConcept(originalConcept.response, forceCleanFields, requireAllSections);
     
-    console.log("\n🧹 Generated cleaned concept:");
+    console.log("\nGenerated cleaned concept:");
     console.log(`  New response length: ${cleanedResponse.length} characters`);
     
     // Save regenerated concept
@@ -60,9 +60,9 @@ async function quickRegenerateConcept() {
       .single();
     
     if (saveError) {
-      console.error("❌ Failed to save cleaned concept:", saveError);
+      console.error("Failed to save cleaned concept:", saveError);
     } else {
-      console.log("✅ Cleaned concept saved successfully!");
+      console.log("Cleaned concept saved successfully!");
       console.log(`🆔 New concept ID: ${savedConcept.id}`);
       
       // Display preview
@@ -77,7 +77,7 @@ async function quickRegenerateConcept() {
     }
     
   } catch (error) {
-    console.error("❌ Quick regeneration failed:", error);
+    console.error("Quick regeneration failed:", error);
   }
 }
 

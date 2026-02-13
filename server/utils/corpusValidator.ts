@@ -216,12 +216,12 @@ export async function generateCorpusReport(filePath: string = 'data/retrieval-co
   report += `- **Overall Quality**: ${(validation.stats.qualityScore * 100).toFixed(1)}%\n`;
   report += `- **Completeness**: ${(validation.stats.completenessScore * 100).toFixed(1)}%\n`;
   report += `- **Diversity**: ${(validation.stats.diversityScore * 100).toFixed(1)}%\n`;
-  report += `- **Validation Status**: ${validation.isValid ? '✅ Valid' : '❌ Invalid'}\n\n`;
+  report += `- **Validation Status**: ${validation.isValid ? 'Valid' : 'Invalid'}\n\n`;
   
   if (validation.errors.length > 0) {
     report += `## Errors (${validation.errors.length})\n`;
     validation.errors.forEach(error => {
-      report += `- ❌ ${error}\n`;
+      report += `- ${error}\n`;
     });
     report += `\n`;
   }
@@ -229,7 +229,7 @@ export async function generateCorpusReport(filePath: string = 'data/retrieval-co
   if (validation.warnings.length > 0) {
     report += `## Warnings (${validation.warnings.length})\n`;
     validation.warnings.slice(0, 10).forEach(warning => {
-      report += `- ⚠️ ${warning}\n`;
+      report += `- ${warning}\n`;
     });
     if (validation.warnings.length > 10) {
       report += `- ... and ${validation.warnings.length - 10} more warnings\n`;
@@ -241,11 +241,11 @@ export async function generateCorpusReport(filePath: string = 'data/retrieval-co
   report += `## Recommendations\n`;
   
   if (validation.stats.completenessScore < 0.9) {
-    report += `- 📝 Improve data completeness by filling missing fields and expanding short rationales\n`;
+    report += `- Improve data completeness by filling missing fields and expanding short rationales\n`;
   }
   
   if (validation.stats.diversityScore < 0.8) {
-    report += `- 🎯 Increase diversity by adding campaigns from different industries, years, and rhetorical approaches\n`;
+    report += `- Increase diversity by adding campaigns from different industries, years, and rhetorical approaches\n`;
   }
   
   if (validation.errors.length > 0) {
@@ -253,7 +253,7 @@ export async function generateCorpusReport(filePath: string = 'data/retrieval-co
   }
   
   if (validation.warnings.length > 5) {
-    report += `- ⚠️ Address data quality warnings to improve retrieval accuracy\n`;
+    report += `- Address data quality warnings to improve retrieval accuracy\n`;
   }
   
   return report;

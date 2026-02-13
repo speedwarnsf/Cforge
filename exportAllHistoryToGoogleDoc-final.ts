@@ -90,7 +90,7 @@ Reframes phone accessories from consumption to contribution, creating emotional 
   // Parse the content for structured export
   const parsed = parseMarkdownContent(concept);
   
-  console.log("✅ Single concept formatted with sentence case!");
+  console.log("Single concept formatted with sentence case!");
   console.log(`📊 Headline: ${parsed.headline}`);
   console.log(`📊 Tagline: ${parsed.tagline}`);
 
@@ -183,10 +183,10 @@ Concept Forge AI - Sentence Case Formatting System`;
   });
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log("✅ Sentence case Google Doc created and shared!");
+  console.log("Sentence case Google Doc created and shared!");
   console.log(`🌐 Document URL: ${url}`);
   console.log("📧 Shared with: dustinyork15@gmail.com");
-  console.log("\n🎯 Sentence case formatting applied:");
+  console.log("\nSentence case formatting applied:");
   console.log("  ✓ Headlines in sentence case");
   console.log("  ✓ Section labels in sentence case");
   console.log("  ✓ Body text in sentence case");

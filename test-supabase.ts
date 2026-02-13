@@ -13,9 +13,9 @@ const supabase = createClient(
     .limit(5);
 
   if (error) {
-    console.error("❌ Error fetching data:", error);
+    console.error("Error fetching data:", error);
   } else {
-    console.log("✅ Latest 5 rows:");
+    console.log("Latest 5 rows:");
     console.dir(data, { depth: null });
   }
 })();

@@ -58,9 +58,9 @@ class EnhancedEmbeddingRetrieval {
       await this.loadOrComputeEmbeddings();
       
       this.embeddingsReady = true;
-      console.log('✅ Enhanced embedding retrieval ready');
+      console.log('Enhanced embedding retrieval ready');
     } catch (error) {
-      console.error('❌ Failed to initialize embedding retrieval:', error);
+      console.error('Failed to initialize embedding retrieval:', error);
       this.embeddingsReady = false;
     }
   }
@@ -72,7 +72,7 @@ class EnhancedEmbeddingRetrieval {
       this.corpus = parsed.campaigns || [];
       console.log(`📚 Loaded ${this.corpus.length} campaigns`);
     } catch (error) {
-      console.error('❌ Failed to load corpus:', error);
+      console.error('Failed to load corpus:', error);
       this.corpus = [];
     }
   }
@@ -92,7 +92,7 @@ class EnhancedEmbeddingRetrieval {
         console.log(`🔄 Computing ${missingEmbeddings.length} missing embeddings...`);
         await this.computeMissingEmbeddings(missingEmbeddings);
       } else {
-        console.log('✅ Using cached embeddings');
+        console.log('Using cached embeddings');
       }
     } catch (error) {
       console.log('🔄 Computing all embeddings (no cache found)...');
@@ -118,7 +118,7 @@ class EnhancedEmbeddingRetrieval {
         // Small delay to respect rate limits
         await this.delay(100);
       } catch (error) {
-        console.error(`❌ Failed to compute embedding for campaign ${i}:`, error);
+        console.error(`Failed to compute embedding for campaign ${i}:`, error);
       }
     }
     
@@ -136,7 +136,7 @@ class EnhancedEmbeddingRetrieval {
         this.embeddings[index.toString()] = embedding;
         await this.delay(100);
       } catch (error) {
-        console.error(`❌ Failed to compute missing embedding:`, error);
+        console.error(`Failed to compute missing embedding:`, error);
       }
     }
     
@@ -168,7 +168,7 @@ class EnhancedEmbeddingRetrieval {
       await fs.writeFile(this.cacheFile, JSON.stringify(this.embeddings, null, 2));
       console.log('💾 Embeddings cache saved');
     } catch (error) {
-      console.error('❌ Failed to save embeddings cache:', error);
+      console.error('Failed to save embeddings cache:', error);
     }
   }
 
@@ -226,7 +226,7 @@ class EnhancedEmbeddingRetrieval {
 
   async retrieveTopN(prompt: string, n: number = 2): Promise<CampaignEntry[]> {
     if (!this.embeddingsReady || this.corpus.length === 0) {
-      console.log('⚠️ Embeddings not ready, using fallback');
+      console.log('Embeddings not ready, using fallback');
       return this.getFallbackCampaigns(n);
     }
 
@@ -283,7 +283,7 @@ class EnhancedEmbeddingRetrieval {
       return selected;
       
     } catch (error) {
-      console.error('❌ Retrieval failed:', error);
+      console.error('Retrieval failed:', error);
       return this.getFallbackCampaigns(n);
     }
   }

@@ -301,7 +301,7 @@ export async function exploreDivergently(
   // Get uncommon rhetorical devices to anchor each persona's exploration
   // This forces creative diversity by grounding each exploration in different rhetorical territory
   const deviceAnchors = getUncommonDevices(iterationsNeeded);
-  console.log(`   🎭 Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
+  console.log(`   Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
   deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
 
   // PARALLEL OPTIMIZATION: Run all persona iterations in parallel
@@ -320,11 +320,11 @@ export async function exploreDivergently(
   const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
     try {
       const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(' ')[0];
-      console.log(`   🎨 ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
+      console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
       const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map(idea => ({ idea, persona }));
     } catch (error) {
-      console.error(`   ⚠️ Failed generation for persona ${persona.name}:`, error);
+      console.error(`   Failed generation for persona ${persona.name}:`, error);
       return [];
     }
   });
@@ -332,7 +332,7 @@ export async function exploreDivergently(
   const allIdeaResults = await Promise.all(ideaGenerationPromises);
   const allIdeas = allIdeaResults.flat().slice(0, poolSize);
 
-  console.log(`   📝 Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
+  console.log(`   Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
 
   // PERF: Skip expensive per-seed embedding + coherence checks (~15 API calls saved)
   // Use lightweight heuristic scoring instead
@@ -364,7 +364,7 @@ export async function exploreDivergently(
     personaDistribution: personaCounts
   };
 
-  console.log(`✅ Divergent exploration complete:`);
+  console.log(`Divergent exploration complete:`);
   console.log(`   Total seeds: ${metrics.totalGenerated}`);
   console.log(`   Unique seeds: ${metrics.uniqueAfterDedup}`);
   console.log(`   Avg distinctiveness: ${(metrics.averageDistinctiveness * 100).toFixed(1)}%`);
@@ -407,7 +407,7 @@ export async function selectCreativeSeed(
   );
 
   if (eligibleSeeds.length === 0) {
-    console.warn('⚠️ No seeds met minimum criteria, using best available');
+    console.warn('No seeds met minimum criteria, using best available');
     // Fall back to highest combined score
     return pool.seeds.reduce((best, current) => {
       const bestScore = best.distinctivenessScore + best.thematicCoherence;
@@ -430,7 +430,7 @@ export async function selectCreativeSeed(
 
   const selected = scoredSeeds[0].seed;
 
-  console.log(`🎯 Selected creative seed:`);
+  console.log(`Selected creative seed:`);
   console.log(`   Persona: ${selected.persona.name}`);
   console.log(`   Distinctiveness: ${(selected.distinctivenessScore * 100).toFixed(1)}%`);
   console.log(`   Coherence: ${(selected.thematicCoherence * 100).toFixed(1)}%`);
@@ -666,14 +666,14 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
       usedPersonas.add(seed.persona.id);
       // Add all themes from this seed to used themes
       seedThemes.forEach(theme => usedThemes.add(theme));
-      console.log(`   ✅ Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
       console.log(`      Themes: ${[...seedThemes].join(', ') || 'none detected'}`);
     } else if (isSimilarEmbedding) {
-      console.log(`   ⚠️ Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
     } else if (hasThemeCollision) {
-      console.log(`   ⚠️ Seed rejected (theme collision: ${[...seedThemes].join(', ')}): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (theme collision: ${[...seedThemes].join(', ')}): "${seed.rawIdea.substring(0, 50)}..."`);
     } else {
-      console.log(`   ⚠️ Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }
   }
 
@@ -684,7 +684,7 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
       if (unique.length >= 5) break;
       if (!unique.some(u => u.rawIdea === seed.rawIdea)) {
         unique.push(seed);
-        console.log(`   ✅ Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
+        console.log(`   Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
       }
     }
   }

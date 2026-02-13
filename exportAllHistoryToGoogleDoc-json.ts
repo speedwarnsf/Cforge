@@ -100,7 +100,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
     
-    console.log('📄 Creating document with NamedStyles...');
+    console.log('Creating document with NamedStyles...');
     
     const createResponse = await docs.documents.create({
       requestBody: {
@@ -109,7 +109,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
     
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
     
     allConcepts.sort((a, b) => {
       const timestampA = a.timestamp || a.created_at || '0';
@@ -183,7 +183,7 @@ async function exportAllHistoryToGoogleDoc() {
     
     currentIndex += headerText.length;
     
-    console.log('📝 Adding concepts with consistent formatting...');
+    console.log('Adding concepts with consistent formatting...');
     
     for (let i = 0; i < concepts.length; i++) {
       const concept = concepts[i];
@@ -402,19 +402,19 @@ async function exportAllHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Document shared successfully');
+      console.log('Document shared successfully');
     } catch (shareError) {
-      console.log(`⚠️ Could not share document: ${shareError.message}`);
+      console.log(`Could not share document: ${shareError.message}`);
     }
     
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`📄 Document URL: ${documentUrl}`);
+    console.log(`Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${concepts.length} concepts with JSON-based structure`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

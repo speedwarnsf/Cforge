@@ -1,7 +1,7 @@
 const promptText = "HIV Stops With Me of New York State is updating its annual creative. We need an exciting campaign that is bold and sexy and allows the models to look their best but still has some NYC edge to it. The focus should be on 'self love', 'staying in treatment' and leading a bold unapologetic life.";
 
 (async () => {
-  console.log("🎯 Initiating end-to-end concept generation test...");
+  console.log("Initiating end-to-end concept generation test...");
 
   const start = Date.now();
 
@@ -23,10 +23,10 @@ const promptText = "HIV Stops With Me of New York State is updating its annual c
 
   const retrievalBlock = data.content?.match(/Retrieved Reference[\s\S]*?(?=\n\n|$)/g)?.join("\n\n") || "None found";
 
-  console.log("\n✅ Test Complete");
+  console.log("\nTest Complete");
   console.log("============================");
 
-  console.log(`\n🎯 Concept Forge V3 – End-to-End System Test Audit
+  console.log(`\nConcept Forge V3 – End-to-End System Test Audit
 Date: ${new Date().toISOString().slice(0,10)}
 
 Test Prompt:
@@ -38,7 +38,7 @@ Test Parameters:
 - Include Clichés: False
 - Deep Scan: True
 
-✅ Retrieval References:
+Retrieval References:
 ${retrievalBlock}
 
 ✍️ Generated Concept Preview:
@@ -59,7 +59,7 @@ ${(data.content || "").substring(0, 500)}...
 - Unicode/formatting artifacts: [Any issues?]
 - Relevance to brief: [Subjective assessment]
 
-✅ Result:
+Result:
 [PASS / NEEDS IMPROVEMENT]
 
 🔍 Follow-Up Actions:

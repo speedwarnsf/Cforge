@@ -124,7 +124,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
     
-    console.log('📄 Creating clean, elegant Google Doc...');
+    console.log('Creating clean, elegant Google Doc...');
     
     // Create the document
     const createResponse = await docs.documents.create({
@@ -134,7 +134,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
     
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
     
     console.log('✍️ Building content with clean formatting...');
     
@@ -439,7 +439,7 @@ async function exportAllHistoryToGoogleDoc() {
       currentIndex += timestampText.length;
     }
     
-    console.log('📝 Applying content and styling...');
+    console.log('Applying content and styling...');
     
     // Combine text insertion and styling in batch
     const allRequests = [
@@ -473,20 +473,20 @@ async function exportAllHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Document shared successfully');
+      console.log('Document shared successfully');
     } catch (shareError) {
-      console.log(`⚠️ Could not share document: ${shareError.message}`);
+      console.log(`Could not share document: ${shareError.message}`);
     }
     
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`✅ Clean export complete.`);
-    console.log(`📄 Document URL: ${documentUrl}`);
+    console.log(`Clean export complete.`);
+    console.log(`Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${allConcepts.length} concepts with clean formatting`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

@@ -20,7 +20,7 @@ interface ConceptResult {
 }
 
 async function generateConcept(prompt: string, step: string): Promise<ConceptResult> {
-  console.log(`\n🎯 Generating concept for ${step}...`);
+  console.log(`\nGenerating concept for ${step}...`);
   
   const response = await fetch('http://localhost:5000/api/generate', {
     method: 'POST',
@@ -46,7 +46,7 @@ async function generateConcept(prompt: string, step: string): Promise<ConceptRes
 }
 
 async function applyFeedback(conceptId: string, feedbackType: string, comment?: string) {
-  console.log(`📝 Applying ${feedbackType} feedback to concept ${conceptId}...`);
+  console.log(`Applying ${feedbackType} feedback to concept ${conceptId}...`);
   
   const payload: any = {
     conceptId,
@@ -64,9 +64,9 @@ async function applyFeedback(conceptId: string, feedbackType: string, comment?: 
   });
   
   if (!response.ok) {
-    console.error(`❌ Feedback failed: ${response.statusText}`);
+    console.error(`Feedback failed: ${response.statusText}`);
   } else {
-    console.log(`✅ ${feedbackType} feedback applied successfully`);
+    console.log(`${feedbackType} feedback applied successfully`);
   }
 }
 
@@ -81,11 +81,11 @@ async function checkFeedbackRecords() {
     .limit(10);
     
   if (error) {
-    console.error('❌ Error fetching feedback records:', error);
+    console.error('Error fetching feedback records:', error);
     return;
   }
   
-  console.log(`📈 Found ${data.length} recent feedback records:`);
+  console.log(`Found ${data.length} recent feedback records:`);
   data.forEach(record => {
     console.log(`  - ${record.id}: ${record.feedback_type} at ${record.created_at}`);
     if (record.feedback_comment) {
@@ -178,23 +178,23 @@ async function runPreferenceModelingTest() {
                               JSON.stringify(baselineRefs.sort()) !== JSON.stringify(postFeedbackRefs.sort());
     
     console.log('\n🔍 VALIDATION RESULTS:');
-    console.log(`✅ Feedback Recording: Active (feedback applied to 3 concepts)`);
-    console.log(`${retrievalEvolution ? '✅' : '⚠️'} Retrieval Evolution: ${retrievalEvolution ? 'Detected' : 'Not Detected'}`);
-    console.log(`✅ Round-Robin System: Active (retrieval references provided)`);
-    console.log(`✅ Database Integration: Working (concepts stored with IDs)`);
+    console.log(`Feedback Recording: Active (feedback applied to 3 concepts)`);
+    console.log(`${retrievalEvolution ? '' : ''} Retrieval Evolution: ${retrievalEvolution ? 'Detected' : 'Not Detected'}`);
+    console.log(`Round-Robin System: Active (retrieval references provided)`);
+    console.log(`Database Integration: Working (concepts stored with IDs)`);
     
     if (retrievalEvolution) {
-      console.log('\n🎯 CONCLUSION: Human-in-the-loop preference modeling shows evidence of activity.');
+      console.log('\nCONCLUSION: Human-in-the-loop preference modeling shows evidence of activity.');
       console.log('   Retrieval patterns evolved between baseline and post-feedback generations.');
     } else {
-      console.log('\n⚠️ CONCLUSION: Preference modeling system functional but no retrieval bias detected.');
+      console.log('\nCONCLUSION: Preference modeling system functional but no retrieval bias detected.');
       console.log('   This may indicate: 1) Insufficient feedback weight, 2) Similar retrieval pool, or 3) Short feedback processing time.');
     }
     
-    console.log('\n✅ TEST COMPLETED SUCCESSFULLY');
+    console.log('\nTEST COMPLETED SUCCESSFULLY');
     
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
   }
 }
 

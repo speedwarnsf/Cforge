@@ -7,7 +7,7 @@ async function testDirectSupabaseInsert() {
   console.log('🔧 Testing direct Supabase insert...');
   
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return;
   }
 
@@ -33,11 +33,11 @@ async function testDirectSupabaseInsert() {
       .limit(1);
 
     if (tableError) {
-      console.error('❌ Table access error:', tableError);
+      console.error('Table access error:', tableError);
       return;
     }
     
-    console.log('✅ Table accessible');
+    console.log('Table accessible');
 
     // Test 2: Attempt minimal insert
     console.log('💾 Testing insert...');
@@ -55,7 +55,7 @@ async function testDirectSupabaseInsert() {
       .select();
 
     if (error) {
-      console.error('❌ Insert error:', {
+      console.error('Insert error:', {
         code: error.code,
         message: error.message,
         details: error.details,
@@ -63,14 +63,14 @@ async function testDirectSupabaseInsert() {
       });
       
       if (error.code === '42501') {
-        console.log('🔒 RLS Policy Issue - Run this SQL in Supabase:');
+        console.log('RLS Policy Issue - Run this SQL in Supabase:');
         console.log('ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;');
       }
       
       return;
     }
 
-    console.log('✅ Insert successful:', data);
+    console.log('Insert successful:', data);
     
     // Test 3: Verify the row was inserted
     const { data: verifyData, error: verifyError } = await supabase
@@ -81,11 +81,11 @@ async function testDirectSupabaseInsert() {
       .limit(1);
 
     if (verifyError) {
-      console.error('❌ Verification error:', verifyError);
+      console.error('Verification error:', verifyError);
       return;
     }
 
-    console.log('✅ Verification successful - row exists:', verifyData?.length > 0);
+    console.log('Verification successful - row exists:', verifyData?.length > 0);
     
     // Clean up test data
     if (data && data[0]) {
@@ -93,11 +93,11 @@ async function testDirectSupabaseInsert() {
         .from('concept_logs')
         .delete()
         .eq('id', data[0].id);
-      console.log('🧹 Test data cleaned up');
+      console.log('Test data cleaned up');
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.error('Unexpected error:', error);
   }
 }
 

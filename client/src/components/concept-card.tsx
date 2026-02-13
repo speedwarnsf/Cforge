@@ -262,9 +262,9 @@ const ConceptCard = React.memo(function ConceptCard({ concept, onRate, showRatin
       .replace(/\*\*/g, '')
       .replace(/•\s*/g, '')
       .replace(/•/g, '')
-      .replace(/⚡\s*/g, '')
+      .replace(/\s*/g, '')
       .replace(/[\u2022\u2023\u25E6\u2043\u2219\u25AA\u25AB\u25CF\u25E6\u26A1]/g, '')
-      .replace(/^\s*[-\*\+\•⚡]\s*/gm, '')
+      .replace(/^\s*[-\*\+\•]\s*/gm, '')
       // Don't remove numbered lines - they contain headlines!
       .replace(/^\s*[a-zA-Z]\.\s*/gm, '')
       .replace(/\n\s*\n\s*\n/g, '\n\n')

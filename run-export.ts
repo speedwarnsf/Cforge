@@ -6,10 +6,10 @@ async function runExport() {
   try {
     console.log('🚀 Starting Concept Forge export with improved formatting...');
     const documentUrl = await exportAllHistoryToGoogleDoc();
-    console.log(`✅ Export completed with professional styling!`);
-    console.log(`📄 Document URL: ${documentUrl}`);
+    console.log(`Export completed with professional styling!`);
+    console.log(`Document URL: ${documentUrl}`);
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
   }
 }
 

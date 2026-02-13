@@ -8,7 +8,7 @@ async function testAfterRLSFix() {
   const supabaseKey = process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return false;
   }
 
@@ -48,15 +48,15 @@ async function testAfterRLSFix() {
 
     if (error) {
       if (error.code === '42501') {
-        console.log('⚠️ RLS still enabled. Run this SQL in Supabase:');
+        console.log('RLS still enabled. Run this SQL in Supabase:');
         console.log('ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;');
         return false;
       }
-      console.error('❌ Insert failed:', error);
+      console.error('Insert failed:', error);
       return false;
     }
 
-    console.log('✅ Direct insert successful - RLS is disabled!');
+    console.log('Direct insert successful - RLS is disabled!');
 
     // Test API endpoint  
     console.log('🌐 Testing API endpoint...');
@@ -72,9 +72,9 @@ async function testAfterRLSFix() {
     const apiResult = await response.json();
     
     if (apiResult.conceptId) {
-      console.log('✅ API saving to database successful!');
+      console.log('API saving to database successful!');
     } else {
-      console.log('⚠️ API not saving to database yet');
+      console.log('API not saving to database yet');
     }
 
     // Clean up
@@ -86,13 +86,13 @@ async function testAfterRLSFix() {
     return true;
 
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
     return false;
   }
 }
 
 testAfterRLSFix().then(success => {
   if (success) {
-    console.log('✅ Permanent Supabase persistence fully operational. No more data loss after restarts.');
+    console.log('Permanent Supabase persistence fully operational. No more data loss after restarts.');
   }
 });

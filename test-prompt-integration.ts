@@ -13,23 +13,23 @@ try {
     rhetoricalDevice: "metaphor"
   });
 
-  console.log('✅ Single concept prompt loaded');
-  console.log(`📝 Length: ${singlePrompt.length} characters`);
+  console.log('Single concept prompt loaded');
+  console.log(`Length: ${singlePrompt.length} characters`);
   console.log(`🔍 Contains requirements: ${singlePrompt.includes('ABSOLUTE HEADLINE') ? 'Yes' : 'No'}`);
 
   // Test modular component loading
   const clicheAvoidance = loadPrompt("cliche-avoidance.txt", {});
-  console.log(`✅ Cliche avoidance loaded: ${clicheAvoidance.length} characters`);
+  console.log(`Cliche avoidance loaded: ${clicheAvoidance.length} characters`);
 
   const formatInstructions = loadPrompt("format-instructions.txt", {
     currentDate: "July 10, 2025",
     tone: "creative",
     userQuery: "Test"
   });
-  console.log(`✅ Format instructions loaded: ${formatInstructions.length} characters`);
+  console.log(`Format instructions loaded: ${formatInstructions.length} characters`);
 
   console.log('\n🎉 Prompt loader system is ready for production!');
   
 } catch (error) {
-  console.error('❌ Test failed:', error);
+  console.error('Test failed:', error);
 }

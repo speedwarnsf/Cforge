@@ -154,10 +154,10 @@ export default function TestAdmin() {
         })));
         
         successCount++;
-        console.log(`✅ Test ${i + 1} completed successfully`);
+        console.log(`Test ${i + 1} completed successfully`);
         
       } catch (error) {
-        console.error(`❌ Test ${i + 1} failed:`, error);
+        console.error(`Test ${i + 1} failed:`, error);
         
         const testResult: TestResult = {
           id: testId,
@@ -387,12 +387,12 @@ export default function TestAdmin() {
                               <div className="mb-3 text-sm">
                                 {concept.isTooLong && (
                                   <span className="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded mr-2">
-                                    ⚠️ Headlines too long
+                                    Headlines too long
                                   </span>
                                 )}
                                 {concept.hasFormatError && (
                                   <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded">
-                                    ❌ Format error
+                                    Format error
                                   </span>
                                 )}
                               </div>
@@ -401,7 +401,7 @@ export default function TestAdmin() {
 
                           {/* Status Indicator */}
                           <div className="text-sm text-gray-600">
-                            ✅ Saved to concept_logs (feedback_type: null)
+                            Saved to concept_logs (feedback_type: null)
                           </div>
                         </div>
                       );

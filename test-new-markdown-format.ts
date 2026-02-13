@@ -11,7 +11,7 @@ const testPrompt = generateMultivariantPrompt({
   salvagedFragments: []
 });
 
-console.log("📝 Generated prompt for Markdown format:");
+console.log("Generated prompt for Markdown format:");
 console.log("=".repeat(60));
 console.log(testPrompt);
 console.log("=".repeat(60));

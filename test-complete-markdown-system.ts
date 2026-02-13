@@ -21,7 +21,7 @@ async function testCompleteMarkdownSystem() {
   
   try {
     // Step 1: Generate a concept using the new Markdown format
-    console.log("📝 Step 1: Generating concept with new Markdown format...");
+    console.log("Step 1: Generating concept with new Markdown format...");
     
     const prompt = generateMultivariantPrompt({
       rhetoricalDevice: "metaphor",
@@ -45,7 +45,7 @@ async function testCompleteMarkdownSystem() {
     });
     
     const markdownContent = response.choices[0]?.message?.content || "";
-    console.log("\n✅ Generated Markdown content:");
+    console.log("\nGenerated Markdown content:");
     console.log("-".repeat(40));
     console.log(markdownContent);
     console.log("-".repeat(40));
@@ -67,9 +67,9 @@ async function testCompleteMarkdownSystem() {
       .single();
 
     if (insertError) {
-      console.error("❌ Supabase insert error:", insertError);
+      console.error("Supabase insert error:", insertError);
     } else {
-      console.log(`✅ Saved to Supabase with ID: ${insertData.id}`);
+      console.log(`Saved to Supabase with ID: ${insertData.id}`);
     }
     
     // Step 3: Test parsing logic
@@ -105,14 +105,14 @@ async function testCompleteMarkdownSystem() {
     console.log(`- Visual: "${parsed.visualConcept?.substring(0, 50)}..."`);
     
     // Step 4: Test export functionality
-    console.log("\n📄 Step 4: Testing Google Docs export...");
+    console.log("\nStep 4: Testing Google Docs export...");
     
     if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY && process.env.GOOGLE_DOC_SHARE_EMAIL) {
       console.log("🔐 Google credentials found, running export...");
       await exportAllHistoryToGoogleDoc();
-      console.log("✅ Export completed successfully!");
+      console.log("Export completed successfully!");
     } else {
-      console.log("⚠️ Google credentials not found, skipping export test");
+      console.log("Google credentials not found, skipping export test");
       console.log("Required: GOOGLE_SERVICE_ACCOUNT_KEY, GOOGLE_DOC_SHARE_EMAIL");
     }
     
@@ -120,7 +120,7 @@ async function testCompleteMarkdownSystem() {
     console.log("=".repeat(60));
     
   } catch (error) {
-    console.error("❌ Test failed:", error);
+    console.error("Test failed:", error);
     throw error;
   }
 }

@@ -24,7 +24,7 @@ async function testSanitization() {
 }
 
 async function testConceptGeneration() {
-  console.log('\n🎯 Testing Concept Generation with Diversity:');
+  console.log('\nTesting Concept Generation with Diversity:');
   
   try {
     const concepts = await generateAiResponse({
@@ -33,13 +33,13 @@ async function testConceptGeneration() {
       similarityThreshold: 0.8
     });
     
-    console.log(`✅ Generated ${concepts.length} concepts:`);
+    console.log(`Generated ${concepts.length} concepts:`);
     concepts.forEach((concept, i) => {
       console.log(`  ${i + 1}. ${concept.substring(0, 80)}...`);
     });
     
   } catch (error) {
-    console.error('❌ Concept generation failed:', error);
+    console.error('Concept generation failed:', error);
   }
 }
 
@@ -54,9 +54,9 @@ async function testDiversityCheck() {
   
   try {
     const isDiverse = await checkConceptDiversity(testConcepts, 0.85);
-    console.log(`${isDiverse ? '✅' : '❌'} Diversity check result: ${isDiverse}`);
+    console.log(`${isDiverse ? '' : ''} Diversity check result: ${isDiverse}`);
   } catch (error) {
-    console.error('❌ Diversity check failed:', error);
+    console.error('Diversity check failed:', error);
   }
 }
 

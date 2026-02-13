@@ -571,14 +571,14 @@ const merged = [
 
 // Save merged dataset
 fs.writeFileSync('./data/rhetorical_figures_dataset.json', JSON.stringify(merged, null, 2));
-console.log(`✅ Merged complete: ${merged.length} records saved to data/rhetorical_figures_dataset.json`);
+console.log(`Merged complete: ${merged.length} records saved to data/rhetorical_figures_dataset.json`);
 
 // Create deduped version
 const deduped = Array.from(
   new Map(merged.map(item => [item.figure_name, item])).values()
 );
 fs.writeFileSync('./data/rhetorical_figures_dataset_deduped.json', JSON.stringify(deduped, null, 2));
-console.log(`✅ Deduped complete: ${deduped.length} unique records saved to data/rhetorical_figures_dataset_deduped.json`);
+console.log(`Deduped complete: ${deduped.length} unique records saved to data/rhetorical_figures_dataset_deduped.json`);
 
 // Show some statistics
 console.log('\n📊 Dataset Statistics:');
@@ -587,7 +587,7 @@ console.log(`Unique figures: ${deduped.length}`);
 console.log(`Duplicates removed: ${merged.length - deduped.length}`);
 
 // Show sample of figures
-console.log('\n📝 Sample figures:');
+console.log('\nSample figures:');
 deduped.slice(0, 5).forEach(fig => {
   console.log(`- ${fig.figure_name}: ${fig.definition.substring(0, 50)}...`);
 });

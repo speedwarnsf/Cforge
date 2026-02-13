@@ -74,7 +74,7 @@ function formatRhetoricalCraft(text: string): string {
 
 async function exportFormattedConceptToGoogle() {
   if (!conceptId) {
-    console.error("❌ Error: --specificId parameter is required");
+    console.error("Error: --specificId parameter is required");
     return;
   }
   
@@ -91,11 +91,11 @@ async function exportFormattedConceptToGoogle() {
     .single();
   
   if (error || !concept) {
-    console.error("❌ Error fetching concept:", error);
+    console.error("Error fetching concept:", error);
     return;
   }
   
-  console.log(`✅ Found concept: "${concept.prompt.substring(0, 50)}..."`);
+  console.log(`Found concept: "${concept.prompt.substring(0, 50)}..."`);
   
   const parsed = parseMarkdownContent(concept.response);
   
@@ -107,7 +107,7 @@ async function exportFormattedConceptToGoogle() {
   const formattedCraft = formatRhetoricalCraft(parsed.rhetoricalCraft);
   
   // Display formatted content
-  console.log("\n📄 FORMATTED CONTENT PREVIEW:");
+  console.log("\nFORMATTED CONTENT PREVIEW:");
   console.log("═══════════════════════════════");
   console.log(`${formattedHeadline}`);
   console.log(`${parsed.tagline}\n`);
@@ -119,7 +119,7 @@ async function exportFormattedConceptToGoogle() {
   console.log(`${formattedCraft}\n`);
   
   try {
-    console.log("📄 Creating Google Docs export...");
+    console.log("Creating Google Docs export...");
     
     const auth = new google.auth.GoogleAuth({
       credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY!),
@@ -137,7 +137,7 @@ async function exportFormattedConceptToGoogle() {
     });
     
     const docId = docResponse.data.documentId!;
-    console.log(`✅ Document created: ${docId}`);
+    console.log(`Document created: ${docId}`);
     
     // Build content with advanced formatting
     let requests: any[] = [];
@@ -241,7 +241,7 @@ async function exportFormattedConceptToGoogle() {
       requestBody: { requests }
     });
     
-    console.log("✅ Content and formatting applied");
+    console.log("Content and formatting applied");
     
     // Share document
     await drive.permissions.create({
@@ -254,10 +254,10 @@ async function exportFormattedConceptToGoogle() {
     });
     
     const url = `https://docs.google.com/document/d/${docId}/edit`;
-    console.log(`✅ Google Docs export successful: ${url}`);
+    console.log(`Google Docs export successful: ${url}`);
     console.log(`📧 Document shared with: ${process.env.GOOGLE_DOC_SHARE_EMAIL}`);
     
-    console.log("\n🎯 CLI FORMATTING OPTIONS APPLIED:");
+    console.log("\nCLI FORMATTING OPTIONS APPLIED:");
     console.log("═══════════════════════════════════");
     console.log(`✓ Headline case: ${headlineCase}`);
     console.log(`✓ Headline size: ${headlineSize}`);
@@ -266,7 +266,7 @@ async function exportFormattedConceptToGoogle() {
     console.log(`✓ Single paragraph body: ${singleParagraphBody ? 'enabled' : 'disabled'}`);
     
   } catch (error) {
-    console.error("❌ Google Docs export failed:", error);
+    console.error("Google Docs export failed:", error);
     console.log("📋 Formatted content available above for manual copy");
   }
 }

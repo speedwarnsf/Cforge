@@ -160,7 +160,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
     try {
       if (isMultivariant) {
         // Enhanced multivariant generation with streaming
-        addGenerationLog(`🎯 Requesting ${data.conceptCount} concepts with hybrid mode`);
+        addGenerationLog(`Requesting ${data.conceptCount} concepts with hybrid mode`);
         setGenerationStatus(prev => ({ ...prev!, step: 'exploring', progress: 15, detail: 'Exploring creative directions...' }));
 
         const finalResult = await apiClient.streamGeneration(
@@ -185,7 +185,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               case 'variant':
                 const headline = event.data.variant.headlines?.[0];
                 if (headline) {
-                  addGenerationLog(`✨ Generated variant ${event.data.index + 1}: "${headline.substring(0, 40)}${headline.length > 40 ? '...' : ''}"`);
+                  addGenerationLog(`Generated variant ${event.data.index + 1}: "${headline.substring(0, 40)}${headline.length > 40 ? '...' : ''}"`);
                 }
                 break;
 
@@ -210,7 +210,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
             ...prev!,
             step: 'complete',
             progress: 100,
-            detail: `🎯 ${finalResult.outputs.length} breakthrough concepts ready!`
+            detail: `${finalResult.outputs.length} breakthrough concepts ready!`
           }));
 
           // Success feedback
@@ -228,7 +228,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
 
       } else {
         // Enhanced single concept generation
-        addGenerationLog('🎯 Requesting premium single concept generation');
+        addGenerationLog('Requesting premium single concept generation');
         setGenerationStatus(prev => ({ ...prev!, step: 'exploring', progress: 25, detail: 'Exploring creative directions...' }));
 
         const result = await apiClient.post<any>('/api/generate', data);
@@ -273,7 +273,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       }
 
     } catch (error) {
-      console.error('❌ Enhanced generation failed:', error);
+      console.error('Enhanced generation failed:', error);
       handleAPIError(error);
       
       // Set error state with helpful message
@@ -689,7 +689,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 </p>
                 {imageAnalysisEnabled && (
                   <p className="text-yellow-400 text-xs mt-2 font-medium">
-                    ⚠️ Increases API costs & processing time +30s
+                    Increases API costs & processing time +30s
                   </p>
                 )}
               </div>
@@ -715,7 +715,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 </p>
                 {allowCliches && (
                   <p className="text-yellow-400 text-xs mt-2 font-medium">
-                    ⚠️ May reduce concept originality
+                    May reduce concept originality
                   </p>
                 )}
               </div>

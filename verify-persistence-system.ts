@@ -8,7 +8,7 @@ async function verifyPersistenceSystem() {
   const supabaseKey = process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return false;
   }
 
@@ -50,17 +50,17 @@ async function verifyPersistenceSystem() {
 
     if (insertError) {
       if (insertError.code === '42501') {
-        console.log('⚠️ RLS still enabled - need to run SQL fix');
+        console.log('RLS still enabled - need to run SQL fix');
         console.log('Run this in Supabase SQL Editor:');
         console.log('ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;');
         return false;
       } else {
-        console.error('❌ Unexpected insert error:', insertError);
+        console.error('Unexpected insert error:', insertError);
         return false;
       }
     }
 
-    console.log('✅ RLS disabled - inserts working!');
+    console.log('RLS disabled - inserts working!');
     const conceptId = insertData?.[0]?.id;
 
     // Step 2: Test retrieval
@@ -72,11 +72,11 @@ async function verifyPersistenceSystem() {
       .single();
 
     if (retrieveError || !retrieveData) {
-      console.error('❌ Retrieval test failed');
+      console.error('Retrieval test failed');
       return false;
     }
 
-    console.log('✅ Data retrieval working');
+    console.log('Data retrieval working');
 
     // Step 3: Test the app's logSession function
     console.log('🔧 Testing app logSession function...');
@@ -97,14 +97,14 @@ async function verifyPersistenceSystem() {
     });
 
     if (!appTestId) {
-      console.error('❌ App logSession function failed');
+      console.error('App logSession function failed');
       return false;
     }
 
-    console.log('✅ App logSession function working');
+    console.log('App logSession function working');
 
     // Step 4: Clean up test data
-    console.log('🧹 Cleaning up test data...');
+    console.log('Cleaning up test data...');
     await supabase.from('concept_logs').delete().eq('user_id', 'verification-test');
     await supabase.from('concept_logs').delete().eq('id', appTestId);
 
@@ -112,7 +112,7 @@ async function verifyPersistenceSystem() {
     return true;
 
   } catch (error) {
-    console.error('❌ Verification failed:', error);
+    console.error('Verification failed:', error);
     return false;
   }
 }

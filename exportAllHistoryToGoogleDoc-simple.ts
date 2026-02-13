@@ -89,7 +89,7 @@ async function exportAllHistoryToGoogleDoc() {
   const docs = google.docs({ version: "v1", auth });
   const drive = google.drive({ version: "v3", auth });
 
-  console.log("📄 Creating document...");
+  console.log("Creating document...");
   const docRes = await docs.documents.create({
     requestBody: {
       title: `Concept Forge Export - ${new Date().toLocaleDateString()}`
@@ -97,7 +97,7 @@ async function exportAllHistoryToGoogleDoc() {
   });
 
   const docId = docRes.data.documentId!;
-  console.log(`📄 Document ID: ${docId}`);
+  console.log(`Document ID: ${docId}`);
 
   await drive.permissions.create({
     fileId: docId,
@@ -224,11 +224,11 @@ async function exportAllHistoryToGoogleDoc() {
       requestBody: { requests }
     });
 
-    console.log(`✅ Processed Concept ${i + 1}/${allConcepts.length}`);
+    console.log(`Processed Concept ${i + 1}/${allConcepts.length}`);
   }
 
   const url = `https://docs.google.com/document/d/${docId}/edit`;
-  console.log(`✅ Export complete: ${url}`);
+  console.log(`Export complete: ${url}`);
   return url;
 }
 

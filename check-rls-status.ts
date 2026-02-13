@@ -8,7 +8,7 @@ async function checkRLSStatus() {
   const supabaseKey = process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return;
   }
 
@@ -65,7 +65,7 @@ async function checkRLSStatus() {
     }
 
   } catch (error) {
-    console.error('❌ Error checking RLS status:', error);
+    console.error('Error checking RLS status:', error);
   }
 }
 

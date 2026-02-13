@@ -73,7 +73,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
             Total Cost (${costPerConcept.toFixed(4)}/concept)
           </div>
           <div className="text-xs mt-1" style={alertStyle}>
-            {isHighCost ? '⚠️ High Cost - Optimize Tokens' : '✅ Cost Optimal'}
+            {isHighCost ? 'High Cost - Optimize Tokens' : 'Cost Optimal'}
           </div>
         </div>
         

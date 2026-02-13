@@ -70,7 +70,7 @@ export async function runIterativeRefinement(
   console.log(`📊 Iteration 1 Results: Originality ${evaluation.originality_confidence}/100, Audience ${evaluation.audience_resonance}, Awards ${evaluation.award_potential}, Relevance ${evaluation.relevance_score}/100`);
   
   if (evaluation.passes_all_thresholds) {
-    console.log(`✅ Concept passed all thresholds on iteration 1`);
+    console.log(`Concept passed all thresholds on iteration 1`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -87,7 +87,7 @@ export async function runIterativeRefinement(
   const refinedConcept = await refineConcept(currentConcept, evaluation, context);
   
   if (!refinedConcept) {
-    console.log(`⚠️ Refinement failed, keeping original concept`);
+    console.log(`Refinement failed, keeping original concept`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -109,7 +109,7 @@ export async function runIterativeRefinement(
   
   const finalStatus = refinedEvaluation.passes_all_thresholds ? 'Passed' : 'Needs Review';
   
-  console.log(`🎯 Final Status: ${finalStatus}`);
+  console.log(`Final Status: ${finalStatus}`);
   
   return {
     visualDescription: refinedConcept.visualDescription,

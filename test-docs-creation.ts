@@ -19,13 +19,13 @@ async function testDocsCreation() {
 
     const docs = google.docs({ version: "v1", auth });
     
-    console.log("📄 Attempting to create test document...");
+    console.log("Attempting to create test document...");
     const res = await docs.documents.create({
       requestBody: { title: "Test Document From Script" }
     });
     
-    console.log("✅ SUCCESS! Document created:");
-    console.log("📄 Document ID:", res.data.documentId);
+    console.log("SUCCESS! Document created:");
+    console.log("Document ID:", res.data.documentId);
     console.log("🔗 Document URL:", `https://docs.google.com/document/d/${res.data.documentId}/edit`);
     
     // Clean up test document
@@ -35,7 +35,7 @@ async function testDocsCreation() {
     
     return true;
   } catch (error) {
-    console.error("❌ Failed to create document:", error.message);
+    console.error("Failed to create document:", error.message);
     return false;
   }
 }

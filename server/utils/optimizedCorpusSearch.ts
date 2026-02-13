@@ -68,7 +68,7 @@ class OptimizedCorpusSearch {
     }
     
     this.isIndexed = true;
-    console.log(`✅ Corpus indices built successfully`);
+    console.log(`Corpus indices built successfully`);
   }
 
   private extractWords(text: string): string[] {

@@ -8,7 +8,7 @@ async function disableRLS() {
   const supabaseKey = process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     process.exit(1);
   }
 
@@ -27,7 +27,7 @@ async function disableRLS() {
     });
 
     if (error) {
-      console.log('⚠️ RPC method not available, trying direct SQL execution...');
+      console.log('RPC method not available, trying direct SQL execution...');
       
       // Alternative: Try to execute via direct query
       const { error: directError } = await supabase
@@ -36,15 +36,15 @@ async function disableRLS() {
         .limit(0); // This will test connection
         
       if (directError) {
-        console.error('❌ Supabase connection failed:', directError);
+        console.error('Supabase connection failed:', directError);
         process.exit(1);
       }
       
-      console.log('✅ Supabase connection confirmed');
+      console.log('Supabase connection confirmed');
       console.log('📋 Please run this SQL manually in Supabase SQL Editor:');
       console.log('ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;');
     } else {
-      console.log('✅ RLS disabled successfully!');
+      console.log('RLS disabled successfully!');
     }
 
     // Test if RLS is now disabled by attempting an insert
@@ -72,14 +72,14 @@ async function disableRLS() {
 
     if (insertError) {
       if (insertError.code === '42501') {
-        console.log('⚠️ RLS still enabled - manual fix required');
+        console.log('RLS still enabled - manual fix required');
         console.log('Run in Supabase SQL Editor: ALTER TABLE concept_logs DISABLE ROW LEVEL SECURITY;');
       } else {
-        console.error('❌ Insert failed with different error:', insertError);
+        console.error('Insert failed with different error:', insertError);
       }
     } else {
-      console.log('✅ Insert successful - RLS is disabled!');
-      console.log('🧹 Cleaning up test data...');
+      console.log('Insert successful - RLS is disabled!');
+      console.log('Cleaning up test data...');
       
       // Clean up test insert
       await supabase
@@ -87,11 +87,11 @@ async function disableRLS() {
         .delete()
         .eq('user_id', 'rls-test');
         
-      console.log('✅ Permanent Supabase persistence fully operational. No more data loss after restarts.');
+      console.log('Permanent Supabase persistence fully operational. No more data loss after restarts.');
     }
 
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }

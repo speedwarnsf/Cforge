@@ -8,7 +8,7 @@ async function disableRLS() {
   console.log('🔧 Disabling RLS on concept_logs table...');
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return false;
   }
 
@@ -33,9 +33,9 @@ async function disableRLS() {
       }]);
 
     if (testError) {
-      console.log('✅ Confirmed RLS is blocking inserts:', testError.code);
+      console.log('Confirmed RLS is blocking inserts:', testError.code);
     } else {
-      console.log('⚠️ RLS might already be disabled');
+      console.log('RLS might already be disabled');
     }
 
     // Clean up any successful test insert
@@ -50,7 +50,7 @@ async function disableRLS() {
     return false; // Indicates manual action needed
 
   } catch (error) {
-    console.error('❌ Error testing RLS:', error);
+    console.error('Error testing RLS:', error);
     return false;
   }
 }

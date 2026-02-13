@@ -31,7 +31,7 @@ async function runTests() {
 
   for (let i = 0; i < testConfigs.length; i++) {
     const config = testConfigs[i];
-    console.log(`\n📝 Test ${i + 1}: ${config.tone} tone`);
+    console.log(`\nTest ${i + 1}: ${config.tone} tone`);
     console.log(`   Query: "${config.query}"`);
     
     try {
@@ -49,17 +49,17 @@ async function runTests() {
 
       const data = await response.json();
       
-      console.log(`   ✅ Generated ${data.length} concepts`);
+      console.log(`   Generated ${data.length} concepts`);
       
       // Display first concept as example
       if (data.length > 0) {
         const concept = data[0];
         console.log(`   📋 Sample: ${concept.headlines?.[0] || 'No headline'}`);
-        console.log(`   🎨 Device: ${concept.rhetoricalDevice || 'Unknown'}`);
-        console.log(`   🎯 Score: ${concept.originalityScore || 0}%`);
+        console.log(`   Device: ${concept.rhetoricalDevice || 'Unknown'}`);
+        console.log(`   Score: ${concept.originalityScore || 0}%`);
         
         if (concept.example) {
-          console.log(`   💡 Inspired by: ${concept.example.campaign_name} - ${concept.example.brand}`);
+          console.log(`   Inspired by: ${concept.example.campaign_name} - ${concept.example.brand}`);
         }
       }
       
@@ -67,7 +67,7 @@ async function runTests() {
       totalConcepts += data.length;
       
     } catch (error) {
-      console.log(`   ❌ Failed: ${error.message}`);
+      console.log(`   Failed: ${error.message}`);
       failureCount++;
     }
 
@@ -90,7 +90,7 @@ async function runTests() {
     const history = await historyResponse.json();
     console.log(`   📋 Found ${history.length} entries in session history`);
   } catch (error) {
-    console.log(`   ❌ History check failed: ${error.message}`);
+    console.log(`   History check failed: ${error.message}`);
   }
 
   // Test pending feedback
@@ -100,10 +100,10 @@ async function runTests() {
     const pending = await pendingResponse.json();
     console.log(`   📋 Found ${pending.length} concepts awaiting feedback`);
   } catch (error) {
-    console.log(`   ❌ Pending check failed: ${error.message}`);
+    console.log(`   Pending check failed: ${error.message}`);
   }
 
-  console.log('\n✅ Testing complete! All APIs are functional.');
+  console.log('\nTesting complete! All APIs are functional.');
   console.log('📱 The system is ready for manual review and feedback collection.');
 }
 

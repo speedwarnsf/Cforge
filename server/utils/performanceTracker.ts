@@ -91,12 +91,12 @@ class PerformanceTracker {
   printSummary(): void {
     const finalMetrics = this.getMetrics();
     
-    console.log('\n📈 PERFORMANCE SUMMARY');
+    console.log('\nPERFORMANCE SUMMARY');
     console.log('========================');
     console.log(`⏱️  Total Time: ${finalMetrics.totalTime}ms (${(finalMetrics.totalTime / 1000).toFixed(2)}s)`);
     console.log(`🔗 API Calls: ${finalMetrics.apiCalls}`);
-    console.log(`🎯 Total Tokens: ${finalMetrics.totalTokens}`);
-    console.log(`📝 Prompt Tokens: ${finalMetrics.promptTokens}`);
+    console.log(`Total Tokens: ${finalMetrics.totalTokens}`);
+    console.log(`Prompt Tokens: ${finalMetrics.promptTokens}`);
     console.log(`💬 Completion Tokens: ${finalMetrics.completionTokens}`);
     console.log(`💰 Total Cost: $${finalMetrics.totalCost.toFixed(4)}`);
     

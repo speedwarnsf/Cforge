@@ -1,5 +1,5 @@
 // 📂 server/utils/embeddingRetrieval.ts
-// ✅ Round-Robin Pairs Retrieval with Fallback Randomization
+// Round-Robin Pairs Retrieval with Fallback Randomization
 
 import OpenAI from "openai";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
@@ -80,7 +80,7 @@ export async function precomputeCorpusEmbeddings() {
       }
     }
     
-    console.log(`✅ Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
+    console.log(`Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
     return computed;
   }, { corpusSize: retrievalCorpus.length });
 }
@@ -130,7 +130,7 @@ export async function retrieveTopNWithRotation(
         const { getBiasedConcepts } = await import('./feedbackInfluenceSystem');
         feedbackBiases = await getBiasedConcepts(projectId);
         if (feedbackBiases.length > 0) {
-          console.log(`🎯 Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
+          console.log(`Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
         }
       } catch (error) {
         console.log('📊 Could not load feedback biases, continuing without influence');
@@ -139,7 +139,7 @@ export async function retrieveTopNWithRotation(
 
     // Check if embeddings are ready
     if (Object.keys(corpusEmbeddings).length === 0) {
-      console.log("⚠️ Embeddings not ready yet, using enhanced fallback with theory prioritization");
+      console.log("Embeddings not ready yet, using enhanced fallback with theory prioritization");
       return fallbackWithTheoryPrioritization(promptText, count, combinedTheories);
     }
 
@@ -189,7 +189,7 @@ export async function retrieveTopNWithRotation(
           );
           if (bias) {
             sim.similarity *= bias.bias; // Apply bias multiplier
-            console.log(`🎯 Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
+            console.log(`Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
           }
         });
         // Re-sort after applying biases
@@ -215,7 +215,7 @@ export async function retrieveTopNWithRotation(
           return b.similarity - a.similarity; // Fall back to similarity
         });
         
-        console.log(`🎯 Theory prioritization applied: ${prioritized.slice(0, 3).map(s => s.entry.campaign).join(', ')}`);
+        console.log(`Theory prioritization applied: ${prioritized.slice(0, 3).map(s => s.entry.campaign).join(', ')}`);
       }
 
       const top10 = similarities.slice(0, 10).map((s) => s.entry);
@@ -244,7 +244,7 @@ export async function retrieveTopNWithRotation(
 
     return retrieved as CorpusEntry[];
   } catch (error) {
-    console.error("❌ Error in retrieveTopNWithRotation:", error);
+    console.error("Error in retrieveTopNWithRotation:", error);
     return fallbackWithTheoryPrioritization(promptText, count, theoriesToPrioritize);
   }
 }

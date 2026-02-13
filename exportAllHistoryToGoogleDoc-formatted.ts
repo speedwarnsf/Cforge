@@ -60,7 +60,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
     
-    console.log('📄 Creating document...');
+    console.log('Creating document...');
     
     const createResponse = await docs.documents.create({
       requestBody: {
@@ -69,7 +69,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
     
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
     
     // Share document immediately
     console.log('🔗 Sharing document with dustinyork15@gmail.com...');
@@ -84,7 +84,7 @@ async function exportAllHistoryToGoogleDoc() {
       sendNotificationEmail: false
     });
     
-    console.log('✅ Document shared successfully');
+    console.log('Document shared successfully');
     
     // Sort concepts by date
     allConcepts.sort((a, b) => {
@@ -93,7 +93,7 @@ async function exportAllHistoryToGoogleDoc() {
       return new Date(timestampB).getTime() - new Date(timestampA).getTime();
     });
     
-    console.log('📝 Building formatted content...');
+    console.log('Building formatted content...');
     
     // Build complete document with proper formatting
     const requests = [];
@@ -327,7 +327,7 @@ async function exportAllHistoryToGoogleDoc() {
       currentIndex += timestampText.length;
     }
     
-    console.log('🎨 Applying all formatting...');
+    console.log('Applying all formatting...');
     
     // Apply all formatting in batches to avoid timeout
     const batchSize = 20;
@@ -340,13 +340,13 @@ async function exportAllHistoryToGoogleDoc() {
     }
     
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`✅ Export complete! Document URL: ${documentUrl}`);
+    console.log(`Export complete! Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${allConcepts.length} concepts with professional formatting`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

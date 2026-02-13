@@ -200,14 +200,14 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
   // Expose the triggerGeneration method to parent components
   useImperativeHandle(ref, () => ({
     triggerGeneration: (data: any) => {
-      console.log('🎯 AiGenerator received generation data:', data);
+      console.log('AiGenerator received generation data:', data);
 
       // Store the completion callback for later use
       setCompletionCallback(() => data.onCompleteCallback);
 
       // Check if this is already a completed result (multivariant response)
       if (data.success && data.outputs) {
-        console.log('🎯 AiGenerator: Received pre-generated multivariant results');
+        console.log('AiGenerator: Received pre-generated multivariant results');
         // Transform multivariant outputs to concept format and display them
         const concepts = data.outputs.map((output: any, index: number) => ({
           id: output.conceptId || `multi_${Date.now()}_${index}`,
@@ -235,7 +235,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
 
       // Check if this is a single concept response (already generated)
       if (data.content && data.conceptId) {
-        console.log('🎯 AiGenerator: Received pre-generated single concept');
+        console.log('AiGenerator: Received pre-generated single concept');
         setCurrentConcepts([{
           id: data.conceptId,
           content: data.content,
@@ -286,11 +286,11 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
 
   const generateMutation = useMutation({
     mutationFn: async (data: AiRequestForm) => {
-      console.log('🎯 STARTING GENERATION: Setting states...');
+      console.log('STARTING GENERATION: Setting states...');
       setIsGenerating(true);
       setIsLoadingWindowOpen(true);
       setBriefCollapsed(true);
-      console.log('🎯 LoadingWindow should now be visible (isLoadingWindowOpen=true)');
+      console.log('LoadingWindow should now be visible (isLoadingWindowOpen=true)');
       
       // Reset processing steps
       setProcessingSteps({
@@ -345,9 +345,9 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
       }, 5000);
       
       // Debug logging to track what's being sent from frontend
-      console.log("🎯 FRONTEND SENDING QUERY:", data.query);
-      console.log("🎨 FRONTEND SENDING TONE:", data.tone);
-      console.log("📝 FRONTEND FULL DATA:", JSON.stringify(data, null, 2));
+      console.log("FRONTEND SENDING QUERY:", data.query);
+      console.log("FRONTEND SENDING TONE:", data.tone);
+      console.log("FRONTEND FULL DATA:", JSON.stringify(data, null, 2));
 
       const response = await fetch(`/api/generate`, {
         method: "POST",
@@ -375,17 +375,17 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
       return result;
     },
     onSuccess: (data: AiResponse) => {
-      console.log('🎯 SUCCESS: Generation completed, processing response...', data);
+      console.log('SUCCESS: Generation completed, processing response...', data);
       setResponse(data);
       
       // Handle both single and multi-concept responses
       if (data.concepts && data.concepts.length > 0) {
         // Multi-concept response
-        console.log('🎯 Setting current concepts:', data.concepts.length, 'concepts');
+        console.log('Setting current concepts:', data.concepts.length, 'concepts');
         setCurrentConcepts(data.concepts);
         setBriefCollapsed(true);
         setIsGenerating(false);
-        console.log('🎯 Closing LoadingWindow...');
+        console.log('Closing LoadingWindow...');
         setIsLoadingWindowOpen(false);
         setContentFadingOut(false);
         
@@ -420,7 +420,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
         
         // Call completion callback if it exists
         if (completionCallback) {
-          console.log('🎯 AiGenerator: Calling completion callback');
+          console.log('AiGenerator: Calling completion callback');
           completionCallback();
           setCompletionCallback(null); // Clear it after use
         }
@@ -440,7 +440,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
       
       // Call completion callback if it exists (even on error)
       if (completionCallback) {
-        console.log('🎯 AiGenerator: Calling completion callback (error case)');
+        console.log('AiGenerator: Calling completion callback (error case)');
         completionCallback();
         setCompletionCallback(null); // Clear it after use
       }
@@ -672,7 +672,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                               })
                             });
                             
-                            console.log(`✅ Rating stored: ${conceptId} -> ${rating} (project: ${currentProject})`);
+                            console.log(`Rating stored: ${conceptId} -> ${rating} (project: ${currentProject})`);
                             
                             toast({
                               title: rating === 'more_like_this' ? "Feedback saved!" : "Feedback noted",

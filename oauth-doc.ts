@@ -48,6 +48,6 @@ import readline from "node:readline/promises";
     requestBody: { title: "Concept Forge OAuth Test Document" },
   });
 
-  console.log("✅ Document created successfully:");
+  console.log("Document created successfully:");
   console.log(res.data);
 })();

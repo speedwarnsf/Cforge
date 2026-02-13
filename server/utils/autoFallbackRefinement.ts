@@ -80,7 +80,7 @@ export async function refineIfLowSophistication(
       }
     };
 
-    console.log(`✅ Concept refined successfully. Reason: ${refinementReason}`);
+    console.log(`Concept refined successfully. Reason: ${refinementReason}`);
 
     return {
       concept: refinedConcept,
@@ -89,7 +89,7 @@ export async function refineIfLowSophistication(
     };
 
   } catch (error) {
-    console.error('❌ Auto-refinement failed:', error);
+    console.error('Auto-refinement failed:', error);
     return { concept, wasRefined: false, refinementReason: 'Refinement failed' };
   }
 }

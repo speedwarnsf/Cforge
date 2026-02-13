@@ -105,7 +105,7 @@ export async function selectVariedTropes(
 
   // Get all available devices from corpus
   const allDeviceIds = getAllAvailableDeviceIds();
-  console.log(`🎭 Selecting from ${allDeviceIds.length} available rhetorical devices`);
+  console.log(`Selecting from ${allDeviceIds.length} available rhetorical devices`);
 
   // Get current usage counts
   const usageCounts = await getRhetoricalDeviceUsage();
@@ -118,7 +118,7 @@ export async function selectVariedTropes(
   const eligibleDevices = allDeviceIds.filter(id => !fullExcludeSet.has(id));
 
   console.log(`   🚫 Excluding ${OVERUSED_COMMON_DEVICES.size} overused common devices (metaphor, simile, etc.)`);
-  console.log(`   ✨ ${eligibleDevices.length} uncommon devices available for selection`);
+  console.log(`   ${eligibleDevices.length} uncommon devices available for selection`);
 
   // Categorize devices by usage
   const unexploredDevices: string[] = [];
@@ -232,7 +232,7 @@ export async function selectVariedTropes(
   }
 
   const unexploredCount = selected.filter(s => s.selectionReason === 'unexplored').length;
-  console.log(`   ✅ Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
+  console.log(`   Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
 
   return selected;
 }
@@ -241,7 +241,7 @@ export async function selectVariedTropes(
  * Record that devices were used (call after generation)
  */
 export async function recordTropeUsage(deviceIds: string[]): Promise<void> {
-  console.log(`📝 Recording usage for ${deviceIds.length} devices`);
+  console.log(`Recording usage for ${deviceIds.length} devices`);
 
   for (const deviceId of deviceIds) {
     const normalizedId = deviceId.toLowerCase().replace(/\s+/g, '_');

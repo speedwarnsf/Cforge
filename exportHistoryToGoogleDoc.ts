@@ -36,7 +36,7 @@ async function exportHistoryToGoogleDoc() {
     const historyData: ConceptEntry[] = await response.json();
     
     if (historyData.length === 0) {
-      console.log('⚠️  No session history found. Generate some concepts first.');
+      console.log(' No session history found. Generate some concepts first.');
       return;
     }
     
@@ -72,7 +72,7 @@ async function exportHistoryToGoogleDoc() {
         formattedContent += `---\n\n`;
         
       } catch (parseError) {
-        console.log(`⚠️  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
@@ -97,7 +97,7 @@ async function exportHistoryToGoogleDoc() {
     const now = new Date();
     const docTitle = `Concept Forge Export - ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
     
-    console.log('📄 Creating Google Doc...');
+    console.log('Creating Google Doc...');
     
     const createResponse = await docs.documents.create({
       requestBody: {
@@ -147,7 +147,7 @@ async function exportHistoryToGoogleDoc() {
         docContent += `---\n\n`;
         
       } catch (parseError) {
-        console.log(`⚠️  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
@@ -181,23 +181,23 @@ async function exportHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Google Docs export complete and shared with dustinyork15@gmail.com');
+      console.log('Google Docs export complete and shared with dustinyork15@gmail.com');
     } catch (shareError: unknown) {
       const message = shareError instanceof Error ? shareError.message : String(shareError);
-      console.log(`⚠️  Could not share document: ${message}`);
+      console.log(` Could not share document: ${message}`);
       console.log('📧 You can manually share the document using the URL below');
     }
     
     // Step 7: Generate document URL
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
     
-    console.log('✅ Export complete! Document URL:', documentUrl);
+    console.log('Export complete! Document URL:', documentUrl);
     console.log(`📊 Exported ${historyData.length} concepts successfully`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     process.exit(1);
   }
 }

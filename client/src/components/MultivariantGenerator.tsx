@@ -131,7 +131,7 @@ const PromptRefinementPanel = ({ query, onSelect }: { query: string, onSelect: (
           className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs border border-green-500 transition-colors"
           style={{ touchAction: 'manipulation' }}
         >
-          ⚡ Quick
+          Quick
         </button>
       </div>
       
@@ -145,7 +145,7 @@ const PromptRefinementPanel = ({ query, onSelect }: { query: string, onSelect: (
             }}
             className="w-full mb-3 p-2 bg-blue-600 hover:bg-blue-700 text-white text-sm border border-blue-500 transition-colors"
           >
-            💡 Suggest Keywords for Better Theory Detection
+            Suggest Keywords for Better Theory Detection
           </button>
 
           {loading ? (
@@ -968,7 +968,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                           size="sm"
                           onClick={() => {
                             const nowFav = toggleLocalFavorite(result.id);
-                            toast({ title: nowFav ? '⭐ Favorited' : 'Unfavorited', duration: 1500 });
+                            toast({ title: nowFav ? ' Favorited' : 'Unfavorited', duration: 1500 });
                           }}
                           className="bg-transparent border-amber-600 text-amber-300 hover:bg-amber-900/30 text-xs"
                         >

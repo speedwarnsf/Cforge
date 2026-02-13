@@ -114,7 +114,7 @@ async function exportAllHistoryToGoogleDoc() {
     const docs = google.docs({ version: 'v1', auth });
     const drive = google.drive({ version: 'v3', auth });
     
-    console.log('📄 Creating styled Concept Forge document...');
+    console.log('Creating styled Concept Forge document...');
     
     // Create the document
     const createResponse = await docs.documents.create({
@@ -124,7 +124,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
     
     const documentId = createResponse.data.documentId!;
-    console.log(`📄 Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
     
     console.log('✍️ Building content with enhanced Concept Forge styling...');
     
@@ -515,7 +515,7 @@ async function exportAllHistoryToGoogleDoc() {
       }
     }
     
-    console.log('📝 Applying styled formatting with batch operations...');
+    console.log('Applying styled formatting with batch operations...');
     
     // Execute all batch requests
     await docs.documents.batchUpdate({
@@ -538,20 +538,20 @@ async function exportAllHistoryToGoogleDoc() {
         },
       });
       
-      console.log('✅ Document shared successfully with dustinyork15@gmail.com');
+      console.log('Document shared successfully with dustinyork15@gmail.com');
     } catch (shareError) {
-      console.log(`⚠️ Could not share document: ${shareError.message}`);
+      console.log(`Could not share document: ${shareError.message}`);
       console.log('📧 You can manually share the document using the URL below');
     }
     
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log(`✅ Export complete! Document URL: ${documentUrl}`);
+    console.log(`Export complete! Document URL: ${documentUrl}`);
     console.log(`📊 Exported ${allConcepts.length} concepts with Concept Forge styling`);
     
     return documentUrl;
     
   } catch (error) {
-    console.error('❌ Export failed:', error);
+    console.error('Export failed:', error);
     throw error;
   }
 }

@@ -5,7 +5,7 @@ async function testPersistenceFlow() {
   const supabaseKey = process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('❌ Supabase credentials missing');
+    console.error('Supabase credentials missing');
     return;
   }
 
@@ -62,11 +62,11 @@ async function testPersistenceFlow() {
       .select();
 
     if (error) {
-      console.error('❌ Insert still failing:', error);
+      console.error('Insert still failing:', error);
       return false;
     }
 
-    console.log('✅ Insert successful!');
+    console.log('Insert successful!');
 
     // Verify data exists
     const { data: verifyData, error: verifyError } = await supabase
@@ -76,11 +76,11 @@ async function testPersistenceFlow() {
       .limit(1);
 
     if (verifyError || !verifyData?.length) {
-      console.error('❌ Verification failed');
+      console.error('Verification failed');
       return false;
     }
 
-    console.log('✅ Data verified in database');
+    console.log('Data verified in database');
 
     // Clean up
     await supabase
@@ -88,11 +88,11 @@ async function testPersistenceFlow() {
       .delete()
       .eq('user_id', 'test-persistence');
 
-    console.log('🧹 Test data cleaned up');
+    console.log('Test data cleaned up');
     return true;
 
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('Test failed:', error);
     return false;
   }
 }

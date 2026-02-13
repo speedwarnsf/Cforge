@@ -116,7 +116,7 @@ async function exportAllHistoryToGoogleDoc() {
     console.log(`📖 Found ${concepts.length} concepts to export`);
 
     // Create new document
-    console.log("📄 Creating new Google Doc...");
+    console.log("Creating new Google Doc...");
     const createResponse = await docs.documents.create({
       requestBody: {
         title: `Concept Forge - Complete History Export (${new Date().toLocaleDateString()})`,
@@ -124,7 +124,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
 
     const documentId = createResponse.data.documentId!;
-    console.log(`✅ Document created with ID: ${documentId}`);
+    console.log(`Document created with ID: ${documentId}`);
 
     // Prepare batch requests
     const requests: any[] = [];
@@ -151,20 +151,20 @@ async function exportAllHistoryToGoogleDoc() {
           : parseJSONContent(entry.response);
 
         if (!parsed) {
-          console.log(`⚠️ Skipping concept ${entry.id} - parsing failed`);
+          console.log(`Skipping concept ${entry.id} - parsing failed`);
           continue;
         }
 
         // Check for content duplication
         const contentKey = `${parsed.headline}|${parsed.tagline}`.toLowerCase();
         if (seenContent.has(contentKey)) {
-          console.log(`⚠️ Skipping duplicate concept: ${parsed.headline}`);
+          console.log(`Skipping duplicate concept: ${parsed.headline}`);
           continue;
         }
         seenContent.add(contentKey);
 
         processedCount++;
-        console.log(`📝 Processing concept ${processedCount}: ${parsed.headline}`);
+        console.log(`Processing concept ${processedCount}: ${parsed.headline}`);
 
         // Format concept content
         const conceptText = `Concept ${processedCount}\n\n` +
@@ -188,7 +188,7 @@ async function exportAllHistoryToGoogleDoc() {
         currentIndex += conceptText.length;
 
       } catch (error) {
-        console.error(`❌ Error processing concept ${entry.id}:`, error);
+        console.error(`Error processing concept ${entry.id}:`, error);
       }
     }
 
@@ -212,13 +212,13 @@ async function exportAllHistoryToGoogleDoc() {
       }
     });
 
-    console.log(`✅ Export complete! Document created and shared.`);
-    console.log(`📄 Document ID: ${documentId}`);
+    console.log(`Export complete! Document created and shared.`);
+    console.log(`Document ID: ${documentId}`);
     console.log(`🌐 View at: https://docs.google.com/document/d/${documentId}`);
     console.log(`📊 Exported ${processedCount} unique concepts (${concepts.length - processedCount} duplicates removed)`);
 
   } catch (error) {
-    console.error("❌ Export failed:", error);
+    console.error("Export failed:", error);
     throw error;
   }
 }

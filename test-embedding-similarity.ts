@@ -20,7 +20,7 @@ async function testEmbeddingSimilarity() {
     const embedding2 = await getEmbedding(text2);
     const embedding3 = await getEmbedding(text3);
 
-    console.log(`✅ Generated embeddings:
+    console.log(`Generated embeddings:
     - Text 1: ${embedding1.length} dimensions
     - Text 2: ${embedding2.length} dimensions  
     - Text 3: ${embedding3.length} dimensions\n`);
@@ -109,14 +109,14 @@ async function testEmbeddingSimilarity() {
     console.log('🎉 All embedding similarity tests completed successfully!');
     
   } catch (error) {
-    console.error('❌ Embedding similarity test failed:', error);
+    console.error('Embedding similarity test failed:', error);
     process.exit(1);
   }
 }
 
 // Run the test
 testEmbeddingSimilarity().then(() => {
-  console.log('\n✅ Embedding similarity system is ready for production use!');
+  console.log('\nEmbedding similarity system is ready for production use!');
   process.exit(0);
 }).catch(error => {
   console.error('Fatal error:', error);

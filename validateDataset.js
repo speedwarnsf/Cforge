@@ -11,7 +11,7 @@ function validateDataset(jsonData) {
       throw new Error(`Record ${index + 1} is missing figure_name or definition.`);
     }
   });
-  console.log(`✅ Loaded ${jsonData.length} figures successfully.`);
+  console.log(`Loaded ${jsonData.length} figures successfully.`);
 }
 
 // Load and validate
@@ -20,5 +20,5 @@ try {
   const jsonData = JSON.parse(rawData);
   validateDataset(jsonData);
 } catch (err) {
-  console.error("❌ Error loading dataset:", err);
+  console.error("Error loading dataset:", err);
 }

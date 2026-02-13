@@ -64,12 +64,12 @@ function scanDirectory(dirPath: string, baseDir: string = ''): FileEntry[] {
             isDirectory: false
           });
         } catch (error) {
-          console.log(`⚠️ Could not read file: ${relativePath}`);
+          console.log(`Could not read file: ${relativePath}`);
         }
       }
     }
   } catch (error) {
-    console.log(`⚠️ Could not scan directory: ${dirPath}`);
+    console.log(`Could not scan directory: ${dirPath}`);
   }
   
   return entries;
@@ -190,7 +190,7 @@ async function exportCompleteCodebase() {
   console.log(`📊 Found ${files.length} files in ${entries.filter(e => e.isDirectory).length} directories`);
   
   // Generate different export formats
-  console.log('📝 Generating Markdown export...');
+  console.log('Generating Markdown export...');
   const markdownExport = generateMarkdownExport(entries);
   fs.writeFileSync('concept-forge-complete-export.md', markdownExport);
   
@@ -210,20 +210,20 @@ async function exportCompleteCodebase() {
   fs.writeFileSync('concept-forge-complete-export.json', JSON.stringify(jsonExport, null, 2));
   
   // Generate a simple file list for quick reference
-  console.log('📄 Generating file list...');
+  console.log('Generating file list...');
   const fileList = files.map(f => f.path).sort().join('\n');
   fs.writeFileSync('concept-forge-file-list.txt', fileList);
   
-  console.log('\n✅ Export complete! Generated files:');
+  console.log('\nExport complete! Generated files:');
   console.log('  📖 concept-forge-complete-export.md (Full codebase in Markdown)');
   console.log('  📋 concept-forge-file-manifest.md (Project overview)');
   console.log('  💾 concept-forge-complete-export.json (Machine-readable export)');
-  console.log('  📄 concept-forge-file-list.txt (Simple file listing)');
+  console.log('  concept-forge-file-list.txt (Simple file listing)');
   
   console.log(`\n📊 Export Statistics:`);
   console.log(`  📁 Directories: ${entries.filter(e => e.isDirectory).length}`);
-  console.log(`  📄 Files: ${files.length}`);
-  console.log(`  📝 Total characters: ${files.reduce((sum, f) => sum + f.content.length, 0).toLocaleString()}`);
+  console.log(`  Files: ${files.length}`);
+  console.log(`  Total characters: ${files.reduce((sum, f) => sum + f.content.length, 0).toLocaleString()}`);
   
   // Count by file type
   const fileTypes: { [key: string]: number } = {};
@@ -232,7 +232,7 @@ async function exportCompleteCodebase() {
     fileTypes[ext] = (fileTypes[ext] || 0) + 1;
   });
   
-  console.log(`\n📈 File Types:`);
+  console.log(`\nFile Types:`);
   Object.entries(fileTypes)
     .sort(([,a], [,b]) => b - a)
     .forEach(([ext, count]) => {

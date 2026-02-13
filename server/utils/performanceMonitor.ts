@@ -63,7 +63,7 @@ class PerformanceMonitor {
     }
     
     // Log formatted output
-    console.log(`✅ API Call: ${apiCall.model} | Tokens: ${apiCall.promptTokens}→${apiCall.completionTokens} (${apiCall.totalTokens}) | Cost: $${apiCall.cost.toFixed(4)} | Duration: ${apiCall.duration.toFixed(0)}ms`);
+    console.log(`API Call: ${apiCall.model} | Tokens: ${apiCall.promptTokens}→${apiCall.completionTokens} (${apiCall.totalTokens}) | Cost: $${apiCall.cost.toFixed(4)} | Duration: ${apiCall.duration.toFixed(0)}ms`);
   }
 
   getStats(timeWindow: number = 3600000): { // Default 1 hour
@@ -145,7 +145,7 @@ class PerformanceMonitor {
   clearHistory(): void {
     this.metrics = [];
     this.apiCalls = [];
-    console.log('🧹 Performance history cleared');
+    console.log('Performance history cleared');
   }
 }
 

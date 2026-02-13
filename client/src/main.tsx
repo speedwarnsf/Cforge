@@ -4,7 +4,7 @@ import "./index.css";
 
 // Performance monitoring
 if (process.env.NODE_ENV === 'development') {
-  console.log("🔥 ConceptForge Development Mode");
+  console.log("ConceptForge Development Mode");
 }
 
 // Only clear caches in development or when explicitly requested
@@ -34,11 +34,11 @@ if (shouldClearCaches) {
 
 const container = document.getElementById("root");
 if (!container) {
-  console.error("❌ Root element not found");
+  console.error("Root element not found");
   throw new Error("Root element not found");
 }
 
-console.log("✅ Root element found, creating React root...");
+console.log("Root element found, creating React root...");
 const root = createRoot(container);
 console.log("🚀 Rendering App component...");
 
@@ -53,4 +53,4 @@ window.addEventListener('resize', setViewportHeight);
 setViewportHeight();
 
 root.render(<App />);
-console.log("✅ App component rendered successfully");
+console.log("App component rendered successfully");

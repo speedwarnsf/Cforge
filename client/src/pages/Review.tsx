@@ -391,7 +391,7 @@ export default function Review() {
                       )}
                       {entry.flagged_for_review && (
                         <div className="mt-2 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-yellow-800 text-xs font-medium">
-                          ⚠️ Flagged for Review
+                          Flagged for Review
                         </div>
                       )}
                     </div>

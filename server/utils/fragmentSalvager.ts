@@ -74,7 +74,7 @@ Respond in JSON format:
     const fragments: SalvagedFragment[] = analysisResult.fragments || [];
 
     if (fragments.length === 0) {
-      console.log(`📝 No salvageable fragments found in concept ${concept.id}`);
+      console.log(`No salvageable fragments found in concept ${concept.id}`);
       return;
     }
 
@@ -105,7 +105,7 @@ Respond in JSON format:
       }
     }
 
-    console.log(`✅ Salvaged ${fragments.length} fragments from concept ${concept.id}`);
+    console.log(`Salvaged ${fragments.length} fragments from concept ${concept.id}`);
 
   } catch (error) {
     console.error('Error in fragment salvaging:', error);
@@ -163,7 +163,7 @@ export async function getFragmentsForRecombination(currentTone: string, currentT
     // Limit to requested number of fragments
     const selectedFragments = compatibleFragments.slice(0, Math.min(limit, 2));
     
-    console.log(`🎯 Selected ${selectedFragments.length} compatible fragments for recombination`);
+    console.log(`Selected ${selectedFragments.length} compatible fragments for recombination`);
     
     return selectedFragments;
 

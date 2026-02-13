@@ -357,7 +357,7 @@ export class ProgressiveEvolutionEngine {
       .filter(c => c)
       .join('\n\n');
 
-    console.log(`✅ Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
+    console.log(`Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
 
     return {
       blocks: normalizedBlocks,
@@ -470,7 +470,7 @@ export class ProgressiveEvolutionEngine {
 
     // Check if arbiter requirements are met
     if (!arbiterEvaluation.passed) {
-      console.log(`   ⚠️ Block "${block.name}" failed arbiter check`);
+      console.log(`   Block "${block.name}" failed arbiter check`);
       this.state.arbiterHistory.push(arbiterEvaluation);
       return { success: false, content: '' };
     }
@@ -487,7 +487,7 @@ export class ProgressiveEvolutionEngine {
       token.committed = true;
     }
 
-    console.log(`   ✅ Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
+    console.log(`   Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
 
     return { success: true, content: decodedContent };
   }
@@ -651,7 +651,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
           const regressions = regressionCounts.get(i) || 0;
 
           if (regressions >= MAX_REGRESSIONS_PER_BLOCK) {
-            console.log(`   ⚠️ Max regressions reached for "${block.name}", forcing decode`);
+            console.log(`   Max regressions reached for "${block.name}", forcing decode`);
             block.committed = true;
             block.content = await this.sampleFromDistributions(block);
           } else {
@@ -665,7 +665,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
       // Check if all blocks committed
       const allCommitted = this.state.blocks.every(b => b.committed);
       if (allCommitted) {
-        console.log(`\n✅ All blocks committed after ${iteration + 1} iterations`);
+        console.log(`\nAll blocks committed after ${iteration + 1} iterations`);
         break;
       }
 

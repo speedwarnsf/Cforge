@@ -70,7 +70,7 @@ function formatRhetoricalCraft(text: string): string {
 
 async function simpleExport() {
   if (!conceptId) {
-    console.error("❌ Error: --specificId parameter is required");
+    console.error("Error: --specificId parameter is required");
     return;
   }
   
@@ -83,7 +83,7 @@ async function simpleExport() {
     .single();
   
   if (error || !concept) {
-    console.error("❌ Error fetching concept");
+    console.error("Error fetching concept");
     return;
   }
   
@@ -117,7 +117,7 @@ async function simpleExport() {
   console.log(craftSectionLabel);
   console.log(`${formattedCraft}\n`);
   
-  console.log("🎯 CLI FORMATTING OPTIONS APPLIED:");
+  console.log("CLI FORMATTING OPTIONS APPLIED:");
   console.log("═══════════════════════════════════");
   console.log(`✓ Headline case: ${headlineCase}`);
   console.log(`✓ Headline size: ${headlineSize}`);
@@ -127,7 +127,7 @@ async function simpleExport() {
   console.log(`✓ Single paragraph body: ${singleParagraphBody ? 'enabled' : 'disabled'}`);
   console.log(`✓ No all caps: ${noAllCaps ? 'enabled' : 'disabled'}`);
   console.log(`✓ Clean spacing: ${cleanSpacing ? 'enabled' : 'disabled'}`);
-  console.log("\n✅ Advanced CLI export complete with professional formatting");
+  console.log("\nAdvanced CLI export complete with professional formatting");
   
   return {
     headline: formattedHeadline,

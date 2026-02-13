@@ -145,7 +145,7 @@ async function exportAllHistoryToGoogleDoc() {
     console.log(`📊 Retrieved ${entries.length} concepts`);
 
     // Create document
-    console.log("📄 Creating document...");
+    console.log("Creating document...");
     const createResponse = await docs.documents.create({
       requestBody: {
         title: `Concept Forge Complete Export - ${new Date().toLocaleDateString()}`
@@ -153,7 +153,7 @@ async function exportAllHistoryToGoogleDoc() {
     });
 
     const documentId = createResponse.data.documentId!;
-    console.log(`✅ Document created: ${documentId}`);
+    console.log(`Document created: ${documentId}`);
 
     // Build content
     const requests = [];
@@ -218,7 +218,7 @@ async function exportAllHistoryToGoogleDoc() {
     }
 
     // Apply all text in one batch
-    console.log("📝 Adding content to document...");
+    console.log("Adding content to document...");
     await docs.documents.batchUpdate({
       documentId,
       requestBody: { requests }
@@ -236,15 +236,15 @@ async function exportAllHistoryToGoogleDoc() {
     });
 
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log("✅ Export complete!");
-    console.log(`📄 Document URL: ${documentUrl}`);
+    console.log("Export complete!");
+    console.log(`Document URL: ${documentUrl}`);
     console.log(`📊 Processed: ${successCount} parsed + ${entries.length - successCount} raw concepts`);
     console.log(`📧 Shared with: dustinyork15@gmail.com`);
 
     return documentUrl;
 
   } catch (error) {
-    console.error("❌ Export failed:", error);
+    console.error("Export failed:", error);
     throw error;
   }
 }

@@ -93,7 +93,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
   const cached = searchCache.get(cacheKey);
   
   if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION_MS) {
-    console.log('✅ Returning cached originality result');
+    console.log('Returning cached originality result');
     return cached.result;
   }
 
@@ -136,7 +136,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
     const data = await response.json();
     
     if (!data.items || data.items.length === 0) {
-      console.log('✅ No similar content found - original');
+      console.log('No similar content found - original');
       const result: OriginalityCheck = {
         query,
         isOriginal: true,
@@ -168,7 +168,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
       console.log('🔍 Deep scan enabled - analyzing images...');
       // Simulate image analysis delay
       await new Promise(resolve => setTimeout(resolve, 3000));
-      console.log('✅ Image analysis completed');
+      console.log('Image analysis completed');
     }
 
     // Fast originality determination
@@ -186,11 +186,11 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
     // Cache result
     searchCache.set(cacheKey, { result, timestamp: Date.now() });
 
-    console.log(`✅ Originality check complete: ${isOriginal ? 'Original' : 'Similar content found'} (${matches.length} matches)`);
+    console.log(`Originality check complete: ${isOriginal ? 'Original' : 'Similar content found'} (${matches.length} matches)`);
     return result;
 
   } catch (error) {
-    console.error('⚠️ Originality check failed, assuming original:', error);
+    console.error('Originality check failed, assuming original:', error);
     
     // Return optimistic result on any error
     return {

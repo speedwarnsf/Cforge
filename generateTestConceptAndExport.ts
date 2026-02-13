@@ -51,8 +51,8 @@ const options: TestConceptOptions = {
 
 async function generateTestConcept() {
   console.log("🚀 Generating test concept with export...");
-  console.log(`📝 Prompt: ${options.prompt}`);
-  console.log(`🎨 Tone: ${options.tone}`);
+  console.log(`Prompt: ${options.prompt}`);
+  console.log(`Tone: ${options.tone}`);
   console.log(`🔧 Export to Google Docs: ${options.exportGoogleDoc ? 'YES' : 'NO'}`);
   
   // Initialize clients
@@ -116,11 +116,11 @@ Requirements:
     const response = completion.choices[0]?.message?.content;
     
     if (!response) {
-      console.error("❌ Failed to generate concept");
+      console.error("Failed to generate concept");
       return;
     }
 
-    console.log("✅ Concept generated successfully!");
+    console.log("Concept generated successfully!");
     console.log(`📊 Response length: ${response.length} characters`);
 
     // Save to database
@@ -136,11 +136,11 @@ Requirements:
       .single();
 
     if (saveError) {
-      console.error("❌ Failed to save concept:", saveError);
+      console.error("Failed to save concept:", saveError);
       return;
     }
 
-    console.log("✅ Concept saved to database!");
+    console.log("Concept saved to database!");
     console.log(`🆔 Concept ID: ${savedConcept.id}`);
 
     // Preview concept
@@ -159,7 +159,7 @@ Requirements:
     }
 
   } catch (error) {
-    console.error("❌ Generation failed:", error);
+    console.error("Generation failed:", error);
   }
 }
 
@@ -200,7 +200,7 @@ async function exportToGoogleDocs(conceptId: string, content: string, options: T
     });
 
     const documentId = doc.data.documentId!;
-    console.log(`📄 Created Google Doc: ${doc.data.title}`);
+    console.log(`Created Google Doc: ${doc.data.title}`);
 
     // Build content with formatting
     const requests = [
@@ -294,12 +294,12 @@ async function exportToGoogleDocs(conceptId: string, content: string, options: T
       }
     });
 
-    console.log(`✅ Export completed successfully!`);
+    console.log(`Export completed successfully!`);
     console.log(`🌐 Google Doc URL: https://docs.google.com/document/d/${documentId}/edit`);
     console.log(`📧 Document shared with: ${process.env.GOOGLE_DOC_SHARE_EMAIL}`);
 
     // Show formatting applied
-    console.log("\n🎯 Formatting applied:");
+    console.log("\nFormatting applied:");
     console.log(`  ✓ Headlines: ${options.headlineCase} case`);
     console.log(`  ✓ Section labels: ${options.sectionLabelsCase} case`);
     console.log(`  ✓ Body text: ${options.bodyCase} case`);
@@ -308,7 +308,7 @@ async function exportToGoogleDocs(conceptId: string, content: string, options: T
     console.log(`  ✓ Clean spacing: ${options.cleanSpacing ? 'YES' : 'NO'}`);
 
   } catch (error) {
-    console.error("❌ Export to Google Docs failed:", error);
+    console.error("Export to Google Docs failed:", error);
   }
 }
 

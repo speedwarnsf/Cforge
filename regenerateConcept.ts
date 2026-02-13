@@ -136,11 +136,11 @@ async function regenerateConcept() {
       .single();
     
     if (fetchError || !originalConcept) {
-      console.error("❌ Failed to fetch original concept:", fetchError);
+      console.error("Failed to fetch original concept:", fetchError);
       return;
     }
     
-    console.log("✅ Original concept retrieved:");
+    console.log("Original concept retrieved:");
     console.log(`  Prompt: ${originalConcept.prompt}`);
     console.log(`  Tone: ${originalConcept.tone}`);
     console.log(`  Created: ${originalConcept.created_at}`);
@@ -181,16 +181,16 @@ async function regenerateConcept() {
     const newResponse = completion.choices[0]?.message?.content;
     
     if (!newResponse) {
-      console.error("❌ Failed to generate new concept");
+      console.error("Failed to generate new concept");
       return;
     }
     
-    console.log("✅ New concept generated successfully!");
+    console.log("New concept generated successfully!");
     console.log(`📊 Response length: ${newResponse.length} characters`);
     
     // Validate clean fields if requested
     if (options.forceCleanFields) {
-      console.log("\n🔒 Validating clean fields...");
+      console.log("\nValidating clean fields...");
       validateCleanFields(newResponse);
     }
     
@@ -210,9 +210,9 @@ async function regenerateConcept() {
       .single();
     
     if (saveError) {
-      console.error("❌ Failed to save regenerated concept:", saveError);
+      console.error("Failed to save regenerated concept:", saveError);
     } else {
-      console.log("✅ Regenerated concept saved successfully!");
+      console.log("Regenerated concept saved successfully!");
       console.log(`🆔 New concept ID: ${savedConcept.id}`);
     }
     
@@ -231,7 +231,7 @@ async function regenerateConcept() {
     console.log(`Export regenerated: npx tsx exportSingleConceptToGoogleDoc.ts --specificId=${savedConcept?.id}`);
     
   } catch (error) {
-    console.error("❌ Regeneration failed:", error);
+    console.error("Regeneration failed:", error);
   }
 }
 
@@ -243,25 +243,25 @@ function validateCleanFields(content: string) {
   if (headlineMatch) {
     const headline = headlineMatch[1].trim();
     const wordCount = headline.split(/\s+/).length;
-    console.log(`  📝 Headline: "${headline}" (${wordCount} words) ${wordCount >= 2 && wordCount <= 6 ? '✅' : '⚠️'}`);
+    console.log(`  Headline: "${headline}" (${wordCount} words) ${wordCount >= 2 && wordCount <= 6 ? '' : ''}`);
   }
   
   if (taglineMatch) {
     const tagline = taglineMatch[1].trim();
     const wordCount = tagline.split(/\s+/).length;
-    console.log(`  🎯 Tagline: "${tagline}" (${wordCount} words) ${wordCount >= 3 && wordCount <= 12 ? '✅' : '⚠️'}`);
+    console.log(`  Tagline: "${tagline}" (${wordCount} words) ${wordCount >= 3 && wordCount <= 12 ? '' : ''}`);
   }
   
   if (bodyMatch) {
     const body = bodyMatch[1].trim();
     const wordCount = body.split(/\s+/).length;
-    console.log(`  📄 Body Copy: ${wordCount} words ${wordCount >= 25 ? '✅' : '⚠️'}`);
+    console.log(`  Body Copy: ${wordCount} words ${wordCount >= 25 ? '' : ''}`);
   }
   
   // Check for placeholder text
   const placeholders = ['[Headline]', '[Tagline]', '[Body', 'generated', 'placeholder'];
   const hasPlaceholders = placeholders.some(p => content.toLowerCase().includes(p.toLowerCase()));
-  console.log(`  🧹 Clean content: ${hasPlaceholders ? '⚠️ Contains placeholders' : '✅ No placeholders detected'}`);
+  console.log(`  Clean content: ${hasPlaceholders ? 'Contains placeholders' : 'No placeholders detected'}`);
 }
 
 regenerateConcept().catch(console.error);

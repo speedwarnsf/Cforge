@@ -49,12 +49,12 @@ async function recoverLostSessions() {
       });
       
       if (response.ok) {
-        console.log(`✅ Recovery placeholder added for: ${attempt.prompt}`);
+        console.log(`Recovery placeholder added for: ${attempt.prompt}`);
       } else {
-        console.log(`❌ Failed to add recovery for: ${attempt.prompt}`);
+        console.log(`Failed to add recovery for: ${attempt.prompt}`);
       }
     } catch (error) {
-      console.log(`⚠️ Error recovering ${attempt.prompt}:`, error);
+      console.log(`Error recovering ${attempt.prompt}:`, error);
     }
   }
   

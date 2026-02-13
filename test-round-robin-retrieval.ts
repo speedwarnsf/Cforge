@@ -35,7 +35,7 @@ async function testRoundRobinRetrieval() {
       // Extract retrieval references from response
       const retrievalBlock = data.content?.match(/Retrieved Reference[^]*?(?=\n\n|\*\*HEADLINE)/)?.[0] || "None found";
       
-      console.log(`✅ Request ${i} completed`);
+      console.log(`Request ${i} completed`);
       console.log(`📊 Retrieval References:`);
       console.log(retrievalBlock.substring(0, 200) + "...\n");
       
@@ -43,7 +43,7 @@ async function testRoundRobinRetrieval() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
     } catch (error) {
-      console.error(`❌ Request ${i} failed:`, error.message);
+      console.error(`Request ${i} failed:`, error.message);
     }
   }
   

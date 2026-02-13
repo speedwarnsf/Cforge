@@ -214,12 +214,12 @@ export async function logSession({
           await new Promise(resolve => setTimeout(resolve, 1000));
           continue;
         } else {
-          console.error('❌ Failed to log to Supabase after all retries');
+          console.error('Failed to log to Supabase after all retries');
           return null;
         }
       }
 
-      console.log('✅ Session logged to Supabase successfully');
+      console.log('Session logged to Supabase successfully');
       return (data as any)?.[0]?.id || null;
     } catch (error) {
       console.error(`Failed to log session (attempt ${currentRetry + 1}):`, error);
@@ -229,7 +229,7 @@ export async function logSession({
         await new Promise(resolve => setTimeout(resolve, 1000));
         continue;
       } else {
-        console.error('❌ Failed to log to Supabase after all retries');
+        console.error('Failed to log to Supabase after all retries');
         return null;
       }
     }
@@ -319,7 +319,7 @@ export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'creat
         return null;
       }
 
-      console.log('📝 Updated existing creative brief');
+      console.log('Updated existing creative brief');
       return existing.id;
     } else {
       // Insert new brief
@@ -343,7 +343,7 @@ export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'creat
         return null;
       }
 
-      console.log('📝 Saved new creative brief');
+      console.log('Saved new creative brief');
       return (data as any)?.[0]?.id || null;
     }
   } catch (error) {

@@ -40,18 +40,18 @@ async function exportSummary() {
     .limit(3);
   
   if (error || !concepts) {
-    console.error("❌ Database connection failed");
+    console.error("Database connection failed");
     return;
   }
   
-  console.log(`✅ Successfully connected to Supabase`);
+  console.log(`Successfully connected to Supabase`);
   console.log(`📊 Found ${concepts.length} recent concepts\n`);
   
   concepts.forEach((concept, index) => {
     const parsed = parseMarkdownContent(concept.response);
     const formatted = formatContent(parsed);
     
-    console.log(`📄 CONCEPT ${index + 1}: ${formatted.headline}`);
+    console.log(`CONCEPT ${index + 1}: ${formatted.headline}`);
     console.log("═".repeat(50));
     console.log(`${formatted.headline}`);
     console.log(`${formatted.tagline}\n`);
@@ -61,22 +61,22 @@ async function exportSummary() {
     console.log(`${formatted.visual}\n`);
     console.log("Rhetorical craft");
     console.log(`${formatted.craft}\n`);
-    console.log(`🎯 Generated: ${new Date(concept.created_at).toLocaleDateString()}`);
-    console.log(`📝 Prompt: "${concept.prompt.substring(0, 60)}..."`);
+    console.log(`Generated: ${new Date(concept.created_at).toLocaleDateString()}`);
+    console.log(`Prompt: "${concept.prompt.substring(0, 60)}..."`);
     console.log("─".repeat(80) + "\n");
   });
   
-  console.log("🎯 CLI EXPORT SYSTEM CAPABILITIES:");
+  console.log("CLI EXPORT SYSTEM CAPABILITIES:");
   console.log("═══════════════════════════════════");
-  console.log("✅ Enhanced parsing for both 'RHETORICAL CRAFT:' and 'RHETORICAL CRAFT BREAKDOWN:' headers");
-  console.log("✅ Complete content extraction including full rhetorical analysis (1,312+ characters)");
-  console.log("✅ Professional typography with sentence case formatting");
-  console.log("✅ Single paragraph body flow optimization");
-  console.log("✅ Clean bullet formatting for rhetorical analysis");
-  console.log("✅ Advanced CLI parameters with comprehensive formatting options");
-  console.log("✅ Multiple export scripts for different use cases");
-  console.log("✅ Graceful Google Docs API timeout handling with console fallback");
-  console.log("✅ Enterprise-grade content processing and validation tools");
+  console.log("Enhanced parsing for both 'RHETORICAL CRAFT:' and 'RHETORICAL CRAFT BREAKDOWN:' headers");
+  console.log("Complete content extraction including full rhetorical analysis (1,312+ characters)");
+  console.log("Professional typography with sentence case formatting");
+  console.log("Single paragraph body flow optimization");
+  console.log("Clean bullet formatting for rhetorical analysis");
+  console.log("Advanced CLI parameters with comprehensive formatting options");
+  console.log("Multiple export scripts for different use cases");
+  console.log("Graceful Google Docs API timeout handling with console fallback");
+  console.log("Enterprise-grade content processing and validation tools");
   
   console.log("\n📋 AVAILABLE EXPORT SCRIPTS:");
   console.log("═════════════════════════════");
@@ -85,7 +85,7 @@ async function exportSummary() {
   console.log("• npx tsx exportFormattedConcept.ts --specificId=<ID> [options] - Advanced formatting");
   console.log("• npx tsx exportSummary.ts - View system capabilities and recent concepts");
   
-  console.log("\n✅ Export system ready for professional content processing");
+  console.log("\nExport system ready for professional content processing");
 }
 
 exportSummary().catch(console.error);

@@ -20,13 +20,13 @@ async function testTokenAnalytics() {
       conceptCount: 1
     };
 
-    console.log(`🎯 Test query: "${testRequest.query}"`);
-    console.log(`🎨 Test tone: ${testRequest.tone}`);
+    console.log(`Test query: "${testRequest.query}"`);
+    console.log(`Test tone: ${testRequest.tone}`);
     console.log('');
 
     const response = await generateAiResponse(testRequest);
 
-    console.log('✅ GENERATION COMPLETE - ANALYZING RESPONSE:');
+    console.log('GENERATION COMPLETE - ANALYZING RESPONSE:');
     console.log('===========================================');
     
     const concept = response.concepts[0];
@@ -45,32 +45,32 @@ async function testTokenAnalytics() {
       console.log(`- Cost per token: $${(concept.cost / concept.tokens).toFixed(6)}`);
     }
 
-    console.log(`\n🎯 Batch Analysis:`);
+    console.log(`\nBatch Analysis:`);
     console.log(`- Total concepts: ${response.concepts.length}`);
     console.log(`- Total tokens: ${response.totalTokens}`);
     console.log(`- Total processing time: ${response.totalProcessingTime}`);
     console.log(`- Batch ID: ${response.batchId}`);
 
     // Validate token tracking implementation
-    console.log(`\n✅ VALIDATION RESULTS:`);
+    console.log(`\nVALIDATION RESULTS:`);
     const tokenFieldPresent = concept.tokens > 0;
     const costFieldPresent = concept.cost !== undefined && concept.cost > 0;
     const validCostCalculation = concept.cost && concept.cost > 0 && concept.cost < 1; // Should be small for single concept
     
-    console.log(`- Token tracking: ${tokenFieldPresent ? '✅ WORKING' : '❌ MISSING'}`);
-    console.log(`- Cost field: ${costFieldPresent ? '✅ PRESENT' : '❌ MISSING'}`);
-    console.log(`- Cost calculation: ${validCostCalculation ? '✅ REASONABLE' : '❌ INVALID'}`);
+    console.log(`- Token tracking: ${tokenFieldPresent ? 'WORKING' : 'MISSING'}`);
+    console.log(`- Cost field: ${costFieldPresent ? 'PRESENT' : 'MISSING'}`);
+    console.log(`- Cost calculation: ${validCostCalculation ? 'REASONABLE' : 'INVALID'}`);
     
     if (tokenFieldPresent && costFieldPresent && validCostCalculation) {
       console.log(`\n🏆 TOKEN ANALYTICS RESTORATION: SUCCESS`);
       console.log(`All token usage and cost tracking features are working correctly!`);
     } else {
-      console.log(`\n⚠️ TOKEN ANALYTICS: ISSUES DETECTED`);
+      console.log(`\nTOKEN ANALYTICS: ISSUES DETECTED`);
       console.log(`Some tracking features may need adjustment.`);
     }
 
   } catch (error) {
-    console.error('❌ TEST FAILED:', error);
+    console.error('TEST FAILED:', error);
     console.log('This indicates an issue with the token analytics implementation.');
   }
 }

@@ -57,7 +57,7 @@ router.post('/api/test-optimizations', async (req, res) => {
       }
     };
     
-    console.log('✅ OPTIMIZATION RESULTS:');
+    console.log('OPTIMIZATION RESULTS:');
     console.log(`- Original processing: ${originalTime}ms`);
     console.log(`- Optimized processing: ${parallelTime}ms`);
     console.log(`- Token reduction: ${analysis.improvements.tokenReduction} chars`);
@@ -71,7 +71,7 @@ router.post('/api/test-optimizations', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('❌ OPTIMIZATION TEST ERROR:', error);
+    console.error('OPTIMIZATION TEST ERROR:', error);
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

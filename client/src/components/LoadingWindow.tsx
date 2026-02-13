@@ -19,10 +19,10 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
     const steps = [
         { icon: '🔍', title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
         { icon: '🌀', title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
-        { icon: '🎭', title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
+        { icon: '', title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
         { icon: '🤖', title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
         { icon: '⚖️', title: 'Scoring & Ranking', desc: 'Evaluating quality and originality.' },
-        { icon: '✨', title: 'Done!', desc: 'Your concepts are ready.' }
+        { icon: '', title: 'Done!', desc: 'Your concepts are ready.' }
     ];
 
     const [currentStep, setCurrentStep] = useState(0);
@@ -104,7 +104,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                     marginBottom: '20px',
                     animation: 'pulse 2s ease-in-out infinite'
                 }}>
-                    {steps[currentStep]?.icon || '🔥'}
+                    {steps[currentStep]?.icon || ''}
                 </div>
 
                 <h2 style={{

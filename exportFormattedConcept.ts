@@ -52,7 +52,7 @@ async function exportFormattedConcept() {
   console.log("════════════════════════════════════════════════════════");
   
   if (!conceptId) {
-    console.error("❌ Error: --specificId parameter is required");
+    console.error("Error: --specificId parameter is required");
     return;
   }
   
@@ -71,16 +71,16 @@ async function exportFormattedConcept() {
     .single();
   
   if (error) {
-    console.error("❌ Error fetching concept:", error);
+    console.error("Error fetching concept:", error);
     return;
   }
   
   if (!concept) {
-    console.error("❌ Concept not found");
+    console.error("Concept not found");
     return;
   }
   
-  console.log(`✅ Found concept: "${concept.prompt.substring(0, 50)}..."`);
+  console.log(`Found concept: "${concept.prompt.substring(0, 50)}..."`);
   
   // Parse and format content
   const parsed = parseMarkdownContent(concept.response);
@@ -88,7 +88,7 @@ async function exportFormattedConcept() {
   const formattedBody = parsed.bodyCopy.replace(/\n+/g, ' ').trim();
   const formattedCraft = formatRhetoricalCraft(parsed.rhetoricalCraft);
   
-  console.log("\n📄 PROFESSIONAL EXPORT FORMAT:");
+  console.log("\nPROFESSIONAL EXPORT FORMAT:");
   console.log("══════════════════════════════");
   console.log();
   console.log(formattedHeadline);
@@ -107,7 +107,7 @@ async function exportFormattedConcept() {
   // Try Google Docs export only if flag is provided
   if (exportGoogleDoc) {
     try {
-      console.log("📄 Attempting Google Docs export...");
+      console.log("Attempting Google Docs export...");
       
       const auth = new google.auth.GoogleAuth({
         credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY!),
@@ -157,18 +157,18 @@ async function exportFormattedConcept() {
       });
       
       const url = `https://docs.google.com/document/d/${docId}/edit`;
-      console.log(`✅ Google Docs export successful: ${url}`);
+      console.log(`Google Docs export successful: ${url}`);
       console.log(`📧 Document shared with: ${process.env.GOOGLE_DOC_SHARE_EMAIL}`);
       
     } catch (error) {
-      console.log("⚠️  Google Docs export failed (API timeout), but content formatted successfully above");
+      console.log(" Google Docs export failed (API timeout), but content formatted successfully above");
       console.log("📋 You can copy the formatted content from the console output");
     }
   } else {
     console.log("📋 Console export complete. Use --exportGoogleDoc flag to attempt Google Docs export");
   }
   
-  console.log("\n🎯 FORMATTING APPLIED:");
+  console.log("\nFORMATTING APPLIED:");
   console.log("═════════════════════");
   console.log("✓ Headlines: sentence case with Title style");
   console.log("✓ Taglines: italicized");

@@ -26,16 +26,16 @@ async function retrieveAllHistoricalConcepts() {
       .order('created_at', { ascending: false });
     
     if (error) {
-      console.error('❌ Database error:', error);
+      console.error('Database error:', error);
       return [];
     }
     
     if (!data || data.length === 0) {
-      console.log('⚠️  No concepts found in database');
+      console.log(' No concepts found in database');
       return [];
     }
     
-    console.log(`✅ Retrieved ${data.length} concepts from database`);
+    console.log(`Retrieved ${data.length} concepts from database`);
     
     // Convert to consistent format
     const formattedConcepts = data.map(row => ({
@@ -56,7 +56,7 @@ async function retrieveAllHistoricalConcepts() {
     return formattedConcepts;
     
   } catch (error) {
-    console.error('❌ Failed to retrieve concepts:', error);
+    console.error('Failed to retrieve concepts:', error);
     return [];
   }
 }
@@ -64,7 +64,7 @@ async function retrieveAllHistoricalConcepts() {
 // Run if executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   retrieveAllHistoricalConcepts().then(concepts => {
-    console.log(`\n🎯 Total concepts retrieved: ${concepts.length}`);
+    console.log(`\nTotal concepts retrieved: ${concepts.length}`);
   });
 }
 
