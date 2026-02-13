@@ -19,7 +19,26 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="ConceptForge — Rhetorical Concept Generator" />
     <meta name="twitter:description" content="Rapid-fire ideation powered by rhetorical craft and creative logic. 411 rhetorical devices. Built for art directors." />
-    
+    <meta name="twitter:image" content="https://thecforge.com/icons/icon-512.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ConceptForge",
+      "description": "Rapid-fire ideation powered by rhetorical craft and creative logic. 411 rhetorical devices. Built for art directors.",
+      "url": "https://thecforge.com",
+      "applicationCategory": "CreativeApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#000000" />
@@ -132,7 +151,7 @@
     </style>
   </head>
   <body>
-
+    <a href="#root" class="sr-only focus:not-sr-only" style="position:absolute;left:-9999px;top:0;z-index:9999;padding:8px 16px;background:#2563eb;color:white;font-weight:600;text-decoration:none" onfocus="this.style.position='fixed';this.style.left='0'" onblur="this.style.position='absolute';this.style.left='-9999px'">Skip to main content</a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- TEMPORARILY DISABLED TO TEST GEOMETRIC OVERLAY ELIMINATION -->

@@ -30,18 +30,39 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Manual chunk splitting for better performance
-        manualChunks: {
-          // Vendor chunks
-          vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-popover'],
-          query: ['@tanstack/react-query'],
-          motion: ['framer-motion'],
-          // Utils
-          utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
-          // Lucide icons separate chunk to prevent bloat
-          icons: ['lucide-react'],
-          // Typography and larger UI components
-          typography: ['react-markdown']
+        manualChunks(id) {
+          // React core - cached long-term
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
+            return 'vendor';
+          }
+          // Radix UI primitives
+          if (id.includes('@radix-ui/')) {
+            return 'ui';
+          }
+          // React Query
+          if (id.includes('@tanstack/react-query')) {
+            return 'query';
+          }
+          // Recharts - large, lazy loaded via ArbiterRadarChart
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-') || id.includes('node_modules/victory-vendor') || id.includes('node_modules/decimal.js-light')) {
+            return 'recharts';
+          }
+          // Framer motion
+          if (id.includes('framer-motion') || id.includes('motion-dom') || id.includes('motion-utils')) {
+            return 'motion';
+          }
+          // Markdown rendering
+          if (id.includes('react-markdown') || id.includes('remark-') || id.includes('rehype-') || id.includes('unified') || id.includes('mdast-') || id.includes('hast-') || id.includes('micromark')) {
+            return 'markdown';
+          }
+          // Utility libs
+          if (id.includes('node_modules/clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
+            return 'utils';
+          }
+          // Lucide icons
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
         }
       }
     },

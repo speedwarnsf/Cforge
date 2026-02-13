@@ -85,7 +85,9 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-4">
+          <label htmlFor="cforge-username" className="sr-only">Username</label>
           <input
+            id="cforge-username"
             type="text"
             placeholder="Username"
             value={username}
@@ -94,7 +96,9 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
             autoFocus
             autoComplete="username"
           />
+          <label htmlFor="cforge-password" className="sr-only">Password</label>
           <input
+            id="cforge-password"
             type="password"
             placeholder="Password"
             value={password}

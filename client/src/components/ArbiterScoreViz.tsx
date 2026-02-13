@@ -1,5 +1,7 @@
-import React from 'react';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Tooltip } from 'recharts';
+import React, { Suspense, lazy } from 'react';
+
+// Lazy load the radar chart to keep recharts out of the main bundle
+const LazyRadarChart = lazy(() => import('./ArbiterRadarChart'));
 
 interface ArbiterScoreVizProps {
   originalityScore?: number;
@@ -92,29 +94,12 @@ const ArbiterScoreViz = React.memo(function ArbiterScoreViz({
       </div>
       
       <div className="flex flex-col md:flex-row gap-4">
-        {/* Radar Chart */}
+        {/* Radar Chart - lazy loaded to avoid bundling recharts in main chunk */}
         {scores.length >= 3 && (
           <div className="w-full md:w-1/2 h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#374151" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: '#9CA3AF', fontSize: 11 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar
-                  name="Score"
-                  dataKey="score"
-                  stroke="#60A5FA"
-                  fill="#3B82F6"
-                  fillOpacity={0.25}
-                  strokeWidth={2}
-                />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '6px' }}
-                  labelStyle={{ color: '#E5E7EB' }}
-                  itemStyle={{ color: '#60A5FA' }}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
+            <Suspense fallback={<div className="w-full h-full bg-gray-800/20 animate-pulse" />}>
+              <LazyRadarChart data={radarData} />
+            </Suspense>
           </div>
         )}
 

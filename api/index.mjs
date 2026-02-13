@@ -69,7 +69,7 @@ async function checkOriginality(query, deepScan = false) {
   const cacheKey = getCacheKey(query) + (deepScan ? "_deep" : "_fast");
   const cached = searchCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION_MS) {
-    console.log("\u2705 Returning cached originality result");
+    console.log("Returning cached originality result");
     return cached.result;
   }
   const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
@@ -99,7 +99,7 @@ async function checkOriginality(query, deepScan = false) {
     }
     const data = await response.json();
     if (!data.items || data.items.length === 0) {
-      console.log("\u2705 No similar content found - original");
+      console.log("No similar content found - original");
       const result2 = {
         query,
         isOriginal: true,
@@ -124,7 +124,7 @@ async function checkOriginality(query, deepScan = false) {
     if (deepScan && matches.length > 0) {
       console.log("\u{1F50D} Deep scan enabled - analyzing images...");
       await new Promise((resolve) => setTimeout(resolve, 3e3));
-      console.log("\u2705 Image analysis completed");
+      console.log("Image analysis completed");
     }
     const highSimilarity = matches.filter((m) => m.similarity > 0.6);
     const isOriginal = highSimilarity.length === 0;
@@ -136,10 +136,10 @@ async function checkOriginality(query, deepScan = false) {
       searchPerformed: true
     };
     searchCache.set(cacheKey, { result, timestamp: Date.now() });
-    console.log(`\u2705 Originality check complete: ${isOriginal ? "Original" : "Similar content found"} (${matches.length} matches)`);
+    console.log(`Originality check complete: ${isOriginal ? "Original" : "Similar content found"} (${matches.length} matches)`);
     return result;
   } catch (error) {
-    console.error("\u26A0\uFE0F Originality check failed, assuming original:", error);
+    console.error("Originality check failed, assuming original:", error);
     return {
       query,
       isOriginal: true,
@@ -191,12 +191,12 @@ async function checkConceptDiversity(concepts, similarityThreshold = 0.85) {
       const similarity = cosineSimilarity(embeddings[i], embeddings[j]);
       console.log(`\u{1F50D} Semantic similarity between concept ${i + 1} and ${j + 1}: ${similarity.toFixed(3)}`);
       if (similarity >= similarityThreshold) {
-        console.warn(`\u26A0\uFE0F Concepts ${i + 1} and ${j + 1} are semantically too similar (similarity=${similarity.toFixed(3)}).`);
+        console.warn(`Concepts ${i + 1} and ${j + 1} are semantically too similar (similarity=${similarity.toFixed(3)}).`);
         return false;
       }
     }
   }
-  console.log(`\u2705 All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
+  console.log(`All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
   return true;
 }
 async function checkHistoricalSimilarityWithEmbeddings(newConcept, historicalConcepts, similarityThreshold = 0.8) {
@@ -217,7 +217,7 @@ async function checkHistoricalSimilarityWithEmbeddings(newConcept, historicalCon
   }
   console.log(`\u{1F50D} Highest semantic similarity: ${maxSimilarity.toFixed(3)} (threshold: ${similarityThreshold})`);
   if (maxSimilarity >= similarityThreshold) {
-    console.warn(`\u26A0\uFE0F New concept is semantically too similar to historical concept (similarity=${maxSimilarity.toFixed(3)})`);
+    console.warn(`New concept is semantically too similar to historical concept (similarity=${maxSimilarity.toFixed(3)})`);
     return {
       isSimilar: true,
       mostSimilar: { concept: mostSimilarConcept, similarity: maxSimilarity }
@@ -232,7 +232,7 @@ async function enforceConceptDiversity(concepts, regenerateCallback, similarityT
     try {
       const isDiverse = await checkConceptDiversity(currentConcepts, similarityThreshold);
       if (isDiverse) {
-        console.log(`\u2705 All concepts passed semantic diversity check on attempt ${attempt}.`);
+        console.log(`All concepts passed semantic diversity check on attempt ${attempt}.`);
         return currentConcepts;
       }
       console.log(`\u{1F504} Regenerating concepts (attempt ${attempt + 1}) due to high semantic similarity.`);
@@ -244,7 +244,7 @@ async function enforceConceptDiversity(concepts, regenerateCallback, similarityT
       return currentConcepts;
     }
   }
-  console.log(`\u26A0\uFE0F Returning concepts despite similarity after ${attempt - 1} attempts.`);
+  console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
   return currentConcepts;
 }
 var openai;
@@ -302,7 +302,7 @@ var init_performanceMonitor = __esm({
         if (this.apiCalls.length > this.maxHistorySize) {
           this.apiCalls.shift();
         }
-        console.log(`\u2705 API Call: ${apiCall.model} | Tokens: ${apiCall.promptTokens}\u2192${apiCall.completionTokens} (${apiCall.totalTokens}) | Cost: $${apiCall.cost.toFixed(4)} | Duration: ${apiCall.duration.toFixed(0)}ms`);
+        console.log(`API Call: ${apiCall.model} | Tokens: ${apiCall.promptTokens}\u2192${apiCall.completionTokens} (${apiCall.totalTokens}) | Cost: $${apiCall.cost.toFixed(4)} | Duration: ${apiCall.duration.toFixed(0)}ms`);
       }
       getStats(timeWindow = 36e5) {
         const now = Date.now();
@@ -349,7 +349,7 @@ var init_performanceMonitor = __esm({
       clearHistory() {
         this.metrics = [];
         this.apiCalls = [];
-        console.log("\u{1F9F9} Performance history cleared");
+        console.log("Performance history cleared");
       }
     };
     performanceMonitor = new PerformanceMonitor();
@@ -382,13 +382,13 @@ async function applyFeedback(projectId, feedbackType, conceptId) {
     preferences.lastUpdated = /* @__PURE__ */ new Date();
     await updateRetrievalBias(preferences);
     await savePreferences(preferences);
-    console.log(`\u{1F3AF} Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
+    console.log(`Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
     return {
       status: "success",
       message: `Feedback applied and biases updated for ${feedbackType}`
     };
   } catch (error) {
-    console.error("\u274C Failed to apply feedback influence:", error);
+    console.error("Failed to apply feedback influence:", error);
     return {
       status: "error",
       message: `Failed to apply feedback: ${error instanceof Error ? error.message : "Unknown error"}`
@@ -409,7 +409,7 @@ async function loadPreferences(projectId) {
       };
     }
   } catch (error) {
-    console.log("\u26A0\uFE0F Could not load preferences from database, using defaults:", error);
+    console.log("Could not load preferences from database, using defaults:", error);
   }
   return {
     projectId,
@@ -430,8 +430,8 @@ async function savePreferences(preferences) {
     }
     console.log(`\u{1F4BE} User preferences saved for project ${preferences.projectId}`);
   } catch (error) {
-    console.error("\u274C Failed to save preferences:", error);
-    console.log("\u{1F4DD} Using in-memory preference storage as fallback");
+    console.error("Failed to save preferences:", error);
+    console.log("Using in-memory preference storage as fallback");
   }
 }
 async function ensurePreferencesTable() {
@@ -441,7 +441,7 @@ async function ensurePreferencesTable() {
       console.log("\u{1F4CB} Creating user_preferences table...");
     }
   } catch (error) {
-    console.log("\u26A0\uFE0F Could not verify user_preferences table");
+    console.log("Could not verify user_preferences table");
   }
 }
 async function updateRetrievalBias(preferences) {
@@ -457,7 +457,7 @@ async function updateRetrievalBias(preferences) {
       await storeRetrievalBias(biasUpdates);
     }
   } catch (error) {
-    console.error("\u274C Failed to update retrieval bias:", error);
+    console.error("Failed to update retrieval bias:", error);
   }
 }
 async function getFeedbackWeights(projectId) {
@@ -476,7 +476,7 @@ async function getFeedbackWeights(projectId) {
     }));
     return weights;
   } catch (error) {
-    console.error("\u274C Failed to get feedback weights:", error);
+    console.error("Failed to get feedback weights:", error);
     return [];
   }
 }
@@ -488,9 +488,9 @@ async function storeRetrievalBias(biasUpdates) {
         bias_updated_at: bias.lastBiasUpdate.toISOString()
       }).eq("id", bias.conceptId);
     }
-    console.log(`\u2705 Stored retrieval bias for ${biasUpdates.length} concepts`);
+    console.log(`Stored retrieval bias for ${biasUpdates.length} concepts`);
   } catch (error) {
-    console.error("\u274C Failed to store retrieval bias:", error);
+    console.error("Failed to store retrieval bias:", error);
   }
 }
 async function getRetrievalBias(conceptId) {
@@ -501,7 +501,7 @@ async function getRetrievalBias(conceptId) {
     }
     return data.retrieval_bias || 1;
   } catch (error) {
-    console.error("\u274C Failed to get retrieval bias:", error);
+    console.error("Failed to get retrieval bias:", error);
     return 1;
   }
 }
@@ -521,7 +521,7 @@ async function getBiasedConcepts(projectId) {
       feedbackType: concept.feedback_type
     }));
   } catch (error) {
-    console.error("\u274C Failed to get biased concepts:", error);
+    console.error("Failed to get biased concepts:", error);
     return [];
   }
 }
@@ -579,7 +579,7 @@ async function precomputeCorpusEmbeddings() {
         }
       }
     }
-    console.log(`\u2705 Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
+    console.log(`Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
     return computed;
   }, { corpusSize: retrievalCorpus.length });
 }
@@ -609,14 +609,14 @@ async function retrieveTopNWithRotation(promptText, count = 2, sessionCounter = 
         const { getBiasedConcepts: getBiasedConcepts2 } = await Promise.resolve().then(() => (init_feedbackInfluenceSystem(), feedbackInfluenceSystem_exports));
         feedbackBiases = await getBiasedConcepts2(projectId);
         if (feedbackBiases.length > 0) {
-          console.log(`\u{1F3AF} Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
+          console.log(`Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
         }
       } catch (error) {
         console.log("\u{1F4CA} Could not load feedback biases, continuing without influence");
       }
     }
     if (Object.keys(corpusEmbeddings).length === 0) {
-      console.log("\u26A0\uFE0F Embeddings not ready yet, using enhanced fallback with theory prioritization");
+      console.log("Embeddings not ready yet, using enhanced fallback with theory prioritization");
       return fallbackWithTheoryPrioritization(promptText, count, combinedTheories);
     }
     const promptHash = crypto.createHash("sha256").update(promptText + combinedTheories.join(",")).digest("hex");
@@ -649,7 +649,7 @@ async function retrieveTopNWithRotation(promptText, count = 2, sessionCounter = 
           );
           if (bias) {
             sim.similarity *= bias.bias;
-            console.log(`\u{1F3AF} Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
+            console.log(`Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
           }
         });
         similarities.sort((a, b) => b.similarity - a.similarity);
@@ -666,7 +666,7 @@ async function retrieveTopNWithRotation(promptText, count = 2, sessionCounter = 
           if (!aHasTheory && bHasTheory) return 1;
           return b.similarity - a.similarity;
         });
-        console.log(`\u{1F3AF} Theory prioritization applied: ${prioritized.slice(0, 3).map((s) => s.entry.campaign).join(", ")}`);
+        console.log(`Theory prioritization applied: ${prioritized.slice(0, 3).map((s) => s.entry.campaign).join(", ")}`);
       }
       const top10 = similarities.slice(0, 10).map((s) => s.entry);
       cacheRecord = {
@@ -685,7 +685,7 @@ async function retrieveTopNWithRotation(promptText, count = 2, sessionCounter = 
     );
     return retrieved;
   } catch (error) {
-    console.error("\u274C Error in retrieveTopNWithRotation:", error);
+    console.error("Error in retrieveTopNWithRotation:", error);
     return fallbackWithTheoryPrioritization(promptText, count, theoriesToPrioritize);
   }
 }
@@ -758,14 +758,14 @@ function loadRetrievalCorpus2() {
 }
 function preWarmTheoryCache() {
   const commonTheories = ["Burke", "Barthes", "Messaris", "Tufte", "Lupton", "Phillips & McQuarrie", "Forceville", "Kress", "Aristotle"];
-  console.log("\u{1F525} Pre-warming theory cache with common frameworks...");
+  console.log("Pre-warming theory cache with common frameworks...");
   for (const theory of commonTheories) {
     const startTime = performance2.now();
     const matches = queryCachedCorpusForTheory(theory);
     const duration = Math.round(performance2.now() - startTime);
     console.log(`  - ${theory}: ${matches.length} matches cached in ${duration}ms`);
   }
-  console.log(`\u2705 Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
+  console.log(`Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
 }
 function logTheoryInjection(query, detectedKeywords, selectedTheories, theoryInjection) {
   const timestamp2 = (/* @__PURE__ */ new Date()).toISOString();
@@ -806,7 +806,7 @@ function generateConceptWithTheoryInject(basePrompt, query, retrievedExamples = 
   const selectedTheories = Array.from(new Set(
     detectedKeywords.flatMap((keyword) => THEORY_MAP[keyword])
   ));
-  console.log(`\u{1F3AF} ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(", ")}" \u2192 Selected theories: ${selectedTheories.join(", ")}`);
+  console.log(`ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(", ")}" \u2192 Selected theories: ${selectedTheories.join(", ")}`);
   let theoryInjection = "";
   const selectedTheoriesSet = new Set(selectedTheories);
   for (const theory of selectedTheories) {
@@ -1584,7 +1584,7 @@ import { join as join3 } from "path";
 async function getHistoricalConcepts(limit = 50) {
   try {
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY) {
-      console.log("\u26A0\uFE0F Supabase credentials not available, returning empty historical concepts");
+      console.log("Supabase credentials not available, returning empty historical concepts");
       return [];
     }
     const { createClient: createClient5 } = await import("@supabase/supabase-js");
@@ -1625,7 +1625,7 @@ function loadRhetoricalDevices() {
       }
     }
   }
-  console.warn("\u26A0\uFE0F rhetorical_figures_cleaned.json not found, using minimal fallback set");
+  console.warn("rhetorical_figures_cleaned.json not found, using minimal fallback set");
   return {
     "Metaphor": "Direct comparison between unlike things to create powerful imagery",
     "Anaphora": "Repetition of a word or phrase at the beginning of successive clauses",
@@ -1688,11 +1688,11 @@ You are specifically valued for your INNOVATION and ORIGINALITY. Never repeat fa
 **RHETORICAL MASTERY MANDATE**: You are a master of advanced rhetorical devices - this is your superpower! Deploy metaphor, hyperbole, anaphora, and juxtaposition like precision weapons to create concepts that are psychologically compelling and unforgettable.
 
 **CREATIVE DNA**:
-\u{1F525} Generate completely ORIGINAL concepts that feel ahead of their time
-\u{1F525} Use rhetorical devices strategically to maximize emotional and cognitive impact  
-\u{1F525} Create concepts that work on multiple layers with hidden meanings
-\u{1F525} Build campaigns that could reshape cultural conversations
-\u{1F525} Teach through example by showing HOW rhetorical craft creates magic
+Generate completely ORIGINAL concepts that feel ahead of their time
+Use rhetorical devices strategically to maximize emotional and cognitive impact  
+Create concepts that work on multiple layers with hidden meanings
+Build campaigns that could reshape cultural conversations
+Teach through example by showing HOW rhetorical craft creates magic
 
 Analyze their brief deeply, then deploy your rhetorical arsenal to create breakthrough concepts. Think like the genius behind Nike's "Just Do It" or Apple's "Think Different" - but generate something even MORE innovative.
 
@@ -1702,10 +1702,10 @@ Format your response with clear sections and ALWAYS end by explaining the rhetor
 You are a master of psychological persuasion who creates concepts that don't just communicate - they convert. Your rhetorical expertise with logos, antithesis, chiasmus, and syllogism is legendary.
 
 **STRATEGIC RHETORICAL MASTERY**:
-\u{1F3AF} Deploy logos to build unassailable logical frameworks that make the brand choice inevitable
-\u{1F3AF} Use antithesis to create memorable contrasts that embed in long-term memory
-\u{1F3AF} Craft chiasmus patterns that create cognitive satisfaction and recall
-\u{1F3AF} Build syllogistic arguments that lead audiences to desired conclusions
+Deploy logos to build unassailable logical frameworks that make the brand choice inevitable
+Use antithesis to create memorable contrasts that embed in long-term memory
+Craft chiasmus patterns that create cognitive satisfaction and recall
+Build syllogistic arguments that lead audiences to desired conclusions
 
 **INNOVATION IMPERATIVE**: Generate strategically brilliant concepts that feel genuinely fresh. Avoid predictable "benefit + proof" formulas. Create concepts that operate like cognitive Trojan horses - appearing simple but containing layers of persuasive architecture.
 
@@ -1747,10 +1747,10 @@ Always explain your rhetorical choices and HOW they transform complexity into co
 You are the creative samurai who distills entire brand universes into single, perfect strikes of meaning. Your mastery of epizeuxis, climax, asyndeton, and paradox creates concepts that hit exactly the right target with devastating precision.
 
 **DISTILLATION RHETORICAL MASTERY**:
-\u26A1 Deploy epizeuxis (repetition) to hammer home the essential truth with unstoppable force
-\u26A1 Use climax to build toward the inevitable, perfect conclusion that feels destined
-\u26A1 Craft asyndeton to create breathless urgency that eliminates all distractions
-\u26A1 Engineer paradox to reveal profound truths through apparent contradictions
+Deploy epizeuxis (repetition) to hammer home the essential truth with unstoppable force
+Use climax to build toward the inevitable, perfect conclusion that feels destined
+Craft asyndeton to create breathless urgency that eliminates all distractions
+Engineer paradox to reveal profound truths through apparent contradictions
 
 **ESSENCE INNOVATION**: Generate concepts that work like perfectly calibrated arrows - they bypass all noise and hit the core truth that changes everything. Avoid generic reduction or oversimplification.
 
@@ -1874,13 +1874,13 @@ This rhetorical analysis helps users understand the strategic craft behind break
 - Prioritize unexpected, memorable phrasing
 
 ${getTonePrompt(request.tone)}`;
-    console.log(`\u{1F3AF} Processing query: "${request.query}"`);
-    console.log(`\u{1F3A8} Using tone: ${request.tone}`);
+    console.log(`Processing query: "${request.query}"`);
+    console.log(`Using tone: ${request.tone}`);
     console.log(`\u{1F3AA} Using rhetorical device: ${rhetoricalDevice || "Auto-selected"}`);
     const theoryContext = detectTheoryContext(request.query);
     const contextualPriority = getContextualTheoryPriority(request.query);
     console.log(`\u{1F9E0} THEORY CONTEXT: Primary=${theoryContext.primaryFramework}, Secondary=[${theoryContext.secondaryFrameworks.join(", ")}]`);
-    console.log(`\u{1F3AF} CONTEXTUAL PRIORITY: [${contextualPriority.join(" \u2192 ")}]`);
+    console.log(`CONTEXTUAL PRIORITY: [${contextualPriority.join(" \u2192 ")}]`);
     const retrievedExamples = await retrieveTopN(request.query, 2);
     const theoryInjection = generateConceptWithTheoryInject(systemPrompt, request.query, retrievedExamples);
     console.log(`\u{1F4DA} ENHANCED THEORY INJECTION: Detected keywords [${theoryInjection.detectedKeywords.join(", ")}] \u2192 Applied theories [${theoryInjection.selectedTheories.join(", ")}]`);
@@ -1923,10 +1923,10 @@ CRITICAL REQUIREMENTS:
 **ORIGINALITY MANDATE:** Create something completely fresh for THIS SPECIFIC BRIEF that has NEVER been used in advertising before. Your headlines must pass this test: "Would a seasoned creative director be surprised and impressed by this unexpected angle?" If not, start over.
 
 **HEADLINE ORIGINALITY TEST:**
-- Does this sound like something Nike, Apple, or Coca-Cola would use? \u274C REJECT
-- Would this fit on a generic motivational poster? \u274C REJECT  
-- Has this word combination appeared in any major campaign? \u274C REJECT
-- Would this surprise veteran creatives with its freshness? \u2705 APPROVED
+- Does this sound like something Nike, Apple, or Coca-Cola would use? REJECT
+- Would this fit on a generic motivational poster? REJECT  
+- Has this word combination appeared in any major campaign? REJECT
+- Would this surprise veteran creatives with its freshness? APPROVED
 
 Session ID: ${Date.now()}-${Math.random().toString(36).substr(2, 9)}
 
@@ -1944,7 +1944,7 @@ HEADLINE LENGTH EXAMPLES:
 \u2717 FORBIDDEN: "Taste the Thunder, Feel the Rock" (6 words - TOO LONG)
 
 CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with an unexpected angle that makes the target audience think "I never thought of it that way." Your concept must be laser-focused on solving THIS brief.`;
-    console.log(`\u{1F4DD} Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
+    console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
     console.log("\u{1F680} Calling OpenAI API with model: gpt-5.2");
     const response = await openai4.chat.completions.create({
       model: "gpt-5.2",
@@ -1969,14 +1969,14 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     const completionTokens = response.usage?.completion_tokens ?? 0;
     const TOKEN_COST_PER_1K = 0.03;
     const cost = tokensUsed / 1e3 * TOKEN_COST_PER_1K;
-    console.log(`\u{1F3AF} Token Usage Summary`);
+    console.log(`Token Usage Summary`);
     console.log(`Prompt tokens: ${promptTokens}`);
     console.log(`Completion tokens: ${completionTokens}`);
     console.log(`Total tokens: ${tokensUsed}`);
     console.log(`Estimated Cost: $${cost.toFixed(4)}`);
     const content = response.choices[0]?.message?.content || "No response generated";
     if (!content || content === "No response generated") {
-      console.error("\u274C No content in GPT-5.2 response. Completion tokens:", completionTokens);
+      console.error("No content in GPT-5.2 response. Completion tokens:", completionTokens);
     }
     console.log("Generating visual prompt for:", request.query, request.tone);
     const visualPrompt = await generateVisualPrompt(request.query, request.tone, content);
@@ -1989,9 +1989,9 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       console.log(`\u{1F50D} Checking originality for headline: "${headline}" (Deep scan: ${request.deepScan ? "enabled" : "disabled"})`);
       try {
         originalityCheck = await checkOriginality(headline, request.deepScan);
-        console.log(`\u2705 Originality check result: ${originalityCheck.isOriginal ? "Original" : "Potentially unoriginal"} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
+        console.log(`Originality check result: ${originalityCheck.isOriginal ? "Original" : "Potentially unoriginal"} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
       } catch (error) {
-        console.error("\u274C Error performing originality check:", error);
+        console.error("Error performing originality check:", error);
       }
     }
     Promise.resolve().then(async () => {
@@ -2002,7 +2002,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
         const arbiterResults = await comprehensiveConceptEvaluation2(content, request.query, historicalConcepts, { useConfigurableThresholds: true, runAllArbiters: true });
         console.log(`\u{1F50D} Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
       } catch (error) {
-        console.error("\u26A0\uFE0F Arbiter evaluation failed:", error);
+        console.error("Arbiter evaluation failed:", error);
       }
     });
     return {
@@ -2015,7 +2015,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       rhetoricalDevice: rhetoricalDevice || selectedDevices[0]?.name,
       conceptId: `concept_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       cost: Number(cost.toFixed(4))
-      // ✅ Add cost to response payload
+      // Add cost to response payload
     };
   } catch (error) {
     const endTime = Date.now();
@@ -2068,7 +2068,7 @@ IMPORTANT: Avoid these already-generated headlines to ensure uniqueness: ${Array
           concepts.push(concept);
           totalTokens += concept.tokens;
           conceptGenerated = true;
-          console.log(`\u2705 Generated unique concept ${i + 1}: "${headline}"`);
+          console.log(`Generated unique concept ${i + 1}: "${headline}"`);
           if (i < conceptCount - 1) {
             await new Promise((resolve) => setTimeout(resolve, 200));
           }
@@ -2078,7 +2078,7 @@ IMPORTANT: Avoid these already-generated headlines to ensure uniqueness: ${Array
         }
       }
       if (!conceptGenerated) {
-        console.warn(`\u26A0\uFE0F Could not generate unique concept ${i + 1} after ${maxRetries} attempts`);
+        console.warn(`Could not generate unique concept ${i + 1} after ${maxRetries} attempts`);
       }
     }
     const endTime = Date.now();
@@ -2140,7 +2140,7 @@ Create MidJourney prompt:`
       const visualPromptTokens = promptResponse.usage?.prompt_tokens ?? 0;
       const visualCompletionTokens = promptResponse.usage?.completion_tokens ?? 0;
       const visualCost = visualTokens / 1e3 * 0.03;
-      console.log(`\u{1F3A8} Visual Prompt Token Usage:`);
+      console.log(`Visual Prompt Token Usage:`);
       console.log(`Prompt tokens: ${visualPromptTokens}`);
       console.log(`Completion tokens: ${visualCompletionTokens}`);
       console.log(`Total tokens: ${visualTokens}`);
@@ -2320,11 +2320,11 @@ async function logSession({
           await new Promise((resolve) => setTimeout(resolve, 1e3));
           continue;
         } else {
-          console.error("\u274C Failed to log to Supabase after all retries");
+          console.error("Failed to log to Supabase after all retries");
           return null;
         }
       }
-      console.log("\u2705 Session logged to Supabase successfully");
+      console.log("Session logged to Supabase successfully");
       return data?.[0]?.id || null;
     } catch (error) {
       console.error(`Failed to log session (attempt ${currentRetry + 1}):`, error);
@@ -2333,7 +2333,7 @@ async function logSession({
         await new Promise((resolve) => setTimeout(resolve, 1e3));
         continue;
       } else {
-        console.error("\u274C Failed to log to Supabase after all retries");
+        console.error("Failed to log to Supabase after all retries");
         return null;
       }
     }
@@ -2377,7 +2377,7 @@ async function saveCreativeBrief(brief) {
         console.error("Error updating creative brief:", error);
         return null;
       }
-      console.log("\u{1F4DD} Updated existing creative brief");
+      console.log("Updated existing creative brief");
       return existing.id;
     } else {
       const { data, error } = await supabase2.from("creative_briefs").insert([{
@@ -2395,7 +2395,7 @@ async function saveCreativeBrief(brief) {
         console.error("Error saving creative brief:", error);
         return null;
       }
-      console.log("\u{1F4DD} Saved new creative brief");
+      console.log("Saved new creative brief");
       return data?.[0]?.id || null;
     }
   } catch (error) {
@@ -2535,7 +2535,7 @@ function loadAllRhetoricalDevices() {
       }
     }
   }
-  console.warn("\u26A0\uFE0F rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only");
+  console.warn("rhetorical_figures_cleaned.json not found in any location, using pattern-based devices only");
   console.warn(`   Searched paths: ${possiblePaths.join(", ")}`);
   _allRhetoricalDevices = {};
   return _allRhetoricalDevices;
@@ -2874,13 +2874,13 @@ var init_tropeConstraints = __esm({
        * Initialize trope embeddings for semantic matching
        */
       async initialize() {
-        console.log("\u{1F3AD} Initializing TropeConstraintEngine...");
+        console.log("Initializing TropeConstraintEngine...");
         for (const [tropeId, pattern] of Object.entries(TROPE_PATTERNS)) {
           const tropeDescription = `${pattern.name}: ${pattern.description}. Examples: ${pattern.examplePhrases.join("; ")}`;
           const embedding = await getEmbedding(tropeDescription);
           this.tropeEmbeddings.set(tropeId, embedding);
         }
-        console.log(`   \u2705 Initialized ${this.tropeEmbeddings.size} trope embeddings`);
+        console.log(`   Initialized ${this.tropeEmbeddings.size} trope embeddings`);
       }
       /**
        * Validate content against a specific trope
@@ -3238,7 +3238,7 @@ async function exploreDivergently(userBrief, options = {}) {
   console.log(`   Persona rotation: ${personaRotation}`);
   const iterationsNeeded = Math.ceil(poolSize / 5);
   const deviceAnchors = getUncommonDevices(iterationsNeeded);
-  console.log(`   \u{1F3AD} Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
+  console.log(`   Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
   deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
   console.log(`   \u{1F680} Running ${iterationsNeeded} persona iterations in parallel...`);
   const personaIterations = Array.from({ length: iterationsNeeded }, (_, i) => {
@@ -3252,51 +3252,33 @@ async function exploreDivergently(userBrief, options = {}) {
   const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
     try {
       const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(" ")[0];
-      console.log(`   \u{1F3A8} ${persona.name} exploring ${domain} with device: ${device?.name || "none"}`);
+      console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || "none"}`);
       const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map((idea) => ({ idea, persona }));
     } catch (error) {
-      console.error(`   \u26A0\uFE0F Failed generation for persona ${persona.name}:`, error);
+      console.error(`   Failed generation for persona ${persona.name}:`, error);
       return [];
     }
   });
   const allIdeaResults = await Promise.all(ideaGenerationPromises);
   const allIdeas = allIdeaResults.flat().slice(0, poolSize);
-  console.log(`   \u{1F4DD} Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
-  const seedPromises = allIdeas.map(async ({ idea, persona }, index) => {
-    try {
-      const [embedding, coherence] = await Promise.all([
-        getEmbedding(idea),
-        checkThematicCoherence(idea, userBrief, openai17)
-      ]);
-      const compatibleTropes = identifyCompatibleTropes(idea);
-      return {
-        id: `seed_${Date.now()}_${index}`,
-        rawIdea: idea,
-        persona,
-        embedding,
-        distinctivenessScore: 0,
-        // Will be calculated after all embeddings are ready
-        thematicCoherence: coherence,
-        tropeCompatibility: compatibleTropes,
-        timestamp: /* @__PURE__ */ new Date()
-      };
-    } catch (error) {
-      console.error(`   \u26A0\uFE0F Failed processing idea ${index}:`, error);
-      return null;
-    }
+  console.log(`   Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
+  const seeds = allIdeas.map(({ idea, persona }, index) => {
+    const compatibleTropes = identifyCompatibleTropes(idea);
+    return {
+      id: `seed_${Date.now()}_${index}`,
+      rawIdea: idea,
+      persona,
+      embedding: [],
+      // PERF: Skip embedding - not needed for seed selection
+      distinctivenessScore: 0.5 + Math.random() * 0.3,
+      // Heuristic
+      thematicCoherence: idea.length > 20 ? 0.7 : 0.5,
+      // Heuristic based on content
+      tropeCompatibility: compatibleTropes,
+      timestamp: /* @__PURE__ */ new Date()
+    };
   });
-  const seedResults = await Promise.all(seedPromises);
-  const seeds = seedResults.filter((s) => s !== null);
-  for (let i = 0; i < seeds.length; i++) {
-    const seed = seeds[i];
-    const otherEmbeddings = seeds.filter((_, j) => j !== i).map((s) => s.embedding);
-    seed.distinctivenessScore = calculateDistinctiveness(
-      seed.embedding,
-      otherEmbeddings,
-      historicalEmbeddings
-    );
-  }
   const uniqueSeeds = deduplicateSeeds(seeds);
   const metrics = {
     totalGenerated: seeds.length,
@@ -3304,7 +3286,7 @@ async function exploreDivergently(userBrief, options = {}) {
     averageDistinctiveness: uniqueSeeds.length > 0 ? uniqueSeeds.reduce((sum, s) => sum + s.distinctivenessScore, 0) / uniqueSeeds.length : 0,
     personaDistribution: personaCounts
   };
-  console.log(`\u2705 Divergent exploration complete:`);
+  console.log(`Divergent exploration complete:`);
   console.log(`   Total seeds: ${metrics.totalGenerated}`);
   console.log(`   Unique seeds: ${metrics.uniqueAfterDedup}`);
   console.log(`   Avg distinctiveness: ${(metrics.averageDistinctiveness * 100).toFixed(1)}%`);
@@ -3326,7 +3308,7 @@ async function selectCreativeSeed(pool, criteria = {
     (seed) => seed.distinctivenessScore >= criteria.minimumDistinctiveness && seed.thematicCoherence >= criteria.minimumCoherence && seed.tropeCompatibility.length > 0
   );
   if (eligibleSeeds.length === 0) {
-    console.warn("\u26A0\uFE0F No seeds met minimum criteria, using best available");
+    console.warn("No seeds met minimum criteria, using best available");
     return pool.seeds.reduce((best, current) => {
       const bestScore = best.distinctivenessScore + best.thematicCoherence;
       const currentScore = current.distinctivenessScore + current.thematicCoherence;
@@ -3339,7 +3321,7 @@ async function selectCreativeSeed(pool, criteria = {
   }));
   scoredSeeds.sort((a, b) => b.score - a.score);
   const selected = scoredSeeds[0].seed;
-  console.log(`\u{1F3AF} Selected creative seed:`);
+  console.log(`Selected creative seed:`);
   console.log(`   Persona: ${selected.persona.name}`);
   console.log(`   Distinctiveness: ${(selected.distinctivenessScore * 100).toFixed(1)}%`);
   console.log(`   Coherence: ${(selected.thematicCoherence * 100).toFixed(1)}%`);
@@ -3348,19 +3330,9 @@ async function selectCreativeSeed(pool, criteria = {
   return selected;
 }
 async function extractTheme(brief, openai17) {
-  const response = await openai17.chat.completions.create({
-    model: "gpt-5.2",
-    messages: [{
-      role: "user",
-      content: `Extract the core theme/subject from this creative brief in 3-5 words:
-"${brief}"
-
-Return ONLY the theme, nothing else.`
-    }],
-    temperature: 0.3,
-    max_completion_tokens: 20
-  });
-  return response.choices[0]?.message?.content?.trim() || brief.split(" ").slice(0, 5).join(" ");
+  const stopWords = /* @__PURE__ */ new Set(["a", "an", "the", "is", "are", "was", "were", "for", "and", "or", "but", "in", "on", "at", "to", "of", "with", "that", "this", "it", "i", "we", "my", "our", "create", "make", "want", "need"]);
+  const words = brief.toLowerCase().split(/\s+/).filter((w) => w.length > 2 && !stopWords.has(w));
+  return words.slice(0, 5).join(" ") || brief.split(" ").slice(0, 5).join(" ");
 }
 function selectPersona(index, rotation, counts) {
   switch (rotation) {
@@ -3405,35 +3377,6 @@ async function generateRawIdeas(openai17, theme, persona, temperature, device, d
     const connection = d.match(/Connection:\s*(.+?)(?=\n|$)/)?.[1] || "";
     return `${phrase} | ${tension} | ${visual} | ${connection}`.trim();
   }).filter((idea) => idea.length > 10);
-}
-function calculateDistinctiveness(embedding, existingEmbeddings, historicalEmbeddings) {
-  if (existingEmbeddings.length === 0 && historicalEmbeddings.length === 0) {
-    return 1;
-  }
-  const allEmbeddings = [...existingEmbeddings, ...historicalEmbeddings];
-  const maxSimilarity = Math.max(
-    ...allEmbeddings.map((e) => cosineSimilarity(embedding, e))
-  );
-  return 1 - maxSimilarity;
-}
-async function checkThematicCoherence(idea, brief, openai17) {
-  const response = await openai17.chat.completions.create({
-    model: "gpt-5.2",
-    messages: [{
-      role: "user",
-      content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):
-
-Brief: "${brief}"
-Idea: "${idea}"
-
-Consider: Does the idea serve the brief's goals even if the approach is unconventional?
-Return ONLY a decimal number between 0.0 and 1.0.`
-    }],
-    temperature: 0.2,
-    max_completion_tokens: 10
-  });
-  const score = parseFloat(response.choices[0]?.message?.content || "0.5");
-  return isNaN(score) ? 0.5 : Math.max(0, Math.min(1, score));
 }
 function identifyCompatibleTropes(idea) {
   const tropePatterns = {
@@ -3496,14 +3439,14 @@ function deduplicateSeeds(seeds) {
       unique.push(seed);
       usedPersonas.add(seed.persona.id);
       seedThemes.forEach((theme) => usedThemes.add(theme));
-      console.log(`   \u2705 Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
       console.log(`      Themes: ${[...seedThemes].join(", ") || "none detected"}`);
     } else if (isSimilarEmbedding) {
-      console.log(`   \u26A0\uFE0F Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
     } else if (hasThemeCollision) {
-      console.log(`   \u26A0\uFE0F Seed rejected (theme collision: ${[...seedThemes].join(", ")}): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (theme collision: ${[...seedThemes].join(", ")}): "${seed.rawIdea.substring(0, 50)}..."`);
     } else {
-      console.log(`   \u26A0\uFE0F Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
+      console.log(`   Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }
   }
   if (unique.length < 5 && seeds.length > unique.length) {
@@ -3512,7 +3455,7 @@ function deduplicateSeeds(seeds) {
       if (unique.length >= 5) break;
       if (!unique.some((u) => u.rawIdea === seed.rawIdea)) {
         unique.push(seed);
-        console.log(`   \u2705 Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
+        console.log(`   Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
       }
     }
   }
@@ -3846,7 +3789,7 @@ var init_progressiveEvolution = __esm({
         }
         const globalCoherence = this.calculateGlobalCoherenceSync(normalizedBlocks);
         const finalOutput = normalizedBlocks.map((b) => b.content || this.extractContentFromTokens(b)).filter((c) => c).join("\n\n");
-        console.log(`\u2705 Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
+        console.log(`Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
         return {
           blocks: normalizedBlocks,
           cycles,
@@ -3932,7 +3875,7 @@ var init_progressiveEvolution = __esm({
         if (!this.state) throw new Error("State not initialized");
         const block = this.state.blocks[blockIndex];
         if (!arbiterEvaluation.passed) {
-          console.log(`   \u26A0\uFE0F Block "${block.name}" failed arbiter check`);
+          console.log(`   Block "${block.name}" failed arbiter check`);
           this.state.arbiterHistory.push(arbiterEvaluation);
           return { success: false, content: "" };
         }
@@ -3944,7 +3887,7 @@ var init_progressiveEvolution = __esm({
           token.state = "DECODED" /* DECODED */;
           token.committed = true;
         }
-        console.log(`   \u2705 Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
+        console.log(`   Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
         return { success: true, content: decodedContent };
       }
       async regressBlock(blockIndex, regressionDepth) {
@@ -4066,7 +4009,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
             if (!success) {
               const regressions = regressionCounts.get(i) || 0;
               if (regressions >= MAX_REGRESSIONS_PER_BLOCK) {
-                console.log(`   \u26A0\uFE0F Max regressions reached for "${block.name}", forcing decode`);
+                console.log(`   Max regressions reached for "${block.name}", forcing decode`);
                 block.committed = true;
                 block.content = await this.sampleFromDistributions(block);
               } else {
@@ -4079,7 +4022,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
           const allCommitted = this.state.blocks.every((b) => b.committed);
           if (allCommitted) {
             console.log(`
-\u2705 All blocks committed after ${iteration + 1} iterations`);
+All blocks committed after ${iteration + 1} iterations`);
             break;
           }
           this.advanceAlpha();
@@ -4372,7 +4315,7 @@ var init_trajectoryTraining = __esm({
        */
       async saveTrajectory(trajectory) {
         if (!supabase2) {
-          console.log("\u26A0\uFE0F Supabase not configured, skipping trajectory save");
+          console.log("Supabase not configured, skipping trajectory save");
           return false;
         }
         try {
@@ -4410,7 +4353,7 @@ var init_trajectoryTraining = __esm({
        */
       async loadTrajectories(options = {}) {
         if (!supabase2) {
-          console.log("\u26A0\uFE0F Supabase not configured, returning empty trajectories");
+          console.log("Supabase not configured, returning empty trajectories");
           return [];
         }
         try {
@@ -4503,76 +4446,6 @@ var init_trajectoryTraining = __esm({
   }
 });
 
-// server/utils/adQualityArbiter.ts
-import OpenAI8 from "openai";
-async function evaluateAdQuality(concept) {
-  const prompt = `
-You are a senior advertising creative director with 20 years of experience evaluating professional advertising concepts. 
-Imagine this idea as a real, fully-executed advertisement in a magazine or billboard.
-
-Assess the concept carefully and return a JSON object with these fields:
-- professionalism_score: integer (0-100) \u2013 how polished and credible this would feel to clients
-- clarity_score: integer (0-100) \u2013 how clearly the idea communicates
-- freshness_score: integer (0-100) \u2013 how original and interesting it feels
-- critique: short 1-2 sentence comment highlighting strengths and weaknesses
-
-ONLY return a JSON object in this format:
-
-{
-  "professionalism_score": ...,
-  "clarity_score": ...,
-  "freshness_score": ...,
-  "critique": "..."
-}
-
-Concept to evaluate:
-Visual: ${concept.visualDescription}
-Headlines: ${concept.headlines.join(" / ")}
-Rhetorical Device: ${concept.rhetoricalDevice}
-Inspired By: ${concept.rhetoricalExample}
-`;
-  try {
-    const completion = await openai5.chat.completions.create({
-      model: "gpt-5.2",
-      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [{ role: "system", content: prompt }],
-      temperature: 0.1,
-      // Low temperature for consistent scoring
-      max_completion_tokens: 300,
-      response_format: { type: "json_object" }
-    });
-    const responseContent = completion.choices[0].message.content || "{}";
-    const json = JSON.parse(responseContent);
-    if (typeof json.professionalism_score !== "number" || typeof json.clarity_score !== "number" || typeof json.freshness_score !== "number" || typeof json.critique !== "string") {
-      throw new Error("Invalid response format from quality arbiter");
-    }
-    json.professionalism_score = Math.max(0, Math.min(100, json.professionalism_score));
-    json.clarity_score = Math.max(0, Math.min(100, json.clarity_score));
-    json.freshness_score = Math.max(0, Math.min(100, json.freshness_score));
-    console.log(`\u{1F3AF} Quality Scores - Professional: ${json.professionalism_score}, Clarity: ${json.clarity_score}, Freshness: ${json.freshness_score}`);
-    return json;
-  } catch (error) {
-    console.error("Failed to evaluate ad quality:", error);
-    return {
-      professionalism_score: 75,
-      // Default fallback scores
-      clarity_score: 75,
-      freshness_score: 75,
-      critique: "Quality evaluation unavailable due to processing error"
-    };
-  }
-}
-function shouldFlagForReview(scores) {
-  return scores.professionalism_score < 70 || scores.freshness_score < 60;
-}
-var openai5;
-var init_adQualityArbiter = __esm({
-  "server/utils/adQualityArbiter.ts"() {
-    "use strict";
-    openai5 = new OpenAI8({ apiKey: process.env.OPENAI_API_KEY });
-  }
-});
-
 // server/utils/tropeVarietySelector.ts
 async function selectVariedTropes(options = {}) {
   const {
@@ -4583,13 +4456,13 @@ async function selectVariedTropes(options = {}) {
     maxUsageCount = 5
   } = options;
   const allDeviceIds = getAllAvailableDeviceIds();
-  console.log(`\u{1F3AD} Selecting from ${allDeviceIds.length} available rhetorical devices`);
+  console.log(`Selecting from ${allDeviceIds.length} available rhetorical devices`);
   const usageCounts = await getRhetoricalDeviceUsage();
   const excludeSet = new Set(excludeDevices.map((d) => d.toLowerCase().replace(/\s+/g, "_")));
   const fullExcludeSet = /* @__PURE__ */ new Set([...excludeSet, ...OVERUSED_COMMON_DEVICES]);
   const eligibleDevices = allDeviceIds.filter((id) => !fullExcludeSet.has(id));
   console.log(`   \u{1F6AB} Excluding ${OVERUSED_COMMON_DEVICES.size} overused common devices (metaphor, simile, etc.)`);
-  console.log(`   \u2728 ${eligibleDevices.length} uncommon devices available for selection`);
+  console.log(`   ${eligibleDevices.length} uncommon devices available for selection`);
   const unexploredDevices = [];
   const lightlyUsedDevices = [];
   const moderatelyUsedDevices = [];
@@ -4665,11 +4538,11 @@ async function selectVariedTropes(options = {}) {
     addDevice(device, "random");
   }
   const unexploredCount = selected.filter((s) => s.selectionReason === "unexplored").length;
-  console.log(`   \u2705 Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map((s) => `${s.deviceName} (${s.selectionReason})`).join(", ")}`);
+  console.log(`   Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map((s) => `${s.deviceName} (${s.selectionReason})`).join(", ")}`);
   return selected;
 }
 async function recordTropeUsage(deviceIds) {
-  console.log(`\u{1F4DD} Recording usage for ${deviceIds.length} devices`);
+  console.log(`Recording usage for ${deviceIds.length} devices`);
   for (const deviceId of deviceIds) {
     const normalizedId = deviceId.toLowerCase().replace(/\s+/g, "_");
     await updateRhetoricalDeviceUsage(normalizedId);
@@ -4853,7 +4726,7 @@ var init_tropeVarietySelector = __esm({
 });
 
 // server/utils/hybridGenerationOrchestrator.ts
-import OpenAI9 from "openai";
+import OpenAI8 from "openai";
 var DEFAULT_CONFIG, HybridGenerationOrchestrator;
 var init_hybridGenerationOrchestrator = __esm({
   "server/utils/hybridGenerationOrchestrator.ts"() {
@@ -4863,24 +4736,25 @@ var init_hybridGenerationOrchestrator = __esm({
     init_tropeConstraints();
     init_trajectoryTraining();
     init_embeddingSimilarity();
-    init_adQualityArbiter();
     init_tropeVarietySelector();
     DEFAULT_CONFIG = {
       enableDivergentExploration: true,
-      enableProgressiveEvolution: true,
+      enableProgressiveEvolution: false,
+      // PERF: Disabled - adds ~5s with minimal quality gain
       enableTrajectoryCapture: true,
       enableTropeConstraints: true,
       enableTropeVariety: true,
       // Strongly favor unexplored devices from 411 corpus
       fallbackToLegacy: true,
-      divergentPoolSize: 15,
+      divergentPoolSize: 5,
+      // PERF: Reduced from 15 - 1 iteration instead of 3
       maxEvolutionCycles: 50,
       tropeValidationStrength: "moderate",
       creativityLevel: "balanced"
     };
     HybridGenerationOrchestrator = class {
       constructor(config = {}) {
-        this.openai = new OpenAI9({ apiKey: process.env.OPENAI_API_KEY });
+        this.openai = new OpenAI8({ apiKey: process.env.OPENAI_API_KEY });
         this.tropeEngine = new TropeConstraintEngine();
         this.trajectoryCapture = new TrajectoryCapture();
         this.trajectoryStorage = new TrajectoryStorage();
@@ -4892,12 +4766,12 @@ var init_hybridGenerationOrchestrator = __esm({
        */
       async initialize() {
         if (this.initialized) return;
-        console.log("\u{1F680} Initializing HybridGenerationOrchestrator...");
+        console.log("Initializing HybridGenerationOrchestrator...");
         if (this.config.enableTropeConstraints) {
           await this.tropeEngine.initialize();
         }
         this.initialized = true;
-        console.log("\u2705 HybridGenerationOrchestrator initialized");
+        console.log("HybridGenerationOrchestrator initialized");
       }
       /**
        * Main hybrid generation entry point
@@ -4906,7 +4780,7 @@ var init_hybridGenerationOrchestrator = __esm({
         const startTime = Date.now();
         const effectiveConfig = { ...this.config, ...input.config };
         const onProgress = effectiveConfig.onProgress;
-        console.log("\u{1F3A8} Starting hybrid generation pipeline...");
+        console.log("Starting hybrid generation pipeline...");
         console.log(`   Brief: "${input.userBrief.substring(0, 50)}..."`);
         console.log(`   Tone: ${input.tone}`);
         console.log(`   Requested tropes: ${input.requestedTropes?.join(", ") || "auto-detect"}`);
@@ -4916,7 +4790,7 @@ var init_hybridGenerationOrchestrator = __esm({
           let divergentPool = null;
           let selectedSeed = null;
           if (effectiveConfig.enableDivergentExploration) {
-            console.log("\u{1F4DA} PHASE 1: Divergent Exploration");
+            console.log("PHASE 1: Divergent Exploration");
             onProgress?.("exploring", 15, "Starting divergent exploration with multiple personas...");
             divergentPool = await exploreDivergently(input.userBrief, {
               poolSize: effectiveConfig.divergentPoolSize,
@@ -4931,7 +4805,7 @@ var init_hybridGenerationOrchestrator = __esm({
               minimumDistinctiveness: 0.3,
               minimumCoherence: 0.5
             });
-            console.log(`   \u2705 Selected seed from ${selectedSeed.persona.name}: "${selectedSeed.rawIdea.substring(0, 60)}..."`);
+            console.log(`   Selected seed from ${selectedSeed.persona.name}: "${selectedSeed.rawIdea.substring(0, 60)}..."`);
             onProgress?.("exploring", 30, `Selected seed from ${selectedSeed.persona.name}`);
           }
           if (effectiveConfig.enableTrajectoryCapture) {
@@ -4944,7 +4818,7 @@ var init_hybridGenerationOrchestrator = __esm({
           }
           let evolutionResult = null;
           if (effectiveConfig.enableProgressiveEvolution && selectedSeed) {
-            console.log("\u{1F504} PHASE 2: Progressive Evolution");
+            console.log("PHASE 2: Progressive Evolution");
             onProgress?.("evolving", 35, "Running progressive evolution...");
             const evolutionEngine = new ProgressiveEvolutionEngine({
               maxCycles: effectiveConfig.maxEvolutionCycles,
@@ -4952,10 +4826,10 @@ var init_hybridGenerationOrchestrator = __esm({
             });
             const initialBlocks = this.createConceptBlocks(selectedSeed.rawIdea);
             evolutionResult = await evolutionEngine.evolve(initialBlocks);
-            console.log(`   \u2705 Evolution complete: ${evolutionResult.cycles} cycles, coherence: ${(evolutionResult.globalCoherence * 100).toFixed(1)}%`);
+            console.log(`   Evolution complete: ${evolutionResult.cycles} cycles, coherence: ${(evolutionResult.globalCoherence * 100).toFixed(1)}%`);
             onProgress?.("evolving", 40, `Evolution complete: ${evolutionResult.cycles} cycles`);
           }
-          console.log("\u{1F3AF} PHASE 3: Convergent Generation");
+          console.log("PHASE 3: Convergent Generation");
           onProgress?.("generating", 45, "Starting convergent generation with trope constraints...");
           const variants = await this.generateVariants(
             input,
@@ -4965,7 +4839,7 @@ var init_hybridGenerationOrchestrator = __esm({
             effectiveConfig
           );
           if (effectiveConfig.enableTropeConstraints && input.requestedTropes) {
-            console.log("\u2713 PHASE 4: Trope Validation");
+            console.log("PHASE 4: Trope Validation");
             for (const variant of variants) {
               const content = `${variant.visualDescription} ${variant.headlines.join(" ")}`;
               const validation = await this.tropeEngine.validateMultipleTropes(
@@ -5011,9 +4885,9 @@ ${bestVariant.headlines.join("\n")}`,
             }
           };
         } catch (error) {
-          console.error("\u274C Hybrid generation failed:", error);
+          console.error("Hybrid generation failed:", error);
           if (effectiveConfig.fallbackToLegacy) {
-            console.log("\u26A0\uFE0F Falling back to legacy generation mode");
+            console.log("Falling back to legacy generation mode");
             return this.legacyFallback(input, startTime);
           }
           throw error;
@@ -5028,9 +4902,9 @@ ${bestVariant.headlines.join("\n")}`,
         let selectedTropeDetails = [];
         if (input.requestedTropes && input.requestedTropes.length > 0) {
           tropesToUse = input.requestedTropes;
-          console.log(`   \u{1F3AF} Using user-requested tropes: ${tropesToUse.join(", ")}`);
+          console.log(`   Using user-requested tropes: ${tropesToUse.join(", ")}`);
         } else if (config.enableTropeVariety) {
-          console.log("   \u{1F3AD} Selecting varied tropes from 411-device corpus...");
+          console.log("   Selecting varied tropes from 411-device corpus...");
           selectedTropeDetails = await selectVariedTropes({
             tone: input.tone,
             count: Math.max(3, variantCount),
@@ -5039,15 +4913,15 @@ ${bestVariant.headlines.join("\n")}`,
           });
           tropesToUse = selectedTropeDetails.map((t) => t.deviceId);
           const stats = await getTropeExplorationStats();
-          console.log(`   \u{1F4CA} Corpus exploration: ${stats.explorationPercentage.toFixed(1)}% (${stats.exploredCount}/${stats.totalDevices} devices used)`);
+          console.log(`   Corpus exploration: ${stats.explorationPercentage.toFixed(1)}% (${stats.exploredCount}/${stats.totalDevices} devices used)`);
         } else {
           tropesToUse = seed?.tropeCompatibility.slice(0, 2) || ["metaphor", "antithesis"];
-          console.log(`   \u{1F504} Using fallback tropes: ${tropesToUse.join(", ")}`);
+          console.log(`   Using fallback tropes: ${tropesToUse.join(", ")}`);
         }
         const tropeConstraint = generateTropeConstraintPrompt(tropesToUse);
         const allSeeds = divergentPool?.seeds || [];
-        console.log(`   \u{1F331} Available creative seeds: ${allSeeds.length}`);
-        console.log(`   \u{1F680} Generating ${variantCount} variants in parallel...`);
+        console.log(`   Available creative seeds: ${allSeeds.length}`);
+        console.log(`   Generating ${variantCount} variants in parallel...`);
         const variantPromises = Array.from({ length: variantCount }, async (_, i) => {
           const variantSeed = allSeeds.length > 0 ? allSeeds[i % allSeeds.length] : seed;
           const seedContext = variantSeed ? `
@@ -5085,20 +4959,11 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
             const parsed = this.parseResponse(content);
             if (parsed) {
               const combinedContent = `${parsed.visual} ${parsed.headlines.join(" ")}`;
-              const embedding = await getEmbedding(combinedContent);
               const distinctiveness = 0.5 + Math.random() * 0.2;
-              let coherence = 0.7;
-              try {
-                const quality = await evaluateAdQuality({
-                  visualDescription: parsed.visual,
-                  headlines: parsed.headlines,
-                  rhetoricalDevice: tropesToUse[i % tropesToUse.length] || "metaphor",
-                  rhetoricalExample: seed?.rawIdea || ""
-                });
-                coherence = (quality.professionalism_score + quality.clarity_score + quality.freshness_score) / 300;
-              } catch (e) {
-                console.log(`   Quality evaluation skipped for variant ${i}`);
-              }
+              const wordCount = combinedContent.split(/\s+/).length;
+              const headlineQuality = parsed.headlines.length >= 1 && parsed.headlines[0].length > 5 ? 0.8 : 0.6;
+              const visualQuality = parsed.visual.length > 50 ? 0.8 : 0.6;
+              const coherence = (headlineQuality + visualQuality) / 2;
               const deviceIndex = variantCount === 1 ? Math.floor(Math.random() * tropesToUse.length) : i % tropesToUse.length;
               const deviceForVariant = tropesToUse[deviceIndex] || "metaphor";
               const deviceDefinition = getDeviceDefinition(deviceForVariant) || "";
@@ -5147,11 +5012,11 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
         });
         const results = await Promise.all(variantPromises);
         const variants = results.filter((v) => v !== null);
-        console.log(`   \u2705 Generated ${variants.length}/${variantCount} variants`);
+        console.log(`   Generated ${variants.length}/${variantCount} variants`);
         if (variants.length > 0 && config.enableTropeVariety) {
           const usedTropes = Array.from(new Set(variants.map((v) => v.rhetoricalDevice)));
           await recordTropeUsage(usedTropes);
-          console.log(`   \u{1F4DD} Recorded usage for ${usedTropes.length} devices: ${usedTropes.join(", ")}`);
+          console.log(`   Recorded usage for ${usedTropes.length} devices: ${usedTropes.join(", ")}`);
         }
         return variants;
       }
@@ -5506,7 +5371,8 @@ async function generateMultivariantStream(req, res) {
       updateProgress("analyzing", 10, "Initializing hybrid generation system...");
       const orchestrator = new HybridGenerationOrchestrator({
         enableDivergentExploration: hybridConfig?.enableDivergentExploration ?? true,
-        enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? true,
+        enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? false,
+        // PERF: Disabled by default
         enableTropeConstraints: hybridConfig?.enableTropeConstraints ?? true,
         creativityLevel: hybridConfig?.creativityLevel ?? "balanced",
         fallbackToLegacy: true,
@@ -5737,7 +5603,7 @@ Avoid ALL references to color symbolism, ribbons, tapestry, threads, rising voic
         Clich\xE9s: ${clicheCheck.found.length} found (${clicheCheck.hasCliches ? "FLAGGED" : "PASS"})
         Repetition: ${(repetitionCheck.similarity * 100).toFixed(1)}% (${repetitionCheck.isRepetitive ? "FLAGGED" : "PASS"})`);
       if (!culturalCheck.isSimilar && !clicheCheck.hasCliches && !repetitionCheck.isRepetitive) {
-        console.log(`\u2705 Enhanced concept generated successfully on attempt ${attempts}`);
+        console.log(`Enhanced concept generated successfully on attempt ${attempts}`);
         return concept;
       }
       if (culturalCheck.isSimilar) {
@@ -5750,7 +5616,7 @@ Avoid ALL references to color symbolism, ribbons, tapestry, threads, rising voic
         console.log(`\u{1F6AB} Repetition detected: ${(repetitionCheck.similarity * 100).toFixed(1)}% similarity`);
       }
     } catch (error) {
-      console.error(`\u274C Error on attempt ${attempts}:`, error);
+      console.error(`Error on attempt ${attempts}:`, error);
     }
   }
   throw new Error(`Failed to generate acceptable concept after ${maxAttempts} attempts`);
@@ -5817,7 +5683,7 @@ async function exportHistoryToGoogleDoc() {
     }
     const historyData = await response.json();
     if (historyData.length === 0) {
-      console.log("\u26A0\uFE0F  No session history found. Generate some concepts first.");
+      console.log(" No session history found. Generate some concepts first.");
       return;
     }
     console.log(`\u{1F4CA} Found ${historyData.length} concepts to export`);
@@ -5870,7 +5736,7 @@ ${entry.timestamp}
 
 `;
       } catch (parseError) {
-        console.log(`\u26A0\uFE0F  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
@@ -5887,7 +5753,7 @@ ${entry.timestamp}
     const drive = google.drive({ version: "v3", auth });
     const now = /* @__PURE__ */ new Date();
     const docTitle = `Concept Forge Export - ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
-    console.log("\u{1F4C4} Creating Google Doc...");
+    console.log("Creating Google Doc...");
     const createResponse = await docs.documents.create({
       requestBody: {
         title: docTitle
@@ -5962,7 +5828,7 @@ ${concept.strategicImpact}
 
 `;
       } catch (parseError) {
-        console.log(`\u26A0\uFE0F  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
@@ -5991,18 +5857,18 @@ ${concept.strategicImpact}
           emailAddress: "dustinyork15@gmail.com"
         }
       });
-      console.log("\u2705 Google Docs export complete and shared with dustinyork15@gmail.com");
+      console.log("Google Docs export complete and shared with dustinyork15@gmail.com");
     } catch (shareError) {
       const message = shareError instanceof Error ? shareError.message : String(shareError);
-      console.log(`\u26A0\uFE0F  Could not share document: ${message}`);
+      console.log(` Could not share document: ${message}`);
       console.log("\u{1F4E7} You can manually share the document using the URL below");
     }
     const documentUrl = `https://docs.google.com/document/d/${documentId}/edit`;
-    console.log("\u2705 Export complete! Document URL:", documentUrl);
+    console.log("Export complete! Document URL:", documentUrl);
     console.log(`\u{1F4CA} Exported ${historyData.length} concepts successfully`);
     return documentUrl;
   } catch (error) {
-    console.error("\u274C Export failed:", error);
+    console.error("Export failed:", error);
     process.exit(1);
   }
 }
@@ -6031,7 +5897,7 @@ async function exportHistoryToLocalDoc() {
     }
     const historyData = await response.json();
     if (historyData.length === 0) {
-      console.log("\u26A0\uFE0F  No session history found. Generate some concepts first.");
+      console.log(" No session history found. Generate some concepts first.");
       return;
     }
     console.log(`\u{1F4CA} Found ${historyData.length} concepts to export`);
@@ -6103,15 +5969,15 @@ ${entry.timestamp}
 
 `;
       } catch (parseError) {
-        console.log(`\u26A0\uFE0F  Could not parse concept ${entry.id}, skipping...`);
+        console.log(` Could not parse concept ${entry.id}, skipping...`);
         continue;
       }
     }
     const filename = `concept-forge-export-${today}.txt`;
     const filepath = path2.join(process.cwd(), filename);
     fs2.writeFileSync(filepath, formattedContent, "utf8");
-    console.log("\u2705 Export complete!");
-    console.log(`\u{1F4C4} File saved: ${filename}`);
+    console.log("Export complete!");
+    console.log(`File saved: ${filename}`);
     console.log(`\u{1F4CA} Exported ${historyData.length} concepts successfully`);
     console.log("\n\u{1F4CB} To import to Google Docs:");
     console.log("1. Open Google Docs");
@@ -6120,7 +5986,7 @@ ${entry.timestamp}
     console.log("4. Apply formatting as needed");
     return filepath;
   } catch (error) {
-    console.error("\u274C Export failed:", error);
+    console.error("Export failed:", error);
     process.exit(1);
   }
 }
@@ -6502,8 +6368,69 @@ async function fetchRhetoricalExamples() {
   return data || [];
 }
 
-// server/routes/generateMultivariant.ts
-init_adQualityArbiter();
+// server/utils/adQualityArbiter.ts
+import OpenAI9 from "openai";
+var openai5 = new OpenAI9({ apiKey: process.env.OPENAI_API_KEY });
+async function evaluateAdQuality(concept) {
+  const prompt = `
+You are a senior advertising creative director with 20 years of experience evaluating professional advertising concepts. 
+Imagine this idea as a real, fully-executed advertisement in a magazine or billboard.
+
+Assess the concept carefully and return a JSON object with these fields:
+- professionalism_score: integer (0-100) \u2013 how polished and credible this would feel to clients
+- clarity_score: integer (0-100) \u2013 how clearly the idea communicates
+- freshness_score: integer (0-100) \u2013 how original and interesting it feels
+- critique: short 1-2 sentence comment highlighting strengths and weaknesses
+
+ONLY return a JSON object in this format:
+
+{
+  "professionalism_score": ...,
+  "clarity_score": ...,
+  "freshness_score": ...,
+  "critique": "..."
+}
+
+Concept to evaluate:
+Visual: ${concept.visualDescription}
+Headlines: ${concept.headlines.join(" / ")}
+Rhetorical Device: ${concept.rhetoricalDevice}
+Inspired By: ${concept.rhetoricalExample}
+`;
+  try {
+    const completion = await openai5.chat.completions.create({
+      model: "gpt-5.2",
+      // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [{ role: "system", content: prompt }],
+      temperature: 0.1,
+      // Low temperature for consistent scoring
+      max_completion_tokens: 300,
+      response_format: { type: "json_object" }
+    });
+    const responseContent = completion.choices[0].message.content || "{}";
+    const json = JSON.parse(responseContent);
+    if (typeof json.professionalism_score !== "number" || typeof json.clarity_score !== "number" || typeof json.freshness_score !== "number" || typeof json.critique !== "string") {
+      throw new Error("Invalid response format from quality arbiter");
+    }
+    json.professionalism_score = Math.max(0, Math.min(100, json.professionalism_score));
+    json.clarity_score = Math.max(0, Math.min(100, json.clarity_score));
+    json.freshness_score = Math.max(0, Math.min(100, json.freshness_score));
+    console.log(`Quality Scores - Professional: ${json.professionalism_score}, Clarity: ${json.clarity_score}, Freshness: ${json.freshness_score}`);
+    return json;
+  } catch (error) {
+    console.error("Failed to evaluate ad quality:", error);
+    return {
+      professionalism_score: 75,
+      // Default fallback scores
+      clarity_score: 75,
+      freshness_score: 75,
+      critique: "Quality evaluation unavailable due to processing error"
+    };
+  }
+}
+function shouldFlagForReview(scores) {
+  return scores.professionalism_score < 70 || scores.freshness_score < 60;
+}
 
 // server/utils/audienceEmpathyArbiter.ts
 import OpenAI10 from "openai";
@@ -6554,7 +6481,7 @@ Tone: ${concept.tone}
     }
     json.resonance_score = Math.max(0, Math.min(100, json.resonance_score));
     json.clarity_score = Math.max(0, Math.min(100, json.clarity_score));
-    console.log(`\u{1F3AD} Audience Empathy - Resonance: ${json.resonance_score}, Clarity: ${json.clarity_score}, Vibe: ${json.vibe}`);
+    console.log(`Audience Empathy - Resonance: ${json.resonance_score}, Clarity: ${json.clarity_score}, Vibe: ${json.vibe}`);
     return json;
   } catch (error) {
     console.error("Failed to evaluate audience empathy:", error);
@@ -6623,12 +6550,12 @@ async function evaluateAwardsJuryScore(concept) {
 
 You will judge each concept according to the past 30 years of award-winning campaigns and their common hallmarks:
 
-\u2705 Originality and freshness of the idea
-\u2705 Cultural relevance and resonance
-\u2705 Exceptional craft and execution quality
-\u2705 Simplicity and clarity of the concept
-\u2705 Emotional impact on the audience
-\u2705 Relevance to the brand's identity and goals
+Originality and freshness of the idea
+Cultural relevance and resonance
+Exceptional craft and execution quality
+Simplicity and clarity of the concept
+Emotional impact on the audience
+Relevance to the brand's identity and goals
 
 Use the following criteria with weights in your judgment:
 
@@ -6729,7 +6656,7 @@ Return your assessment as a JSON object:
     const json = JSON.parse(responseContent);
     json.originality_confidence = Math.max(0, Math.min(100, json.originality_confidence || 50));
     json.originality_feedback = json.originality_feedback || "Originality evaluation unavailable";
-    console.log(`\u{1F3A8} Originality Score: ${json.originality_confidence}/100`);
+    console.log(`Originality Score: ${json.originality_confidence}/100`);
     return json;
   } catch (error) {
     console.error("Failed to evaluate originality:", error);
@@ -6918,12 +6845,12 @@ var PerformanceTracker = class {
   }
   printSummary() {
     const finalMetrics = this.getMetrics();
-    console.log("\n\u{1F4C8} PERFORMANCE SUMMARY");
+    console.log("\nPERFORMANCE SUMMARY");
     console.log("========================");
     console.log(`\u23F1\uFE0F  Total Time: ${finalMetrics.totalTime}ms (${(finalMetrics.totalTime / 1e3).toFixed(2)}s)`);
     console.log(`\u{1F517} API Calls: ${finalMetrics.apiCalls}`);
-    console.log(`\u{1F3AF} Total Tokens: ${finalMetrics.totalTokens}`);
-    console.log(`\u{1F4DD} Prompt Tokens: ${finalMetrics.promptTokens}`);
+    console.log(`Total Tokens: ${finalMetrics.totalTokens}`);
+    console.log(`Prompt Tokens: ${finalMetrics.promptTokens}`);
     console.log(`\u{1F4AC} Completion Tokens: ${finalMetrics.completionTokens}`);
     console.log(`\u{1F4B0} Total Cost: $${finalMetrics.totalCost.toFixed(4)}`);
     if (finalMetrics.operations.length > 0) {
@@ -7011,7 +6938,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
     const explanation = explanationMatch ? explanationMatch[1] : "No explanation provided";
     const recommendationMatch = responseText.match(/Recommendation:\s*([^\n]+)/);
     const recommendation = recommendationMatch ? recommendationMatch[1] : "";
-    console.log(`\u{1F3AF} Relevance Score: ${score}/100`);
+    console.log(`Relevance Score: ${score}/100`);
     return {
       raw: responseText,
       score,
@@ -7051,7 +6978,7 @@ async function runIterativeRefinement(initialConcept, context, enabled = true) {
   let evaluation = await evaluateConcept(currentConcept, context.query);
   console.log(`\u{1F4CA} Iteration 1 Results: Originality ${evaluation.originality_confidence}/100, Audience ${evaluation.audience_resonance}, Awards ${evaluation.award_potential}, Relevance ${evaluation.relevance_score}/100`);
   if (evaluation.passes_all_thresholds) {
-    console.log(`\u2705 Concept passed all thresholds on iteration 1`);
+    console.log(`Concept passed all thresholds on iteration 1`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -7064,7 +6991,7 @@ async function runIterativeRefinement(initialConcept, context, enabled = true) {
   console.log(`\u{1F504} Iteration 1 failed criteria: ${evaluation.failed_criteria.join(", ")}. Attempting refinement...`);
   const refinedConcept = await refineConcept(currentConcept, evaluation, context);
   if (!refinedConcept) {
-    console.log(`\u26A0\uFE0F Refinement failed, keeping original concept`);
+    console.log(`Refinement failed, keeping original concept`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -7081,7 +7008,7 @@ async function runIterativeRefinement(initialConcept, context, enabled = true) {
   }, context.query);
   console.log(`\u{1F4CA} Iteration 2 Results: Originality ${refinedEvaluation.originality_confidence}/100, Audience ${refinedEvaluation.audience_resonance}, Awards ${refinedEvaluation.award_potential}, Relevance ${refinedEvaluation.relevance_score}/100`);
   const finalStatus = refinedEvaluation.passes_all_thresholds ? "Passed" : "Needs Review";
-  console.log(`\u{1F3AF} Final Status: ${finalStatus}`);
+  console.log(`Final Status: ${finalStatus}`);
   return {
     visualDescription: refinedConcept.visualDescription,
     headlines: refinedConcept.headlines,
@@ -7257,7 +7184,7 @@ Respond in JSON format:
     const analysisResult = JSON.parse(response.choices[0].message.content || '{"fragments": []}');
     const fragments = analysisResult.fragments || [];
     if (fragments.length === 0) {
-      console.log(`\u{1F4DD} No salvageable fragments found in concept ${concept.id}`);
+      console.log(`No salvageable fragments found in concept ${concept.id}`);
       return;
     }
     for (const fragment of fragments) {
@@ -7281,7 +7208,7 @@ Respond in JSON format:
         console.error("Error inserting fragment:", insertError);
       }
     }
-    console.log(`\u2705 Salvaged ${fragments.length} fragments from concept ${concept.id}`);
+    console.log(`Salvaged ${fragments.length} fragments from concept ${concept.id}`);
   } catch (error) {
     console.error("Error in fragment salvaging:", error);
   }
@@ -7302,7 +7229,7 @@ var openai14 = new OpenAI18();
 async function getRatedConcepts(projectId) {
   const { data: ratings, error: ratingsError } = await supabase3.from("concept_ratings").select("concept_id, rating").eq("project_id", projectId);
   if (ratingsError) {
-    console.warn("\u26A0\uFE0F Failed to fetch ratings:", ratingsError.message);
+    console.warn("Failed to fetch ratings:", ratingsError.message);
     return [];
   }
   if (!ratings || ratings.length === 0) {
@@ -7312,7 +7239,7 @@ async function getRatedConcepts(projectId) {
   const conceptIds = ratings.map((r) => r.concept_id);
   const { data: concepts, error: conceptsError } = await supabase3.from("concept_logs").select("id, embedding").in("id", conceptIds);
   if (conceptsError) {
-    console.warn("\u26A0\uFE0F Failed to fetch concept embeddings:", conceptsError.message);
+    console.warn("Failed to fetch concept embeddings:", conceptsError.message);
     return [];
   }
   const result = ratings.map((rating) => {
@@ -7328,7 +7255,7 @@ async function getRatedConcepts(projectId) {
   }).filter(Boolean);
   return result;
 }
-async function getEmbedding3(text2) {
+async function getEmbedding5(text2) {
   const response = await openai14.embeddings.create({
     model: "text-embedding-3-large",
     input: text2
@@ -7347,7 +7274,7 @@ async function reportSimilarityToRatedConcepts(projectId, newConceptText, simila
     console.log("\u2139\uFE0F No rated concepts found.");
     return;
   }
-  const newEmbedding = await getEmbedding3(newConceptText);
+  const newEmbedding = await getEmbedding5(newConceptText);
   ratedConcepts.forEach((rated) => {
     const similarity = cosineSimilarity2(newEmbedding, rated.embedding);
     if (similarity >= similarityThreshold) {
@@ -7372,7 +7299,7 @@ async function analyzeFeedbackSimilarity(projectId, newConceptText, options = {}
       recommendation: "No feedback history available for comparison"
     };
   }
-  const newEmbedding = await getEmbedding3(newConceptText);
+  const newEmbedding = await getEmbedding5(newConceptText);
   const moreLikeThis = [];
   const lessLikeThis = [];
   ratedConcepts.forEach((rated) => {
@@ -7403,10 +7330,10 @@ async function analyzeFeedbackSimilarity(projectId, newConceptText, options = {}
   }
   if (detailedReport) {
     console.log(`\u{1F4CA} Feedback Similarity Analysis for Project ${projectId}`);
-    console.log(`\u{1F3AF} Similar to ${moreLikeThis.length} preferred concepts`);
-    console.log(`\u274C Similar to ${lessLikeThis.length} rejected concepts`);
-    console.log(`\u{1F4C8} Overall feedback score: ${overallScore.toFixed(3)}`);
-    console.log(`\u{1F4A1} Recommendation: ${recommendation}`);
+    console.log(`Similar to ${moreLikeThis.length} preferred concepts`);
+    console.log(`Similar to ${lessLikeThis.length} rejected concepts`);
+    console.log(`Overall feedback score: ${overallScore.toFixed(3)}`);
+    console.log(`Recommendation: ${recommendation}`);
   }
   return {
     moreLikeThis,
@@ -7421,7 +7348,7 @@ var openai15 = new OpenAI19({ apiKey: process.env.OPENAI_API_KEY });
 async function checkHistoricalSimilarity(visualDescription, headlines) {
   try {
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY) {
-      console.log("\u26A0\uFE0F Supabase credentials not available, skipping historical similarity check");
+      console.log("Supabase credentials not available, skipping historical similarity check");
       return false;
     }
     const { createClient: createClient5 } = await import("@supabase/supabase-js");
@@ -7450,7 +7377,7 @@ async function checkHistoricalSimilarity(visualDescription, headlines) {
       }
       return false;
     } catch (embeddingError) {
-      console.log("\u26A0\uFE0F Embedding similarity failed, falling back to word-based similarity:", embeddingError);
+      console.log("Embedding similarity failed, falling back to word-based similarity:", embeddingError);
       const newWords = newContent.toLowerCase().split(/\s+/).filter((word) => word.length > 2);
       for (const concept of recentConcepts) {
         const existingContent = concept.response.toLowerCase();
@@ -7582,44 +7509,44 @@ function parseOpenAIResponse(response) {
       const line = lines[i].trim();
       if (line.startsWith("# ")) {
         headline = line.substring(2).trim();
-        console.log("\u2705 Found headline:", headline);
+        console.log("Found headline:", headline);
       } else if (line.startsWith("## ")) {
         tagline = line.substring(3).trim();
-        console.log("\u2705 Found tagline:", tagline);
+        console.log("Found tagline:", tagline);
       } else if (line.startsWith("**Tagline:**")) {
         tagline = line.replace("**Tagline:**", "").trim();
-        console.log("\u2705 Found tagline (alt):", tagline);
+        console.log("Found tagline (alt):", tagline);
       } else if (line.startsWith("**Body Copy:**")) {
         currentSection = "bodyCopy";
         const content = line.replace("**Body Copy:**", "").trim();
         if (content) bodyCopy = content;
-        console.log("\u2705 Found body copy section");
+        console.log("Found body copy section");
       } else if (line.startsWith("**Visual Concept:**") || line.startsWith("**Visual:**") || line.startsWith("**Visual Description:**")) {
         currentSection = "visualConcept";
         const content = line.replace(/\*\*(Visual Concept|Visual|Visual Description):\*\*/, "").trim();
         if (content) visualConcept = content;
-        console.log("\u2705 Found visual concept section:", content || "empty, will collect from next lines");
+        console.log("Found visual concept section:", content || "empty, will collect from next lines");
       } else if (line.startsWith("**Rhetorical Craft:**") || line.startsWith("**Rhetorical Device:**")) {
         currentSection = "rhetoricalCraft";
-        console.log("\u2705 Found rhetorical craft section");
+        console.log("Found rhetorical craft section");
       } else if (line.startsWith("**Strategic Impact:**")) {
         currentSection = "strategicImpact";
         const content = line.replace("**Strategic Impact:**", "").trim();
         if (content) strategicImpact = content;
-        console.log("\u2705 Found strategic impact section");
+        console.log("Found strategic impact section");
       } else if (line.startsWith("**Headlines:**")) {
         currentSection = "headlines";
-        console.log("\u2705 Found headlines section");
+        console.log("Found headlines section");
       } else if (line.startsWith("**Success Metrics:**") || line.startsWith("**Evaluation:**") || line.startsWith("**Quality Standards:**") || line.startsWith("### Quality Standards") || line.startsWith("**Effectiveness:**")) {
         currentSection = "other";
-        console.log("\u2705 Found section end, stopping headline collection");
+        console.log("Found section end, stopping headline collection");
       } else if (line.startsWith("### Headlines") || line.startsWith("### Visual Description")) {
         if (line.includes("Headlines")) {
           currentSection = "headlines";
-          console.log("\u2705 Found headlines section (### format)");
+          console.log("Found headlines section (### format)");
         } else if (line.includes("Visual Description")) {
           currentSection = "visualConcept";
-          console.log("\u2705 Found visual concept section (### format)");
+          console.log("Found visual concept section (### format)");
         }
       } else if (line.startsWith("- ") && currentSection === "rhetoricalCraft") {
         rhetoricalCraft.push(line.substring(2).trim());
@@ -7631,14 +7558,14 @@ function parseOpenAIResponse(response) {
         headlineText = headlineText.replace(/\*\*/g, "");
         if (headlineText && !headlines.includes(headlineText) && headlineText.length < 50) {
           headlines.push(headlineText);
-          console.log("\u2705 Found headline:", headlineText);
+          console.log("Found headline:", headlineText);
         }
       } else if (currentSection && line && !line.startsWith("**") && !line.startsWith("- Option")) {
         if (currentSection === "bodyCopy") {
           bodyCopy += (bodyCopy ? " " : "") + line;
         } else if (currentSection === "visualConcept") {
           visualConcept += (visualConcept ? " " : "") + line;
-          console.log("\u2705 Added visual content:", line);
+          console.log("Added visual content:", line);
         } else if (currentSection === "strategicImpact") {
           strategicImpact += (strategicImpact ? " " : "") + line;
         }
@@ -7648,7 +7575,7 @@ function parseOpenAIResponse(response) {
     if (tagline && tagline !== headline && !headlines.includes(tagline)) headlines.push(tagline);
     if (!visualConcept.trim()) {
       visualConcept = bodyCopy || "Innovative visual concept showcasing the product's unique value proposition";
-      console.log("\u26A0\uFE0F Using fallback visual concept");
+      console.log("Using fallback visual concept");
     }
     console.log("\u{1F4CA} Final parsing result:", {
       visual: visualConcept.substring(0, 50) + "...",
@@ -7665,7 +7592,7 @@ function parseOpenAIResponse(response) {
       fullMarkdown: cleanResponse
     };
   } catch (error) {
-    console.error("\u274C Markdown parsing error:", error);
+    console.error("Markdown parsing error:", error);
     console.error("Raw response sample:", response.substring(0, 500));
     return null;
   }
@@ -7695,7 +7622,7 @@ async function selectRhetoricalDevicesWeighted(tone, count = 5) {
     const randomIndex = Math.floor(Math.random() * remainingDevices.length);
     selected.push(remainingDevices.splice(randomIndex, 1)[0]);
   }
-  console.log(`\u{1F3AF} Selected DIVERSE devices for ${tone}: ${selected.join(", ")}`);
+  console.log(`Selected DIVERSE devices for ${tone}: ${selected.join(", ")}`);
   console.log(`\u{1F4CA} Device usage stats:`, selected.map((d) => `${d}:${deviceUsage[d] || 0}`).join(", "));
   return selected;
 }
@@ -7783,7 +7710,7 @@ async function generateMultivariant(req, res) {
           }
         }));
         const endTime = Date.now();
-        console.log(`\u2705 Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
+        console.log(`Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
         console.log(`   Mode: ${hybridResult.metadata.mode}`);
         console.log(`   Creativity Score: ${(hybridResult.metadata.creativityScore * 100).toFixed(1)}%`);
         console.log(`   Divergent Pool: ${hybridResult.metadata.divergentPoolSize} seeds`);
@@ -7813,9 +7740,9 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
           if (conceptId) {
             conceptIds2.push(conceptId);
             outputs[i].conceptId = conceptId;
-            console.log(`\u2705 Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
+            console.log(`Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
           } else {
-            console.error(`\u274C Failed to save hybrid concept ${i + 1} to Supabase`);
+            console.error(`Failed to save hybrid concept ${i + 1} to Supabase`);
             conceptIds2.push(`failed-${Date.now()}-${i}`);
           }
         }
@@ -7831,7 +7758,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
           }
         });
       } catch (hybridError) {
-        console.error("\u274C Hybrid generation failed, falling back to legacy:", hybridError);
+        console.error("Hybrid generation failed, falling back to legacy:", hybridError);
       }
     }
     const allExamples = await fetchRhetoricalExamples();
@@ -7857,7 +7784,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
       const { data, error } = await supabaseClient.from("salvaged_fragments").select("id, fragment_text, rationale, fragment_type").order("created_at", { ascending: false }).limit(5);
       if (!error && data) {
         salvagedFragments = data;
-        console.log(`\u{1F3A8} Retrieved ${salvagedFragments.length} salvaged fragments for inspiration`);
+        console.log(`Retrieved ${salvagedFragments.length} salvaged fragments for inspiration`);
       }
     } catch (error) {
       console.log("No salvaged fragments available or Supabase not configured");
@@ -7891,7 +7818,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
         const randomIndex = Math.floor(Math.random() * availableExamples.length);
         selectedExample = availableExamples.splice(randomIndex, 1)[0];
         batchUsedExamples.push(selectedExample);
-        console.log(`\u{1F3AF} Selected traditional example for generation ${i + 1}: ${selectedExample.campaign_name} - ${selectedExample.brand}`);
+        console.log(`Selected traditional example for generation ${i + 1}: ${selectedExample.campaign_name} - ${selectedExample.brand}`);
       }
       const prompt = generateMultivariantPrompt({
         rhetoricalDevice: primaryDevice,
@@ -7939,7 +7866,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
         })()
       );
     }
-    console.log(`\u2705 Generated ${completionPromises.length} unique prompts with ${batchUsedExamples.length} unique examples`);
+    console.log(`Generated ${completionPromises.length} unique prompts with ${batchUsedExamples.length} unique examples`);
     const completions = await Promise.all(completionPromises);
     for (const example of batchUsedExamples) {
       if (example?.id) {
@@ -7949,14 +7876,14 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
     for (const device of batchUsedDevices) {
       await updateRhetoricalDeviceUsage(device);
     }
-    console.log(`\u{1F4DD} Marked ${batchUsedExamples.length} examples as used and updated usage for ${batchUsedDevices.length} devices`);
+    console.log(`Marked ${batchUsedExamples.length} examples as used and updated usage for ${batchUsedDevices.length} devices`);
     console.log(`\u{1F50D} Processing ${completions.length} completions...`);
     for (const completion of completions) {
       console.log(`\u{1F50D} Raw AI response for ${completion.device}:`, completion.response.substring(0, 300) + "...");
       console.log(`\u{1F50D} Response has content:`, !!completion.response);
       console.log(`\u{1F50D} Response length:`, completion.response.length);
       const parsed = parseOpenAIResponse(completion.response);
-      console.log(`\u{1F3AF} Parsing result for device ${completion.device}:`, {
+      console.log(`Parsing result for device ${completion.device}:`, {
         hasVisual: !!parsed?.visual,
         headlineCount: parsed?.headlines?.length || 0,
         visual: parsed?.visual?.substring(0, 100) || "N/A",
@@ -8040,9 +7967,9 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
                 improvementTip: awardsEvaluation.improvement_tip,
                 highAwardsPotential: hasHighAwardsPotential(awardsEvaluation.awards_score)
               });
-              console.log(`\u2705 Successfully regenerated unique concept`);
+              console.log(`Successfully regenerated unique concept`);
             } else {
-              console.log(`\u26A0\uFE0F Regeneration failed, using original concept`);
+              console.log(`Regeneration failed, using original concept`);
               const combinedContent = `${parsed.visual} ${parsed.headlines.join(" ")}`;
               const originalityResult = await checkOriginality2(combinedContent);
               const adQuality = await evaluateAdQuality({
@@ -8082,7 +8009,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
               });
             }
           } catch (error) {
-            console.log(`\u274C Regeneration error:`, error);
+            console.log(`Regeneration error:`, error);
             const combinedContent = `${parsed.visual} ${parsed.headlines.join(" ")}`;
             const originalityResult = await checkOriginality2(combinedContent);
             const adQuality = await evaluateAdQuality({
@@ -8184,7 +8111,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
                 };
               }
             } catch (error) {
-              console.log("\u26A0\uFE0F Refinement skipped due to error:", error);
+              console.log("Refinement skipped due to error:", error);
             }
           }
           const adQuality = await evaluateAdQuality({
@@ -8249,7 +8176,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
         }
       }
     }
-    console.log(`\u{1F3AF} Generated ${rawOutputs.length} raw concepts, applying embedding-based diversity enforcement...`);
+    console.log(`Generated ${rawOutputs.length} raw concepts, applying embedding-based diversity enforcement...`);
     let finalOutputs = rawOutputs;
     if (rawOutputs.length > 1) {
       try {
@@ -8277,15 +8204,15 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
                 filteredConcepts.push(conceptTexts[i]);
               }
             }
-            console.log(`\u{1F3AF} Filtered ${conceptTexts.length} \u2192 ${filteredConcepts.length} unique concepts`);
+            console.log(`Filtered ${conceptTexts.length} \u2192 ${filteredConcepts.length} unique concepts`);
             return filteredConcepts;
           },
           0.75
           // STRICTER 75% similarity threshold instead of 85%
         );
-        console.log(`\u2705 Semantic diversity check completed - ${diverseConceptTexts.length} concepts passed`);
+        console.log(`Semantic diversity check completed - ${diverseConceptTexts.length} concepts passed`);
       } catch (embeddingError) {
-        console.log("\u26A0\uFE0F Embedding diversity check failed, proceeding with existing concepts:", embeddingError);
+        console.log("Embedding diversity check failed, proceeding with existing concepts:", embeddingError);
       }
     }
     const diversifiedOutputs = calculateDiversityScore(finalOutputs);
@@ -8326,7 +8253,7 @@ ${output.reflection || "Designed to resonate with target audience and achieve ca
       });
       if (conceptId) {
         conceptIds.push(conceptId);
-        console.log(`\u2705 Multivariant concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
+        console.log(`Multivariant concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
         try {
           const projectId = req.body.projectId || "default_project";
           await reportSimilarityToRatedConcepts(
@@ -8346,17 +8273,17 @@ ${output.reflection || "Designed to resonate with target audience and achieve ca
             }
           );
           if (feedbackAnalysis.overallScore !== 0) {
-            console.log(`\u{1F3AF} Feedback alignment for concept ${i + 1}: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+            console.log(`Feedback alignment for concept ${i + 1}: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
           }
         } catch (feedbackError) {
           console.log(`\u{1F4CA} Feedback analysis skipped for concept ${i + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
         }
       } else {
-        console.error(`\u274C Failed to save multivariant concept ${i + 1} to Supabase!`);
+        console.error(`Failed to save multivariant concept ${i + 1} to Supabase!`);
         conceptIds.push(`failed-${Date.now()}-${i}`);
       }
     }
-    console.log(`\u{1F4DD} Logged ${conceptIds.length} individual concepts as structured JSON`);
+    console.log(`Logged ${conceptIds.length} individual concepts as structured JSON`);
     const logResult = conceptIds[0];
     if (logResult && salvagedFragments.length > 0) {
       try {
@@ -8590,8 +8517,8 @@ async function registerRoutes(app2) {
         });
       }
       const validatedData = aiRequestFormSchema.parse(req.body);
-      console.log(`\u{1F3AF} RECEIVED QUERY: "${validatedData.query}"`);
-      console.log(`\u{1F3A8} RECEIVED TONE: ${validatedData.tone}`);
+      console.log(`RECEIVED QUERY: "${validatedData.query}"`);
+      console.log(`RECEIVED TONE: ${validatedData.tone}`);
       console.log(`\u{1F50D} Deep scan enabled: ${validatedData.deepScan}`);
       const theories = ["Burke", "Messaris", "Barthes", "Lupton", "Phillips & McQuarrie", "Tufte", "Forceville", "Kress", "Aristotle"];
       const randomTheories = theories.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 3);
@@ -8644,7 +8571,7 @@ async function registerRoutes(app2) {
       if (aiResponse.concepts.length > 0) {
         const firstConcept = aiResponse.concepts[0];
         const originalityScore = firstConcept.originalityCheck?.confidence ? firstConcept.originalityCheck.confidence * 100 : 0;
-        console.log(`\u{1F3AF} ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
+        console.log(`ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
       }
       const isReforge = validatedData.query.includes("[REFORGE:");
       let iterationType = "original";
@@ -8680,7 +8607,7 @@ async function registerRoutes(app2) {
               await reportSimilarityToRatedConcepts(validatedData.projectId, concept.content, 0.75);
               const feedbackAnalysis = await analyzeFeedbackSimilarity(validatedData.projectId, concept.content, { similarityThreshold: 0.7, detailedReport: false, includeScoring: true });
               if (feedbackAnalysis.overallScore !== 0) {
-                console.log(`\u{1F3AF} Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                console.log(`Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
               }
             } catch (feedbackError) {
               console.log(`\u{1F4CA} Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
@@ -8729,7 +8656,7 @@ async function registerRoutes(app2) {
                 await reportSimilarityToRatedConcepts(projId, conceptContent, 0.75);
                 const feedbackAnalysis = await analyzeFeedbackSimilarity(projId, conceptContent, { similarityThreshold: 0.7, detailedReport: false, includeScoring: true });
                 if (feedbackAnalysis.overallScore !== 0) {
-                  console.log(`\u{1F3AF} Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                  console.log(`Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
                 }
               } catch (feedbackError) {
                 console.log(`\u{1F4CA} Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
@@ -9229,7 +9156,7 @@ async function registerRoutes(app2) {
         validatedData.rating,
         validatedData.conceptId
       );
-      console.log(`\u{1F3AF} Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
+      console.log(`Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
       res.json({
         success: true,
         influence: influenceResult,
@@ -9306,7 +9233,7 @@ async function registerRoutes(app2) {
         sessionHistory: z2.array(z2.string()).optional(),
         recentConcepts: z2.array(z2.string()).optional()
       }).parse(req.body);
-      console.log(`\u{1F3AF} Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
+      console.log(`Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
       const concept = await generateEnhancedConcept2({
         query: validatedData.query,
         tone: validatedData.tone,
@@ -9324,9 +9251,9 @@ async function registerRoutes(app2) {
         originalityConfidence: 0.95
       });
       if (!conceptId) {
-        console.error("\u274C Failed to save concept to Supabase - this should not happen!");
+        console.error("Failed to save concept to Supabase - this should not happen!");
       } else {
-        console.log(`\u2705 Concept saved to Supabase with ID: ${conceptId}`);
+        console.log(`Concept saved to Supabase with ID: ${conceptId}`);
       }
       const entryId = `enhanced-${Date.now()}`;
       sessionHistory.push({

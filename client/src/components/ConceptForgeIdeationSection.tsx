@@ -11,7 +11,6 @@ import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
 import BriefHistory from "./BriefHistory";
 import { useVideo } from "@/hooks/use-video";
-import { EnhancedLoadingOverlay } from "@/components/ui/enhanced-loading";
 import { apiClient, handleAPIError } from "@/lib/apiClient";
 import { useViewport, useTouchFeedback } from "@/hooks/useMobileOptimizations";
 import { toast } from "@/hooks/use-toast";
