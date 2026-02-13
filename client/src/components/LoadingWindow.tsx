@@ -17,11 +17,11 @@ const STEP_MAP: Record<string, number> = {
 
 const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps) => {
     const steps = [
-        { icon: '🔍', title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
-        { icon: '🌀', title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
+        { icon: '', title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
+        { icon: '', title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
         { icon: '', title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
-        { icon: '🤖', title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
-        { icon: '⚖️', title: 'Scoring & Ranking', desc: 'Evaluating quality and originality.' },
+        { icon: '', title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
+        { icon: '', title: 'Scoring & Ranking', desc: 'Evaluating quality and originality.' },
         { icon: '', title: 'Done!', desc: 'Your concepts are ready.' }
     ];
 
@@ -95,16 +95,19 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                 textAlign: 'center',
                 fontFamily: 'system-ui, -apple-system, sans-serif',
                 color: '#fff',
-                borderRadius: '12px',
+                borderRadius: '0',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
             }}>
-                {/* Animated forge icon */}
+                {/* Step indicator */}
                 <div style={{
-                    fontSize: '48px',
+                    fontSize: '14px',
                     marginBottom: '20px',
-                    animation: 'pulse 2s ease-in-out infinite'
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: '#94a3b8',
+                    fontFamily: 'JetBrains Mono, monospace'
                 }}>
-                    {steps[currentStep]?.icon || ''}
+                    Step {currentStep + 1} of {steps.length}
                 </div>
 
                 <h2 style={{
@@ -133,7 +136,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                     height: '4px',
                     background: 'rgba(148, 163, 184, 0.2)',
                     margin: '16px 0 24px',
-                    borderRadius: '2px',
+                    borderRadius: '0',
                     overflow: 'hidden'
                 }}>
                     <div style={{
@@ -141,7 +144,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                         height: '100%',
                         background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
                         transition: 'width 0.5s ease-out',
-                        borderRadius: '2px'
+                        borderRadius: '0'
                     }} />
                 </div>
 
@@ -153,7 +156,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                     gap: '12px',
                     padding: '16px',
                     background: 'rgba(59, 130, 246, 0.1)',
-                    borderRadius: '8px',
+                    borderRadius: '0',
                     marginBottom: '24px',
                     minHeight: '72px'
                 }}>
@@ -180,7 +183,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                             style={{
                                 width: '8px',
                                 height: '8px',
-                                borderRadius: '50%',
+                                borderRadius: '0',
                                 background: i <= currentStep ? '#3b82f6' : 'rgba(148, 163, 184, 0.3)',
                                 transition: 'background 0.3s ease'
                             }}
@@ -202,7 +205,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                         background: 'transparent',
                         color: '#94a3b8',
                         border: '1px solid rgba(148, 163, 184, 0.3)',
-                        borderRadius: '6px',
+                        borderRadius: '0',
                         cursor: 'pointer',
                         fontSize: '14px',
                         transition: 'all 0.2s ease'

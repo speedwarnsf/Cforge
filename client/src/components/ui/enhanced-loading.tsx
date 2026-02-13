@@ -25,7 +25,7 @@ const generationSteps: LoadingStep[] = [
     icon: Brain,
     title: 'Analyzing Brief',
     description: 'Understanding context and requirements',
-    emoji: '🧠'
+    emoji: ''
   },
   {
     id: 'exploring',
@@ -160,8 +160,8 @@ export const EnhancedLoadingOverlay = memo(({
                 transition={{ duration: 0.3 }}
                 className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl"
               >
-                <div className="text-3xl">
-                  {generationSteps[activeStepIndex]?.emoji}
+                <div className="text-blue-400">
+                  {(() => { const Icon = generationSteps[activeStepIndex]?.icon; return Icon ? <Icon className="w-6 h-6" /> : null; })()}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-white font-semibold">

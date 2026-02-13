@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThumbsUp, ThumbsDown, Star, Sparkles } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Star, Sparkles, Copy, Download } from "lucide-react";
 
 interface ResultsDisplayProps {
   results: any[];
@@ -35,14 +35,47 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 mt-8 mb-12">
-      <div className="flex items-center gap-3 mb-6">
-        <Sparkles className="w-5 h-5 text-amber-400" />
+      <div className="flex items-center gap-3 mb-6 flex-wrap">
         <h2 className="text-xl font-semibold text-white">
           Generated Concept{results.length > 1 ? 's' : ''}
         </h2>
         <Badge variant="secondary" className="bg-amber-900/30 text-amber-400 border-amber-700/50">
           {results.length} result{results.length > 1 ? 's' : ''}
         </Badge>
+        <div className="ml-auto flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              const text = results.map((c, i) => `--- Concept ${i + 1} ---\nHeadline: ${c.headline || ''}\nDevices: ${Array.isArray(c.devices) ? c.devices.join(', ') : c.devices || ''}\nRationale: ${c.rationale || ''}`).join('\n\n');
+              navigator.clipboard.writeText(text);
+            }}
+            className="text-gray-400 hover:text-white text-xs"
+          >
+            <Copy className="w-3.5 h-3.5 mr-1" />
+            Copy All
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              const text = results.map((c, i) => `--- Concept ${i + 1} ---\nHeadline: ${c.headline || ''}\nDevices: ${Array.isArray(c.devices) ? c.devices.join(', ') : c.devices || ''}\nRationale: ${c.rationale || ''}`).join('\n\n');
+              const blob = new Blob([text], { type: 'text/plain' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `conceptforge-${new Date().toISOString().slice(0,10)}.txt`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }}
+            className="text-gray-400 hover:text-white text-xs"
+          >
+            <Download className="w-3.5 h-3.5 mr-1" />
+            Download
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4">

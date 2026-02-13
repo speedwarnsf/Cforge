@@ -121,7 +121,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   ];
 
   const handleGenerate = async () => {
-    console.log('🚀 Enhanced generation starting');
+    console.log('Enhanced generation starting');
     setIsLoading(true);
     setResults([]);
 
@@ -141,7 +141,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       startForgeLoop();
       setGenerationStatus({ step: 'analyzing', progress: 5, detail: 'Analyzing your creative brief...' });
       clearGenerationLogs();
-      addGenerationLog('🚀 Initializing enhanced generation pipeline...');
+      addGenerationLog('Initializing enhanced generation pipeline...');
     } catch (e) {
       console.warn('Animation start failed:', e);
     }
@@ -190,7 +190,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 break;
 
               case 'complete':
-                addGenerationLog(`🎉 Complete! ${event.data.outputs?.length || 0} concepts generated`);
+                addGenerationLog(`Complete -- ${event.data.outputs?.length || 0} concepts generated`);
                 break;
             }
           }
@@ -233,7 +233,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
 
         const result = await apiClient.post<any>('/api/generate', data);
 
-        addGenerationLog('🔍 Evaluating concept quality...');
+        addGenerationLog('Evaluating concept quality...');
         setGenerationStatus(prev => ({ ...prev!, step: 'evaluating', progress: 75, detail: 'Running quality analysis...' }));
 
         if (!result || result.error) {
@@ -258,8 +258,8 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
 
         setResults([parsedConcept]);
         
-        addGenerationLog('💎 Concept ready!');
-        setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: '🎉 Breakthrough concept created!' }));
+        addGenerationLog('Concept ready.');
+        setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: 'Breakthrough concept created.' }));
 
         // Success feedback
         toast({
@@ -447,7 +447,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                       {brief.length}/1000 characters
                     </span>
                     <div className="text-xs text-gray-500">
-                      {brief.length > 50 ? "✓ Good length" : "Add more detail for better results"}
+                      {brief.length > 50 ? "Good length" : "Add more detail for better results"}
                     </div>
                   </div>
 
@@ -569,7 +569,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                       {brief.length}/1000 characters
                     </span>
                     <div className="text-xs text-gray-500">
-                      {brief.length > 50 ? "✓ Good length for variants" : "Add more detail for better variant results"}
+                      {brief.length > 50 ? "Good length for variants" : "Add more detail for better variant results"}
                     </div>
                   </div>
                 </CardContent>

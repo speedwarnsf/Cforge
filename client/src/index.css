@@ -695,6 +695,11 @@ html {
     hanging-punctuation: first last;
   }
   
+  /* Headings - balanced wrapping */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
   /* Navigation and button specific */
   nav *, button *, a * {
     text-wrap: balance;

@@ -699,6 +699,44 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
                 <div className="flex items-center justify-center space-x-4 mt-8 pt-8">
                   <Button
                     variant="ghost"
+                    onClick={() => {
+                      const allText = currentConcepts.map((c, i) => {
+                        const clean = c.content.replace(/```markdown\s*/g, '').replace(/```/g, '').replace(/\*\*/g, '');
+                        return `--- Concept ${i + 1} ---\n${clean}`;
+                      }).join('\n\n');
+                      navigator.clipboard.writeText(allText);
+                      toast({ title: "Copied all concepts", description: `${currentConcepts.length} concepts copied to clipboard`, duration: 2000 });
+                    }}
+                    className="bg-transparent border-0 text-white hover:bg-white hover:text-neutral-900 px-4 py-3"
+                  >
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy All
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      const allText = currentConcepts.map((c, i) => {
+                        const clean = c.content.replace(/```markdown\s*/g, '').replace(/```/g, '').replace(/\*\*/g, '');
+                        return `--- Concept ${i + 1} (${c.rhetoricalDevice || c.tone}) ---\n${clean}`;
+                      }).join('\n\n');
+                      const blob = new Blob([allText], { type: 'text/plain' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `conceptforge-export-${new Date().toISOString().slice(0,10)}.txt`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                      toast({ title: "Downloaded", description: "Concepts exported as text file", duration: 2000 });
+                    }}
+                    className="bg-transparent border-0 text-white hover:bg-white hover:text-neutral-900 px-4 py-3"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download All
+                  </Button>
+                  <Button
+                    variant="ghost"
                     onClick={clearResponse}
                     className="bg-transparent border-0 text-white hover:bg-white hover:text-neutral-900 px-4 py-3"
                   >
