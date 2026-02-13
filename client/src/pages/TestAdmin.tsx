@@ -264,7 +264,7 @@ export default function TestAdmin() {
           </p>
           
           {/* Iterative Refinement Control */}
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-none">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-blue-900 mb-1">
@@ -276,12 +276,12 @@ export default function TestAdmin() {
               </div>
               <button
                 onClick={() => setEnableIterativeRefinement(!enableIterativeRefinement)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-none transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
                   enableIterativeRefinement ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  className={`inline-block h-4 w-4 transform rounded-none bg-white transition-transform ${
                     enableIterativeRefinement ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
@@ -313,7 +313,7 @@ export default function TestAdmin() {
 
         {/* Test Summary */}
         {testsSummary && (
-          <div className="bg-gray-50 p-6 rounded-lg mb-8">
+          <div className="bg-gray-50 p-6 rounded-none mb-8">
             <h2 className="text-xl font-bold mb-4">Test Summary Report</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
               <div className="flex items-center">
@@ -337,7 +337,7 @@ export default function TestAdmin() {
             <h2 className="text-2xl font-bold text-gray-900">Test Results</h2>
             
             {testResults.map((test, testIndex) => (
-              <div key={test.id} className="border border-gray-200 rounded-lg p-6">
+              <div key={test.id} className="border border-gray-200 rounded-none p-6">
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     Test {testIndex + 1}: {test.tone} tone
@@ -360,7 +360,7 @@ export default function TestAdmin() {
                       const conceptData = conceptResults.find(c => c.id === concept.id);
                       
                       return (
-                        <div key={concept.id} className="bg-gray-50 p-4 rounded-lg">
+                        <div key={concept.id} className="bg-gray-50 p-4 rounded-none">
                           <div className="mb-3">
                             <h4 className="font-semibold text-gray-900 mb-1">
                               Concept {conceptIndex + 1}: {concept.rhetoricalDevice}

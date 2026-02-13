@@ -108,7 +108,7 @@ export default function ConceptForgeHero() {
         <Button
           onClick={scrollToIdeation}
           size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 rounded-lg shadow-2xl transition-all duration-300 hover:scale-105"
+          className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 rounded-none shadow-2xl transition-all duration-300 hover:scale-105"
           style={{
             boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3)',
           }}

@@ -37,12 +37,12 @@ export default function SimpleTestInterface() {
 
       {/* Toggle Buttons */}
       <div className="flex gap-4 mb-8">
-        <button className="px-6 py-3 bg-blue-600 text-white rounded">Single Concept</button>
-        <button className="px-6 py-3 bg-gray-800 text-white rounded">Multi-Variant</button>
+        <button className="px-6 py-3 bg-blue-600 text-white">Single Concept</button>
+        <button className="px-6 py-3 bg-gray-800 text-white">Multi-Variant</button>
       </div>
 
       {/* Generate Button */}
-      <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg text-xl font-bold">
+      <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-none text-xl font-bold">
         Generate Concepts
       </button>
 

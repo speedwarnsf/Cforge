@@ -137,28 +137,48 @@ export default function Home() {
       </div>
 
       {/* Admin Navigation - Only visible in development or with ?admin query param */}
-      {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
-        <div className="fixed right-4 top-4 flex gap-2 z-50">
-          <Link href="/test-admin">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
-            >
-              Test
-            </Button>
-          </Link>
-          <Link href="/review">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
-            >
-              Review
-            </Button>
-          </Link>
-        </div>
-      )}
+      <div className="fixed right-4 top-4 flex gap-2 z-50">
+        <Link href="/devices">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-0.5 h-6 bg-black/60 border-white/20 text-white/60 hover:text-white transition-all"
+          >
+            411 Devices
+          </Button>
+        </Link>
+        <Link href="/gallery">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-0.5 h-6 bg-black/60 border-amber-700/50 text-amber-400/70 hover:text-amber-300 transition-all"
+          >
+            Gallery
+          </Button>
+        </Link>
+        {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
+          <>
+            <Link href="/test-admin">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
+              >
+                Test
+              </Button>
+            </Link>
+            <Link href="/review">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="text-xs px-2 py-0.5 h-6 bg-gray-500/70 border-gray-500/70 text-gray-300 hover:text-white transition-all"
+              >
+                Review
+              </Button>
+            </Link>
+          </>
+        )}
+      </div>
 
       {/* Background Continuation Layer - Minimal Height */}
       <div 

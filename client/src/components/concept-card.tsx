@@ -406,7 +406,7 @@ const ConceptCard = React.memo(function ConceptCard({ concept, onRate, showRatin
           ${concept.content.replace(/\n/g, '<br>')}
         </div>
         ${concept.originalityCheck ? `
-        <div style="margin: 20px 0; padding: 15px; background: ${concept.originalityCheck.isOriginal ? '#f0fdf4' : '#fef2f2'}; border-radius: 8px;">
+        <div style="margin: 20px 0; padding: 15px; background: ${concept.originalityCheck.isOriginal ? '#f0fdf4' : '#fef2f2'}; border-radius: 0;">
           <h3 style="margin: 0 0 10px 0; color: ${concept.originalityCheck.isOriginal ? '#166534' : '#dc2626'};">
             Originality Check
           </h3>

@@ -45,28 +45,28 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   const [allowCliches, setAllowCliches] = useState(false);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
 
-  // Carousel data with original styling and distinct gradients
+  // Carousel data - focused on the rhetorical craft
   const carouselItems = [
     {
       icon: Target,
-      title: "Your personalized brainstorm partner",
-      subtitle: "Workshop and refine fresh new ideas that remain true to your creative voice.",
+      title: "411 rhetorical devices at your fingertips",
+      subtitle: "From antithesis to zeugma. Classical rhetoric meets modern advertising.",
       gradient: "from-blue-500 to-blue-600",
-      textGradient: "linear-gradient(to right, #60a5fa, #a78bfa)" // Blue to purple
+      textGradient: "linear-gradient(to right, #60a5fa, #a78bfa)"
     },
     {
       icon: Search,
-      title: "Your research co-pilot",
-      subtitle: "Discover new concepts with powerful data-driven insights from hundreds of campaigns.",
+      title: "4-arbiter quality scoring",
+      subtitle: "Originality, resonance, professionalism, and award potential. Every concept evaluated.",
       gradient: "from-purple-500 to-purple-600",
-      textGradient: "linear-gradient(to right, #a78bfa, #f472b6)" // Purple to pink
+      textGradient: "linear-gradient(to right, #a78bfa, #f472b6)"
     },
     {
       icon: BookOpen,
-      title: "Your bank for the best ideas",
-      subtitle: "Save unlimited ideas. Come back anytime to build your next hit.",
+      title: "245+ campaign corpus",
+      subtitle: "Real-world examples from major brands. Data-driven creative intelligence.",
       gradient: "from-green-500 to-green-600",
-      textGradient: "linear-gradient(to right, #4ade80, #60a5fa)" // Green to blue
+      textGradient: "linear-gradient(to right, #4ade80, #60a5fa)"
     }
   ];
 
@@ -383,7 +383,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               setMode("single");
               localStorage.setItem('conceptForge_mode', 'single');
             }}
-            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all ${
+            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-none text-base sm:text-lg font-semibold transition-all ${
               mode === "single" 
                 ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-2 border-blue-600" 
                 : "bg-gray-800 border-2 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500"
@@ -397,7 +397,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               setMode("multi");
               localStorage.setItem('conceptForge_mode', 'multi');
             }}
-            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all ${
+            className={`px-5 sm:px-8 py-3 sm:py-4 rounded-none text-base sm:text-lg font-semibold transition-all ${
               mode === "multi" 
                 ? "bg-purple-600 hover:bg-purple-700 text-white shadow-lg border-2 border-purple-600" 
                 : "bg-gray-800 border-2 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-500"
@@ -463,11 +463,11 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 onClick={handleGenerate}
                 disabled={!brief.trim() || isLoading}
                 size="lg"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 text-lg font-semibold rounded-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
               >
                 {isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
+                    <div className="animate-spin rounded-none h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
                     Generating Concept...
                   </>
                 ) : (
@@ -498,7 +498,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     >
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg ${
+                          <div className={`p-2 rounded-none ${
                             selectedLens === lens.id ? "bg-white/20" : "bg-gray-700"
                           }`}>
                             <IconComponent className={`h-5 w-5 ${
@@ -517,7 +517,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                               {lens.description}
                             </p>
                           </div>
-                          <div className={`w-3 h-3 rounded-full ${
+                          <div className={`w-3 h-3 rounded-none ${
                             selectedLens === lens.id ? "bg-white" : "bg-gray-600"
                           }`}></div>
                         </div>
@@ -604,11 +604,11 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 onClick={handleGenerate}
                 disabled={!brief.trim() || isLoading}
                 size="lg"
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-4 text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-4 text-lg font-semibold rounded-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
               >
                 {isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
+                    <div className="animate-spin rounded-none h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
                     Generating Variants...
                   </>
                 ) : (
@@ -628,7 +628,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 <Card className="bg-gradient-to-r from-purple-600 to-pink-600 border-transparent shadow-lg cursor-pointer">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg bg-white/20 flex-shrink-0">
+                      <div className="p-2 rounded-none bg-white/20 flex-shrink-0">
                         <Grid3X3 className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -637,7 +637,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                           Generate variants across all creative lenses for maximum diversity
                         </p>
                       </div>
-                      <div className="w-3 h-3 rounded-full bg-white flex-shrink-0 mt-1"></div>
+                      <div className="w-3 h-3 rounded-none bg-white flex-shrink-0 mt-1"></div>
                     </div>
                   </CardContent>
                 </Card>
@@ -645,7 +645,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                 <Card className="bg-gray-800/30 border-gray-700 hover:border-gray-600 cursor-pointer opacity-60">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg bg-gray-700 flex-shrink-0">
+                      <div className="p-2 rounded-none bg-gray-700 flex-shrink-0">
                         <Target className="h-5 w-5 text-gray-400" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -654,7 +654,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                           Multiple variations within a single creative lens (Coming Soon)
                         </p>
                       </div>
-                      <div className="w-3 h-3 rounded-full bg-gray-600 flex-shrink-0 mt-1"></div>
+                      <div className="w-3 h-3 rounded-none bg-gray-600 flex-shrink-0 mt-1"></div>
                     </div>
                   </CardContent>
                 </Card>
@@ -668,7 +668,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
           <div className="max-w-2xl mx-auto">
             <div className="flex justify-center gap-4">
               {/* Image Analysis Toggle */}
-              <div className={`bg-gray-800/20 backdrop-blur-sm border rounded-lg p-4 transition-all duration-200 ${
+              <div className={`bg-gray-800/20 backdrop-blur-sm border rounded-none p-4 transition-all duration-200 ${
                 imageAnalysisEnabled ? 'border-green-400 bg-green-900/20' : 'border-gray-700'
               }`}>
                 <div className="flex items-center justify-between mb-2">
@@ -694,7 +694,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
               </div>
 
               {/* Cliché Detection Toggle */}
-              <div className={`bg-gray-800/20 backdrop-blur-sm border rounded-lg p-4 transition-all duration-200 ${
+              <div className={`bg-gray-800/20 backdrop-blur-sm border rounded-none p-4 transition-all duration-200 ${
                 allowCliches ? 'border-purple-400 bg-purple-900/20' : 'border-gray-700'
               }`}>
                 <div className="flex items-center justify-between mb-2">
@@ -722,7 +722,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
           </div>
 
           {/* Session History - Full width to outer edges */}
-          <div className="mt-8 bg-gray-800/20 backdrop-blur-sm border border-gray-700 rounded-lg w-full">
+          <div className="mt-8 bg-gray-800/20 backdrop-blur-sm border border-gray-700 rounded-none w-full">
             <SessionHistory />
           </div>
         </div>

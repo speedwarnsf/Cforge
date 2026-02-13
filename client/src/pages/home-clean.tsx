@@ -35,16 +35,16 @@ export default function Home() {
 
         {/* Toggle Buttons */}
         <div style={{display: 'flex', gap: '16px', marginBottom: '30px'}}>
-          <button style={{padding: '12px 24px', background: '#2563eb', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold'}}>
+          <button style={{padding: '12px 24px', background: '#2563eb', color: 'white', border: 'none', borderRadius: "0", fontSize: '16px', fontWeight: 'bold'}}>
             Single Concept
           </button>
-          <button style={{padding: '12px 24px', background: '#374151', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold'}}>
+          <button style={{padding: '12px 24px', background: '#374151', color: 'white', border: 'none', borderRadius: "0", fontSize: '16px', fontWeight: 'bold'}}>
             Multi-Variant
           </button>
         </div>
 
         {/* Generate Button */}
-        <button style={{padding: '16px 32px', background: 'linear-gradient(45deg, #2563eb, #7c3aed)', color: 'white', border: 'none', borderRadius: '8px', fontSize: '20px', fontWeight: 'bold', marginBottom: '30px'}}>
+        <button style={{padding: '16px 32px', background: 'linear-gradient(45deg, #2563eb, #7c3aed)', color: 'white', border: 'none', borderRadius: "0", fontSize: '20px', fontWeight: 'bold', marginBottom: '30px'}}>
           Generate Concepts
         </button>
 

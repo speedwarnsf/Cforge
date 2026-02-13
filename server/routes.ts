@@ -1355,6 +1355,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Rhetorical Device Library endpoint
+  app.get("/api/devices", async (_req, res) => {
+    try {
+      const { loadAllRhetoricalDevices } = await import('./utils/tropeConstraints');
+      const devices = loadAllRhetoricalDevices();
+      const deviceList = Object.entries(devices).map(([id, definition]) => ({
+        figure_name: id.replace(/_/g, ' '),
+        definition,
+      }));
+      deviceList.sort((a, b) => a.figure_name.localeCompare(b.figure_name));
+      res.json(deviceList);
+    } catch (error) {
+      console.error('Error loading devices:', error);
+      res.status(500).json({ error: 'Failed to load rhetorical devices' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

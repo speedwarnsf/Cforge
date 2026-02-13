@@ -156,7 +156,7 @@ export default function BriefHistory({ onSelectBrief, currentQuery }: BriefHisto
   };
 
   return (
-    <div className="border border-gray-700 rounded-lg bg-gray-900/50 overflow-hidden">
+    <div className="border border-gray-700 rounded-none bg-gray-900/50 overflow-hidden">
       {/* Header - always visible */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -219,7 +219,7 @@ export default function BriefHistory({ onSelectBrief, currentQuery }: BriefHisto
                 <div
                   key={brief.id}
                   onClick={() => onSelectBrief(brief)}
-                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:border-blue-500/50 hover:bg-gray-800/50 ${
+                  className={`p-3 rounded-none border cursor-pointer transition-all hover:border-blue-500/50 hover:bg-gray-800/50 ${
                     currentQuery === brief.query
                       ? 'border-blue-500 bg-blue-500/10'
                       : 'border-gray-700 bg-gray-800/30'

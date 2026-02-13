@@ -54,7 +54,7 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.props.compact) {
       return (
         <div 
-          className="p-4 bg-red-950/50 border border-red-800/50 rounded-lg text-center"
+          className="p-4 bg-red-950/50 border border-red-800/50 rounded-none text-center"
           role="alert"
           aria-label={`Error in ${this.props.label || 'component'}`}
         >
@@ -107,7 +107,7 @@ class ErrorBoundary extends Component<Props, State> {
           </div>
 
           {process.env.NODE_ENV === 'development' && this.state.error && (
-            <details className="bg-slate-800 text-white p-4 rounded-md text-sm">
+            <details className="bg-slate-800 text-white p-4 rounded-none text-sm">
               <summary className="cursor-pointer mb-2 font-semibold">
                 Error Details (Development)
               </summary>
@@ -155,7 +155,7 @@ export function ApiErrorDisplay({
 
   return (
     <div 
-      className="p-4 bg-red-950/30 border border-red-800/40 rounded-lg"
+      className="p-4 bg-red-950/30 border border-red-800/40 rounded-none"
       role="alert"
       aria-live="assertive"
     >

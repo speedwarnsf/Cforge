@@ -36,7 +36,7 @@ export function exportConceptsAsPDF(concepts: StoredConcept[]): void {
   .body-copy { font-size: 14px; line-height: 1.7; color: #333; }
   .visual { font-size: 13px; color: #555; font-style: italic; background: #fafafa; padding: 12px; border-left: 3px solid #ddd; }
   .scores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-  .score-card { text-align: center; padding: 8px 14px; background: #f8f8f8; border-radius: 6px; min-width: 80px; }
+  .score-card { text-align: center; padding: 8px 14px; background: #f8f8f8; border-radius: 0; min-width: 80px; }
   .score-grade { font-size: 20px; font-weight: 900; }
   .score-label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #888; }
   .score-pct { font-size: 11px; color: #aaa; font-family: monospace; }
@@ -119,7 +119,7 @@ export function exportConceptsAsPresentation(concepts: StoredConcept[]): void {
   .vl { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.35); display: block; margin-bottom: 6px; }
   .visual-block p { font-size: 14px; color: rgba(255,255,255,0.6); font-style: italic; }
   .score-row { display: flex; gap: 12px; margin-top: 20px; }
-  .score-pill { background: rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 16px; text-align: center; min-width: 60px; }
+  .score-pill { background: rgba(255,255,255,0.08); border-radius: 0; padding: 10px 16px; text-align: center; min-width: 60px; }
   .sp-val { display: block; font-size: 22px; font-weight: 800; color: #60A5FA; }
   .sp-lbl { display: block; font-size: 9px; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-top: 2px; }
   @media print { .slide { height: 100vh; } }

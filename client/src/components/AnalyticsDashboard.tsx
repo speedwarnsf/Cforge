@@ -43,7 +43,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
   };
 
   return (
-    <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <div className="mt-6 p-4 border border-gray-200 rounded-none bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
       <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
         Generation Analytics
       </h3>
@@ -95,7 +95,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
           {metrics.theoriesApplied.map((theory, index) => (
             <span 
               key={index}
-              className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full"
+              className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-none"
             >
               {theory}
             </span>

@@ -201,7 +201,7 @@ export default function Review() {
           </p>
           
           <div className="flex items-center space-x-4 mb-6">
-            <div className="bg-gray-100 px-4 py-2 rounded-lg">
+            <div className="bg-gray-100 px-4 py-2 rounded-none">
               <span className="text-gray-700 font-medium">{entries.length}</span>
               <span className="text-gray-500 ml-1">concepts pending review</span>
             </div>
@@ -239,7 +239,7 @@ export default function Review() {
               return (
                 <div 
                   key={entry.id} 
-                  className={`border rounded-lg p-6 transition-all duration-300 ${
+                  className={`border rounded-none p-6 transition-all duration-300 ${
                     isProcessing ? 'opacity-50 scale-95' : 'opacity-100 scale-100'
                   } ${
                     entry.flagged_for_review && entry.low_audience_resonance 
@@ -260,7 +260,7 @@ export default function Review() {
                         
                         {/* Low Originality Warning Badge */}
                         {entry.originality_confidence !== undefined && entry.originality_confidence < 70 && (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          <span className="inline-flex items-center px-2 py-1 rounded-none text-xs font-medium bg-red-100 text-red-800">
                             Low Originality
                           </span>
                         )}
@@ -338,7 +338,7 @@ export default function Review() {
 
                   {/* Rhetorical Example Display */}
                   {entry.rhetorical_example && (
-                    <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-none">
                       <h4 className="font-semibold text-blue-900 mb-2">Inspired by:</h4>
                       <p className="text-blue-800 text-sm">
                         <span className="font-medium">{entry.rhetorical_example.campaign_name}</span>
@@ -356,7 +356,7 @@ export default function Review() {
 
                   {/* Ad Quality Scores Display */}
                   {(entry.professionalism_score || entry.clarity_score || entry.freshness_score) && (
-                    <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-none">
                       <h4 className="font-semibold text-gray-900 mb-2">Quality Assessment:</h4>
                       <div className="grid grid-cols-3 gap-4 mb-2">
                         {entry.professionalism_score && (
@@ -399,7 +399,7 @@ export default function Review() {
 
                   {/* Audience Empathy Display */}
                   {(entry.resonance_score || entry.audience_clarity_score || entry.vibe) && (
-                    <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-none">
                       <h4 className="font-semibold text-blue-900 mb-2">Audience Empathy:</h4>
                       <div className="grid grid-cols-2 gap-4 mb-2">
                         {entry.resonance_score && (
@@ -440,7 +440,7 @@ export default function Review() {
 
                   {/* Awards Jury Display */}
                   {(entry.awards_score || entry.award_potential || entry.jury_comment) && (
-                    <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-none">
                       <h4 className="font-semibold text-purple-900 mb-2">Awards Jury Evaluation:</h4>
                       <div className="grid grid-cols-2 gap-4 mb-2">
                         {entry.awards_score && (
@@ -488,7 +488,7 @@ export default function Review() {
 
                   {/* Iterative Refinement Display */}
                   {(entry.iteration_number || entry.final_status || entry.failed_criteria) && (
-                    <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-none">
                       <h4 className="font-semibold text-green-900 mb-2">Iterative Refinement Results:</h4>
                       <div className="grid grid-cols-3 gap-4 mb-3">
                         {entry.iteration_number && (

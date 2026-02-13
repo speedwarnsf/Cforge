@@ -33,7 +33,7 @@ const GalleryCard = React.memo(function GalleryCard({
 }) {
   return (
     <article
-      className={`group bg-gray-900/60 border rounded-lg overflow-hidden transition-all cursor-pointer ${
+      className={`group bg-gray-900/60 border rounded-none overflow-hidden transition-all cursor-pointer ${
         concept.isFavorite ? 'border-amber-700/50' : 'border-gray-700/50'
       } hover:border-gray-500/70 focus-within:ring-2 focus-within:ring-blue-500/50`}
       onClick={() => onToggleExpand(concept.id)}
@@ -57,7 +57,7 @@ const GalleryCard = React.memo(function GalleryCard({
           <div className="flex items-center gap-1 shrink-0">
             <button
               onClick={e => { e.stopPropagation(); onToggleFavorite(concept.id); }}
-              className="p-1.5 hover:bg-gray-800 rounded min-w-[32px] min-h-[32px] flex items-center justify-center"
+              className="p-1.5 hover:bg-gray-800 min-w-[32px] min-h-[32px] flex items-center justify-center"
               aria-label={concept.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               aria-pressed={concept.isFavorite}
             >
@@ -67,7 +67,7 @@ const GalleryCard = React.memo(function GalleryCard({
             </button>
             <button
               onClick={e => { e.stopPropagation(); onDelete(concept.id); }}
-              className="p-1.5 hover:bg-gray-800 rounded opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity min-w-[32px] min-h-[32px] flex items-center justify-center"
+              className="p-1.5 hover:bg-gray-800 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity min-w-[32px] min-h-[32px] flex items-center justify-center"
               aria-label={`Delete concept: ${concept.headlines[0] || 'Untitled'}`}
             >
               <XCircle className="w-3.5 h-3.5 text-gray-500 hover:text-red-400" aria-hidden="true" />
@@ -305,7 +305,7 @@ export default function GalleryPage() {
               role="tab"
               aria-selected={filter === f.mode}
               aria-label={`Filter: ${f.label}`}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded transition-colors min-h-[32px] ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors min-h-[32px] ${
                 filter === f.mode
                   ? 'bg-white text-black font-medium'
                   : 'bg-gray-800 text-gray-400 hover:bg-gray-700'

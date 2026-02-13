@@ -313,7 +313,7 @@ export default function SessionHistory({ currentResponse, onAddToHistory }: Sess
             margin-bottom: 16px; 
             background: #f8f9fa; 
             padding: 12px; 
-            border-radius: 4px; 
+            border-radius: 0; 
         }
         .metadata { 
             color: #666; 
@@ -338,7 +338,7 @@ export default function SessionHistory({ currentResponse, onAddToHistory }: Sess
             padding: 16px; 
             border-left: 4px solid #666; 
             margin: 16px 0; 
-            border-radius: 4px; 
+            border-radius: 0; 
         }
         .visual-prompt-label { 
             font-weight: bold; 

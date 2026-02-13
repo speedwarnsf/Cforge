@@ -283,9 +283,9 @@ const ProgressIndicator = ({ step, onStepChange, isActive }: {
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full bg-slate-700 rounded-full h-2 mb-6">
+      <div className="w-full bg-slate-700 rounded-none h-2 mb-6">
         <div 
-          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-1000 ease-in-out"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-none transition-all duration-1000 ease-in-out"
           style={{ width: `${(step / steps.length) * 100}%` }}
         />
       </div>
@@ -295,7 +295,7 @@ const ProgressIndicator = ({ step, onStepChange, isActive }: {
         {steps.map((stepName, index) => (
           <div key={index} className="flex items-center justify-center space-x-3">
             <div 
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 rounded-none transition-all duration-300 ${
                 index === step 
                   ? 'bg-blue-400 animate-pulse scale-125' 
                   : index < step 
@@ -314,7 +314,7 @@ const ProgressIndicator = ({ step, onStepChange, isActive }: {
       </div>
 
       {/* System Status */}
-      <div className="mt-8 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+      <div className="mt-8 p-4 bg-slate-800/50 rounded-none border border-slate-700">
         <p className="text-slate-400 text-sm">
           <strong className="text-white">System Status:</strong> Running 5-arbiter quality evaluation with theoretical framework integration
         </p>
@@ -550,7 +550,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                 />
 
                 {/* Time estimate */}
-                <div className="mt-8 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                <div className="mt-8 p-4 bg-slate-800/50 rounded-none border border-slate-700">
                   <p className="text-slate-400 text-sm">
                     <strong className="text-white">Processing Time:</strong> ~20-30 seconds for quality evaluation
                   </p>
@@ -708,7 +708,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                         maxLength={500}
                         {...field}
                       />
-                      <div className="absolute bottom-3 right-3 text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1 rounded">
+                      <div className="absolute bottom-3 right-3 text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1">
                         {field.value?.length || 0}/500
                       </div>
                     </div>
@@ -898,7 +898,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
             <div className="space-y-8">
               {results.map((result, index) => (
                 <div key={result.id} className="space-y-6">
-                      <div className="bg-gray-800 p-6 rounded-lg">
+                      <div className="bg-gray-800 p-6 rounded-none">
                         <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
                           Variant {index + 1}
                         </h3>

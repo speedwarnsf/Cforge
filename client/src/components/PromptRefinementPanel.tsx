@@ -77,7 +77,7 @@ export function PromptRefinementPanel({ query, onSelect }: PromptRefinementPanel
   }
 
   return (
-    <Card className="mt-2 p-3 bg-gray-800/50 border-gray-600 rounded-lg backdrop-blur-sm">
+    <Card className="mt-2 p-3 bg-gray-800/50 border-gray-600 rounded-none backdrop-blur-sm">
       <div className="text-xs font-medium text-gray-300 mb-2 uppercase tracking-wide">
         <Sparkles className="w-3 h-3 inline mr-1 text-blue-400" />
         Enhance Your Brief
@@ -111,7 +111,7 @@ export function PromptRefinementPanel({ query, onSelect }: PromptRefinementPanel
                   onSelect(transformedText);
                 }}
                 aria-label={`Select refinement: ${suggestion.label}`}
-                className="justify-start text-left h-auto p-2 hover:bg-gray-700/50 rounded-md text-xs text-gray-200 hover:text-white transition-all w-full"
+                className="justify-start text-left h-auto p-2 hover:bg-gray-700/50 rounded-none text-xs text-gray-200 hover:text-white transition-all w-full"
                 style={{ touchAction: 'manipulation', padding: '12px' }}
               >
                 <Icon 

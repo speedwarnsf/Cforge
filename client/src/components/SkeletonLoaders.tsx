@@ -15,7 +15,7 @@ function Skeleton({ className = '' }: { className?: string }) {
 export function ConceptCardSkeleton() {
   return (
     <div
-      className="bg-gray-900/60 border border-gray-700/50 rounded-lg p-4 space-y-3"
+      className="bg-gray-900/60 border border-gray-700/50 rounded-none p-4 space-y-3"
       role="status"
       aria-label="Loading concept"
     >
@@ -24,7 +24,7 @@ export function ConceptCardSkeleton() {
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
         </div>
-        <Skeleton className="h-6 w-6 rounded-full" />
+        <Skeleton className="h-6 w-6 rounded-none" />
       </div>
       <Skeleton className="h-5 w-24" />
       <Skeleton className="h-3 w-full" />
@@ -75,8 +75,8 @@ export function PageLoadingSkeleton() {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center" role="status">
       <div className="flex flex-col items-center gap-4 text-white">
         <div className="relative w-12 h-12">
-          <div className="absolute inset-0 border-2 border-gray-600 rounded-full" />
-          <div className="absolute inset-0 border-2 border-t-blue-400 rounded-full animate-spin" />
+          <div className="absolute inset-0 border-2 border-gray-600 rounded-none" />
+          <div className="absolute inset-0 border-2 border-t-blue-400 rounded-none animate-spin" />
         </div>
         <p className="text-sm text-slate-400" aria-live="polite">Loading ConceptForge...</p>
       </div>

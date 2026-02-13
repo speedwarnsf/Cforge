@@ -15,22 +15,51 @@ const STEP_MAP: Record<string, number> = {
     'complete': 5
 };
 
+// Rhetorical device facts shown during loading
+const DEVICE_FACTS = [
+    { device: 'Antithesis', fact: 'Juxtaposing contrasting ideas. "One small step for man, one giant leap for mankind."' },
+    { device: 'Anaphora', fact: 'Repetition at the start of successive clauses. "I have a dream... I have a dream..."' },
+    { device: 'Hyperbole', fact: 'Deliberate exaggeration for emphasis. The backbone of every "best ever" campaign.' },
+    { device: 'Metonymy', fact: 'Substituting a related concept. "The pen is mightier than the sword."' },
+    { device: 'Synecdoche', fact: 'A part representing the whole. "All hands on deck" -- hands for sailors.' },
+    { device: 'Chiasmus', fact: 'Reversed parallel structure. "Ask not what your country can do for you..."' },
+    { device: 'Litotes', fact: 'Understatement through double negation. "Not bad" meaning excellent.' },
+    { device: 'Asyndeton', fact: 'Omitting conjunctions for speed. "Veni, vidi, vici" -- came, saw, conquered.' },
+    { device: 'Epistrophe', fact: 'Repetition at the end of clauses. "...of the people, by the people, for the people."' },
+    { device: 'Zeugma', fact: 'One word governing multiple elements. "She broke his car and his heart."' },
+    { device: 'Anadiplosis', fact: 'Ending one clause and beginning the next with the same word. Creates momentum.' },
+    { device: 'Polysyndeton', fact: 'Excessive use of conjunctions. "And... and... and..." -- builds relentless pace.' },
+    { device: 'Tmesis', fact: 'Splitting a word with another word. "Abso-bloody-lutely."' },
+    { device: 'Syllepsis', fact: 'One word used in two senses simultaneously. Intellectual wordplay at its finest.' },
+    { device: 'Paraprosdokian', fact: 'An unexpected ending to a phrase. "I want to die peacefully in my sleep, like my grandfather."' },
+];
+
 const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps) => {
     const steps = [
-        { icon: '', title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
-        { icon: '', title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
-        { icon: '', title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
-        { icon: '', title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
-        { icon: '', title: 'Scoring & Ranking', desc: 'Evaluating quality and originality.' },
-        { icon: '', title: 'Done!', desc: 'Your concepts are ready.' }
+        { title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
+        { title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
+        { title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
+        { title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
+        { title: 'Scoring & Ranking', desc: 'Four arbiters evaluating quality.' },
+        { title: 'Done', desc: 'Your concepts are ready.' }
     ];
 
     const [currentStep, setCurrentStep] = useState(0);
     const [progressPercent, setProgressPercent] = useState(0);
     const [elapsedSec, setElapsedSec] = useState(0);
+    const [currentFact, setCurrentFact] = useState(0);
     const startRef = useRef(Date.now());
 
-    // Use real progress data when available, fall back to timer
+    // Rotate device facts
+    useEffect(() => {
+        if (!isLoading) return;
+        setCurrentFact(Math.floor(Math.random() * DEVICE_FACTS.length));
+        const interval = setInterval(() => {
+            setCurrentFact(prev => (prev + 1) % DEVICE_FACTS.length);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, [isLoading]);
+
     useEffect(() => {
         if (!isLoading) {
             setCurrentStep(0);
@@ -45,7 +74,6 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
             setCurrentStep(Math.min(stepIndex, steps.length - 1));
             setProgressPercent(Math.min(progress.progress, 100));
         } else {
-            // Fallback: timer-based progression
             const interval = setInterval(() => {
                 setCurrentStep((prev) => Math.min(prev + 1, steps.length - 2));
                 setProgressPercent((prev) => Math.min(prev + 16, 85));
@@ -54,7 +82,6 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
         }
     }, [isLoading, progress]);
 
-    // Elapsed time counter
     useEffect(() => {
         if (!isLoading) return;
         startRef.current = Date.now();
@@ -67,6 +94,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
     if (!isLoading) return null;
 
     const detail = progress?.detail || steps[currentStep]?.desc || '';
+    const fact = DEVICE_FACTS[currentFact];
 
     return (
         <div
@@ -77,7 +105,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'rgba(15, 23, 42, 0.95)',
+                background: 'rgba(0, 0, 0, 0.95)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -87,136 +115,130 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
             }}
         >
             <div style={{
-                background: 'rgba(30, 41, 59, 0.95)',
-                border: '1px solid rgba(148, 163, 184, 0.3)',
-                padding: '40px',
-                maxWidth: '500px',
+                background: 'rgba(20, 20, 20, 0.98)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '48px',
+                maxWidth: '560px',
                 width: '90%',
-                textAlign: 'center',
                 fontFamily: 'system-ui, -apple-system, sans-serif',
                 color: '#fff',
-                borderRadius: '0',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
             }}>
                 {/* Step indicator */}
                 <div style={{
-                    fontSize: '14px',
-                    marginBottom: '20px',
-                    letterSpacing: '0.2em',
+                    fontSize: '11px',
+                    marginBottom: '24px',
+                    letterSpacing: '0.3em',
                     textTransform: 'uppercase',
-                    color: '#94a3b8',
-                    fontFamily: 'JetBrains Mono, monospace'
+                    color: '#666',
+                    fontFamily: 'JetBrains Mono, monospace',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                 }}>
-                    Step {currentStep + 1} of {steps.length}
+                    <span>Step {currentStep + 1} / {steps.length}</span>
+                    <span>{elapsedSec > 0 ? `${elapsedSec}s` : '--'}</span>
                 </div>
 
                 <h2 style={{
-                    fontSize: '24px',
+                    fontSize: '28px',
                     margin: '0 0 8px',
-                    fontWeight: 600,
-                    background: 'linear-gradient(to right, #60a5fa, #a78bfa)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
+                    color: '#fff',
                 }}>
-                    {steps[currentStep]?.title || 'Forging Your Concept'}
+                    {steps[currentStep]?.title || 'Forging'}
                 </h2>
 
                 <p style={{
-                    color: '#94a3b8',
+                    color: '#888',
                     fontSize: '14px',
-                    marginBottom: '24px'
+                    marginBottom: '32px',
+                    lineHeight: '1.5',
                 }}>
-                    {elapsedSec > 0 ? `${elapsedSec}s elapsed` : 'Starting up...'}
+                    {detail}
                 </p>
 
                 {/* Progress bar */}
                 <div style={{
                     position: 'relative',
-                    height: '4px',
-                    background: 'rgba(148, 163, 184, 0.2)',
-                    margin: '16px 0 24px',
-                    borderRadius: '0',
+                    height: '2px',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    margin: '0 0 40px',
                     overflow: 'hidden'
                 }}>
                     <div style={{
                         width: `${progressPercent}%`,
                         height: '100%',
-                        background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-                        transition: 'width 0.5s ease-out',
-                        borderRadius: '0'
+                        background: '#fff',
+                        transition: 'width 0.8s ease-out',
                     }} />
                 </div>
 
-                {/* Current step detail */}
+                {/* Step dots */}
                 <div style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    padding: '16px',
-                    background: 'rgba(59, 130, 246, 0.1)',
-                    borderRadius: '0',
-                    marginBottom: '24px',
-                    minHeight: '72px'
-                }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <span style={{
-                            fontSize: '13px',
-                            color: '#94a3b8'
-                        }}>
-                            {detail}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Step indicators */}
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    marginBottom: '24px'
+                    gap: '6px',
+                    marginBottom: '40px'
                 }}>
                     {steps.slice(0, -1).map((_, i) => (
                         <div
                             key={i}
                             style={{
-                                width: '8px',
-                                height: '8px',
-                                borderRadius: '0',
-                                background: i <= currentStep ? '#3b82f6' : 'rgba(148, 163, 184, 0.3)',
+                                width: '6px',
+                                height: '6px',
+                                background: i <= currentStep ? '#fff' : 'rgba(255, 255, 255, 0.15)',
                                 transition: 'background 0.3s ease'
                             }}
                         />
                     ))}
                 </div>
 
-                <style>{`
-                    @keyframes pulse {
-                        0%, 100% { transform: scale(1); opacity: 1; }
-                        50% { transform: scale(1.1); opacity: 0.8; }
-                    }
-                `}</style>
+                {/* Rhetorical device fact */}
+                <div style={{
+                    borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                    paddingTop: '24px',
+                    minHeight: '80px',
+                }}>
+                    <div style={{
+                        fontSize: '10px',
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        color: '#555',
+                        marginBottom: '8px',
+                        fontFamily: 'JetBrains Mono, monospace',
+                    }}>
+                        Did you know
+                    </div>
+                    <div style={{
+                        fontSize: '13px',
+                        color: '#999',
+                        lineHeight: '1.6',
+                        transition: 'opacity 0.5s ease',
+                    }}>
+                        <strong style={{ color: '#ccc' }}>{fact.device}</strong> -- {fact.fact}
+                    </div>
+                </div>
 
                 <button
                     onClick={onClose}
                     style={{
-                        padding: '10px 24px',
+                        padding: '8px 20px',
                         background: 'transparent',
-                        color: '#94a3b8',
-                        border: '1px solid rgba(148, 163, 184, 0.3)',
-                        borderRadius: '0',
+                        color: '#555',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
                         cursor: 'pointer',
-                        fontSize: '14px',
-                        transition: 'all 0.2s ease'
+                        fontSize: '12px',
+                        transition: 'all 0.2s ease',
+                        marginTop: '24px',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
                     }}
                     onMouseOver={(e) => {
-                        e.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)';
-                        e.currentTarget.style.borderColor = 'rgba(148, 163, 184, 0.5)';
+                        e.currentTarget.style.color = '#999';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
                     }}
                     onMouseOut={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.borderColor = 'rgba(148, 163, 184, 0.3)';
+                        e.currentTarget.style.color = '#555';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                     }}
                 >
                     Cancel

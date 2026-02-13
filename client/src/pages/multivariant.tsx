@@ -29,7 +29,7 @@ export default function MultivariantPage() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">Multi-Variant Concept Generation</h2>
             <p className="text-gray-400 text-sm sm:text-base">Generate multiple concept variations with advanced AI analysis</p>
           </div>
-          <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4 sm:p-8">
+          <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-none p-4 sm:p-8">
             <MultivariantGenerator onSubmit={triggerForgeAnimation} />
           </div>
         </div>
@@ -37,6 +37,15 @@ export default function MultivariantPage() {
 
       {/* Admin Navigation - Fixed Position */}
       <div className="fixed right-2 sm:right-4 top-2 sm:top-4 flex gap-1.5 sm:gap-2 z-50">
+        <Link href="/devices">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-1 border-white/20 text-white/60 hover:bg-white/10 hover:text-white transition-all bg-black/80"
+          >
+            411 Devices
+          </Button>
+        </Link>
         <Link href="/gallery">
           <Button 
             variant="outline" 

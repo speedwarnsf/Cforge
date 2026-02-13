@@ -2,7 +2,8 @@ import React, { memo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThumbsUp, ThumbsDown, Star, Sparkles, Copy, Download } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Star, Copy, Download, FileText } from "lucide-react";
+import ArbiterScoreViz from './ArbiterScoreViz';
 
 interface ResultsDisplayProps {
   results: any[];
@@ -16,7 +17,7 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
   if (results.length === 1 && results[0].id === 'error') {
     return (
       <div className="w-full max-w-4xl mx-auto px-4 mt-8">
-        <Card className="bg-red-950/30 border-red-800/50 backdrop-blur-sm">
+        <Card className="bg-red-950/30 border-red-800/50">
           <CardContent className="p-6 text-center">
             <p className="text-red-400 font-medium text-lg mb-2">
               {results[0].headline}
@@ -33,24 +34,38 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
     );
   }
 
+  const exportAllAsText = () => {
+    const text = results.map((c, i) => {
+      let output = `--- CONCEPT ${i + 1} ---\n`;
+      if (c.headline) output += `Headline: ${c.headline}\n`;
+      if (c.tagline) output += `Tagline: ${c.tagline}\n`;
+      if (c.bodyCopy) output += `Body Copy: ${c.bodyCopy}\n`;
+      if (c.visualConcept) output += `Visual: ${c.visualConcept}\n`;
+      const devices = Array.isArray(c.devices) ? c.devices.join(', ') : c.devices;
+      if (devices) output += `Devices: ${devices}\n`;
+      if (c.rationale) output += `Rationale: ${c.rationale}\n`;
+      if (c.originalityScore > 0) output += `Originality: ${Math.round(c.originalityScore)}%\n`;
+      return output;
+    }).join('\n');
+    return text;
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto px-4 mt-8 mb-12">
-      <div className="flex items-center gap-3 mb-6 flex-wrap">
-        <h2 className="text-xl font-semibold text-white">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6 flex-wrap border-b border-gray-800 pb-4">
+        <h2 className="text-lg font-bold text-white tracking-wide uppercase">
           Generated Concept{results.length > 1 ? 's' : ''}
         </h2>
-        <Badge variant="secondary" className="bg-amber-900/30 text-amber-400 border-amber-700/50">
+        <Badge variant="secondary" className="bg-gray-800 text-gray-400 border-gray-700 text-xs">
           {results.length} result{results.length > 1 ? 's' : ''}
         </Badge>
         <div className="ml-auto flex gap-2">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => {
-              const text = results.map((c, i) => `--- Concept ${i + 1} ---\nHeadline: ${c.headline || ''}\nDevices: ${Array.isArray(c.devices) ? c.devices.join(', ') : c.devices || ''}\nRationale: ${c.rationale || ''}`).join('\n\n');
-              navigator.clipboard.writeText(text);
-            }}
-            className="text-gray-400 hover:text-white text-xs"
+            onClick={() => navigator.clipboard.writeText(exportAllAsText())}
+            className="text-gray-500 hover:text-white text-xs"
           >
             <Copy className="w-3.5 h-3.5 mr-1" />
             Copy All
@@ -59,7 +74,7 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
             variant="ghost"
             size="sm"
             onClick={() => {
-              const text = results.map((c, i) => `--- Concept ${i + 1} ---\nHeadline: ${c.headline || ''}\nDevices: ${Array.isArray(c.devices) ? c.devices.join(', ') : c.devices || ''}\nRationale: ${c.rationale || ''}`).join('\n\n');
+              const text = exportAllAsText();
               const blob = new Blob([text], { type: 'text/plain' });
               const url = URL.createObjectURL(blob);
               const a = document.createElement('a');
@@ -70,24 +85,28 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
               document.body.removeChild(a);
               URL.revokeObjectURL(url);
             }}
-            className="text-gray-400 hover:text-white text-xs"
+            className="text-gray-500 hover:text-white text-xs"
           >
             <Download className="w-3.5 h-3.5 mr-1" />
-            Download
+            Export
           </Button>
         </div>
       </div>
 
+      {/* Concept Cards */}
       <div className="grid gap-4">
         {results.map((concept, i) => (
-          <Card 
-            key={concept.id || i} 
-            className="bg-gray-900/60 border-gray-700/50 backdrop-blur-sm hover:border-gray-600/70 transition-colors"
+          <article
+            key={concept.id || i}
+            className="bg-gray-950 border border-gray-800 hover:border-gray-700 transition-colors"
           >
-            <CardContent className="p-6">
-              {/* Header */}
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex-1">
+            <div className="p-6">
+              {/* Concept number + headline */}
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-8 h-8 bg-white text-black flex items-center justify-center text-sm font-bold shrink-0">
+                  {i + 1}
+                </div>
+                <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-bold text-white leading-tight">
                     {concept.headline || `Concept ${i + 1}`}
                   </h3>
@@ -98,12 +117,12 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
                   )}
                 </div>
                 {concept.originalityScore > 0 && (
-                  <Badge 
-                    variant="outline" 
-                    className={`shrink-0 ${
-                      concept.originalityScore >= 80 
-                        ? 'border-green-600 text-green-400' 
-                        : concept.originalityScore >= 60 
+                  <Badge
+                    variant="outline"
+                    className={`shrink-0 text-xs ${
+                      concept.originalityScore >= 80
+                        ? 'border-emerald-600 text-emerald-400'
+                        : concept.originalityScore >= 60
                           ? 'border-yellow-600 text-yellow-400'
                           : 'border-red-600 text-red-400'
                     }`}
@@ -121,34 +140,50 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
               )}
 
               {concept.visualConcept && (
-                <p className="text-gray-400 text-sm mb-3">
-                  <span className="text-gray-500 font-medium">Visual: </span>
-                  {concept.visualConcept}
-                </p>
+                <div className="mb-3 border-l-2 border-gray-700 pl-3">
+                  <span className="text-[10px] text-gray-600 uppercase tracking-wider font-bold">Visual Direction</span>
+                  <p className="text-gray-400 text-sm mt-0.5">{concept.visualConcept}</p>
+                </div>
               )}
 
-              {/* Devices & Rationale */}
-              <div className="flex flex-wrap gap-2 mb-4">
+              {/* Devices */}
+              <div className="flex flex-wrap gap-1.5 mb-4">
                 {(Array.isArray(concept.devices) ? concept.devices : [concept.devices]).filter(Boolean).map((device: string, j: number) => (
-                  <Badge key={j} variant="secondary" className="bg-slate-800/80 text-gray-300 border-slate-700 text-xs">
+                  <Badge key={j} variant="secondary" className="bg-gray-900 text-gray-400 border border-gray-800 text-[10px] uppercase tracking-wider">
                     {device}
                   </Badge>
                 ))}
               </div>
 
               {concept.rationale && concept.rationale !== 'No rationale' && (
-                <p className="text-gray-500 text-xs italic border-l-2 border-gray-700 pl-3 mb-4">
+                <p className="text-gray-600 text-xs italic border-l-2 border-gray-800 pl-3 mb-4">
                   {concept.rationale}
                 </p>
               )}
 
-              {/* Feedback */}
-              <div className="flex gap-2 pt-2 border-t border-gray-800">
+              {/* Arbiter Scores if available */}
+              {(concept.originalityScore > 0 || concept.professionalismScore > 0 || concept.clarityScore > 0) && (
+                <div className="mt-4 pt-4 border-t border-gray-800">
+                  <ArbiterScoreViz
+                    originalityScore={concept.originalityScore}
+                    professionalismScore={concept.professionalismScore}
+                    clarityScore={concept.clarityScore}
+                    freshnessScore={concept.freshnessScore}
+                    resonanceScore={concept.resonanceScore}
+                    awardsScore={concept.awardsScore}
+                    finalStatus={concept.finalStatus}
+                    compact
+                  />
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex gap-2 pt-4 mt-4 border-t border-gray-800/50">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => onFeedback(i, 'more_like_this')}
-                  className="text-gray-400 hover:text-green-400 hover:bg-green-900/20 text-xs"
+                  className="text-gray-500 hover:text-emerald-400 hover:bg-emerald-900/20 text-xs"
                 >
                   <ThumbsUp className="w-3.5 h-3.5 mr-1.5" />
                   More Like This
@@ -157,7 +192,7 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => onFeedback(i, 'less_like_this')}
-                  className="text-gray-400 hover:text-red-400 hover:bg-red-900/20 text-xs"
+                  className="text-gray-500 hover:text-red-400 hover:bg-red-900/20 text-xs"
                 >
                   <ThumbsDown className="w-3.5 h-3.5 mr-1.5" />
                   Less Like This
@@ -166,14 +201,26 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => onFeedback(i, 'favorite')}
-                  className="text-gray-400 hover:text-amber-400 hover:bg-amber-900/20 text-xs ml-auto"
+                  className="text-gray-500 hover:text-amber-400 hover:bg-amber-900/20 text-xs ml-auto"
                 >
                   <Star className="w-3.5 h-3.5 mr-1.5" />
-                  Favorite
+                  Save
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const text = `${concept.headline || ''}\n${concept.tagline || ''}\n\n${concept.bodyCopy || ''}\n\nVisual: ${concept.visualConcept || ''}\nDevices: ${Array.isArray(concept.devices) ? concept.devices.join(', ') : concept.devices || ''}`;
+                    navigator.clipboard.writeText(text);
+                  }}
+                  className="text-gray-500 hover:text-white text-xs"
+                >
+                  <Copy className="w-3.5 h-3.5 mr-1.5" />
+                  Copy
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </article>
         ))}
       </div>
     </div>

@@ -43,7 +43,7 @@ function getStatusBadge(status?: string) {
     'Failed': 'bg-red-900/50 text-red-300 border-red-700/50',
   };
   return (
-    <span className={`text-xs px-2 py-0.5 rounded border ${colors[status] || 'bg-gray-800 text-gray-300 border-gray-600'}`}>
+    <span className={`text-xs px-2 py-0.5 border ${colors[status] || 'bg-gray-800 text-gray-300 border-gray-600'}`}>
       {status}
     </span>
   );
@@ -76,7 +76,7 @@ const ArbiterScoreViz = React.memo(function ArbiterScoreViz({
     return (
       <div className="flex flex-wrap gap-1.5" role="list" aria-label="Quality scores">
         {scores.map(s => (
-          <div key={s.short} className="flex items-center gap-1 bg-gray-800/60 px-2 py-1 rounded text-xs" role="listitem" aria-label={`${s.name}: ${s.value}%`}>
+          <div key={s.short} className="flex items-center gap-1 bg-gray-800/60 px-2 py-1 text-xs" role="listitem" aria-label={`${s.name}: ${s.value}%`}>
             <span className="text-gray-400" aria-hidden="true">{s.short}</span>
             <span className={`font-bold ${getGradeColor(s.value)}`}>{s.value}</span>
           </div>
@@ -106,7 +106,7 @@ const ArbiterScoreViz = React.memo(function ArbiterScoreViz({
         {/* Grade Cards */}
         <div className={`grid grid-cols-3 gap-2 ${scores.length >= 3 ? 'w-full md:w-1/2' : 'w-full'}`}>
           {scores.map(s => (
-            <div key={s.short} className="bg-gray-800/40 border border-gray-700/50 rounded-lg p-2.5 text-center" aria-label={`${s.name}: ${getGradeLetter(s.value)} (${s.value}%)`}>
+            <div key={s.short} className="bg-gray-800/40 border border-gray-700/50 p-2.5 text-center" aria-label={`${s.name}: ${getGradeLetter(s.value)} (${s.value}%)`}>
               <div className={`text-xl font-black ${getGradeColor(s.value)}`} aria-hidden="true">
                 {getGradeLetter(s.value)}
               </div>

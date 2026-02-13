@@ -92,7 +92,7 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/50 transition-colors"
+            className="w-full bg-white/5 border border-white/15 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors tracking-wide text-sm"
             autoFocus
             autoComplete="username"
           />
@@ -103,7 +103,7 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/50 transition-colors"
+            className="w-full bg-white/5 border border-white/15 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors tracking-wide text-sm"
             autoComplete="current-password"
           />
           
@@ -114,7 +114,7 @@ export const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
           <button
             type="submit"
             disabled={!username || !password}
-            className="w-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed border border-white/30 rounded-lg px-4 py-3 text-white font-medium tracking-wide transition-all duration-200"
+            className="w-full bg-white text-black hover:bg-white/90 disabled:opacity-20 disabled:cursor-not-allowed px-4 py-3 font-semibold tracking-widest text-xs uppercase transition-all duration-200"
           >
             Enter
           </button>

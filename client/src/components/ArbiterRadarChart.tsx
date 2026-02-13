@@ -20,7 +20,7 @@ export default function ArbiterRadarChart({ data }: ArbiterRadarChartProps) {
           strokeWidth={2}
         />
         <Tooltip
-          contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '6px' }}
+          contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '0' }}
           labelStyle={{ color: '#E5E7EB' }}
           itemStyle={{ color: '#60A5FA' }}
         />

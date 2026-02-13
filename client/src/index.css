@@ -33,7 +33,7 @@
   background: #2563eb;
   color: white;
   font-weight: 600;
-  border-radius: 0 0 4px 0;
+  border-radius: 0;
 }
 
 /* Visible focus rings for keyboard navigation */
@@ -595,7 +595,7 @@ html {
   .concept-card {
     background-color: #2A2A2A;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 0;
     color: white;
     font-family: system-ui, Arial, sans-serif;
     overflow: hidden;
@@ -615,7 +615,7 @@ html {
     background-color: #4A4A4A;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: pointer;
   }
   
@@ -1217,8 +1217,8 @@ button[type="submit"]:not(:disabled):hover {
   /* Force square corners throughout the interface */
   button, .button, [role="button"], 
   input, textarea, select, 
-  .rounded-md, .rounded-lg, .rounded-sm, .rounded-full,
-  [class*="rounded-"] {
+  .rounded, .rounded-md, .rounded-lg, .rounded-sm, .rounded-full,
+  [class*="rounded-"], [class*="rounded "] {
     border-radius: 0 !important;
   }
   
@@ -1297,7 +1297,7 @@ button[type="submit"]:not(:disabled):hover {
   color: #fff;
   font-family: system-ui, Arial, sans-serif;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 0;
   margin: 20px 0;
 }
 
@@ -1316,7 +1316,7 @@ button[type="submit"]:not(:disabled):hover {
 .concept-card {
   background: #2A2A2A;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 0;
   border: 1px solid #444;
   overflow: hidden;
   max-width: 100%;
@@ -1356,7 +1356,7 @@ button[type="submit"]:not(:disabled):hover {
 .feedback-buttons button {
   padding: 8px 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 0;
   font-size: 12px;
   cursor: pointer;
   color: #fff;

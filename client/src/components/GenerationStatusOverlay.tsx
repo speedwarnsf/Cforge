@@ -31,14 +31,14 @@ export default function GenerationStatusOverlay() {
   return (
     <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[60000] pointer-events-none">
       {/* Status Card - Responsive: smaller on mobile */}
-      <div className="bg-gray-900/95 backdrop-blur-md border border-gray-700 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl w-72 md:w-96 pointer-events-auto">
+      <div className="bg-gray-900/95 backdrop-blur-md border border-gray-700 rounded-none md:rounded-none p-3 md:p-4 shadow-2xl w-72 md:w-96 pointer-events-auto">
         {/* Animated Header - Responsive */}
         <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
           <div className="relative">
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center animate-spin" style={{ animationDuration: '3s' }}>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-none bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center animate-spin" style={{ animationDuration: '3s' }}>
               <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-white animate-spin" />
             </div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-ping opacity-25"></div>
+            <div className="absolute inset-0 rounded-none bg-gradient-to-r from-blue-500 to-purple-500 animate-ping opacity-25"></div>
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-sm md:text-base font-semibold text-white">
@@ -52,7 +52,7 @@ export default function GenerationStatusOverlay() {
 
         {/* Progress Bar */}
         <div className="mb-3">
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-gray-700 rounded-none overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-300 ease-out"
               style={{ width: `${generationStatus.progress}%` }}
@@ -77,7 +77,7 @@ export default function GenerationStatusOverlay() {
             return (
               <div
                 key={step.key}
-                className={`flex-1 h-1 rounded-full transition-all duration-300 ${
+                className={`flex-1 h-1 rounded-none transition-all duration-300 ${
                   isActive
                     ? 'bg-blue-500'
                     : isComplete
@@ -90,14 +90,14 @@ export default function GenerationStatusOverlay() {
         </div>
 
         {/* Live Log Window */}
-        <div className="border border-gray-700 rounded-lg overflow-hidden">
+        <div className="border border-gray-700 rounded-none overflow-hidden">
           <div className="flex items-center gap-2 px-2 py-1 bg-gray-800 border-b border-gray-700">
             <Terminal className="w-3 h-3 text-green-400" />
             <span className="text-[10px] md:text-xs text-gray-400 font-mono">Live Activity</span>
             <div className="ml-auto flex gap-1">
-              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-              <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <div className="w-2 h-2 rounded-none bg-red-500"></div>
+              <div className="w-2 h-2 rounded-none bg-yellow-500"></div>
+              <div className="w-2 h-2 rounded-none bg-green-500"></div>
             </div>
           </div>
           <div

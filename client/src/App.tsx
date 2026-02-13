@@ -19,6 +19,7 @@ const TestAdmin = lazy(() => import("@/pages/TestAdmin"));
 const Review = lazy(() => import("@/pages/Review"));
 const CorpusDownload = lazy(() => import("@/pages/corpus-download"));
 const Gallery = lazy(() => import("@/pages/gallery"));
+const Devices = lazy(() => import("@/pages/devices"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
         <Route path="/review" component={Review} />
         <Route path="/corpus" component={CorpusDownload} />
         <Route path="/gallery" component={Gallery} />
+        <Route path="/devices" component={Devices} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
