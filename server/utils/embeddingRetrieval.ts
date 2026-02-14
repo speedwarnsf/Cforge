@@ -9,7 +9,10 @@ import { performanceMonitor, measureAsync } from "./performanceMonitor";
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+});
 
 // Lazy-initialize Supabase client only when needed and env vars are available
 let supabase: SupabaseClient | null = null;

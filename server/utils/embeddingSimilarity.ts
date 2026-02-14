@@ -1,6 +1,9 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+});
 
 /**
  * Sanitizes text by removing stray unicode and normalizing whitespace.
@@ -27,7 +30,7 @@ async function getEmbedding(text: string): Promise<number[]> {
     // Sanitize input text before generating embedding
     const sanitizedText = sanitizeText(text);
     const response = await openai.embeddings.create({
-      model: "text-embedding-3-large",
+      model: process.env.GEMINI_API_KEY ? "text-embedding-004" : "text-embedding-3-large",
       input: sanitizedText
     });
     return response.data[0].embedding;

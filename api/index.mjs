@@ -168,7 +168,7 @@ async function getEmbedding(text2) {
   try {
     const sanitizedText = sanitizeText(text2);
     const response = await openai.embeddings.create({
-      model: "text-embedding-3-large",
+      model: process.env.GEMINI_API_KEY ? "text-embedding-004" : "text-embedding-3-large",
       input: sanitizedText
     });
     return response.data[0].embedding;
@@ -251,7 +251,10 @@ var openai;
 var init_embeddingSimilarity = __esm({
   "server/utils/embeddingSimilarity.ts"() {
     "use strict";
-    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    openai = new OpenAI({
+      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+    });
   }
 });
 
@@ -721,7 +724,10 @@ var init_embeddingRetrieval = __esm({
     "use strict";
     init_embeddingSimilarity();
     init_performanceMonitor();
-    openai2 = new OpenAI2();
+    openai2 = new OpenAI2({
+      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+    });
     retrievalCorpusData = loadRetrievalCorpus();
     retrievalCorpus = retrievalCorpusData.campaigns || [];
     corpusEmbeddings = {};
@@ -1523,7 +1529,8 @@ var init_embeddingArbiters = __esm({
     "use strict";
     init_embeddingSimilarity();
     openai3 = new OpenAI3({
-      apiKey: process.env.OPENAI_API_KEY
+      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
     });
     QUALITY_BENCHMARKS = [
       "Just Do It - Nike",
@@ -2909,7 +2916,10 @@ var init_tropeConstraints = __esm({
     };
     TropeConstraintEngine = class {
       constructor() {
-        this.openai = new OpenAI5({ apiKey: process.env.OPENAI_API_KEY });
+        this.openai = new OpenAI5({
+          apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+          baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+        });
         this.validationCache = /* @__PURE__ */ new Map();
         this.tropeEmbeddings = /* @__PURE__ */ new Map();
       }
@@ -3039,7 +3049,7 @@ var init_tropeConstraints = __esm({
           throw new Error(`Unknown trope: ${tropeId}`);
         }
         const response = await this.openai.chat.completions.create({
-          model: "gpt-5.2",
+          model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
           messages: [{
             role: "system",
             content: `You are an expert in rhetorical devices. Your task is to rewrite content
@@ -3124,7 +3134,7 @@ Return each variation on a new line, numbered 1-${count}.`
         }
         try {
           const response = await this.openai.chat.completions.create({
-            model: "gpt-5.2",
+            model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
             messages: [{
               role: "user",
               content: `Analyze if this content exhibits the rhetorical device "${tropeName}":
@@ -3277,7 +3287,10 @@ Remember: The goal is MAXIMUM DIVERGENCE. If two directions feel similar, one of
 Each direction should feel like it could anchor an entirely different campaign.`;
 }
 async function exploreDivergently(userBrief, options = {}) {
-  const openai17 = new OpenAI6({ apiKey: process.env.OPENAI_API_KEY });
+  const openai17 = new OpenAI6({
+    apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+    baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+  });
   const {
     poolSize = 15,
     personaRotation = "weighted",
@@ -3413,7 +3426,7 @@ function selectPersona(index, rotation, counts) {
 async function generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex) {
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
   const response = await openai17.chat.completions.create({
-    model: "gpt-5.2",
+    model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
     messages: [
       { role: "system", content: persona.systemPromptOverride },
       { role: "user", content: prompt }
@@ -4810,7 +4823,10 @@ var init_hybridGenerationOrchestrator = __esm({
     };
     HybridGenerationOrchestrator = class {
       constructor(config = {}) {
-        this.openai = new OpenAI8({ apiKey: process.env.OPENAI_API_KEY });
+        this.openai = new OpenAI8({
+          apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+          baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+        });
         this.tropeEngine = new TropeConstraintEngine();
         this.trajectoryCapture = new TrajectoryCapture();
         this.trajectoryStorage = new TrajectoryStorage();
@@ -4997,7 +5013,7 @@ Use a completely different visual approach and angle than other variants.
           );
           try {
             const response = await this.openai.chat.completions.create({
-              model: "gpt-5.2",
+              model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
               messages: [
                 {
                   role: "system",
@@ -5323,7 +5339,7 @@ DO NOT use these overused visual settings: kitchen, gallery, museum, stark white
         const variants = [];
         for (let i = 0; i < (input.variantCount || 3); i++) {
           const response = await this.openai.chat.completions.create({
-            model: "gpt-5.2",
+            model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
             messages: [{
               role: "user",
               content: `Create an advertising concept for: ${input.userBrief}
@@ -6455,7 +6471,7 @@ Inspired By: ${concept.rhetoricalExample}
 `;
   try {
     const completion = await openai5.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
@@ -6522,7 +6538,7 @@ Tone: ${concept.tone}
 `;
   try {
     const completion = await openai6.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
@@ -6641,7 +6657,7 @@ Target Audience: ${concept.targetAudience}
 Be rigorous in your evaluation, referencing the standards of globally awarded campaigns. Consider whether this work would likely be shortlisted or win in a top-tier creative competition.`;
   try {
     const completion = await openai7.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
@@ -6701,7 +6717,7 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai8.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
@@ -6813,7 +6829,7 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai10.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
@@ -6978,7 +6994,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
   try {
     const arbiterStartTime = Date.now();
     const response = await openai11.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: relevancePrompt }],
       temperature: 0.3
@@ -7161,7 +7177,7 @@ Return your response as JSON with this structure:
   try {
     const refinementStartTime = Date.now();
     const response = await openai12.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2,
       // Slightly higher temperature for creative refinement
@@ -7233,7 +7249,7 @@ Respond in JSON format:
   ]
 }`;
     const response = await openai13.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "user", content: analysisPrompt }],
       response_format: { type: "json_object" },
@@ -7284,7 +7300,10 @@ var supabase3 = createClient4(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
 );
-var openai14 = new OpenAI18();
+var openai14 = new OpenAI18({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+});
 async function getRatedConcepts(projectId) {
   const { data: ratings, error: ratingsError } = await supabase3.from("concept_ratings").select("concept_id, rating").eq("project_id", projectId);
   if (ratingsError) {
@@ -8558,6 +8577,10 @@ async function registerRoutes(app2) {
   });
   app2.post("/api/generate", async (req, res) => {
     try {
+      console.log(`\u{1F500} Routing ALL generation through hybrid multivariant pipeline`);
+      req.body.conceptCount = req.body?.conceptCount || 1;
+      req.body.enableHybridMode = true;
+      return generateMultivariant(req, res);
       const conceptCount = req.body?.conceptCount || 1;
       if (conceptCount > 1) {
         console.log(`\u{1F500} Routing to multivariant endpoint for ${conceptCount} concepts`);

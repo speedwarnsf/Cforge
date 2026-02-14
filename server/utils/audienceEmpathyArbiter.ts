@@ -41,7 +41,7 @@ Tone: ${concept.tone}
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1, // Low temperature for consistent scoring
       max_completion_tokens: 200,

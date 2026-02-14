@@ -277,7 +277,10 @@ export async function exploreDivergently(
     historicalEmbeddings?: number[][];
   } = {}
 ): Promise<DivergentPool> {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+});
 
   const {
     poolSize = 15,
@@ -496,7 +499,7 @@ async function generateRawIdeas(
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2',
+    model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
     messages: [
       { role: 'system', content: persona.systemPromptOverride },
       { role: 'user', content: prompt }
@@ -546,7 +549,7 @@ async function checkThematicCoherence(
   openai: OpenAI
 ): Promise<number> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-5.2',
+    model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
     messages: [{
       role: 'user',
       content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):

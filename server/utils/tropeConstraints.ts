@@ -396,7 +396,10 @@ export class TropeConstraintEngine {
   private tropeEmbeddings: Map<string, number[]>;
 
   constructor() {
-    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    this.openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+});
     this.validationCache = new Map();
     this.tropeEmbeddings = new Map();
   }
@@ -594,7 +597,7 @@ export class TropeConstraintEngine {
     }
 
     const response = await this.openai.chat.completions.create({
-      model: 'gpt-5.2',
+      model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
       messages: [{
         role: 'system',
         content: `You are an expert in rhetorical devices. Your task is to rewrite content
@@ -714,7 +717,7 @@ Return each variation on a new line, numbered 1-${count}.`
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: 'gpt-5.2',
+        model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
         messages: [{
           role: 'user',
           content: `Analyze if this content exhibits the rhetorical device "${tropeName}":

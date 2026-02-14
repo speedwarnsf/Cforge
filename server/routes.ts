@@ -76,7 +76,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate AI response
   app.post("/api/generate", async (req, res) => {
     try {
-      // Route to multivariant endpoint if conceptCount > 1
+      // ALL generation now routes through the hybrid pipeline
+      console.log(`🔀 Routing ALL generation through hybrid multivariant pipeline`);
+      // Ensure conceptCount is at least 1
+      req.body.conceptCount = req.body?.conceptCount || 1;
+      req.body.enableHybridMode = true;
+      return generateMultivariant(req, res);
+
+      // Legacy single-concept path below (kept for reference, unreachable)
       const conceptCount = req.body?.conceptCount || 1;
       if (conceptCount > 1) {
         console.log(`🔀 Routing to multivariant endpoint for ${conceptCount} concepts`);

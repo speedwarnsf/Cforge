@@ -9,7 +9,10 @@ const supabase = createClient(
   process.env.SUPABASE_KEY!
 );
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+});
 
 /**
  * Fetch rated concepts and their embeddings.
