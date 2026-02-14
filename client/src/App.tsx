@@ -50,11 +50,12 @@ function App() {
             <InstallPWA />
             <GenerationStatusOverlay />
 
-            <PasswordGate>
+            {/* PasswordGate removed - portfolio demo */}
+            <div>
               <div className="concept-forge-app" role="application" aria-label="ConceptForge">
                 <Router />
               </div>
-            </PasswordGate>
+            </div>
           </TooltipProvider>
         </VideoProvider>
       </QueryClientProvider>
