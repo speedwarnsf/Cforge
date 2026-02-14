@@ -266,6 +266,44 @@ User-facing lens options and their backend mappings:
 
 ## Recent Changes
 
+### February 2026
+
+#### Backend Migration: OpenAI -> Gemini
+- All 19 server files migrated from OpenAI API to Gemini via OpenAI-compatible endpoint
+- Chat model: `gemini-2.0-flash` (OpenAI key had insufficient quota)
+- Embedding model: `gemini-embedding-001` (3072 dimensions, via OpenAI-compat API)
+- Environment variable: `GEMINI_API_KEY` (set on Vercel production)
+- Fallback: All model references use conditional `process.env.GEMINI_API_KEY ? 'gemini-...' : 'gpt-...'`
+
+#### Single Concept Now Uses Full Hybrid Pipeline
+- `/api/generate` now routes ALL requests through `generateMultivariant` with `enableHybridMode: true`
+- Previously, single concept generation bypassed the entire CREATIVEDC + EvoToken pipeline
+- Single concepts now get: divergent exploration, trope variety selection, evolution, arbiter validation
+- ~11s generation time (vs ~4s legacy) due to multi-phase pipeline
+
+#### Vite Build Fix: Recharts TDZ Error
+- **Root cause**: Manual chunk splitting put recharts in separate chunk from d3 dependencies
+- This caused `Cannot access 'n' before initialization` (Temporal Dead Zone) error
+- Recharts silently crashed, preventing React from mounting (blank screen, no console errors)
+- **Fix**: Merged recharts chunk into vendor chunk in `vite.config.ts`
+
+#### Client Bundle Fix: Drizzle-ORM Leak
+- `shared/schema.ts` imported `drizzle-orm/pg-core` (server-only DB ORM)
+- Client code imported from `@shared/schema` for Zod form schemas
+- This pulled drizzle-orm into the browser bundle, crashing silently
+- **Fix**: Created `shared/types.ts` with client-safe Zod schemas only
+
+#### Concept Quality Improvements
+- System prompt rewritten: bans lazy patterns (split-screen before/after, "Elevate/Transform/Reimagine")
+- Device-driven concepting: assigns ONE primary rhetorical device with full definition as creative constraint
+- Concepts must be built around the assigned device's mechanism, not generic ad copy
+- Anti-cliche mandate with specific banned words/patterns
+
+#### PasswordGate Restored
+- Login gate temporarily removed during blank screen debugging, now restored
+- Credentials: beta-tester / beta-access-2026
+- Auth persists via localStorage (`concept-forge-auth`)
+
 ### January 2026
 
 #### Model Upgrade: GPT-4o → GPT-5.2-pro
