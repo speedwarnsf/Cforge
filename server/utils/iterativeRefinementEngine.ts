@@ -241,7 +241,7 @@ Return your response as JSON with this structure:
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2, // Slightly higher temperature for creative refinement
-      max_completion_tokens: 500,
+      max_tokens: 500,
       response_format: { type: "json_object" }
     });
     const refinementEndTime = Date.now();

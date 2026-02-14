@@ -1184,7 +1184,7 @@ async function relevanceArbiter(concept, brief, threshold = 0.7) {
           content: brief
         }
       ],
-      max_completion_tokens: 100,
+      max_tokens: 100,
       temperature: 0.3
     });
     const briefThemes = briefAnalysis.choices[0]?.message?.content?.split(",").map((t) => t.trim()) || [];
@@ -1287,7 +1287,7 @@ Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"]
           content: concept
         }
       ],
-      max_completion_tokens: 200,
+      max_tokens: 200,
       temperature: 0.3
     });
     const analysisResult = JSON.parse(practicalityAnalysis.choices[0]?.message?.content || '{"score": 70, "issues": [], "analysis": "Standard advertising approach"}');
@@ -1345,7 +1345,7 @@ Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device
           content: concept
         }
       ],
-      max_completion_tokens: 200,
+      max_tokens: 200,
       temperature: 0.3
     });
     let rawContent = rhetoricalAnalysis.choices[0]?.message?.content || '{"score": 70, "devices": [], "analysis": "Standard rhetorical approach"}';
@@ -1989,7 +1989,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
           content: userMessage
         }
       ],
-      max_completion_tokens: 1200,
+      max_tokens: 1200,
       // GPT-5.2 requires more tokens for internal processing
       temperature: Math.min(0.95, getToneTemperature(request.tone) + Math.random() * 0.2)
     });
@@ -2164,7 +2164,7 @@ Style: ${styleDirection}
 Create MidJourney prompt:`
           }
         ],
-        max_completion_tokens: 50,
+        max_tokens: 50,
         temperature: 0.6
       });
       const visualTokens = promptResponse.usage?.total_tokens ?? 0;
@@ -3070,7 +3070,7 @@ Vocabulary to incorporate: ${tropePattern.vocabularyIndicators.join(", ")}`
 Return each variation on a new line, numbered 1-${count}.`
           }],
           temperature: 0.8,
-          max_completion_tokens: 500
+          max_tokens: 500
         });
         const responseText = response.choices[0]?.message?.content || "";
         const variations = responseText.split(/\n\d+\.\s*/).map((v) => v.trim()).filter((v) => v.length > 10);
@@ -3152,7 +3152,7 @@ Respond in JSON format:
 }`
             }],
             temperature: 0.2,
-            max_completion_tokens: 300
+            max_tokens: 300
           });
           const responseText = response.choices[0]?.message?.content || "{}";
           const jsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -3432,7 +3432,7 @@ async function generateRawIdeas(openai17, theme, persona, temperature, device, d
       { role: "user", content: prompt }
     ],
     temperature,
-    max_completion_tokens: 1500
+    max_tokens: 1500
   });
   const content = response.choices[0]?.message?.content || "";
   const directions = content.split(/DIRECTION \[\d+\]:/).filter((d) => d.trim());
@@ -3996,7 +3996,7 @@ Focus on words that serve the rhetorical device and creative direction.`;
           model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.7,
-          max_completion_tokens: 500
+          max_tokens: 500
         });
         try {
           const content = response.choices[0]?.message?.content || "{}";
@@ -4044,7 +4044,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
           model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.8,
-          max_completion_tokens: block.name === "bodyCopy" ? 200 : 50
+          max_tokens: block.name === "bodyCopy" ? 200 : 50
         });
         return response.choices[0]?.message?.content?.trim() || "";
       }
@@ -5025,7 +5025,7 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
                 { role: "user", content: prompt }
               ],
               temperature: this.getTemperature(config.creativityLevel, i),
-              max_completion_tokens: 1200
+              max_tokens: 1200
             });
             const content = response.choices[0]?.message?.content || "";
             const parsed = this.parseResponse(content);
@@ -5348,7 +5348,7 @@ Tone: ${input.tone}
 Provide a visual description and 3 headline options.`
             }],
             temperature: 1,
-            max_completion_tokens: 500
+            max_tokens: 500
           });
           const content = response.choices[0]?.message?.content || "";
           variants.push({
@@ -5657,7 +5657,7 @@ Tone: ${request.tone}
 Avoid ALL references to color symbolism, ribbons, tapestry, threads, rising voices, or breaking chains. Create something genuinely innovative.` }
         ],
         temperature: 0.9,
-        max_completion_tokens: 1200
+        max_tokens: 1200
       });
       const responseContent = completion.choices[0].message.content;
       if (!responseContent) {
@@ -6476,7 +6476,7 @@ Inspired By: ${concept.rhetoricalExample}
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
-      max_completion_tokens: 300,
+      max_tokens: 300,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -6543,7 +6543,7 @@ Tone: ${concept.tone}
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
-      max_completion_tokens: 200,
+      max_tokens: 200,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -6662,7 +6662,7 @@ Be rigorous in your evaluation, referencing the standards of globally awarded ca
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
       // Low temperature for consistent scoring
-      max_completion_tokens: 400,
+      max_tokens: 400,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -6721,7 +6721,7 @@ Return your assessment as a JSON object:
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
-      max_completion_tokens: 300,
+      max_tokens: 300,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -6776,7 +6776,7 @@ Return your assessment as a JSON object:
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
-      max_completion_tokens: 300,
+      max_tokens: 300,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -6833,7 +6833,7 @@ Return your assessment as a JSON object:
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,
-      max_completion_tokens: 300,
+      max_tokens: 300,
       response_format: { type: "json_object" }
     });
     const responseContent = completion.choices[0].message.content || "{}";
@@ -7181,7 +7181,7 @@ Return your response as JSON with this structure:
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2,
       // Slightly higher temperature for creative refinement
-      max_completion_tokens: 500,
+      max_tokens: 500,
       response_format: { type: "json_object" }
     });
     const refinementEndTime = Date.now();
@@ -7924,7 +7924,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
             ],
             temperature: 1.4,
             // Higher temperature for maximum creative divergence
-            max_completion_tokens: 1200
+            max_tokens: 1200
             // GPT-5.2 requires more tokens
             // Removed response_format: json_object since we're now using Markdown
           });
@@ -7990,7 +7990,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
               model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
-              max_completion_tokens: 1200
+              max_tokens: 1200
               // GPT-5.2 requires more tokens
               // Removed response_format: json_object since we're now using Markdown
             });

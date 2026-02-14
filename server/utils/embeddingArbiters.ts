@@ -165,7 +165,7 @@ export async function relevanceArbiter(
           content: brief
         }
       ],
-      max_completion_tokens: 100,
+      max_tokens: 100,
       temperature: 0.3
     });
     
@@ -291,7 +291,7 @@ Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"]
           content: concept
         }
       ],
-      max_completion_tokens: 200,
+      max_tokens: 200,
       temperature: 0.3
     });
     
@@ -360,7 +360,7 @@ Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device
           content: concept
         }
       ],
-      max_completion_tokens: 200,
+      max_tokens: 200,
       temperature: 0.3
     });
     

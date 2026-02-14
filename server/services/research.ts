@@ -148,7 +148,7 @@ async function analyzeImageWithVision(imageUrl: string, headline: string): Promi
           ],
         },
       ],
-      max_completion_tokens: 150,
+      max_tokens: 150,
     });
 
     return response.choices[0].message.content || undefined;

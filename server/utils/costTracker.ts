@@ -39,7 +39,7 @@ export async function createCompletionWithTracking(
     model: string;
     messages: ChatCompletionMessageParam[];
     temperature?: number;
-    max_completion_tokens?: number;
+    max_tokens?: number;
   }
 ): Promise<APICallResult> {
   const startTime = Date.now();
@@ -48,7 +48,7 @@ export async function createCompletionWithTracking(
     model: options.model,
     messages: options.messages,
     temperature: options.temperature,
-    max_completion_tokens: options.max_completion_tokens
+    max_tokens: options.max_tokens
   });
 
   const duration = Date.now() - startTime;
@@ -142,7 +142,7 @@ export async function generateWithCostTracking(
   prompt: string,
   options: {
     temperature?: number;
-    max_completion_tokens?: number;
+    max_tokens?: number;
     systemMessage?: string;
   } = {}
 ): Promise<APICallResult> {
@@ -155,7 +155,7 @@ export async function generateWithCostTracking(
       { role: "user", content: prompt }
     ],
     temperature: options.temperature,
-    max_completion_tokens: options.max_completion_tokens
+    max_tokens: options.max_tokens
   });
   
   // Add to session tracking

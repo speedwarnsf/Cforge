@@ -544,7 +544,7 @@ Focus on words that serve the rhetorical device and creative direction.`;
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
-      max_completion_tokens: 500
+      max_tokens: 500
     });
 
     try {
@@ -603,7 +603,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
-      max_completion_tokens: block.name === 'bodyCopy' ? 200 : 50
+      max_tokens: block.name === 'bodyCopy' ? 200 : 50
     });
 
     return response.choices[0]?.message?.content?.trim() || '';

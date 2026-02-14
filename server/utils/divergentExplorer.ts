@@ -505,7 +505,7 @@ async function generateRawIdeas(
       { role: 'user', content: prompt }
     ],
     temperature,
-    max_completion_tokens: 1500
+    max_tokens: 1500
   });
 
   const content = response.choices[0]?.message?.content || '';
@@ -561,7 +561,7 @@ Consider: Does the idea serve the brief's goals even if the approach is unconven
 Return ONLY a decimal number between 0.0 and 1.0.`
     }],
     temperature: 0.2,
-    max_completion_tokens: 10
+    max_tokens: 10
   });
 
   const score = parseFloat(response.choices[0]?.message?.content || '0.5');

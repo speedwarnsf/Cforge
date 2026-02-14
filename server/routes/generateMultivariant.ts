@@ -698,7 +698,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
               { role: "user", content: prompt }
             ],
             temperature: 1.4, // Higher temperature for maximum creative divergence
-            max_completion_tokens: 1200, // GPT-5.2 requires more tokens
+            max_tokens: 1200, // GPT-5.2 requires more tokens
             // Removed response_format: json_object since we're now using Markdown
           });
           const apiEndTime = Date.now();
@@ -781,7 +781,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
               model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
-              max_completion_tokens: 1200, // GPT-5.2 requires more tokens
+              max_tokens: 1200, // GPT-5.2 requires more tokens
               // Removed response_format: json_object since we're now using Markdown
             });
             

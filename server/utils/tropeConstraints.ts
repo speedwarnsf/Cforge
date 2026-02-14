@@ -618,7 +618,7 @@ Vocabulary to incorporate: ${tropePattern.vocabularyIndicators.join(', ')}`
 Return each variation on a new line, numbered 1-${count}.`
       }],
       temperature: 0.8,
-      max_completion_tokens: 500
+      max_tokens: 500
     });
 
     const responseText = response.choices[0]?.message?.content || '';
@@ -735,7 +735,7 @@ Respond in JSON format:
 }`
         }],
         temperature: 0.2,
-        max_completion_tokens: 300
+        max_tokens: 300
       });
 
       const responseText = response.choices[0]?.message?.content || '{}';

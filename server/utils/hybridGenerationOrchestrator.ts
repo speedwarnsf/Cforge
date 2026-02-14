@@ -430,7 +430,7 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
             { role: 'user', content: prompt }
           ],
           temperature: this.getTemperature(config.creativityLevel, i),
-          max_completion_tokens: 1200
+          max_tokens: 1200
         });
 
         const content = response.choices[0]?.message?.content || '';
@@ -862,7 +862,7 @@ DO NOT use these overused visual settings: kitchen, gallery, museum, stark white
           content: `Create an advertising concept for: ${input.userBrief}\nTone: ${input.tone}\n\nProvide a visual description and 3 headline options.`
         }],
         temperature: 1.0,
-        max_completion_tokens: 500
+        max_tokens: 500
       });
 
       const content = response.choices[0]?.message?.content || '';

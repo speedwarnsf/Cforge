@@ -576,7 +576,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
           content: userMessage
         }
       ],
-      max_completion_tokens: 1200, // GPT-5.2 requires more tokens for internal processing
+      max_tokens: 1200, // GPT-5.2 requires more tokens for internal processing
       temperature: Math.min(0.95, getToneTemperature(request.tone) + (Math.random() * 0.2))
     });
 
@@ -798,7 +798,7 @@ OUTPUT: "steaming coffee cup on volcanic crater edge, dramatic backlighting, ste
             content: `Visual concept: "${visualConcept}"\nStyle: ${styleDirection}\n\nCreate MidJourney prompt:`
           }
         ],
-        max_completion_tokens: 50,
+        max_tokens: 50,
         temperature: 0.6
       });
       
