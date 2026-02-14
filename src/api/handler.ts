@@ -1,9 +1,7 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
-import { readFileSync, existsSync, readdirSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import rhetoricalDevicesData from "../../data/rhetorical_figures_cleaned.json";
 
 const app = express();
 app.use(express.json());
@@ -38,49 +36,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// Direct devices endpoint with robust file loading (bypasses tropeConstraints cache issues)
+// Direct devices endpoint — data is bundled by esbuild via static import
 app.get("/api/devices", (_req, res) => {
   try {
-    const handlerDir = dirname(fileURLToPath(import.meta.url));
-    const searchPaths = [
-      join(handlerDir, 'data', 'rhetorical_figures_cleaned.json'),
-      join(handlerDir, '..', 'data', 'rhetorical_figures_cleaned.json'),
-      join(handlerDir, '..', 'api', 'data', 'rhetorical_figures_cleaned.json'),
-      join(process.cwd(), 'data', 'rhetorical_figures_cleaned.json'),
-      join(process.cwd(), 'api', 'data', 'rhetorical_figures_cleaned.json'),
-      '/var/task/data/rhetorical_figures_cleaned.json',
-      '/var/task/api/data/rhetorical_figures_cleaned.json',
-    ];
-    console.log(`[devices] handlerDir: ${handlerDir}, cwd: ${process.cwd()}`);
-    for (const p of searchPaths) {
-      if (existsSync(p)) {
-        console.log(`[devices] Found data at: ${p}`);
-        const raw = JSON.parse(readFileSync(p, 'utf-8'));
-        const deviceList = raw.map((d: any) => ({
-          figure_name: d.figure_name,
-          definition: d.definition,
-        }));
-        deviceList.sort((a: any, b: any) => a.figure_name.localeCompare(b.figure_name));
-        return res.json(deviceList);
-      }
-    }
-    // Log filesystem contents for debugging
-    const debugPaths = [handlerDir, process.cwd(), '/var/task', '/var/task/api', '/var/task/data'];
-    for (const dp of debugPaths) {
-      try {
-        const contents = readdirSync(dp);
-        console.log(`[devices] ls ${dp}: ${contents.join(', ')}`);
-      } catch (e) {
-        console.log(`[devices] ls ${dp}: ERROR ${e}`);
-      }
-    }
-    // Debug: list filesystem contents
-    const fsDebug: Record<string, string[]> = {};
-    for (const dp of ['/var/task', '/var/task/api', '/var/task/data', '/var/task/api/data', handlerDir]) {
-      try { fsDebug[dp] = readdirSync(dp); } catch { fsDebug[dp] = ['NOT_FOUND']; }
-    }
-    console.error(`[devices] Data file not found. Searched: ${searchPaths.join(', ')}`);
-    return res.status(500).json({ error: 'Rhetorical devices data file not found', searchPaths, handlerDir, cwd: process.cwd(), fsDebug });
+    const deviceList = (rhetoricalDevicesData as any[]).map((d: any) => ({
+      figure_name: d.figure_name,
+      definition: d.definition,
+    }));
+    deviceList.sort((a: any, b: any) => a.figure_name.localeCompare(b.figure_name));
+    return res.json(deviceList);
   } catch (error) {
     console.error('[devices] Error:', error);
     return res.status(500).json({ error: 'Failed to load devices' });
