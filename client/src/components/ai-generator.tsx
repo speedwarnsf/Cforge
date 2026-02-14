@@ -1178,10 +1178,10 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
             results={currentConcepts.map(concept => {
               const c = concept.content || '';
               // Parse markdown content to extract structured fields
-              const hlMatch = c.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*|$)/i);
-              const tlMatch = c.match(/\*\*TAGLINE:?\*\*\s*(.+?)(?:\n|\*\*|$)/i);
-              const bcMatch = c.match(/\*\*BODY COPY:?\*\*\s*([\s\S]+?)(?=\*\*[A-Z]|\*\*$|$)/i);
-              const vcMatch = c.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]+?)(?=\*\*[A-Z]|\*\*$|$)/i);
+              const hlMatch = c.match(/\*\*HEADLINE:?\*\*\s*\n?\s*(.+?)(?:\n\n|\n\*\*|$)/i);
+              const tlMatch = c.match(/\*\*TAGLINE:?\*\*\s*\n?\s*(.+?)(?:\n\n|\n\*\*|$)/i);
+              const bcMatch = c.match(/\*\*BODY COPY:?\*\*\s*\n?\s*([\s\S]+?)(?=\n\n\*\*[A-Z]|\*\*$|$)/i);
+              const vcMatch = c.match(/\*\*VISUAL CONCEPT:?\*\*\s*\n?\s*([\s\S]+?)(?=\n\n\*\*[A-Z]|\*\*$|$)/i);
               const origCheck = concept.originalityCheck;
               // confidence is 0-1 from API, convert to 0-100 for display
               const originalityScore = origCheck ? origCheck.confidence * 100 : 0;
