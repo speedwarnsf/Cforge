@@ -426,22 +426,37 @@ Use a completely different visual approach and angle than other variants.
               content: `You are an award-winning creative director generating breakthrough advertising concepts.
 Your concepts should be unexpected, memorable, and emotionally resonant.
 IMPORTANT: Create a concept that is VISUALLY and THEMATICALLY distinct from typical approaches.
+Your visual must NOT be the FIRST thing anyone would think of for this brief. If a junior copywriter would suggest it, go further.
 ${variantSeed?.persona.systemPromptOverride || ''}`
             },
             { role: 'user', content: prompt }
           ],
           temperature: this.getTemperature(config.creativityLevel, i),
-          max_tokens: 1200
+          max_tokens: 1500
         });
 
         const content = response.choices[0]?.message?.content || '';
         const parsed = this.parseResponse(content);
 
+        // Headline validation: truncate overly long headlines to 10 words
+        if (parsed) {
+          parsed.headlines = parsed.headlines.map(h => {
+            const headlineWords = h.split(/\s+/);
+            if (headlineWords.length > 10) {
+              return headlineWords.slice(0, 10).join(' ');
+            }
+            return h;
+          });
+        }
+
         if (parsed) {
           // PERF: Skip expensive embedding + evaluateAdQuality calls during generation
           // These added ~3-5s per variant. Use heuristic scores instead.
           const combinedContent = `${parsed.visual} ${parsed.headlines.join(' ')}`;
-          const distinctiveness = 0.5 + Math.random() * 0.2;
+          // Real distinctiveness: measure word uniqueness ratio
+          const words = combinedContent.toLowerCase().split(/\s+/);
+          const uniqueWords = new Set(words);
+          const distinctiveness = words.length > 0 ? Math.min(uniqueWords.size / words.length, 1.0) : 0.5;
           
           // PERF: Use word-count heuristics instead of GPT quality evaluation
           const wordCount = combinedContent.split(/\s+/).length;
@@ -454,8 +469,8 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
           const deviceIndex = variantCount === 1
             ? Math.floor(Math.random() * tropesToUse.length)
             : i % tropesToUse.length;
-          const deviceForVariant = tropesToUse[deviceIndex] || 'metaphor';
-          const deviceDefinition = getDeviceDefinition(deviceForVariant) || '';
+          const deviceForVariant = parsed.rhetoricalAnalysis?.deviceUsed || tropesToUse[deviceIndex] || 'metaphor';
+          const deviceDefinition = getDeviceDefinition(parsed.rhetoricalAnalysis?.deviceUsed || '') || getDeviceDefinition(deviceForVariant) || '';
 
           // Build full rhetorical analysis
           const rhetoricalAnalysis: RhetoricalAnalysis | undefined = parsed.rhetoricalAnalysis ? {
