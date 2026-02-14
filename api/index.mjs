@@ -9787,8 +9787,16 @@ app.get("/api/devices", (_req, res) => {
         console.log(`[devices] ls ${dp}: ERROR ${e}`);
       }
     }
+    const fsDebug = {};
+    for (const dp of ["/var/task", "/var/task/api", "/var/task/data", "/var/task/api/data", handlerDir]) {
+      try {
+        fsDebug[dp] = readdirSync(dp);
+      } catch {
+        fsDebug[dp] = ["NOT_FOUND"];
+      }
+    }
     console.error(`[devices] Data file not found. Searched: ${searchPaths.join(", ")}`);
-    return res.status(500).json({ error: "Rhetorical devices data file not found", searchPaths, handlerDir, cwd: process.cwd() });
+    return res.status(500).json({ error: "Rhetorical devices data file not found", searchPaths, handlerDir, cwd: process.cwd(), fsDebug });
   } catch (error) {
     console.error("[devices] Error:", error);
     return res.status(500).json({ error: "Failed to load devices" });
