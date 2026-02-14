@@ -1,6 +1,6 @@
 /**
  * Trope Variety Selector
- * Ensures exploration of the full 411 rhetorical device corpus
+ * Ensures exploration of the full 293 rhetorical device corpus
  * by tracking usage and strongly favoring unexplored devices
  *
  * Location: server/utils/tropeVarietySelector.ts

@@ -45,13 +45,13 @@ export default function ConceptForgeHeroSection() {
         </h1>
 
         <p className="text-base md:text-lg text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed font-light">
-          411 rhetorical devices. 4-arbiter evaluation. 
+          293 rhetorical devices. 4-arbiter evaluation. 
           AI-powered concept generation built on classical rhetoric.
         </p>
 
         {/* Stats row */}
         <div className="flex justify-center items-center gap-8 mb-10 text-xs tracking-widest uppercase text-gray-500">
-          <span>411 Devices</span>
+          <span>293 Devices</span>
           <span className="w-px h-3 bg-gray-700" />
           <span>4 Arbiters</span>
           <span className="w-px h-3 bg-gray-700" />

@@ -2,7 +2,7 @@
  * Trope Constraint Satisfaction Engine
  * Maps rhetorical devices to structural validation rules
  *
- * Supports ALL 411 rhetorical devices from the corpus with:
+ * Supports ALL 293 rhetorical devices from the corpus with:
  * - Pattern-based validation for common devices (fast)
  * - AI-powered validation for all devices (comprehensive)
  *
@@ -424,7 +424,7 @@ export class TropeConstraintEngine {
 
   /**
    * Validate content against a specific trope
-   * Supports all 411 rhetorical devices from the corpus
+   * Supports all 293 rhetorical devices from the corpus
    */
   async validateTropeSatisfaction(
     content: string,
@@ -446,7 +446,7 @@ export class TropeConstraintEngine {
     const tropePattern = TROPE_PATTERNS[normalizedId];
 
     if (!tropePattern) {
-      // Check if device exists in full 411-device corpus
+      // Check if device exists in full 293-device corpus
       const corpusDefinition = getDeviceDefinition(normalizedId);
 
       if (corpusDefinition || options.useAIFallback) {
@@ -700,7 +700,7 @@ Return each variation on a new line, numbered 1-${count}.`
     const normalizedId = tropeId.toLowerCase().replace(/\s+/g, '_');
     const tropePattern = TROPE_PATTERNS[normalizedId];
 
-    // Get definition from pattern OR from full 411-device corpus
+    // Get definition from pattern OR from full 293-device corpus
     let tropeName = tropePattern?.name || tropeId;
     let tropeDescription = tropePattern?.description;
 
@@ -857,7 +857,7 @@ export function checkVocabularyAlignment(
  * Get all available trope IDs
  */
 /**
- * Get all available trope IDs (patterns + full 411-device corpus)
+ * Get all available trope IDs (patterns + full 293-device corpus)
  */
 export function getAvailableTropes(): string[] {
   return getAllAvailableDeviceIds();
@@ -901,7 +901,7 @@ export function getTropeDetails(tropeId: string): TropePattern | undefined {
 
 /**
  * Generate constraint prompt for LLM based on tropes
- * Supports all 411 rhetorical devices from the corpus
+ * Supports all 293 rhetorical devices from the corpus
  */
 export function generateTropeConstraintPrompt(tropeIds: string[]): string {
   const constraints: string[] = [];

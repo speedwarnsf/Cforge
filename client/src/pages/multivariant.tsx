@@ -43,7 +43,7 @@ export default function MultivariantPage() {
             size="sm"
             className="text-xs px-2 py-1 border-white/20 text-white/60 hover:bg-white/10 hover:text-white transition-all bg-black/80"
           >
-            411 Devices
+            293 Devices
           </Button>
         </Link>
         <Link href="/gallery">

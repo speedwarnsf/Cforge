@@ -38,7 +38,7 @@ const LoadingWindow = memo(({ isLoading, onClose, progress }: LoadingWindowProps
     const steps = [
         { title: 'Analyzing Brief', desc: 'Extracting key themes and direction.' },
         { title: 'Divergent Exploration', desc: 'Creative personas generating ideas.' },
-        { title: 'Selecting Devices', desc: 'Choosing from 411 rhetorical devices.' },
+        { title: 'Selecting Devices', desc: 'Choosing from 293 rhetorical devices.' },
         { title: 'Crafting Concepts', desc: 'Generating creative variants in parallel.' },
         { title: 'Scoring & Ranking', desc: 'Four arbiters evaluating quality.' },
         { title: 'Done', desc: 'Your concepts are ready.' }

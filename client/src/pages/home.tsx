@@ -144,7 +144,7 @@ export default function Home() {
             size="sm"
             className="text-xs px-2 py-0.5 h-6 bg-black/60 border-white/20 text-white/60 hover:text-white transition-all"
           >
-            411 Devices
+            293 Devices
           </Button>
         </Link>
         <Link href="/gallery">

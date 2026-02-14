@@ -199,9 +199,12 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
           const parsedConcepts = finalResult.outputs.map((output: any, idx: number) => ({
             id: output.id || `concept-${idx}`,
             headline: output.headlines?.[0] || `Concept ${idx + 1}`,
+            tagline: output.tagline || output.headlines?.[1] || '',
+            bodyCopy: output.bodyCopy || '',
+            visualConcept: output.visualDescription || '',
             devices: output.rhetoricalDevice || 'metaphor',
             rationale: output.visualDescription?.substring(0, 100) + (output.visualDescription?.length > 100 ? '...' : '') || 'Generated concept',
-            originalityScore: output.originalityCheck?.confidence || 0
+            originalityScore: (output.originalityCheck?.confidence || 0) * 100
           }));
 
           setResults(parsedConcepts);
@@ -246,6 +249,9 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         const cleanContent = content.replace(/```markdown\s*/g, '').replace(/```/g, '');
         const headlineMatch = cleanContent.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
         const devicesMatch = cleanContent.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*STRATEGIC|$)/i);
+        const taglineMatch = cleanContent.match(/\*\*TAGLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
+        const bodyCopyMatch = cleanContent.match(/\*\*BODY COPY:?\*\*\s*([\s\S]*?)(?=\*\*VISUAL|\*\*RHETORICAL|$)/i);
+        const visualMatch = cleanContent.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]*?)(?=\*\*RHETORICAL|$)/i);
         
         const headline = headlineMatch?.[1]?.trim() || 'No headline found';
         const devices = devicesMatch?.[1]?.trim() || 'No devices found';
@@ -253,9 +259,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         const parsedConcept = {
           id: result.conceptId || `concept-${Date.now()}`,
           headline,
+          tagline: taglineMatch?.[1]?.trim() || '',
+          bodyCopy: bodyCopyMatch?.[1]?.trim() || '',
+          visualConcept: visualMatch?.[1]?.trim() || '',
           devices,
+          content: cleanContent,
           rationale: result.processingTime ? `Generated in ${result.processingTime}` : 'Generated concept',
-          originalityScore: result.originalityCheck?.confidence || 0
+          originalityScore: (result.originalityCheck?.confidence || 0) * 100
         };
 
         setResults([parsedConcept]);
