@@ -1828,8 +1828,15 @@ function selectDiverseDevices(count, preferredTone, userRatings) {
 async function generateSingleConcept(request, rhetoricalDevice) {
   const startTime = Date.now();
   try {
-    const selectedDevices = getStrategicRhetoricalDevices(request.tone);
+    const selectedDevices = getStrategicRhetoricalDevices(request.tone, 6);
+    const primaryDevice = selectedDevices[0];
+    const secondaryDevice = selectedDevices[1];
     const deviceNames = selectedDevices.map((d) => d.name).join(", ");
+    const deviceInstruction = `**YOUR ASSIGNED RHETORICAL WEAPON:**
+Primary: ${primaryDevice.name} \u2014 ${primaryDevice.description}
+Secondary: ${secondaryDevice.name} \u2014 ${secondaryDevice.description}
+
+You MUST build the concept around ${primaryDevice.name}. This is not optional. The device IS the concept. Start from the device's mechanism and work backward to the brief. The device tells you what kind of headline to write, what visual to create, what tension to exploit.`;
     const clicheGuidance = request.includeCliches ? "Enable familiar tropes and expected imagery when they serve the concept." : `**STRICT ANTI-CLICH\xC9 MANDATE - ABSOLUTELY FORBIDDEN WORDS/PHRASES:**
       
       \u{1F6AB} BANNED EMPOWERMENT CLICH\xC9S: "Rise", "Thrive", "Empower", "Journey", "Transform", "Inspire", "Unlock", "Unleash", "Ignite", "Fuel", "Elevate", "Champion"
@@ -1875,10 +1882,20 @@ async function generateSingleConcept(request, rhetoricalDevice) {
 
 **CREATIVE GUIDELINES:**
 - ${clicheGuidance}
-- Deploy these rhetorical figures with precision: ${deviceNames}
 - The concept must be specific to THIS product \u2014 not transferable to competitors
 - Write body copy with a distinctive voice, not corporate neutral
 - Visual concepts should be filmable/photographable with a clear art direction POV
+
+${deviceInstruction}
+
+Also available in your arsenal (use as secondary layers): ${deviceNames}
+
+**THE FORGE PROCESS \u2014 THIS IS HOW YOU THINK:**
+1. Read the brief (even if it's just a product name, that's enough)
+2. Look at your assigned rhetorical device. Understand its MECHANISM \u2014 how it creates meaning.
+3. Ask: "What tension, contradiction, or unexpected truth exists in this product/category?"
+4. Apply the device to that tension. The device shapes the headline, the visual, everything.
+5. The concept should feel like it could ONLY exist because of this specific device applied to this specific brief.
 
 ${getTonePrompt(request.tone)}`;
     console.log(`Processing query: "${request.query}"`);
