@@ -408,13 +408,25 @@ Build upon this creative seed while developing a UNIQUE concept that differs fro
 Use a completely different visual approach and angle than other variants.
 ` : '';
 
+      // Assign a SPECIFIC device to this variant so the LLM doesn't default to Anaphora
+      const deviceIndex = variantCount === 1
+        ? Math.floor(Math.random() * tropesToUse.length)
+        : i % tropesToUse.length;
+      const assignedDevice = tropesToUse[deviceIndex];
+      const assignedDeviceName = assignedDevice.split('_')
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      const assignedDeviceDefinition = getDeviceDefinition(assignedDevice) || '';
+
       const prompt = this.buildGenerationPrompt(
         input.userBrief,
         input.tone,
         seedContext,
         tropeConstraint,
         i,
-        variantCount
+        variantCount,
+        assignedDeviceName,
+        assignedDeviceDefinition
       );
 
       try {
@@ -464,12 +476,11 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
           const visualQuality = parsed.visual.length > 50 ? 0.8 : 0.6;
           const coherence = (headlineQuality + visualQuality) / 2;
 
-          // Determine the device for this variant
-          // For single variants, randomize from available tropes instead of always using index 0
-          const deviceIndex = variantCount === 1
-            ? Math.floor(Math.random() * tropesToUse.length)
-            : i % tropesToUse.length;
-          const deviceForVariant = parsed.rhetoricalAnalysis?.deviceUsed || tropesToUse[deviceIndex] || 'metaphor';
+          // Use the assigned device for this variant; only trust LLM's answer if it matches
+          const llmDevice = parsed.rhetoricalAnalysis?.deviceUsed || '';
+          const deviceForVariant = assignedDevice && llmDevice.toLowerCase() !== assignedDeviceName.toLowerCase()
+            ? assignedDeviceName
+            : (llmDevice || assignedDeviceName || 'metaphor');
           const deviceDefinition = getDeviceDefinition(parsed.rhetoricalAnalysis?.deviceUsed || '') || getDeviceDefinition(deviceForVariant) || '';
 
           // Build full rhetorical analysis
@@ -571,8 +582,15 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
     seedContext: string,
     tropeConstraint: string,
     variantIndex: number,
-    totalVariants: number = 1
+    totalVariants: number = 1,
+    assignedDevice?: string,
+    assignedDeviceDefinition?: string
   ): string {
+    // Build a SPECIFIC device assignment that overrides the general trope list
+    const deviceAssignment = assignedDevice
+      ? `\n\n⚠️ MANDATORY RHETORICAL DEVICE ASSIGNMENT: You MUST use **${assignedDevice}**${assignedDeviceDefinition ? ` (${assignedDeviceDefinition})` : ''} as your primary rhetorical device for this concept. Do NOT use Anaphora or any other device unless "${assignedDevice}" IS that device. Your "Device Used" MUST be "${assignedDevice}".`
+      : '';
+
     return `Create a breakthrough advertising concept for:
 
 **Brief:** ${brief}
@@ -580,7 +598,7 @@ ${variantSeed?.persona.systemPromptOverride || ''}`
 
 ${seedContext}
 
-${tropeConstraint}
+${tropeConstraint}${deviceAssignment}
 
 Generate a complete concept. Write ACTUAL creative content for each section - do NOT echo instructions or placeholders.
 
