@@ -9553,10 +9553,10 @@ ${content}
   });
   app2.get("/download", async (req, res) => {
     try {
-      const { readFileSync: readFileSync6 } = await import("fs");
+      const { readFileSync: readFileSync7 } = await import("fs");
       const { resolve } = await import("path");
       const htmlPath = resolve(process.cwd(), "download-corpus.html");
-      const html = readFileSync6(htmlPath, "utf8");
+      const html = readFileSync7(htmlPath, "utf8");
       res.setHeader("Content-Type", "text/html");
       res.send(html);
     } catch (error) {
@@ -9566,15 +9566,15 @@ ${content}
   });
   app2.get("/api/download/corpus", async (req, res) => {
     try {
-      const { readFileSync: readFileSync6, existsSync: existsSync5 } = await import("fs");
+      const { readFileSync: readFileSync7, existsSync: existsSync6 } = await import("fs");
       const { resolve } = await import("path");
       const zipPath = resolve(process.cwd(), "concept-forge-retrieval-corpus.zip");
-      if (!existsSync5(zipPath)) {
+      if (!existsSync6(zipPath)) {
         return res.status(404).json({ message: "Corpus zip file not found" });
       }
       res.setHeader("Content-Type", "application/zip");
       res.setHeader("Content-Disposition", 'attachment; filename="concept-forge-retrieval-corpus.zip"');
-      const fileBuffer = readFileSync6(zipPath);
+      const fileBuffer = readFileSync7(zipPath);
       res.send(fileBuffer);
     } catch (error) {
       console.error("Download error:", error);
@@ -9685,18 +9685,18 @@ ${content}
     }
   });
   app2.get("/api/debug-paths", async (_req, res) => {
-    const { existsSync: existsSync5, readdirSync } = await import("fs");
-    const { join: join5 } = await import("path");
+    const { existsSync: existsSync6, readdirSync } = await import("fs");
+    const { join: join6 } = await import("path");
     const paths = [
       "/var/task/data",
       "/var/task/api/data",
-      join5(process.cwd(), "data"),
-      join5(process.cwd(), "api", "data")
+      join6(process.cwd(), "data"),
+      join6(process.cwd(), "api", "data")
     ];
     const results = { cwd: process.cwd(), dirname: __dirname };
     for (const p of paths) {
       try {
-        results[p] = existsSync5(p) ? readdirSync(p).slice(0, 5) : "NOT FOUND";
+        results[p] = existsSync6(p) ? readdirSync(p).slice(0, 5) : "NOT FOUND";
       } catch (e) {
         results[p] = e.message;
       }
@@ -9723,6 +9723,9 @@ ${content}
 }
 
 // src/api/handler.ts
+import { readFileSync as readFileSync6, existsSync as existsSync5 } from "fs";
+import { join as join5, dirname as dirname3 } from "path";
+import { fileURLToPath as fileURLToPath2 } from "url";
 var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -9749,6 +9752,38 @@ app.use((req, res, next) => {
     }
   });
   next();
+});
+app.get("/api/devices", (_req, res) => {
+  try {
+    const handlerDir = dirname3(fileURLToPath2(import.meta.url));
+    const searchPaths = [
+      join5(handlerDir, "data", "rhetorical_figures_cleaned.json"),
+      join5(handlerDir, "..", "data", "rhetorical_figures_cleaned.json"),
+      join5(handlerDir, "..", "api", "data", "rhetorical_figures_cleaned.json"),
+      join5(process.cwd(), "data", "rhetorical_figures_cleaned.json"),
+      join5(process.cwd(), "api", "data", "rhetorical_figures_cleaned.json"),
+      "/var/task/data/rhetorical_figures_cleaned.json",
+      "/var/task/api/data/rhetorical_figures_cleaned.json"
+    ];
+    console.log(`[devices] handlerDir: ${handlerDir}, cwd: ${process.cwd()}`);
+    for (const p of searchPaths) {
+      if (existsSync5(p)) {
+        console.log(`[devices] Found data at: ${p}`);
+        const raw = JSON.parse(readFileSync6(p, "utf-8"));
+        const deviceList = raw.map((d) => ({
+          figure_name: d.figure_name,
+          definition: d.definition
+        }));
+        deviceList.sort((a, b) => a.figure_name.localeCompare(b.figure_name));
+        return res.json(deviceList);
+      }
+    }
+    console.error(`[devices] Data file not found. Searched: ${searchPaths.join(", ")}`);
+    return res.status(500).json({ error: "Rhetorical devices data file not found" });
+  } catch (error) {
+    console.error("[devices] Error:", error);
+    return res.status(500).json({ error: "Failed to load devices" });
+  }
 });
 var routesRegistered = false;
 var initPromise = (async () => {

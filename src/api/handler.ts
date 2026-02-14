@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, existsSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -64,8 +64,18 @@ app.get("/api/devices", (_req, res) => {
         return res.json(deviceList);
       }
     }
+    // Log filesystem contents for debugging
+    const debugPaths = [handlerDir, process.cwd(), '/var/task', '/var/task/api', '/var/task/data'];
+    for (const dp of debugPaths) {
+      try {
+        const contents = readdirSync(dp);
+        console.log(`[devices] ls ${dp}: ${contents.join(', ')}`);
+      } catch (e) {
+        console.log(`[devices] ls ${dp}: ERROR ${e}`);
+      }
+    }
     console.error(`[devices] Data file not found. Searched: ${searchPaths.join(', ')}`);
-    return res.status(500).json({ error: 'Rhetorical devices data file not found' });
+    return res.status(500).json({ error: 'Rhetorical devices data file not found', searchPaths, handlerDir, cwd: process.cwd() });
   } catch (error) {
     console.error('[devices] Error:', error);
     return res.status(500).json({ error: 'Failed to load devices' });

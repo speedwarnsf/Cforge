@@ -241,8 +241,11 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
 
         // Enhanced content parsing
         const content = result.content || '';
-        const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.+?)(?:\n|\*\*)/);
-        const devicesMatch = content.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*|$)/i);
+        // Handle both **HEADLINE:** and **HEADLINE** formats (with or without colon)
+        // Also handle markdown fenced blocks: ```markdown\n**HEADLINE**\n...```
+        const cleanContent = content.replace(/```markdown\s*/g, '').replace(/```/g, '');
+        const headlineMatch = cleanContent.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
+        const devicesMatch = cleanContent.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*STRATEGIC|$)/i);
         
         const headline = headlineMatch?.[1]?.trim() || 'No headline found';
         const devices = devicesMatch?.[1]?.trim() || 'No devices found';
