@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { aiRequestFormSchema, type AiRequestForm } from "@shared/schema";
+import { aiRequestFormSchema, type AiRequestForm } from "@shared/types";
 import { exampleQueries, type ExampleQuery } from "@shared/constants";
 
 import { Copy, X, ArrowRight, Lightbulb, Sparkles, FileText, ChevronDown, Download, Grid3X3 } from "lucide-react";
