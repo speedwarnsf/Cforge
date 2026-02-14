@@ -78,9 +78,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       // ALL generation now routes through the hybrid pipeline
       console.log(`🔀 Routing ALL generation through hybrid multivariant pipeline`);
-      // Ensure conceptCount is at least 1
-      req.body.conceptCount = req.body?.conceptCount || 1;
+      const requestedCount = req.body?.conceptCount || 1;
+      req.body.conceptCount = requestedCount;
       req.body.enableHybridMode = true;
+
+      // Intercept the response to transform hybrid format → frontend format
+      const originalJson = res.json.bind(res);
+      res.json = function(body: any) {
+        // Hybrid path returns { success, outputs, metadata }
+        if (body && body.success && body.outputs && Array.isArray(body.outputs)) {
+          const outputs = body.outputs;
+          const startTime = Date.now();
+
+          if (requestedCount === 1 && outputs.length > 0) {
+            // Single concept: pick the best one and return legacy format
+            const best = outputs.reduce((a: any, b: any) => 
+              ((a.awardsScore || 0) > (b.awardsScore || 0) ? a : b), outputs[0]);
+            
+            const content = `**HEADLINE**\n${best.headlines?.[0] || ''}\n\n**TAGLINE**\n${best.tagline || best.headlines?.[1] || ''}\n\n**BODY COPY**\n${best.bodyCopy || ''}\n\n**VISUAL CONCEPT**\n${best.visualDescription || ''}\n\n**RHETORICAL CRAFT BREAKDOWN**\n**${best.rhetoricalDevice || ''}**\n${best.hybridMetadata?.rhetoricalAnalysis?.applicationExplanation || 'Strategic application of rhetorical device.'}\n\n**STRATEGIC IMPACT**\nGenerated via hybrid pipeline with originality score ${best.originalityScore || 0}.`;
+
+            return originalJson({
+              id: Date.now(),
+              conceptId: best.conceptId || best.id,
+              content: `\`\`\`markdown\n${content}\n\`\`\``,
+              visualPrompt: best.visualDescription || '',
+              tone: req.body.tone || '',
+              tokens: 0,
+              processingTime: `${((body.metadata?.totalTime || 0) / 1000).toFixed(1)}s`,
+              timestamp: new Date().toISOString(),
+              originalityCheck: { confidence: (best.originalityScore || 0) / 100 },
+              iterationType: 'original' as const
+            });
+          } else {
+            // Multi-concept: transform to concepts array
+            const concepts = outputs.map((o: any, i: number) => {
+              const content = `**HEADLINE**\n${o.headlines?.[0] || ''}\n\n**TAGLINE**\n${o.tagline || o.headlines?.[1] || ''}\n\n**BODY COPY**\n${o.bodyCopy || ''}\n\n**VISUAL CONCEPT**\n${o.visualDescription || ''}\n\n**RHETORICAL CRAFT BREAKDOWN**\n**${o.rhetoricalDevice || ''}**\n${o.hybridMetadata?.rhetoricalAnalysis?.applicationExplanation || 'Strategic application.'}\n\n**STRATEGIC IMPACT**\nHybrid pipeline concept.`;
+              return {
+                id: i + 1,
+                conceptId: o.conceptId || o.id,
+                content: `\`\`\`markdown\n${content}\n\`\`\``,
+                visualPrompt: o.visualDescription || '',
+                tone: req.body.tone || '',
+                tokens: 0,
+                processingTime: `${((body.metadata?.totalTime || 0) / 1000).toFixed(1)}s`,
+                timestamp: new Date().toISOString(),
+                originalityCheck: { confidence: (o.originalityScore || 0) / 100 },
+                iterationType: 'original' as const
+              };
+            });
+            return originalJson({
+              concepts,
+              totalTokens: 0,
+              totalProcessingTime: `${((body.metadata?.totalTime || 0) / 1000).toFixed(1)}s`,
+              batchId: `batch_${Date.now()}`
+            });
+          }
+        }
+        // Legacy array format or other responses pass through unchanged
+        return originalJson(body);
+      } as any;
+
       return generateMultivariant(req, res);
 
       // Legacy single-concept path below (kept for reference, unreachable)

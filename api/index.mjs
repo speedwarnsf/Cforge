@@ -8579,8 +8579,93 @@ async function registerRoutes(app2) {
   app2.post("/api/generate", async (req, res) => {
     try {
       console.log(`\u{1F500} Routing ALL generation through hybrid multivariant pipeline`);
-      req.body.conceptCount = req.body?.conceptCount || 1;
+      const requestedCount = req.body?.conceptCount || 1;
+      req.body.conceptCount = requestedCount;
       req.body.enableHybridMode = true;
+      const originalJson = res.json.bind(res);
+      res.json = function(body) {
+        if (body && body.success && body.outputs && Array.isArray(body.outputs)) {
+          const outputs = body.outputs;
+          const startTime = Date.now();
+          if (requestedCount === 1 && outputs.length > 0) {
+            const best = outputs.reduce((a, b) => (a.awardsScore || 0) > (b.awardsScore || 0) ? a : b, outputs[0]);
+            const content = `**HEADLINE**
+${best.headlines?.[0] || ""}
+
+**TAGLINE**
+${best.tagline || best.headlines?.[1] || ""}
+
+**BODY COPY**
+${best.bodyCopy || ""}
+
+**VISUAL CONCEPT**
+${best.visualDescription || ""}
+
+**RHETORICAL CRAFT BREAKDOWN**
+**${best.rhetoricalDevice || ""}**
+${best.hybridMetadata?.rhetoricalAnalysis?.applicationExplanation || "Strategic application of rhetorical device."}
+
+**STRATEGIC IMPACT**
+Generated via hybrid pipeline with originality score ${best.originalityScore || 0}.`;
+            return originalJson({
+              id: Date.now(),
+              conceptId: best.conceptId || best.id,
+              content: `\`\`\`markdown
+${content}
+\`\`\``,
+              visualPrompt: best.visualDescription || "",
+              tone: req.body.tone || "",
+              tokens: 0,
+              processingTime: `${((body.metadata?.totalTime || 0) / 1e3).toFixed(1)}s`,
+              timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+              originalityCheck: { confidence: (best.originalityScore || 0) / 100 },
+              iterationType: "original"
+            });
+          } else {
+            const concepts = outputs.map((o, i) => {
+              const content = `**HEADLINE**
+${o.headlines?.[0] || ""}
+
+**TAGLINE**
+${o.tagline || o.headlines?.[1] || ""}
+
+**BODY COPY**
+${o.bodyCopy || ""}
+
+**VISUAL CONCEPT**
+${o.visualDescription || ""}
+
+**RHETORICAL CRAFT BREAKDOWN**
+**${o.rhetoricalDevice || ""}**
+${o.hybridMetadata?.rhetoricalAnalysis?.applicationExplanation || "Strategic application."}
+
+**STRATEGIC IMPACT**
+Hybrid pipeline concept.`;
+              return {
+                id: i + 1,
+                conceptId: o.conceptId || o.id,
+                content: `\`\`\`markdown
+${content}
+\`\`\``,
+                visualPrompt: o.visualDescription || "",
+                tone: req.body.tone || "",
+                tokens: 0,
+                processingTime: `${((body.metadata?.totalTime || 0) / 1e3).toFixed(1)}s`,
+                timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+                originalityCheck: { confidence: (o.originalityScore || 0) / 100 },
+                iterationType: "original"
+              };
+            });
+            return originalJson({
+              concepts,
+              totalTokens: 0,
+              totalProcessingTime: `${((body.metadata?.totalTime || 0) / 1e3).toFixed(1)}s`,
+              batchId: `batch_${Date.now()}`
+            });
+          }
+        }
+        return originalJson(body);
+      };
       return generateMultivariant(req, res);
       const conceptCount = req.body?.conceptCount || 1;
       if (conceptCount > 1) {
