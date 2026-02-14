@@ -1,4 +1,3 @@
-import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,33 +10,6 @@ import { Suspense, lazy } from "react";
 import { PageLoadingSkeleton } from "@/components/SkeletonLoaders";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-// Code splitting - lazy load pages for better performance
-const Home = lazy(() => import("@/pages/home"));
-const MultivariantPage = lazy(() => import("@/pages/multivariant"));
-const TestAdmin = lazy(() => import("@/pages/TestAdmin"));
-const Review = lazy(() => import("@/pages/Review"));
-const CorpusDownload = lazy(() => import("@/pages/corpus-download"));
-const Gallery = lazy(() => import("@/pages/gallery"));
-const Devices = lazy(() => import("@/pages/devices"));
-const NotFound = lazy(() => import("@/pages/not-found"));
-
-function Router() {
-  return (
-    <Suspense fallback={<PageLoadingSkeleton />}>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/multivariant" component={MultivariantPage} />
-        <Route path="/test-admin" component={TestAdmin} />
-        <Route path="/review" component={Review} />
-        <Route path="/corpus" component={CorpusDownload} />
-        <Route path="/gallery" component={Gallery} />
-        <Route path="/devices" component={Devices} />
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
-  );
-}
-
 function App() {
   return (
     <ErrorBoundary>
@@ -48,11 +20,9 @@ function App() {
             <OfflineIndicator />
             <InstallPWA />
             <GenerationStatusOverlay />
-
-            {/* PasswordGate removed - portfolio demo */}
-            <div>
-              <div className="concept-forge-app" role="application" aria-label="ConceptForge">
-                <Router />
+            <div className="concept-forge-app" role="application" aria-label="ConceptForge">
+              <div style={{color: 'white', fontSize: '48px', padding: '100px'}}>
+                Providers work! Testing router next...
               </div>
             </div>
           </TooltipProvider>
