@@ -156,7 +156,7 @@ class EnhancedEmbeddingRetrieval {
 
   private async getEmbedding(text: string): Promise<number[]> {
     const response = await openai.embeddings.create({
-      model: 'text-embedding-3-large',
+      model: process.env.GEMINI_API_KEY ? 'gemini-embedding-001' : 'text-embedding-3-large',
       input: text,
       encoding_format: 'float'
     });

@@ -80,7 +80,7 @@ async function getRatedConcepts(projectId: string): Promise<{
  */
 async function getEmbedding(text: string): Promise<number[]> {
   const response = await openai.embeddings.create({
-    model: "text-embedding-3-large",
+    model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
     input: text
   });
   return response.data[0].embedding;

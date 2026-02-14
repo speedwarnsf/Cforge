@@ -30,7 +30,7 @@ async function getEmbedding(text: string): Promise<number[]> {
     // Sanitize input text before generating embedding
     const sanitizedText = sanitizeText(text);
     const response = await openai.embeddings.create({
-      model: process.env.GEMINI_API_KEY ? "text-embedding-004" : "text-embedding-3-large",
+      model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
       input: sanitizedText
     });
     return response.data[0].embedding;

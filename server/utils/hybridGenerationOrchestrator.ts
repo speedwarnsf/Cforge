@@ -330,7 +330,8 @@ export class HybridGenerationOrchestrator {
         }
       };
     } catch (error) {
-      console.error('Hybrid generation failed:', error);
+      console.error('Hybrid generation failed:', error instanceof Error ? error.message : error);
+      console.error('Hybrid generation stack:', error instanceof Error ? error.stack : 'no stack');
 
       // Fallback to legacy mode if enabled
       if (effectiveConfig.fallbackToLegacy) {

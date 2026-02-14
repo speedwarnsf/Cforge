@@ -168,7 +168,7 @@ async function getEmbedding(text2) {
   try {
     const sanitizedText = sanitizeText(text2);
     const response = await openai.embeddings.create({
-      model: process.env.GEMINI_API_KEY ? "text-embedding-004" : "text-embedding-3-large",
+      model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
       input: sanitizedText
     });
     return response.data[0].embedding;
@@ -713,7 +713,7 @@ async function retrieveTopN(promptText, count = 2) {
 }
 async function getEmbedding2(text2) {
   const response = await openai2.embeddings.create({
-    model: "text-embedding-3-large",
+    model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
     input: text2
   });
   return response.data[0].embedding;
@@ -4957,7 +4957,8 @@ ${bestVariant.headlines.join("\n")}`,
             }
           };
         } catch (error) {
-          console.error("Hybrid generation failed:", error);
+          console.error("Hybrid generation failed:", error instanceof Error ? error.message : error);
+          console.error("Hybrid generation stack:", error instanceof Error ? error.stack : "no stack");
           if (effectiveConfig.fallbackToLegacy) {
             console.log("Falling back to legacy generation mode");
             return this.legacyFallback(input, startTime);
@@ -7335,7 +7336,7 @@ async function getRatedConcepts(projectId) {
 }
 async function getEmbedding5(text2) {
   const response = await openai14.embeddings.create({
-    model: "text-embedding-3-large",
+    model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
     input: text2
   });
   return response.data[0].embedding;

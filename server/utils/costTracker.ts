@@ -26,7 +26,7 @@ const MODEL_PRICING: Record<string, { input: number; output: number }> = {
   'gpt-5.2': { input: 0.01, output: 0.03 },
   'gpt-4o': { input: 0.005, output: 0.015 },
   'gpt-4o-mini': { input: 0.00015, output: 0.0006 },
-  'text-embedding-3-large': { input: 0.00013, output: 0 },
+  process.env.GEMINI_API_KEY ? 'gemini-embedding-001' : 'text-embedding-3-large': { input: 0.00013, output: 0 },
   'text-embedding-3-small': { input: 0.00002, output: 0 }
 };
 
