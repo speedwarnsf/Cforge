@@ -1175,14 +1175,29 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
       {currentConcepts && currentConcepts.length > 0 && (
         <div className="mt-6 max-w-6xl mx-auto px-4">
           <ResultsDisplay 
-            results={currentConcepts.map(concept => ({
-              headline: concept.content?.split('\n')[0]?.replace(/^#+\s*/, '') || 'Untitled Concept',
-              devices: 'Various rhetorical devices',
-              rationale: concept.content || 'No content available',
-              content: concept.content,
-              visualPrompt: concept.visualPrompt,
-              id: concept.id?.toString()
-            }))} 
+            results={currentConcepts.map(concept => {
+              const c = concept.content || '';
+              // Parse markdown content to extract structured fields
+              const hlMatch = c.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*|$)/i);
+              const tlMatch = c.match(/\*\*TAGLINE:?\*\*\s*(.+?)(?:\n|\*\*|$)/i);
+              const bcMatch = c.match(/\*\*BODY COPY:?\*\*\s*([\s\S]+?)(?=\*\*[A-Z]|\*\*$|$)/i);
+              const vcMatch = c.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]+?)(?=\*\*[A-Z]|\*\*$|$)/i);
+              const origCheck = concept.originalityCheck;
+              // confidence is 0-1 from API, convert to 0-100 for display
+              const originalityScore = origCheck ? origCheck.confidence * 100 : 0;
+              return {
+                headline: hlMatch ? hlMatch[1].trim() : (c.split('\n')[0]?.replace(/^#+\s*/, '').replace(/\*\*/g, '').trim() || 'Untitled Concept'),
+                tagline: tlMatch ? tlMatch[1].trim() : '',
+                bodyCopy: bcMatch ? bcMatch[1].trim().replace(/\*\*/g, '') : '',
+                visualConcept: vcMatch ? vcMatch[1].trim().replace(/\*\*/g, '') : concept.visualPrompt || '',
+                devices: concept.rhetoricalDevice ? [concept.rhetoricalDevice.split('_').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')] : ['Various rhetorical devices'],
+                rationale: concept.content || 'No content available',
+                originalityScore,
+                content: concept.content,
+                visualPrompt: concept.visualPrompt,
+                id: concept.id?.toString()
+              };
+            })} 
             onFeedback={handleFeedback}
           />
         </div>
