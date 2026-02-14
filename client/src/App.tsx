@@ -4,7 +4,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { VideoProvider } from "@/hooks/use-video";
-import { PasswordGate } from "@/components/PasswordGate";
 import InstallPWA from "@/components/InstallPWA";
 import OfflineIndicator from "@/components/OfflineIndicator";
 import GenerationStatusOverlay from "@/components/GenerationStatusOverlay";
