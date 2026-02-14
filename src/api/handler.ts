@@ -1,7 +1,15 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
-import rhetoricalDevicesData from "../../data/rhetorical_figures_cleaned.json";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const rhetoricalDevicesData = JSON.parse(
+  readFileSync(join(__dirname, "data", "rhetorical_figures_cleaned.json"), "utf-8")
+);
 
 const app = express();
 app.use(express.json());
