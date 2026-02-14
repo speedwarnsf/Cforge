@@ -2495,6 +2495,21 @@ var init_supabaseClient = __esm({
 });
 
 // server/utils/tropeConstraints.ts
+var tropeConstraints_exports = {};
+__export(tropeConstraints_exports, {
+  TROPE_PATTERNS: () => TROPE_PATTERNS,
+  TropeConstraintEngine: () => TropeConstraintEngine,
+  checkVocabularyAlignment: () => checkVocabularyAlignment,
+  default: () => tropeConstraints_default,
+  generateTropeConstraintPrompt: () => generateTropeConstraintPrompt,
+  getAllAvailableDeviceIds: () => getAllAvailableDeviceIds,
+  getAvailableTropes: () => getAvailableTropes,
+  getDeviceDefinition: () => getDeviceDefinition,
+  getTropeDetails: () => getTropeDetails,
+  loadAllRhetoricalDevices: () => loadAllRhetoricalDevices,
+  scoreTropeAlignment: () => scoreTropeAlignment,
+  validateTropePattern: () => validateTropePattern
+});
 import OpenAI5 from "openai";
 import { readFileSync as readFileSync4, existsSync as existsSync4 } from "fs";
 import { join as join4, dirname as dirname2 } from "path";
@@ -2583,6 +2598,9 @@ function checkVocabularyAlignment(content, tropeId) {
     matchedWords
   };
 }
+function getAvailableTropes() {
+  return getAllAvailableDeviceIds();
+}
 function getTropeDetails(tropeId) {
   const normalizedId = tropeId.toLowerCase().replace(/\s+/g, "_");
   if (TROPE_PATTERNS[normalizedId]) {
@@ -2636,7 +2654,7 @@ function scoreTropeAlignment(content, tropeIds) {
   }
   return tropeIds.length > 0 ? totalScore / tropeIds.length : 0;
 }
-var _allRhetoricalDevices, __filename, __dirname, TROPE_PATTERNS, TropeConstraintEngine;
+var _allRhetoricalDevices, __filename, __dirname, TROPE_PATTERNS, TropeConstraintEngine, tropeConstraints_default;
 var init_tropeConstraints = __esm({
   "server/utils/tropeConstraints.ts"() {
     "use strict";
@@ -3149,6 +3167,16 @@ Respond in JSON format:
       clearCache() {
         this.validationCache.clear();
       }
+    };
+    tropeConstraints_default = {
+      TropeConstraintEngine,
+      TROPE_PATTERNS,
+      validateTropePattern,
+      checkVocabularyAlignment,
+      getAvailableTropes,
+      getTropeDetails,
+      generateTropeConstraintPrompt,
+      scoreTropeAlignment
     };
   }
 });
@@ -9486,6 +9514,21 @@ async function registerRoutes(app2) {
     } catch (error) {
       console.error("Delete brief error:", error);
       res.status(500).json({ message: "Failed to delete brief" });
+    }
+  });
+  app2.get("/api/devices", async (_req, res) => {
+    try {
+      const { loadAllRhetoricalDevices: loadAllRhetoricalDevices3 } = await Promise.resolve().then(() => (init_tropeConstraints(), tropeConstraints_exports));
+      const devices = loadAllRhetoricalDevices3();
+      const deviceList = Object.entries(devices).map(([id, definition]) => ({
+        figure_name: id.replace(/_/g, " "),
+        definition
+      }));
+      deviceList.sort((a, b) => a.figure_name.localeCompare(b.figure_name));
+      res.json(deviceList);
+    } catch (error) {
+      console.error("Error loading devices:", error);
+      res.status(500).json({ error: "Failed to load rhetorical devices" });
     }
   });
   const httpServer = createServer(app2);

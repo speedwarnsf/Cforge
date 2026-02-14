@@ -1,6 +1,6 @@
-const CACHE_NAME = 'concept-forge-v1001';
-const STATIC_CACHE_NAME = 'concept-forge-static-v1001';
-const DYNAMIC_CACHE_NAME = 'concept-forge-dynamic-v1001';
+const CACHE_NAME = 'concept-forge-v1002';
+const STATIC_CACHE_NAME = 'concept-forge-static-v1002';
+const DYNAMIC_CACHE_NAME = 'concept-forge-dynamic-v1002';
 
 const staticAssets = [
   '/',
