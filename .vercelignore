@@ -13,12 +13,10 @@ node_modules
 *.md
 !README.md
 
-# Data files (large corpus files not needed for deployment)
-*.json
-!package.json
-!package-lock.json
-!tsconfig.json
-!components.json
+# Data files (large corpus files not needed for deployment - but keep rhetorical devices)
+data/retrieval-corpus*.json
+data/personas.json
+!data/rhetorical_figures_cleaned.json
 
 # Python scripts
 *.py
