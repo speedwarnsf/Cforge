@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { supabase } from '../supabaseClient';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 interface SalvagedFragment {
   fragment_type: 'headline' | 'visual' | 'rhetorical_device' | 'tone' | 'phrase' | 'metaphor';

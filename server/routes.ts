@@ -69,7 +69,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({
       status: "ok",
       timestamp: new Date().toISOString(),
-      model: "gpt-5.2"
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o"
     });
   });
 

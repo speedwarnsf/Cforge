@@ -29,7 +29,10 @@ import {
 } from '../utils/embeddingSimilarity';
 import { reportSimilarityToRatedConcepts, analyzeFeedbackSimilarity } from '../utils/feedbackSimilarityReporter';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
+});
 
 // Enhanced historical similarity filtering using embeddings with fallback
 async function checkHistoricalSimilarity(visualDescription: string, headlines: string[]): Promise<boolean> {
@@ -632,7 +635,8 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
     const batchUsedExamples: any[] = []; // Track examples used in this batch
     const batchUsedDevices: string[] = []; // Track devices used for updating usage
     
-    for (let i = 0; i < Math.min(10, selectedDevices.length * 2); i++) {
+    const maxVariants = (req.body?.conceptCount || 1) <= 1 ? 3 : Math.min(10, selectedDevices.length * 2);
+    for (let i = 0; i < maxVariants; i++) {
       const primaryDevice = selectedDevices[i % selectedDevices.length];
       const secondaryDevice = selectedDevices[(i + 1) % selectedDevices.length];
       
@@ -689,7 +693,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         (async () => {
           const apiStartTime = Date.now();
           const response = await openai.chat.completions.create({
-            model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
             messages: [
               { 
                 role: "system", 
@@ -778,7 +782,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
             });
             
             const regeneratedResponse = await openai.chat.completions.create({
-              model: "gpt-5.2",
+              model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
               max_tokens: 1200, // GPT-5.2 requires more tokens

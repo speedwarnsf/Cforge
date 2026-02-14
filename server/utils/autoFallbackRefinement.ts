@@ -1,7 +1,7 @@
 // Auto-fallback refinement for low-sophistication outputs
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 async function generateOpenAIResponse(prompt: string, tone: string, temperature: number): Promise<string> {
   const response = await openai.chat.completions.create({

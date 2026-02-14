@@ -4,6 +4,15 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { precomputeCorpusEmbeddings } from "./utils/embeddingRetrieval";
 
+// Prevent unhandled rejections from crashing the server
+process.on('unhandledRejection', (reason) => {
+  console.warn('⚠️ Unhandled rejection (caught):', reason instanceof Error ? reason.message : reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught exception:', err.message);
+  // Don't exit - keep the server running
+});
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

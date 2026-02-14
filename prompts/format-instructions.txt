@@ -1,0 +1,18 @@
+**FORMAT INSTRUCTIONS:**
+Date: {currentDate}
+Tone: {tone}
+Brief: {userQuery}
+
+Return your response as valid JSON with this exact structure:
+{{
+  "headlines": ["Primary headline", "Alternative headline"],
+  "tagline": "A memorable tagline",
+  "bodyCopy": "2-3 sentences of compelling body copy",
+  "visualDescription": "Detailed visual concept description for art direction",
+  "rhetoricalDevice": "Name of the primary rhetorical device used",
+  "rhetoricalJustification": "Why this device was chosen and how it works",
+  "originalityScore": 0.0-1.0,
+  "awardsScore": 0.0-1.0
+}}
+
+Important: Return ONLY the JSON object. No markdown, no code fences, no explanation outside the JSON.

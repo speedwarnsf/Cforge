@@ -177,13 +177,14 @@ async function getEmbedding(text2) {
     });
     if (!response.ok) {
       const err = await response.text();
-      throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+      console.warn(`\u26A0\uFE0F Gemini embedding API error ${response.status}: ${err.substring(0, 200)}`);
+      return new Array(1536).fill(0);
     }
     const data = await response.json();
     return data.embedding.values;
   } catch (error) {
-    console.error("Failed to generate embedding:", error);
-    throw new Error("Embedding generation failed");
+    console.warn("Failed to generate embedding, using zero vector fallback:", error instanceof Error ? error.message : error);
+    return new Array(1536).fill(0);
   }
 }
 function cosineSimilarity(a, b) {
@@ -576,11 +577,17 @@ async function precomputeCorpusEmbeddings() {
   return measureAsync("precompute_embeddings", async () => {
     console.log("\u{1F504} Precomputing corpus embeddings...");
     let computed = 0;
+    let embeddingsFailed = false;
     for (const entry of retrievalCorpus) {
       const key = `${entry.campaign}-${entry.brand}`;
       if (!corpusEmbeddings[key]) {
         const enhancedText = createEnhancedEmbeddingText(entry);
         const embedding = await getEmbedding2(enhancedText);
+        if (computed === 0 && embedding.every((v) => v === 0)) {
+          console.warn("\u26A0\uFE0F Embedding API unavailable, skipping corpus precomputation. Retrieval will use random fallback.");
+          embeddingsFailed = true;
+          break;
+        }
         corpusEmbeddings[key] = embedding;
         computed++;
         if (computed % 20 === 0) {
@@ -729,7 +736,8 @@ async function getEmbedding2(text2) {
   });
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+    console.warn(`\u26A0\uFE0F Gemini embedding API error ${response.status}: ${err.substring(0, 200)}`);
+    return new Array(1536).fill(0);
   }
   const data = await response.json();
   return data.embedding.values;
@@ -5644,7 +5652,7 @@ Do not include any commentary, references to this process, or extra text.`;
     attempts++;
     try {
       const completion = await openai13.chat.completions.create({
-        model: "gpt-5.2",
+        model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Generate an original advertising concept for: ${request.query}
@@ -5700,7 +5708,7 @@ var openai13, CULTURAL_REFERENCE_BASE, RHETORICAL_CLICHES;
 var init_enhancedAI = __esm({
   "server/services/enhancedAI.ts"() {
     "use strict";
-    openai13 = new OpenAI17({ apiKey: process.env.OPENAI_API_KEY });
+    openai13 = new OpenAI17({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
     CULTURAL_REFERENCE_BASE = [
       // Health/HIV campaigns
       { name: "(RED)", elements: ["red color", "parentheses branding", "elimination messaging"] },
@@ -6439,7 +6447,7 @@ async function fetchRhetoricalExamples() {
 
 // server/utils/adQualityArbiter.ts
 import OpenAI6 from "openai";
-var openai2 = new OpenAI6({ apiKey: process.env.OPENAI_API_KEY });
+var openai2 = new OpenAI6({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateAdQuality(concept) {
   const prompt = `
 You are a senior advertising creative director with 20 years of experience evaluating professional advertising concepts. 
@@ -6503,7 +6511,7 @@ function shouldFlagForReview(scores) {
 
 // server/utils/audienceEmpathyArbiter.ts
 import OpenAI7 from "openai";
-var openai3 = new OpenAI7({ apiKey: process.env.OPENAI_API_KEY });
+var openai3 = new OpenAI7({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateAudienceEmpathy(concept) {
   const prompt = `
 You are roleplaying as a member of this audience:
@@ -6613,7 +6621,7 @@ function deriveTargetAudience(query, tone) {
 
 // server/utils/awardsJuryArbiter.ts
 import OpenAI8 from "openai";
-var openai4 = new OpenAI8({ apiKey: process.env.OPENAI_API_KEY });
+var openai4 = new OpenAI8({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateAwardsJuryScore(concept) {
   const prompt = `You are an award jury panelist evaluating advertising concepts for global creative awards such as Cannes Lions, D&AD, Clio, and The One Show. 
 
@@ -6690,7 +6698,7 @@ function hasHighAwardsPotential(awardsScore) {
 
 // server/utils/originalityArbiter.ts
 import OpenAI9 from "openai";
-var openai5 = new OpenAI9({ apiKey: process.env.OPENAI_API_KEY });
+var openai5 = new OpenAI9({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateOriginalityConfidence(concept) {
   const prompt = `You are an originality expert evaluating advertising concepts for creative freshness and uniqueness.
 
@@ -6798,7 +6806,7 @@ function passesAudienceThreshold(resonance) {
 
 // server/utils/awardPotentialArbiter.ts
 import OpenAI11 from "openai";
-var openai7 = new OpenAI11({ apiKey: process.env.OPENAI_API_KEY });
+var openai7 = new OpenAI11({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateAwardPotential(concept) {
   const prompt = `You are a creative awards judge evaluating concepts for global advertising competitions like Cannes Lions, D&AD, Clio, and The One Show.
 
@@ -6958,7 +6966,7 @@ var PerformanceTracker = class {
 var performanceTracker = new PerformanceTracker();
 
 // server/utils/relevanceArbiter.ts
-var openai8 = new OpenAI12({ apiKey: process.env.OPENAI_API_KEY });
+var openai8 = new OpenAI12({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function evaluateRelevance(concept, userPrompt) {
   const relevancePrompt = `
 You are the **Relevance Arbiter**, an expert strategist evaluating whether this concept connects clearly to the user's prompt.
@@ -7032,7 +7040,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
 
 // server/utils/iterativeRefinementEngine.ts
 import OpenAI13 from "openai";
-var openai9 = new OpenAI13({ apiKey: process.env.OPENAI_API_KEY });
+var openai9 = new OpenAI13({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function runIterativeRefinement(initialConcept, context, enabled = true) {
   if (!enabled) {
     const evaluation2 = await evaluateConcept(initialConcept, context.query);
@@ -7206,7 +7214,7 @@ Return your response as JSON with this structure:
 // server/utils/fragmentSalvager.ts
 init_supabaseClient();
 import OpenAI14 from "openai";
-var openai10 = new OpenAI14({ apiKey: process.env.OPENAI_API_KEY });
+var openai10 = new OpenAI14({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0 });
 async function salvageConceptFragments(concept) {
   try {
     console.log(`\u{1F50D} Analyzing concept ${concept.id} for salvageable fragments...`);
@@ -7419,7 +7427,10 @@ async function analyzeFeedbackSimilarity(projectId, newConceptText, options = {}
 }
 
 // server/routes/generateMultivariant.ts
-var openai12 = new OpenAI16({ apiKey: process.env.OPENAI_API_KEY });
+var openai12 = new OpenAI16({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+});
 async function checkHistoricalSimilarity(visualDescription, headlines) {
   try {
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY) {
@@ -7910,8 +7921,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
         (async () => {
           const apiStartTime = Date.now();
           const response = await openai12.chat.completions.create({
-            model: "gpt-5.2",
-            // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
             messages: [
               {
                 role: "system",
@@ -7984,7 +7994,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
               rhetoricalExample: completion.example
             });
             const regeneratedResponse = await openai12.chat.completions.create({
-              model: "gpt-5.2",
+              model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
               max_tokens: 1200
@@ -8569,7 +8579,7 @@ async function registerRoutes(app2) {
     res.json({
       status: "ok",
       timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-      model: "gpt-5.2"
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o"
     });
   });
   app2.post("/api/generate", async (req, res) => {
