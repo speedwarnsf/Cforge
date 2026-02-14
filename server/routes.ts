@@ -1419,6 +1419,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Debug endpoint for path resolution
+  app.get("/api/debug-paths", async (_req, res) => {
+    const { existsSync, readdirSync } = await import('fs');
+    const { join } = await import('path');
+    const paths = [
+      '/var/task/data',
+      '/var/task/api/data', 
+      join(process.cwd(), 'data'),
+      join(process.cwd(), 'api', 'data'),
+    ];
+    const results: Record<string, any> = { cwd: process.cwd(), dirname: __dirname };
+    for (const p of paths) {
+      try {
+        results[p] = existsSync(p) ? readdirSync(p).slice(0, 5) : 'NOT FOUND';
+      } catch (e: any) { results[p] = e.message; }
+    }
+    res.json(results);
+  });
+
   // Rhetorical Device Library endpoint
   app.get("/api/devices", async (_req, res) => {
     try {

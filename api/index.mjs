@@ -2543,9 +2543,9 @@ function loadAllRhetoricalDevices() {
   if (_allRhetoricalDevices) return _allRhetoricalDevices;
   const possiblePaths = [
     // Relative to this file (most reliable for bundled code)
-    join4(__dirname, "..", "..", "data", "rhetorical_figures_cleaned.json"),
-    join4(__dirname, "..", "data", "rhetorical_figures_cleaned.json"),
-    join4(__dirname, "data", "rhetorical_figures_cleaned.json"),
+    join4(__dirname2, "..", "..", "data", "rhetorical_figures_cleaned.json"),
+    join4(__dirname2, "..", "data", "rhetorical_figures_cleaned.json"),
+    join4(__dirname2, "data", "rhetorical_figures_cleaned.json"),
     // Relative to process.cwd() (works in local dev)
     join4(process.cwd(), "data", "rhetorical_figures_cleaned.json"),
     join4(process.cwd(), "server", "data", "rhetorical_figures_cleaned.json"),
@@ -2559,7 +2559,7 @@ function loadAllRhetoricalDevices() {
     "/var/task/.next/server/data/rhetorical_figures_cleaned.json"
   ];
   console.log(`\u{1F50D} Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
-  console.log(`   __dirname: ${__dirname}`);
+  console.log(`   __dirname: ${__dirname2}`);
   console.log(`   process.cwd(): ${process.cwd()}`);
   for (const p of possiblePaths) {
     if (existsSync4(p)) {
@@ -2682,14 +2682,14 @@ function scoreTropeAlignment(content, tropeIds) {
   }
   return tropeIds.length > 0 ? totalScore / tropeIds.length : 0;
 }
-var _allRhetoricalDevices, __filename, __dirname, TROPE_PATTERNS, TropeConstraintEngine, tropeConstraints_default;
+var _allRhetoricalDevices, __filename, __dirname2, TROPE_PATTERNS, TropeConstraintEngine, tropeConstraints_default;
 var init_tropeConstraints = __esm({
   "server/utils/tropeConstraints.ts"() {
     "use strict";
     init_embeddingSimilarity();
     _allRhetoricalDevices = null;
     __filename = fileURLToPath(import.meta.url);
-    __dirname = dirname2(__filename);
+    __dirname2 = dirname2(__filename);
     TROPE_PATTERNS = {
       antithesis: {
         id: "antithesis",
@@ -9651,6 +9651,25 @@ ${content}
       console.error("Delete brief error:", error);
       res.status(500).json({ message: "Failed to delete brief" });
     }
+  });
+  app2.get("/api/debug-paths", async (_req, res) => {
+    const { existsSync: existsSync5, readdirSync } = await import("fs");
+    const { join: join5 } = await import("path");
+    const paths = [
+      "/var/task/data",
+      "/var/task/api/data",
+      join5(process.cwd(), "data"),
+      join5(process.cwd(), "api", "data")
+    ];
+    const results = { cwd: process.cwd(), dirname: __dirname };
+    for (const p of paths) {
+      try {
+        results[p] = existsSync5(p) ? readdirSync(p).slice(0, 5) : "NOT FOUND";
+      } catch (e) {
+        results[p] = e.message;
+      }
+    }
+    res.json(results);
   });
   app2.get("/api/devices", async (_req, res) => {
     try {
