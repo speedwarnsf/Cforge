@@ -2,14 +2,24 @@ import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
 import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { join } from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const rhetoricalDevicesData = JSON.parse(
-  readFileSync(join(__dirname, "data", "rhetorical_figures_cleaned.json"), "utf-8")
-);
+// Try multiple paths for Vercel compatibility
+function loadDevicesData() {
+  const paths = [
+    join(process.cwd(), "api", "data", "rhetorical_figures_cleaned.json"),
+    join(process.cwd(), "data", "rhetorical_figures_cleaned.json"),
+    "/var/task/api/data/rhetorical_figures_cleaned.json",
+    "/var/task/data/rhetorical_figures_cleaned.json",
+  ];
+  for (const p of paths) {
+    try {
+      return JSON.parse(readFileSync(p, "utf-8"));
+    } catch {}
+  }
+  throw new Error("Could not find rhetorical_figures_cleaned.json in any expected path");
+}
+const rhetoricalDevicesData = loadDevicesData();
 
 const app = express();
 app.use(express.json());
