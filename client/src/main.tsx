@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import App from "./App-minimal";
 import "./index.css";
 
 // Only clear caches when explicitly requested via URL param
