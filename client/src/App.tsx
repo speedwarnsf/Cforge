@@ -10,6 +10,7 @@ import GenerationStatusOverlay from "@/components/GenerationStatusOverlay";
 import { Suspense, lazy } from "react";
 import { PageLoadingSkeleton } from "@/components/SkeletonLoaders";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { PasswordGate } from "@/components/PasswordGate";
 
 // Code splitting - lazy load pages for better performance
 const Home = lazy(() => import("@/pages/home"));
@@ -49,12 +50,11 @@ function App() {
             <InstallPWA />
             <GenerationStatusOverlay />
 
-            {/* PasswordGate removed - portfolio demo */}
-            <div>
+            <PasswordGate>
               <div className="concept-forge-app" role="application" aria-label="ConceptForge">
                 <Router />
               </div>
-            </div>
+            </PasswordGate>
           </TooltipProvider>
         </VideoProvider>
       </QueryClientProvider>
