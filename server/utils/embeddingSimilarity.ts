@@ -35,13 +35,14 @@ async function getEmbedding(text: string): Promise<number[]> {
     });
     if (!response.ok) {
       const err = await response.text();
-      throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+      console.warn(`⚠️ Gemini embedding API error ${response.status}: ${err.substring(0, 200)}`);
+      return new Array(1536).fill(0);
     }
     const data = await response.json();
     return data.embedding.values;
   } catch (error) {
-    console.error('Failed to generate embedding:', error);
-    throw new Error('Embedding generation failed');
+    console.warn('Failed to generate embedding, using zero vector fallback:', error instanceof Error ? error.message : error);
+    return new Array(1536).fill(0);
   }
 }
 

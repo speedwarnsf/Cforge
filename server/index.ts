@@ -39,9 +39,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Start precomputing corpus embeddings in background
+  // Start precomputing corpus embeddings in background (skip if API key is unavailable)
   precomputeCorpusEmbeddings().catch(err => {
-    console.error("Failed to precompute corpus embeddings:", err);
+    console.warn("⚠️ Corpus embedding precomputation skipped:", err?.message || err);
   });
   
   // Pre-warm theory cache for improved performance

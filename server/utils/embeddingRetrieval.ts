@@ -65,12 +65,19 @@ export async function precomputeCorpusEmbeddings() {
   return measureAsync('precompute_embeddings', async () => {
     console.log("🔄 Precomputing corpus embeddings...");
     let computed = 0;
+    let embeddingsFailed = false;
     
     for (const entry of retrievalCorpus) {
       const key = `${entry.campaign}-${entry.brand}`;
       if (!corpusEmbeddings[key]) {
         const enhancedText = createEnhancedEmbeddingText(entry);
         const embedding = await getEmbedding(enhancedText);
+        // If we get a zero vector back, embeddings API is down - skip precomputation
+        if (computed === 0 && embedding.every(v => v === 0)) {
+          console.warn('⚠️ Embedding API unavailable, skipping corpus precomputation. Retrieval will use random fallback.');
+          embeddingsFailed = true;
+          break;
+        }
         corpusEmbeddings[key] = embedding;
         computed++;
         
@@ -296,7 +303,9 @@ async function getEmbedding(text: string): Promise<number[]> {
   });
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+    console.warn(`⚠️ Gemini embedding API error ${response.status}: ${err.substring(0, 200)}`);
+    // Return zero vector as fallback so generation isn't blocked
+    return new Array(1536).fill(0);
   }
   const data = await response.json();
   return data.embedding.values;
