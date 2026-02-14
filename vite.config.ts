@@ -43,9 +43,9 @@ export default defineConfig({
           if (id.includes('@tanstack/react-query')) {
             return 'query';
           }
-          // Recharts - large, lazy loaded via ArbiterRadarChart
+          // Recharts + d3 - include in vendor to avoid circular dependency TDZ errors
           if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-') || id.includes('node_modules/victory-vendor') || id.includes('node_modules/decimal.js-light')) {
-            return 'recharts';
+            return 'vendor';
           }
           // Framer motion
           if (id.includes('framer-motion') || id.includes('motion-dom') || id.includes('motion-utils')) {
