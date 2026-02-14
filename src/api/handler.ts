@@ -1,6 +1,9 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
+import { readFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(express.json());
@@ -33,6 +36,40 @@ app.use((req, res, next) => {
   });
 
   next();
+});
+
+// Direct devices endpoint with robust file loading (bypasses tropeConstraints cache issues)
+app.get("/api/devices", (_req, res) => {
+  try {
+    const handlerDir = dirname(fileURLToPath(import.meta.url));
+    const searchPaths = [
+      join(handlerDir, 'data', 'rhetorical_figures_cleaned.json'),
+      join(handlerDir, '..', 'data', 'rhetorical_figures_cleaned.json'),
+      join(handlerDir, '..', 'api', 'data', 'rhetorical_figures_cleaned.json'),
+      join(process.cwd(), 'data', 'rhetorical_figures_cleaned.json'),
+      join(process.cwd(), 'api', 'data', 'rhetorical_figures_cleaned.json'),
+      '/var/task/data/rhetorical_figures_cleaned.json',
+      '/var/task/api/data/rhetorical_figures_cleaned.json',
+    ];
+    console.log(`[devices] handlerDir: ${handlerDir}, cwd: ${process.cwd()}`);
+    for (const p of searchPaths) {
+      if (existsSync(p)) {
+        console.log(`[devices] Found data at: ${p}`);
+        const raw = JSON.parse(readFileSync(p, 'utf-8'));
+        const deviceList = raw.map((d: any) => ({
+          figure_name: d.figure_name,
+          definition: d.definition,
+        }));
+        deviceList.sort((a: any, b: any) => a.figure_name.localeCompare(b.figure_name));
+        return res.json(deviceList);
+      }
+    }
+    console.error(`[devices] Data file not found. Searched: ${searchPaths.join(', ')}`);
+    return res.status(500).json({ error: 'Rhetorical devices data file not found' });
+  } catch (error) {
+    console.error('[devices] Error:', error);
+    return res.status(500).json({ error: 'Failed to load devices' });
+  }
 });
 
 // Register all routes
