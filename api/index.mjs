@@ -1947,7 +1947,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
     console.log("\u{1F680} Calling OpenAI API with model: gpt-5.2");
     const response = await openai4.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [
         {
           role: "system",
@@ -2108,7 +2108,7 @@ async function generateVisualPrompt(query, tone, aiResponse) {
       const visualConcept = visualConceptMatch[1].trim();
       console.log("SUCCESS: Visual concept extracted:", visualConcept);
       const promptResponse = await openai4.chat.completions.create({
-        model: "gpt-5.2",
+        model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
         // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
           {
@@ -2180,7 +2180,8 @@ var init_openai = __esm({
       throw new Error("OpenAI API key not set in environment variables.");
     }
     openai4 = new OpenAI4({
-      apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR
+      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
+      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
     });
     rhetoricalDevices = loadRhetoricalDevices();
   }
@@ -3748,7 +3749,10 @@ var init_progressiveEvolution = __esm({
     };
     ProgressiveEvolutionEngine = class {
       constructor(seedOrOptions, refinementSteps = 5) {
-        this.openai = new OpenAI7({ apiKey: process.env.OPENAI_API_KEY });
+        this.openai = new OpenAI7({
+          apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+          baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+        });
         if (seedOrOptions && "rawIdea" in seedOrOptions) {
           this.options = { maxCycles: refinementSteps, blockSize: 8 };
           this.alphaScheduler = new AlphaScheduler(refinementSteps, "cosine");
@@ -3952,7 +3956,7 @@ Return as JSON: {"word1": 0.15, "word2": 0.12, ...}
 Include 20-30 words with probabilities summing to 1.0.
 Focus on words that serve the rhetorical device and creative direction.`;
         const response = await this.openai.chat.completions.create({
-          model: "gpt-5.2",
+          model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.7,
           max_completion_tokens: 500
@@ -4000,7 +4004,7 @@ Rhetorical device: ${this.state.creativeSeed.tropeCompatibility[0]}
 
 Generate ONLY the ${block.name} text, nothing else.`;
         const response = await this.openai.chat.completions.create({
-          model: "gpt-5.2",
+          model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.8,
           max_completion_tokens: block.name === "bodyCopy" ? 200 : 50
@@ -6700,7 +6704,10 @@ function passesOriginalityThreshold(score) {
 
 // server/utils/audienceArbiter.ts
 import OpenAI13 from "openai";
-var openai9 = new OpenAI13({ apiKey: process.env.OPENAI_API_KEY });
+var openai9 = new OpenAI13({
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+});
 async function evaluateAudienceResonance(concept) {
   const prompt = `You are an audience insights expert evaluating how well advertising concepts resonate with their target audience.
 
@@ -6725,7 +6732,7 @@ Return your assessment as a JSON object:
 }`;
   try {
     const completion = await openai9.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
       temperature: 0.1,

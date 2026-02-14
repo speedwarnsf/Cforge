@@ -52,8 +52,10 @@ if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
   throw new Error("OpenAI API key not set in environment variables.");
 }
 
+// Use Gemini via OpenAI-compatible API (OpenAI key has insufficient quota)
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
+  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
+  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
 });
 
 // Load rhetorical devices from JSON file (408 figures)
@@ -537,7 +539,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
 
     console.log('🚀 Calling OpenAI API with model: gpt-5.2');
     const response = await openai.chat.completions.create({
-      model: "gpt-5.2",
+      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [
         {
           role: "system",
@@ -749,7 +751,7 @@ async function generateVisualPrompt(query: string, tone: string, aiResponse: str
       
       // Generate sophisticated prompt from the visual concept
       const promptResponse = await openai.chat.completions.create({
-        model: "gpt-5.2", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
           {
             role: "system",
