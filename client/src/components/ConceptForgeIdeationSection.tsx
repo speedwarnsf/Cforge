@@ -329,7 +329,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         
         {/* Single Item Carousel - Raised 75px higher, adjusted size */}
         <div className="text-center mb-16" style={{ marginTop: '-115px', transform: 'scale(1.0)' }}>
-          <div className="relative h-36 flex items-center justify-center">
+          <div className="relative h-36 flex items-center justify-center overflow-hidden">
             {carouselItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = index === currentCarouselIndex;

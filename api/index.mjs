@@ -5008,13 +5008,19 @@ Creative Direction (from ${variantSeed.persona.name}):
 Build upon this creative seed while developing a UNIQUE concept that differs from other interpretations.
 Use a completely different visual approach and angle than other variants.
 ` : "";
+          const deviceIndex = variantCount === 1 ? Math.floor(Math.random() * tropesToUse.length) : i % tropesToUse.length;
+          const assignedDevice = tropesToUse[deviceIndex];
+          const assignedDeviceName = assignedDevice.split("_").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+          const assignedDeviceDefinition = getDeviceDefinition(assignedDevice) || "";
           const prompt = this.buildGenerationPrompt(
             input.userBrief,
             input.tone,
             seedContext,
             tropeConstraint,
             i,
-            variantCount
+            variantCount,
+            assignedDeviceName,
+            assignedDeviceDefinition
           );
           try {
             const response = await this.openai.chat.completions.create({
@@ -5025,25 +5031,37 @@ Use a completely different visual approach and angle than other variants.
                   content: `You are an award-winning creative director generating breakthrough advertising concepts.
 Your concepts should be unexpected, memorable, and emotionally resonant.
 IMPORTANT: Create a concept that is VISUALLY and THEMATICALLY distinct from typical approaches.
+Your visual must NOT be the FIRST thing anyone would think of for this brief. If a junior copywriter would suggest it, go further.
 ${variantSeed?.persona.systemPromptOverride || ""}`
                 },
                 { role: "user", content: prompt }
               ],
               temperature: this.getTemperature(config.creativityLevel, i),
-              max_tokens: 1200
+              max_tokens: 1500
             });
             const content = response.choices[0]?.message?.content || "";
             const parsed = this.parseResponse(content);
             if (parsed) {
+              parsed.headlines = parsed.headlines.map((h) => {
+                const headlineWords = h.split(/\s+/);
+                if (headlineWords.length > 10) {
+                  return headlineWords.slice(0, 10).join(" ");
+                }
+                return h;
+              });
+            }
+            if (parsed) {
               const combinedContent = `${parsed.visual} ${parsed.headlines.join(" ")}`;
-              const distinctiveness = 0.5 + Math.random() * 0.2;
+              const words = combinedContent.toLowerCase().split(/\s+/);
+              const uniqueWords = new Set(words);
+              const distinctiveness = words.length > 0 ? Math.min(uniqueWords.size / words.length, 1) : 0.5;
               const wordCount = combinedContent.split(/\s+/).length;
               const headlineQuality = parsed.headlines.length >= 1 && parsed.headlines[0].length > 5 ? 0.8 : 0.6;
               const visualQuality = parsed.visual.length > 50 ? 0.8 : 0.6;
               const coherence = (headlineQuality + visualQuality) / 2;
-              const deviceIndex = variantCount === 1 ? Math.floor(Math.random() * tropesToUse.length) : i % tropesToUse.length;
-              const deviceForVariant = tropesToUse[deviceIndex] || "metaphor";
-              const deviceDefinition = getDeviceDefinition(deviceForVariant) || "";
+              const llmDevice = parsed.rhetoricalAnalysis?.deviceUsed || "";
+              const deviceForVariant = assignedDevice && llmDevice.toLowerCase() !== assignedDeviceName.toLowerCase() ? assignedDeviceName : llmDevice || assignedDeviceName || "metaphor";
+              const deviceDefinition = getDeviceDefinition(parsed.rhetoricalAnalysis?.deviceUsed || "") || getDeviceDefinition(deviceForVariant) || "";
               const rhetoricalAnalysis = parsed.rhetoricalAnalysis ? {
                 deviceName: parsed.rhetoricalAnalysis.deviceUsed || deviceForVariant,
                 deviceDefinition,
@@ -5122,7 +5140,10 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
       /**
        * Build generation prompt
        */
-      buildGenerationPrompt(brief, tone, seedContext, tropeConstraint, variantIndex, totalVariants = 1) {
+      buildGenerationPrompt(brief, tone, seedContext, tropeConstraint, variantIndex, totalVariants = 1, assignedDevice, assignedDeviceDefinition) {
+        const deviceAssignment = assignedDevice ? `
+
+\u26A0\uFE0F MANDATORY RHETORICAL DEVICE ASSIGNMENT: You MUST use **${assignedDevice}**${assignedDeviceDefinition ? ` (${assignedDeviceDefinition})` : ""} as your primary rhetorical device for this concept. Do NOT use Anaphora or any other device unless "${assignedDevice}" IS that device. Your "Device Used" MUST be "${assignedDevice}".` : "";
         return `Create a breakthrough advertising concept for:
 
 **Brief:** ${brief}
@@ -5130,7 +5151,7 @@ ${variantSeed?.persona.systemPromptOverride || ""}`
 
 ${seedContext}
 
-${tropeConstraint}
+${tropeConstraint}${deviceAssignment}
 
 Generate a complete concept. Write ACTUAL creative content for each section - do NOT echo instructions or placeholders.
 
@@ -7878,7 +7899,8 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
     const completionPromises = [];
     const batchUsedExamples = [];
     const batchUsedDevices = [];
-    for (let i = 0; i < Math.min(10, selectedDevices.length * 2); i++) {
+    const maxVariants = (req.body?.conceptCount || 1) <= 1 ? 3 : Math.min(10, selectedDevices.length * 2);
+    for (let i = 0; i < maxVariants; i++) {
       const primaryDevice = selectedDevices[i % selectedDevices.length];
       const secondaryDevice = selectedDevices[(i + 1) % selectedDevices.length];
       if (!batchUsedDevices.includes(primaryDevice)) {
