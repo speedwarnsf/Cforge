@@ -1,7 +1,6 @@
 // 📂 server/utils/embeddingRetrieval.ts
 // Round-Robin Pairs Retrieval with Fallback Randomization
 
-import OpenAI from "openai";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 import { cosineSimilarity } from "./embeddingSimilarity";
@@ -9,10 +8,8 @@ import { performanceMonitor, measureAsync } from "./performanceMonitor";
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
-});
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE';
+const GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
 
 // Lazy-initialize Supabase client only when needed and env vars are available
 let supabase: SupabaseClient | null = null;
@@ -288,9 +285,19 @@ export async function retrieveTopN(
 }
 
 async function getEmbedding(text: string): Promise<number[]> {
-  const response = await openai.embeddings.create({
-    model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
-    input: text,
+  const response = await fetch(GEMINI_EMBEDDING_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'models/gemini-embedding-001',
+      content: { parts: [{ text }] },
+      outputDimensionality: 1536
+    })
   });
-  return response.data[0].embedding;
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+  }
+  const data = await response.json();
+  return data.embedding.values;
 }

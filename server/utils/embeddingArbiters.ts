@@ -6,12 +6,22 @@
  */
 
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity.js';
-import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
-});
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE';
+const GEMINI_CHAT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+async function geminiChat(systemPrompt: string, userPrompt: string, maxTokens: number = 200): Promise<string> {
+  const response = await fetch(GEMINI_CHAT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+      generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 }
+    })
+  });
+  const data = await response.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
 
 // Quality assessment interfaces
 export interface ConceptQualityScore {
@@ -153,23 +163,13 @@ export async function relevanceArbiter(
     const passed = relevanceScore >= (threshold * 100);
     
     // Extract key themes from brief for analysis
-    const briefAnalysis = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'Extract 3-5 key themes from this creative brief. Return only the themes, separated by commas.'
-        },
-        {
-          role: 'user',
-          content: brief
-        }
-      ],
-      max_tokens: 100,
-      temperature: 0.3
-    });
+    const briefAnalysisText = await geminiChat(
+      'Extract 3-5 key themes from this creative brief. Return only the themes, separated by commas.',
+      brief,
+      100
+    );
     
-    const briefThemes = briefAnalysis.choices[0]?.message?.content?.split(',').map(t => t.trim()) || [];
+    const briefThemes = briefAnalysisText.split(',').map(t => t.trim()).filter(Boolean);
     
     const suggestions = [];
     if (!passed) {
@@ -269,12 +269,8 @@ export async function advertisingPracticalityArbiter(
   threshold: number = 70
 ): Promise<ArbiterResult> {
   try {
-    const practicalityAnalysis = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: `As an advertising expert, evaluate this concept's practical viability for real advertising campaigns on a scale of 0-100. Flag concepts that are:
+    const practicalityText = await geminiChat(
+      `As an advertising expert, evaluate this concept's practical viability for real advertising campaigns on a scale of 0-100. Flag concepts that are:
 - Too abstract, poetic, or literary for advertising
 - Impossible to visualize or execute practically
 - Too vague or conceptual for target audiences
@@ -284,18 +280,13 @@ export async function advertisingPracticalityArbiter(
 GOOD advertising concepts are: clear, executable, memorable, audience-focused, brand-appropriate, production-feasible.
 BAD advertising concepts are: abstract poetry, overly artistic descriptions, impossible visuals, academic language, pretentious imagery.
 
-Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"], "analysis": "brief explanation why this would/wouldn't work in advertising"}`
-        },
-        {
-          role: 'user',
-          content: concept
-        }
-      ],
-      max_tokens: 200,
-      temperature: 0.3
-    });
+Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"], "analysis": "brief explanation why this would/wouldn't work in advertising"}`,
+      concept,
+      200
+    );
     
-    const analysisResult = JSON.parse(practicalityAnalysis.choices[0]?.message?.content || '{"score": 70, "issues": [], "analysis": "Standard advertising approach"}');
+    let cleanedText = practicalityText.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+    const analysisResult = JSON.parse(cleanedText || '{"score": 70, "issues": [], "analysis": "Standard advertising approach"}');
     
     const score = analysisResult.score || 70;
     const passed = score >= threshold;
@@ -341,37 +332,22 @@ export async function rhetoricalStrengthArbiter(
   threshold: number = 70
 ): Promise<ArbiterResult> {
   try {
-    const rhetoricalAnalysis = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: `Analyze the rhetorical sophistication of this concept on a scale of 0-100. Consider:
+    let rawContent = await geminiChat(
+      `Analyze the rhetorical sophistication of this concept on a scale of 0-100. Consider:
 - Use of advanced rhetorical devices (metaphor, synecdoche, chiasmus, etc.)
 - Memorable and impactful language
 - Emotional resonance and persuasive power
 - Originality of expression
 - Strategic communication effectiveness
 
-Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device2"], "analysis": "brief explanation"}`
-        },
-        {
-          role: 'user',
-          content: concept
-        }
-      ],
-      max_tokens: 200,
-      temperature: 0.3
-    });
+Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device2"], "analysis": "brief explanation"}`,
+      concept,
+      200
+    );
     
-    let rawContent = rhetoricalAnalysis.choices[0]?.message?.content || '{"score": 70, "devices": [], "analysis": "Standard rhetorical approach"}';
+    rawContent = rawContent.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
     
-    // Clean up markdown code blocks that cause JSON parsing issues
-    if (rawContent.includes('```json')) {
-      rawContent = rawContent.replace(/```json\s*/, '').replace(/```\s*$/, '').trim();
-    }
-    
-    const analysisResult = JSON.parse(rawContent);
+    const analysisResult = JSON.parse(rawContent || '{"score": 70, "devices": [], "analysis": "Standard rhetorical approach"}');
     
     const score = analysisResult.score || 70;
     const passed = score >= threshold;

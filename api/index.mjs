@@ -160,18 +160,27 @@ var init_research_simple = __esm({
 });
 
 // server/utils/embeddingSimilarity.ts
-import OpenAI from "openai";
 function sanitizeText(text2) {
   return text2.replace(/[""]/g, '"').replace(/['']/g, "'").replace(/\u00A0/g, " ").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").replace(/[ \t]+/g, " ").trim();
 }
 async function getEmbedding(text2) {
   try {
     const sanitizedText = sanitizeText(text2);
-    const response = await openai.embeddings.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
-      input: sanitizedText
+    const response = await fetch(GEMINI_EMBEDDING_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "models/gemini-embedding-001",
+        content: { parts: [{ text: sanitizedText }] },
+        outputDimensionality: 1536
+      })
     });
-    return response.data[0].embedding;
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+    }
+    const data = await response.json();
+    return data.embedding.values;
   } catch (error) {
     console.error("Failed to generate embedding:", error);
     throw new Error("Embedding generation failed");
@@ -247,14 +256,12 @@ async function enforceConceptDiversity(concepts, regenerateCallback, similarityT
   console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
   return currentConcepts;
 }
-var openai;
+var GEMINI_API_KEY, GEMINI_EMBEDDING_URL;
 var init_embeddingSimilarity = __esm({
   "server/utils/embeddingSimilarity.ts"() {
     "use strict";
-    openai = new OpenAI({
-      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
-    });
+    GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
   }
 });
 
@@ -547,7 +554,6 @@ __export(embeddingRetrieval_exports, {
   retrieveTopN: () => retrieveTopN,
   retrieveTopNWithRotation: () => retrieveTopNWithRotation
 });
-import OpenAI2 from "openai";
 import { createClient as createClient2 } from "@supabase/supabase-js";
 import crypto from "crypto";
 import { readFileSync, existsSync } from "fs";
@@ -712,22 +718,30 @@ async function retrieveTopN(promptText, count = 2) {
   return retrieveTopNWithRotation(promptText, count, 0, []);
 }
 async function getEmbedding2(text2) {
-  const response = await openai2.embeddings.create({
-    model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
-    input: text2
+  const response = await fetch(GEMINI_EMBEDDING_URL2, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "models/gemini-embedding-001",
+      content: { parts: [{ text: text2 }] },
+      outputDimensionality: 1536
+    })
   });
-  return response.data[0].embedding;
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+  }
+  const data = await response.json();
+  return data.embedding.values;
 }
-var openai2, retrievalCorpusData, retrievalCorpus, corpusEmbeddings, retrievalCache;
+var GEMINI_API_KEY2, GEMINI_EMBEDDING_URL2, retrievalCorpusData, retrievalCorpus, corpusEmbeddings, retrievalCache;
 var init_embeddingRetrieval = __esm({
   "server/utils/embeddingRetrieval.ts"() {
     "use strict";
     init_embeddingSimilarity();
     init_performanceMonitor();
-    openai2 = new OpenAI2({
-      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
-    });
+    GEMINI_API_KEY2 = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_EMBEDDING_URL2 = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY2}`;
     retrievalCorpusData = loadRetrievalCorpus();
     retrievalCorpus = retrievalCorpusData.campaigns || [];
     corpusEmbeddings = {};
@@ -1108,7 +1122,20 @@ __export(embeddingArbiters_exports, {
   relevanceArbiter: () => relevanceArbiter,
   rhetoricalStrengthArbiter: () => rhetoricalStrengthArbiter
 });
-import OpenAI3 from "openai";
+async function geminiChat(systemPrompt, userPrompt, maxTokens = 200) {
+  const response = await fetch(GEMINI_CHAT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: `${systemPrompt}
+
+${userPrompt}` }] }],
+      generationConfig: { maxOutputTokens: maxTokens, temperature: 0.3 }
+    })
+  });
+  const data = await response.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
 async function originalityArbiter(concept, historicalConcepts = [], threshold = 0.7) {
   try {
     const conceptEmbedding = await getEmbedding(concept);
@@ -1172,22 +1199,12 @@ async function relevanceArbiter(concept, brief, threshold = 0.7) {
     const briefEmbedding = await getEmbedding(brief);
     const relevanceScore = cosineSimilarity(conceptEmbedding, briefEmbedding) * 100;
     const passed = relevanceScore >= threshold * 100;
-    const briefAnalysis = await openai3.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: "Extract 3-5 key themes from this creative brief. Return only the themes, separated by commas."
-        },
-        {
-          role: "user",
-          content: brief
-        }
-      ],
-      max_tokens: 100,
-      temperature: 0.3
-    });
-    const briefThemes = briefAnalysis.choices[0]?.message?.content?.split(",").map((t) => t.trim()) || [];
+    const briefAnalysisText = await geminiChat(
+      "Extract 3-5 key themes from this creative brief. Return only the themes, separated by commas.",
+      brief,
+      100
+    );
+    const briefThemes = briefAnalysisText.split(",").map((t) => t.trim()).filter(Boolean);
     const suggestions = [];
     if (!passed) {
       suggestions.push("Strengthen connection to core brief requirements");
@@ -1265,12 +1282,8 @@ async function culturalSensitivityArbiter(concept, threshold = 0.75) {
 }
 async function advertisingPracticalityArbiter(concept, threshold = 70) {
   try {
-    const practicalityAnalysis = await openai3.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: `As an advertising expert, evaluate this concept's practical viability for real advertising campaigns on a scale of 0-100. Flag concepts that are:
+    const practicalityText = await geminiChat(
+      `As an advertising expert, evaluate this concept's practical viability for real advertising campaigns on a scale of 0-100. Flag concepts that are:
 - Too abstract, poetic, or literary for advertising
 - Impossible to visualize or execute practically
 - Too vague or conceptual for target audiences
@@ -1280,17 +1293,12 @@ async function advertisingPracticalityArbiter(concept, threshold = 70) {
 GOOD advertising concepts are: clear, executable, memorable, audience-focused, brand-appropriate, production-feasible.
 BAD advertising concepts are: abstract poetry, overly artistic descriptions, impossible visuals, academic language, pretentious imagery.
 
-Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"], "analysis": "brief explanation why this would/wouldn't work in advertising"}`
-        },
-        {
-          role: "user",
-          content: concept
-        }
-      ],
-      max_tokens: 200,
-      temperature: 0.3
-    });
-    const analysisResult = JSON.parse(practicalityAnalysis.choices[0]?.message?.content || '{"score": 70, "issues": [], "analysis": "Standard advertising approach"}');
+Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"], "analysis": "brief explanation why this would/wouldn't work in advertising"}`,
+      concept,
+      200
+    );
+    let cleanedText = practicalityText.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const analysisResult = JSON.parse(cleanedText || '{"score": 70, "issues": [], "analysis": "Standard advertising approach"}');
     const score = analysisResult.score || 70;
     const passed = score >= threshold;
     const suggestions = [];
@@ -1326,33 +1334,20 @@ Return ONLY a JSON object with: {"score": number, "issues": ["issue1", "issue2"]
 }
 async function rhetoricalStrengthArbiter(concept, threshold = 70) {
   try {
-    const rhetoricalAnalysis = await openai3.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: `Analyze the rhetorical sophistication of this concept on a scale of 0-100. Consider:
+    let rawContent = await geminiChat(
+      `Analyze the rhetorical sophistication of this concept on a scale of 0-100. Consider:
 - Use of advanced rhetorical devices (metaphor, synecdoche, chiasmus, etc.)
 - Memorable and impactful language
 - Emotional resonance and persuasive power
 - Originality of expression
 - Strategic communication effectiveness
 
-Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device2"], "analysis": "brief explanation"}`
-        },
-        {
-          role: "user",
-          content: concept
-        }
-      ],
-      max_tokens: 200,
-      temperature: 0.3
-    });
-    let rawContent = rhetoricalAnalysis.choices[0]?.message?.content || '{"score": 70, "devices": [], "analysis": "Standard rhetorical approach"}';
-    if (rawContent.includes("```json")) {
-      rawContent = rawContent.replace(/```json\s*/, "").replace(/```\s*$/, "").trim();
-    }
-    const analysisResult = JSON.parse(rawContent);
+Return ONLY a JSON object with: {"score": number, "devices": ["device1", "device2"], "analysis": "brief explanation"}`,
+      concept,
+      200
+    );
+    rawContent = rawContent.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const analysisResult = JSON.parse(rawContent || '{"score": 70, "devices": [], "analysis": "Standard rhetorical approach"}');
     const score = analysisResult.score || 70;
     const passed = score >= threshold;
     const suggestions = [];
@@ -1523,15 +1518,13 @@ async function batchConceptEvaluation(concepts, brief, historicalConcepts = []) 
     }
   };
 }
-var openai3, QUALITY_BENCHMARKS, SENSITIVE_CONCEPTS, CRITIC_THRESHOLDS, rejectionLogs, embeddingArbiters_default;
+var GEMINI_API_KEY3, GEMINI_CHAT_URL, QUALITY_BENCHMARKS, SENSITIVE_CONCEPTS, CRITIC_THRESHOLDS, rejectionLogs, embeddingArbiters_default;
 var init_embeddingArbiters = __esm({
   "server/utils/embeddingArbiters.ts"() {
     "use strict";
     init_embeddingSimilarity();
-    openai3 = new OpenAI3({
-      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
-    });
+    GEMINI_API_KEY3 = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_CHAT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY3}`;
     QUALITY_BENCHMARKS = [
       "Just Do It - Nike",
       "Think Different - Apple",
@@ -1585,7 +1578,7 @@ __export(openai_exports, {
   getAllRhetoricalDeviceNames: () => getAllRhetoricalDeviceNames,
   getAllRhetoricalDevices: () => getAllRhetoricalDevices
 });
-import OpenAI4 from "openai";
+import OpenAI from "openai";
 import { readFileSync as readFileSync3, existsSync as existsSync3 } from "fs";
 import { join as join3 } from "path";
 async function getHistoricalConcepts(limit = 50) {
@@ -1977,7 +1970,7 @@ HEADLINE LENGTH EXAMPLES:
 CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with an unexpected angle that makes the target audience think "I never thought of it that way." Your concept must be laser-focused on solving THIS brief.`;
     console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
     console.log("\u{1F680} Calling OpenAI API with model: gpt-5.2");
-    const response = await openai4.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [
         {
@@ -2138,7 +2131,7 @@ async function generateVisualPrompt(query, tone, aiResponse) {
     if (visualConceptMatch) {
       const visualConcept = visualConceptMatch[1].trim();
       console.log("SUCCESS: Visual concept extracted:", visualConcept);
-      const promptResponse = await openai4.chat.completions.create({
+      const promptResponse = await openai.chat.completions.create({
         model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
         // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
@@ -2196,7 +2189,7 @@ Create MidJourney prompt:`
     return fallback;
   }
 }
-var recentConceptsCache, CACHE_DURATION, MAX_CACHE_SIZE2, openai4, rhetoricalDevices;
+var recentConceptsCache, CACHE_DURATION, MAX_CACHE_SIZE2, openai, rhetoricalDevices;
 var init_openai = __esm({
   "server/services/openai.ts"() {
     "use strict";
@@ -2210,7 +2203,7 @@ var init_openai = __esm({
     if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
       throw new Error("OpenAI API key not set in environment variables.");
     }
-    openai4 = new OpenAI4({
+    openai = new OpenAI({
       apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
       baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
     });
@@ -2542,7 +2535,7 @@ __export(tropeConstraints_exports, {
   scoreTropeAlignment: () => scoreTropeAlignment,
   validateTropePattern: () => validateTropePattern
 });
-import OpenAI5 from "openai";
+import OpenAI2 from "openai";
 import { readFileSync as readFileSync4, existsSync as existsSync4 } from "fs";
 import { join as join4, dirname as dirname2 } from "path";
 import { fileURLToPath } from "url";
@@ -2560,7 +2553,10 @@ function loadAllRhetoricalDevices() {
     "/var/task/data/rhetorical_figures_cleaned.json",
     "/var/task/server/data/rhetorical_figures_cleaned.json",
     // Vercel with includeFiles puts files relative to function
-    join4(process.cwd(), "api", "data", "rhetorical_figures_cleaned.json")
+    join4(process.cwd(), "api", "data", "rhetorical_figures_cleaned.json"),
+    // Vercel: includeFiles relative to function root
+    "/var/task/api/data/rhetorical_figures_cleaned.json",
+    "/var/task/.next/server/data/rhetorical_figures_cleaned.json"
   ];
   console.log(`\u{1F50D} Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
   console.log(`   __dirname: ${__dirname}`);
@@ -2916,7 +2912,7 @@ var init_tropeConstraints = __esm({
     };
     TropeConstraintEngine = class {
       constructor() {
-        this.openai = new OpenAI5({
+        this.openai = new OpenAI2({
           apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
           baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
         });
@@ -3217,7 +3213,7 @@ Respond in JSON format:
 });
 
 // server/utils/divergentExplorer.ts
-import OpenAI6 from "openai";
+import OpenAI3 from "openai";
 function getUncommonDevices(count) {
   const allDevices = loadAllRhetoricalDevices();
   const allIds = Object.keys(allDevices);
@@ -3287,7 +3283,7 @@ Remember: The goal is MAXIMUM DIVERGENCE. If two directions feel similar, one of
 Each direction should feel like it could anchor an entirely different campaign.`;
 }
 async function exploreDivergently(userBrief, options = {}) {
-  const openai17 = new OpenAI6({
+  const openai14 = new OpenAI3({
     apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
     baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
   });
@@ -3298,7 +3294,7 @@ async function exploreDivergently(userBrief, options = {}) {
     historicalEmbeddings = []
   } = options;
   const personaCounts = {};
-  const theme = await extractTheme(userBrief, openai17);
+  const theme = await extractTheme(userBrief, openai14);
   console.log(`\u{1F300} Starting divergent exploration for theme: "${theme}"`);
   console.log(`   Pool size target: ${poolSize}`);
   console.log(`   Persona rotation: ${personaRotation}`);
@@ -3319,7 +3315,7 @@ async function exploreDivergently(userBrief, options = {}) {
     try {
       const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(" ")[0];
       console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || "none"}`);
-      const rawIdeas = await generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex);
+      const rawIdeas = await generateRawIdeas(openai14, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map((idea) => ({ idea, persona }));
     } catch (error) {
       console.error(`   Failed generation for persona ${persona.name}:`, error);
@@ -3395,7 +3391,7 @@ async function selectCreativeSeed(pool, criteria = {
   console.log(`   Raw idea: "${selected.rawIdea.substring(0, 100)}..."`);
   return selected;
 }
-async function extractTheme(brief, openai17) {
+async function extractTheme(brief, openai14) {
   const stopWords = /* @__PURE__ */ new Set(["a", "an", "the", "is", "are", "was", "were", "for", "and", "or", "but", "in", "on", "at", "to", "of", "with", "that", "this", "it", "i", "we", "my", "our", "create", "make", "want", "need"]);
   const words = brief.toLowerCase().split(/\s+/).filter((w) => w.length > 2 && !stopWords.has(w));
   return words.slice(0, 5).join(" ") || brief.split(" ").slice(0, 5).join(" ");
@@ -3423,9 +3419,9 @@ function selectPersona(index, rotation, counts) {
       return CREATIVE_PERSONAS[index % CREATIVE_PERSONAS.length];
   }
 }
-async function generateRawIdeas(openai17, theme, persona, temperature, device, domainIndex) {
+async function generateRawIdeas(openai14, theme, persona, temperature, device, domainIndex) {
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
-  const response = await openai17.chat.completions.create({
+  const response = await openai14.chat.completions.create({
     model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
     messages: [
       { role: "system", content: persona.systemPromptOverride },
@@ -3670,7 +3666,7 @@ human connection. Your concepts make people feel seen and understood.`
 });
 
 // server/utils/progressiveEvolution.ts
-import OpenAI7 from "openai";
+import OpenAI4 from "openai";
 async function initializeSoftTokens(seed, blockName, tropeConstraint) {
   const maskEmbedding = await getEmbedding("[MASK]");
   const tokenCounts = {
@@ -3786,7 +3782,7 @@ var init_progressiveEvolution = __esm({
     };
     ProgressiveEvolutionEngine = class {
       constructor(seedOrOptions, refinementSteps = 5) {
-        this.openai = new OpenAI7({
+        this.openai = new OpenAI4({
           apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
           baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
         });
@@ -4795,7 +4791,7 @@ var init_tropeVarietySelector = __esm({
 });
 
 // server/utils/hybridGenerationOrchestrator.ts
-import OpenAI8 from "openai";
+import OpenAI5 from "openai";
 var DEFAULT_CONFIG, HybridGenerationOrchestrator;
 var init_hybridGenerationOrchestrator = __esm({
   "server/utils/hybridGenerationOrchestrator.ts"() {
@@ -4823,7 +4819,7 @@ var init_hybridGenerationOrchestrator = __esm({
     };
     HybridGenerationOrchestrator = class {
       constructor(config = {}) {
-        this.openai = new OpenAI8({
+        this.openai = new OpenAI5({
           apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
           baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
         });
@@ -5562,7 +5558,7 @@ __export(enhancedAI_exports, {
   generateEnhancedConcept: () => generateEnhancedConcept,
   generateExampleConcept: () => generateExampleConcept
 });
-import OpenAI20 from "openai";
+import OpenAI17 from "openai";
 function assessCulturalSimilarity(concept) {
   const matches = [];
   let totalSimilarity = 0;
@@ -5647,7 +5643,7 @@ Do not include any commentary, references to this process, or extra text.`;
   while (attempts < maxAttempts) {
     attempts++;
     try {
-      const completion = await openai16.chat.completions.create({
+      const completion = await openai13.chat.completions.create({
         model: "gpt-5.2",
         messages: [
           { role: "system", content: systemPrompt },
@@ -5700,11 +5696,11 @@ async function generateExampleConcept() {
     tone: "creative"
   });
 }
-var openai16, CULTURAL_REFERENCE_BASE, RHETORICAL_CLICHES;
+var openai13, CULTURAL_REFERENCE_BASE, RHETORICAL_CLICHES;
 var init_enhancedAI = __esm({
   "server/services/enhancedAI.ts"() {
     "use strict";
-    openai16 = new OpenAI20({ apiKey: process.env.OPENAI_API_KEY });
+    openai13 = new OpenAI17({ apiKey: process.env.OPENAI_API_KEY });
     CULTURAL_REFERENCE_BASE = [
       // Health/HIV campaigns
       { name: "(RED)", elements: ["red color", "parentheses branding", "elimination messaging"] },
@@ -6290,7 +6286,7 @@ init_openai();
 init_supabaseClient();
 
 // server/routes/generateMultivariant.ts
-import OpenAI19 from "openai";
+import OpenAI16 from "openai";
 
 // server/utils/promptLoader.ts
 import fs from "fs";
@@ -6442,8 +6438,8 @@ async function fetchRhetoricalExamples() {
 }
 
 // server/utils/adQualityArbiter.ts
-import OpenAI9 from "openai";
-var openai5 = new OpenAI9({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI6 from "openai";
+var openai2 = new OpenAI6({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateAdQuality(concept) {
   const prompt = `
 You are a senior advertising creative director with 20 years of experience evaluating professional advertising concepts. 
@@ -6471,7 +6467,7 @@ Rhetorical Device: ${concept.rhetoricalDevice}
 Inspired By: ${concept.rhetoricalExample}
 `;
   try {
-    const completion = await openai5.chat.completions.create({
+    const completion = await openai2.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6506,8 +6502,8 @@ function shouldFlagForReview(scores) {
 }
 
 // server/utils/audienceEmpathyArbiter.ts
-import OpenAI10 from "openai";
-var openai6 = new OpenAI10({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI7 from "openai";
+var openai3 = new OpenAI7({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateAudienceEmpathy(concept) {
   const prompt = `
 You are roleplaying as a member of this audience:
@@ -6538,7 +6534,7 @@ Inspired By: ${concept.rhetoricalExample}
 Tone: ${concept.tone}
 `;
   try {
-    const completion = await openai6.chat.completions.create({
+    const completion = await openai3.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6616,8 +6612,8 @@ function deriveTargetAudience(query, tone) {
 }
 
 // server/utils/awardsJuryArbiter.ts
-import OpenAI11 from "openai";
-var openai7 = new OpenAI11({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI8 from "openai";
+var openai4 = new OpenAI8({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateAwardsJuryScore(concept) {
   const prompt = `You are an award jury panelist evaluating advertising concepts for global creative awards such as Cannes Lions, D&AD, Clio, and The One Show. 
 
@@ -6657,7 +6653,7 @@ Target Audience: ${concept.targetAudience}
 
 Be rigorous in your evaluation, referencing the standards of globally awarded campaigns. Consider whether this work would likely be shortlisted or win in a top-tier creative competition.`;
   try {
-    const completion = await openai7.chat.completions.create({
+    const completion = await openai4.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6693,8 +6689,8 @@ function hasHighAwardsPotential(awardsScore) {
 }
 
 // server/utils/originalityArbiter.ts
-import OpenAI12 from "openai";
-var openai8 = new OpenAI12({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI9 from "openai";
+var openai5 = new OpenAI9({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateOriginalityConfidence(concept) {
   const prompt = `You are an originality expert evaluating advertising concepts for creative freshness and uniqueness.
 
@@ -6717,7 +6713,7 @@ Return your assessment as a JSON object:
   "originality_feedback": "Brief explanation of why this score was given"
 }`;
   try {
-    const completion = await openai8.chat.completions.create({
+    const completion = await openai5.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6744,8 +6740,8 @@ function passesOriginalityThreshold(score) {
 }
 
 // server/utils/audienceArbiter.ts
-import OpenAI13 from "openai";
-var openai9 = new OpenAI13({
+import OpenAI10 from "openai";
+var openai6 = new OpenAI10({
   apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
   baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
 });
@@ -6772,7 +6768,7 @@ Return your assessment as a JSON object:
   "audience_feedback": "Brief explanation of the resonance level and specific audience considerations"
 }`;
   try {
-    const completion = await openai9.chat.completions.create({
+    const completion = await openai6.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6801,8 +6797,8 @@ function passesAudienceThreshold(resonance) {
 }
 
 // server/utils/awardPotentialArbiter.ts
-import OpenAI14 from "openai";
-var openai10 = new OpenAI14({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI11 from "openai";
+var openai7 = new OpenAI11({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateAwardPotential(concept) {
   const prompt = `You are a creative awards judge evaluating concepts for global advertising competitions like Cannes Lions, D&AD, Clio, and The One Show.
 
@@ -6829,7 +6825,7 @@ Return your assessment as a JSON object:
   "award_feedback": "Brief explanation of the award potential and specific strengths/weaknesses"
 }`;
   try {
-    const completion = await openai10.chat.completions.create({
+    const completion = await openai7.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: prompt }],
@@ -6858,7 +6854,7 @@ function passesAwardThreshold(potential) {
 }
 
 // server/utils/relevanceArbiter.ts
-import OpenAI15 from "openai";
+import OpenAI12 from "openai";
 
 // server/utils/performanceTracker.ts
 var GPT4O_INPUT_COST_PER_1K = 5e-3;
@@ -6962,7 +6958,7 @@ var PerformanceTracker = class {
 var performanceTracker = new PerformanceTracker();
 
 // server/utils/relevanceArbiter.ts
-var openai11 = new OpenAI15({ apiKey: process.env.OPENAI_API_KEY });
+var openai8 = new OpenAI12({ apiKey: process.env.OPENAI_API_KEY });
 async function evaluateRelevance(concept, userPrompt) {
   const relevancePrompt = `
 You are the **Relevance Arbiter**, an expert strategist evaluating whether this concept connects clearly to the user's prompt.
@@ -6994,7 +6990,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
   `;
   try {
     const arbiterStartTime = Date.now();
-    const response = await openai11.chat.completions.create({
+    const response = await openai8.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: relevancePrompt }],
@@ -7035,8 +7031,8 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
 }
 
 // server/utils/iterativeRefinementEngine.ts
-import OpenAI16 from "openai";
-var openai12 = new OpenAI16({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI13 from "openai";
+var openai9 = new OpenAI13({ apiKey: process.env.OPENAI_API_KEY });
 async function runIterativeRefinement(initialConcept, context, enabled = true) {
   if (!enabled) {
     const evaluation2 = await evaluateConcept(initialConcept, context.query);
@@ -7177,7 +7173,7 @@ Return your response as JSON with this structure:
 }`;
   try {
     const refinementStartTime = Date.now();
-    const response = await openai12.chat.completions.create({
+    const response = await openai9.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2,
@@ -7209,8 +7205,8 @@ Return your response as JSON with this structure:
 
 // server/utils/fragmentSalvager.ts
 init_supabaseClient();
-import OpenAI17 from "openai";
-var openai13 = new OpenAI17({ apiKey: process.env.OPENAI_API_KEY });
+import OpenAI14 from "openai";
+var openai10 = new OpenAI14({ apiKey: process.env.OPENAI_API_KEY });
 async function salvageConceptFragments(concept) {
   try {
     console.log(`\u{1F50D} Analyzing concept ${concept.id} for salvageable fragments...`);
@@ -7249,7 +7245,7 @@ Respond in JSON format:
     }
   ]
 }`;
-    const response = await openai13.chat.completions.create({
+    const response = await openai10.chat.completions.create({
       model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "user", content: analysisPrompt }],
@@ -7296,12 +7292,12 @@ init_embeddingSimilarity();
 
 // server/utils/feedbackSimilarityReporter.ts
 import { createClient as createClient4 } from "@supabase/supabase-js";
-import OpenAI18 from "openai";
+import OpenAI15 from "openai";
 var supabase3 = createClient4(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
 );
-var openai14 = new OpenAI18({
+var openai11 = new OpenAI15({
   apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
   baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
 });
@@ -7335,7 +7331,7 @@ async function getRatedConcepts(projectId) {
   return result;
 }
 async function getEmbedding5(text2) {
-  const response = await openai14.embeddings.create({
+  const response = await openai11.embeddings.create({
     model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
     input: text2
   });
@@ -7423,7 +7419,7 @@ async function analyzeFeedbackSimilarity(projectId, newConceptText, options = {}
 }
 
 // server/routes/generateMultivariant.ts
-var openai15 = new OpenAI19({ apiKey: process.env.OPENAI_API_KEY });
+var openai12 = new OpenAI16({ apiKey: process.env.OPENAI_API_KEY });
 async function checkHistoricalSimilarity(visualDescription, headlines) {
   try {
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY) {
@@ -7913,7 +7909,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
       completionPromises.push(
         (async () => {
           const apiStartTime = Date.now();
-          const response = await openai15.chat.completions.create({
+          const response = await openai12.chat.completions.create({
             model: "gpt-5.2",
             // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
             messages: [
@@ -7987,7 +7983,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}
               avoidCliches,
               rhetoricalExample: completion.example
             });
-            const regeneratedResponse = await openai15.chat.completions.create({
+            const regeneratedResponse = await openai12.chat.completions.create({
               model: "gpt-5.2",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,

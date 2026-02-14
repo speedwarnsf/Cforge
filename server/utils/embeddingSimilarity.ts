@@ -1,9 +1,5 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
-});
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE';
+const GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
 
 /**
  * Sanitizes text by removing stray unicode and normalizing whitespace.
@@ -27,13 +23,22 @@ function sanitizeText(text: string): string {
  */
 async function getEmbedding(text: string): Promise<number[]> {
   try {
-    // Sanitize input text before generating embedding
     const sanitizedText = sanitizeText(text);
-    const response = await openai.embeddings.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-embedding-001" : process.env.GEMINI_API_KEY ? "gemini-embedding-001" : "text-embedding-3-large",
-      input: sanitizedText
+    const response = await fetch(GEMINI_EMBEDDING_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'models/gemini-embedding-001',
+        content: { parts: [{ text: sanitizedText }] },
+        outputDimensionality: 1536
+      })
     });
-    return response.data[0].embedding;
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`Gemini embedding API error ${response.status}: ${err}`);
+    }
+    const data = await response.json();
+    return data.embedding.values;
   } catch (error) {
     console.error('Failed to generate embedding:', error);
     throw new Error('Embedding generation failed');
@@ -161,7 +166,6 @@ export async function generateAiResponse(options: {
   maxAttempts?: number;
   similarityThreshold?: number;
 }): Promise<string[]> {
-  const model = options.model || "gpt-5.2";
   const maxAttempts = options.maxAttempts || 3;
   const similarityThreshold = options.similarityThreshold || 0.85;
 
@@ -169,18 +173,20 @@ export async function generateAiResponse(options: {
   let concepts: string[] = [];
   let diversityPassed = false;
 
+  const GEMINI_CHAT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
   while (attempt <= maxAttempts && !diversityPassed) {
     console.log(`Generating concepts (Attempt ${attempt})`);
 
-    const completion = await openai.chat.completions.create({
-      model,
-      messages: [
-        { role: "system", content: "You are a creative AI specializing in rhetorical advertising concepts." },
-        { role: "user", content: options.prompt }
-      ]
+    const chatResponse = await fetch(GEMINI_CHAT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `You are a creative AI specializing in rhetorical advertising concepts.\n\n${options.prompt}` }] }]
+      })
     });
-
-    const rawContent = completion.choices[0].message.content || "";
+    const chatData = await chatResponse.json();
+    const rawContent = chatData.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     // Split concepts by double line breaks and sanitize
     concepts = rawContent

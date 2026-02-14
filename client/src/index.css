@@ -1178,7 +1178,7 @@ button[type="submit"]:not(:disabled):hover {
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
   --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
+  --radius: 0;
 }
 
 .dark {
@@ -1201,7 +1201,7 @@ button[type="submit"]:not(:disabled):hover {
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  --radius: 0;
 }
 
 @layer base {

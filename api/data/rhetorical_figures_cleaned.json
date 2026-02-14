@@ -1,0 +1,1973 @@
+[
+  {
+    "figure_name": "accismus",
+    "definition": "A form of irony in which a person feigns indifference to or pretends to refuse something he or she desires."
+  },
+  {
+    "figure_name": "acronym",
+    "definition": "A word formed from the initial letters of other words."
+  },
+  {
+    "figure_name": "ad hominem",
+    "definition": "An attack directed against a person rather than their argument."
+  },
+  {
+    "figure_name": "adynaton",
+    "definition": "Hyperbole so extreme it is impossible."
+  },
+  {
+    "figure_name": "alliteration",
+    "definition": "Repetition of the same consonant sounds."
+  },
+  {
+    "figure_name": "allusion",
+    "definition": "An indirect or passing reference."
+  },
+  {
+    "figure_name": "ambiguity",
+    "definition": "Use of language with more than one meaning."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "A break in grammatical sequence."
+  },
+  {
+    "figure_name": "anadiplosis",
+    "definition": "Repetition of the last word of a clause at the start of the next."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition of a word or phrase at the beginning of successive clauses."
+  },
+  {
+    "figure_name": "anastrophe",
+    "definition": "Inversion of usual word order."
+  },
+  {
+    "figure_name": "antanaclasis",
+    "definition": "Repetition of a word in different senses.",
+    "examples": [
+      "Your argument is sound... all sound."
+    ],
+    "sources": [
+      "Quintilian 9.3.67"
+    ]
+  },
+  {
+    "figure_name": "anthimeria",
+    "definition": "Substitution of one part of speech for another."
+  },
+  {
+    "figure_name": "antimetabole",
+    "definition": "Repetition of words in reverse order.",
+    "examples": [
+      "When the going gets tough, the tough get going."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.28.39"
+    ]
+  },
+  {
+    "figure_name": "antiphrasis",
+    "definition": "Use of a word in a sense opposite to its normal meaning."
+  },
+  {
+    "figure_name": "antithesis",
+    "definition": "Juxtaposition of contrasting ideas.",
+    "examples": [
+      "It was the best of times, it was the worst of times."
+    ],
+    "sources": [
+      "Quintilian 9.3.81"
+    ]
+  },
+  {
+    "figure_name": "aphorismus",
+    "definition": "Questioning whether a word is used appropriately."
+  },
+  {
+    "figure_name": "aposiopesis",
+    "definition": "A sudden breaking off in speech.",
+    "examples": [
+      "I will have revenge on you, I swear by—"
+    ],
+    "sources": [
+      "Quintilian 9.2.54"
+    ]
+  },
+  {
+    "figure_name": "apostrophe",
+    "definition": "Addressing an absent person or abstraction.",
+    "examples": [
+      "O Death, where is thy sting?"
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.22.33"
+    ]
+  },
+  {
+    "figure_name": "archaism",
+    "definition": "Use of obsolete or old-fashioned language."
+  },
+  {
+    "figure_name": "asyndeton",
+    "definition": "Omission of conjunctions.",
+    "examples": [
+      "I came, I saw, I conquered."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.25.34"
+    ]
+  },
+  {
+    "figure_name": "bathos",
+    "definition": "Abrupt transition from lofty to trivial."
+  },
+  {
+    "figure_name": "bdelygmia",
+    "definition": "Expressing hatred or disgust."
+  },
+  {
+    "figure_name": "cacophony",
+    "definition": "Harsh, discordant sounds."
+  },
+  {
+    "figure_name": "catachresis",
+    "definition": "An extreme, mixed metaphor.",
+    "examples": [
+      "He looked at the price and his pocketbook screamed."
+    ],
+    "sources": [
+      "Quintilian 8.6.31"
+    ]
+  },
+  {
+    "figure_name": "cataphora",
+    "definition": "Reference forward to later expression."
+  },
+  {
+    "figure_name": "chiasmus",
+    "definition": "Reversal of grammatical structures.",
+    "examples": [
+      "Never let a fool kiss you or a kiss fool you."
+    ],
+    "sources": [
+      "Quintilian 9.3.61"
+    ]
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Arrangement of words in order of increasing importance."
+  },
+  {
+    "figure_name": "commoratio",
+    "definition": "Dwelling on a point by repeating it differently.",
+    "examples": [
+      "He's a liar, a cheat, and a fraud."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.32.43"
+    ]
+  },
+  {
+    "figure_name": "conduplicatio",
+    "definition": "Repetition of a key word.",
+    "examples": [
+      "Drugs destroy lives. Drugs ruin families. Drugs erode dignity."
+    ],
+    "sources": [
+      "Quintilian 9.3.67"
+    ]
+  },
+  {
+    "figure_name": "correctio",
+    "definition": "Amending a term just used."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Rejecting an argument with contempt."
+  },
+  {
+    "figure_name": "diatyposis",
+    "definition": "Vivid description."
+  },
+  {
+    "figure_name": "diacope",
+    "definition": "Repetition with intervening words.",
+    "examples": [
+      "The horror! Oh, the horror!"
+    ],
+    "sources": [
+      "Quintilian 9.3.61"
+    ]
+  },
+  {
+    "figure_name": "ellipsis",
+    "definition": "Omission of words understood in context.",
+    "examples": [
+      "Fire when ready."
+    ],
+    "sources": [
+      "Quintilian 9.2.54"
+    ]
+  },
+  {
+    "figure_name": "enallage",
+    "definition": "Substitution of one grammatical form for another."
+  },
+  {
+    "figure_name": "encomium",
+    "definition": "A speech or text in praise."
+  },
+  {
+    "figure_name": "endonym",
+    "definition": "A name used by people to refer to themselves."
+  },
+  {
+    "figure_name": "enthymeme",
+    "definition": "Argument with implied premise.",
+    "examples": [
+      "He must be good, for he is a clergyman."
+    ],
+    "sources": [
+      "Aristotle Rhetoric 1.2"
+    ]
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repetition at beginning and end.",
+    "examples": [
+      "Nothing can be created out of nothing."
+    ],
+    "sources": [
+      "Quintilian 9.3.61"
+    ]
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate correction.",
+    "examples": [
+      "I am angry—no, furious."
+    ],
+    "sources": [
+      "Quintilian 9.3.62"
+    ]
+  },
+  {
+    "figure_name": "epiphora",
+    "definition": "Repetition at the ends of clauses."
+  },
+  {
+    "figure_name": "epistrophe",
+    "definition": "Repetition at the end of clauses.",
+    "examples": [
+      "See no evil, hear no evil, speak no evil."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.20.27"
+    ]
+  },
+  {
+    "figure_name": "epizeuxis",
+    "definition": "Immediate repetition for emphasis.",
+    "examples": [
+      "Words, words, words."
+    ],
+    "sources": [
+      "Quintilian 9.3.61"
+    ]
+  },
+  {
+    "figure_name": "erotesis",
+    "definition": "Rhetorical question.",
+    "examples": [
+      "Who doesn't love freedom?"
+    ],
+    "sources": [
+      "Quintilian 9.2.7"
+    ]
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Putting oneself in another’s place."
+  },
+  {
+    "figure_name": "euphemism",
+    "definition": "Mild substitution for harsh term."
+  },
+  {
+    "figure_name": "exergasia",
+    "definition": "Repetition of idea with varied expression."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Expressing an idea by two nouns connected by 'and.'"
+  },
+  {
+    "figure_name": "homeoteleuton",
+    "definition": "Similar endings of words."
+  },
+  {
+    "figure_name": "hyperbaton",
+    "definition": "Disruption of word order.",
+    "examples": [
+      "This I must see."
+    ],
+    "sources": [
+      "Quintilian 9.1.19"
+    ]
+  },
+  {
+    "figure_name": "hyperbole",
+    "definition": "Exaggeration.",
+    "examples": [
+      "I've told you a million times."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.34.46"
+    ]
+  },
+  {
+    "figure_name": "hypophora",
+    "definition": "Raising and answering a question.",
+    "examples": [
+      "What makes a king out of a slave? Courage!"
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.25.34"
+    ]
+  },
+  {
+    "figure_name": "hypotyposis",
+    "definition": "Vivid, picturesque description."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversal of logical order."
+  },
+  {
+    "figure_name": "irony",
+    "definition": "Expression meaning the opposite.",
+    "examples": [
+      "Lovely weather we're having, as it pours rain."
+    ],
+    "sources": [
+      "Quintilian 9.2.44"
+    ]
+  },
+  {
+    "figure_name": "litotes",
+    "definition": "Understatement by negation.",
+    "examples": [
+      "He's not exactly a rocket scientist."
+    ],
+    "sources": [
+      "Quintilian 8.6.31"
+    ]
+  },
+  {
+    "figure_name": "meiosis",
+    "definition": "Deliberate understatement."
+  },
+  {
+    "figure_name": "merism",
+    "definition": "Reference to a whole by enumerating parts."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference through intermediary."
+  },
+  {
+    "figure_name": "metaphor",
+    "definition": "Implied comparison.",
+    "examples": [
+      "Time is a thief."
+    ],
+    "sources": [
+      "Aristotle Poetics 21"
+    ]
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Substitution based on association.",
+    "examples": [
+      "The White House issued a statement."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.33.44"
+    ]
+  },
+  {
+    "figure_name": "accismus",
+    "definition": "A form of irony in which a person feigns indifference or refusal to something desired."
+  },
+  {
+    "figure_name": "ad hominem",
+    "definition": "Attacking the character or motive of a person making an argument rather than the argument itself."
+  },
+  {
+    "figure_name": "adynaton",
+    "definition": "Hyperbole so extreme as to be impossible."
+  },
+  {
+    "figure_name": "alliteration",
+    "definition": "Repetition of the same initial consonant sounds in a sequence of words."
+  },
+  {
+    "figure_name": "allusion",
+    "definition": "An indirect or passing reference to an event, person, place, or artistic work."
+  },
+  {
+    "figure_name": "ambiguity",
+    "definition": "Use of language with multiple possible meanings or interpretations."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "Breaking off or changing grammatical structure mid-sentence."
+  },
+  {
+    "figure_name": "anadiplosis",
+    "definition": "Repetition of the last word of a clause at the beginning of the next."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition of a word or phrase at the beginning of successive clauses or verses."
+  },
+  {
+    "figure_name": "anastrophe",
+    "definition": "Inversion of the normal word order."
+  },
+  {
+    "figure_name": "antanaclasis",
+    "definition": "Repetition of a word in two different senses."
+  },
+  {
+    "figure_name": "antimetabole",
+    "definition": "Repetition of words in reverse grammatical order."
+  },
+  {
+    "figure_name": "antiphrasis",
+    "definition": "Use of a word or phrase in a sense opposite its normal meaning."
+  },
+  {
+    "figure_name": "antithesis",
+    "definition": "Juxtaposition of contrasting ideas in balanced phrases."
+  },
+  {
+    "figure_name": "aphorismus",
+    "definition": "Calling into question whether a word is properly used."
+  },
+  {
+    "figure_name": "aposiopesis",
+    "definition": "Breaking off suddenly in the middle of a sentence, leaving it unfinished."
+  },
+  {
+    "figure_name": "apostrophe",
+    "definition": "Addressing an absent person, abstract idea, or inanimate object."
+  },
+  {
+    "figure_name": "archaism",
+    "definition": "Use of an older or obsolete form of language."
+  },
+  {
+    "figure_name": "asyndeton",
+    "definition": "Omission of conjunctions between clauses."
+  },
+  {
+    "figure_name": "bathos",
+    "definition": "Abrupt transition from serious to trivial in tone."
+  },
+  {
+    "figure_name": "bdelygmia",
+    "definition": "Expressing hatred or contempt through vivid language."
+  },
+  {
+    "figure_name": "cacophony",
+    "definition": "Use of harsh or discordant sounds for effect."
+  },
+  {
+    "figure_name": "catachresis",
+    "definition": "A mixed or strained metaphor."
+  },
+  {
+    "figure_name": "cataphora",
+    "definition": "Reference forward to a later word or phrase."
+  },
+  {
+    "figure_name": "chiasmus",
+    "definition": "Two or more clauses balanced against each other by reversal of their structures."
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Arrangement of words or ideas in increasing order of importance."
+  },
+  {
+    "figure_name": "commoratio",
+    "definition": "Dwelling on a point by repeating it several times in different words."
+  },
+  {
+    "figure_name": "conduplicatio",
+    "definition": "Repetition of a key word over successive phrases or clauses."
+  },
+  {
+    "figure_name": "correctio",
+    "definition": "Amending a statement to make it stronger or more precise."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Dismissing an argument with ridicule or contempt."
+  },
+  {
+    "figure_name": "diatyposis",
+    "definition": "Vivid and picturesque description."
+  },
+  {
+    "figure_name": "diacope",
+    "definition": "Repetition of a word or phrase with intervening words."
+  },
+  {
+    "figure_name": "ellipsis",
+    "definition": "Omission of words easily understood in context."
+  },
+  {
+    "figure_name": "encomium",
+    "definition": "A speech or piece of writing that praises someone highly."
+  },
+  {
+    "figure_name": "endonym",
+    "definition": "A name used by a group or community to refer to themselves."
+  },
+  {
+    "figure_name": "enthymeme",
+    "definition": "A syllogism with one of the premises implied rather than stated."
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repetition at the end of a clause of the word that occurred at the beginning."
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate rephrasing of something just said for correction or emphasis."
+  },
+  {
+    "figure_name": "epiphora",
+    "definition": "Repetition of a word or phrase at the end of successive clauses."
+  },
+  {
+    "figure_name": "epistrophe",
+    "definition": "Repetition of the same word or phrase at the end of successive clauses."
+  },
+  {
+    "figure_name": "epizeuxis",
+    "definition": "Immediate repetition of a word or phrase for emphasis."
+  },
+  {
+    "figure_name": "erotesis",
+    "definition": "A rhetorical question asked without expecting an answer."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Putting oneself in the place of another to express their feelings or thoughts."
+  },
+  {
+    "figure_name": "euphemism",
+    "definition": "Substitution of a mild or indirect term for a harsh or blunt one."
+  },
+  {
+    "figure_name": "exergasia",
+    "definition": "Repetition of an idea with varied expression."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Expressing a single idea by two nouns connected with 'and.'"
+  },
+  {
+    "figure_name": "homeoteleuton",
+    "definition": "Similarity of endings in adjacent words."
+  },
+  {
+    "figure_name": "hyperbaton",
+    "definition": "Altering word order for emphasis."
+  },
+  {
+    "figure_name": "hyperbole",
+    "definition": "Exaggeration for emphasis or effect."
+  },
+  {
+    "figure_name": "hypophora",
+    "definition": "Posing a question and immediately answering it."
+  },
+  {
+    "figure_name": "hypotyposis",
+    "definition": "Vivid, picturesque description of a scene or event."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversing the natural order of events."
+  },
+  {
+    "figure_name": "irony",
+    "definition": "Expression of meaning by using language that signifies the opposite."
+  },
+  {
+    "figure_name": "litotes",
+    "definition": "Understatement by using double negatives."
+  },
+  {
+    "figure_name": "merism",
+    "definition": "Describing something by enumerating its parts."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference through an intermediary."
+  },
+  {
+    "figure_name": "metaphor",
+    "definition": "Implied comparison between unlike things."
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Substituting an associated term for the one meant."
+  },
+  {
+    "figure_name": "neologism",
+    "definition": "A newly coined word or expression."
+  },
+  {
+    "figure_name": "onomatopoeia",
+    "definition": "Use of words that imitate sounds."
+  },
+  {
+    "figure_name": "oxymoron",
+    "definition": "Combining contradictory terms."
+  },
+  {
+    "figure_name": "paradox",
+    "definition": "A statement that contradicts itself but contains truth."
+  },
+  {
+    "figure_name": "paralipsis",
+    "definition": "Emphasizing something by pretending to omit it."
+  },
+  {
+    "figure_name": "parallelism",
+    "definition": "Similarity of structure in a series of related words or phrases."
+  },
+  {
+    "figure_name": "parenthesis",
+    "definition": "Insertion of an aside into a sentence."
+  },
+  {
+    "figure_name": "paronomasia",
+    "definition": "A pun or play on words."
+  },
+  {
+    "figure_name": "periphrasis",
+    "definition": "Use of a descriptive phrase instead of a simpler term."
+  },
+  {
+    "figure_name": "personification",
+    "definition": "Attributing human characteristics to nonhuman things."
+  },
+  {
+    "figure_name": "pleonasm",
+    "definition": "Use of more words than necessary."
+  },
+  {
+    "figure_name": "polyptoton",
+    "definition": "Repetition of words from the same root."
+  },
+  {
+    "figure_name": "polysyndeton",
+    "definition": "Repetition of conjunctions in close succession."
+  },
+  {
+    "figure_name": "praeteritio",
+    "definition": "Drawing attention to something by pretending to pass over it."
+  },
+  {
+    "figure_name": "prolepsis",
+    "definition": "Anticipating and answering objections in advance."
+  },
+  {
+    "figure_name": "prosopopoeia",
+    "definition": "Giving voice to absent persons or objects."
+  },
+  {
+    "figure_name": "rhetorical question",
+    "definition": "Question asked to make a point, not for an answer."
+  },
+  {
+    "figure_name": "simile",
+    "definition": "Comparison using 'like' or 'as.'"
+  },
+  {
+    "figure_name": "symploce",
+    "definition": "Combining anaphora and epistrophe."
+  },
+  {
+    "figure_name": "synecdoche",
+    "definition": "Substitution of part for the whole or vice versa."
+  },
+  {
+    "figure_name": "tmesis",
+    "definition": "Insertion of a word between parts of a compound word."
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "Using one word to modify two others in different ways."
+  },
+  {
+    "figure_name": "tricolon",
+    "definition": "Series of three parallel elements."
+  },
+  {
+    "figure_name": "anesis",
+    "definition": "Adding a concluding sentence that diminishes the effect of what has been said previously."
+  },
+  {
+    "figure_name": "apophasis",
+    "definition": "Mentioning something by stating you won't mention it."
+  },
+  {
+    "figure_name": "paradiastole",
+    "definition": "Reframing vices as virtues."
+  },
+  {
+    "figure_name": "epizeuxis",
+    "definition": "Repetition of a word with no other words between."
+  },
+  {
+    "figure_name": "mesodiplosis",
+    "definition": "Repetition of a word or phrase in the middle of successive clauses."
+  },
+  {
+    "figure_name": "diaphora",
+    "definition": "Repetition of a name first to signify the person and then to signify its meaning."
+  },
+  {
+    "figure_name": "isocolon",
+    "definition": "Parallel elements similar not only in structure but in length."
+  },
+  {
+    "figure_name": "auxesis",
+    "definition": "Arranging words in a sequence of increasing force."
+  },
+  {
+    "figure_name": "epithet",
+    "definition": "A descriptive word or phrase expressing a characteristic of the person or thing."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference made through another reference."
+  },
+  {
+    "figure_name": "permissio",
+    "definition": "Yielding to the audience or opponent the decision or judgment."
+  },
+  {
+    "figure_name": "polyptoton",
+    "definition": "Repetition of words derived from the same root."
+  },
+  {
+    "figure_name": "procatalepsis",
+    "definition": "Anticipating an objection and answering it."
+  },
+  {
+    "figure_name": "anapodoton",
+    "definition": "Deliberately creating a sentence fragment."
+  },
+  {
+    "figure_name": "paralipsis",
+    "definition": "Pretending to omit something to emphasize it."
+  },
+  {
+    "figure_name": "hypallage",
+    "definition": "Transferring an adjective from the noun it logically belongs to another."
+  },
+  {
+    "figure_name": "antirrhesis",
+    "definition": "Rejecting an opponent's argument as unworthy."
+  },
+  {
+    "figure_name": "aporia",
+    "definition": "Expressing doubt about an idea or conclusion."
+  },
+  {
+    "figure_name": "paraprosdokian",
+    "definition": "Surprise or unexpected ending of a phrase or series."
+  },
+  {
+    "figure_name": "paronomasia",
+    "definition": "Pun or play on similar-sounding words."
+  },
+  {
+    "figure_name": "symploce",
+    "definition": "Combination of anaphora and epistrophe."
+  },
+  {
+    "figure_name": "homoioteleuton",
+    "definition": "Similarity of endings in adjacent words."
+  },
+  {
+    "figure_name": "homoioptoton",
+    "definition": "Similar case endings in adjacent words."
+  },
+  {
+    "figure_name": "metastasis",
+    "definition": "Dismissing one topic to move to another."
+  },
+  {
+    "figure_name": "epanodos",
+    "definition": "Repetition of the same words in reverse order."
+  },
+  {
+    "figure_name": "epitrope",
+    "definition": "Granting permission ironically."
+  },
+  {
+    "figure_name": "gnome",
+    "definition": "A general maxim or aphorism."
+  },
+  {
+    "figure_name": "metathesis",
+    "definition": "Transposition of sounds or letters in a word."
+  },
+  {
+    "figure_name": "pleonasm",
+    "definition": "Redundancy in expression."
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repetition of a word at both beginning and end of a clause."
+  },
+  {
+    "figure_name": "enallage",
+    "definition": "Intentional misuse of grammar to characterize a speaker."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Imagining and representing another’s character."
+  },
+  {
+    "figure_name": "hyperbaton",
+    "definition": "Altering normal word order."
+  },
+  {
+    "figure_name": "antonomasia",
+    "definition": "Substituting a descriptive phrase for a proper name."
+  },
+  {
+    "figure_name": "anesis",
+    "definition": "Adding a concluding sentence that diminishes what came before."
+  },
+  {
+    "figure_name": "bdelygmia",
+    "definition": "Expression of hatred."
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "Using a word to govern two or more words although it logically applies to only one."
+  },
+  {
+    "figure_name": "anthimeria",
+    "definition": "Using one part of speech as another."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition at the beginning of successive clauses."
+  },
+  {
+    "figure_name": "epistrophe",
+    "definition": "Repetition at the end of successive clauses."
+  },
+  {
+    "figure_name": "isocolon",
+    "definition": "Use of parallel structures of the same length."
+  },
+  {
+    "figure_name": "polysyndeton",
+    "definition": "Use of many conjunctions."
+  },
+  {
+    "figure_name": "auxesis",
+    "definition": "Magnifying importance by arranging words in ascending order."
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Building to a high point."
+  },
+  {
+    "figure_name": "bathos",
+    "definition": "Sudden drop from serious to trivial."
+  },
+  {
+    "figure_name": "adynaton",
+    "definition": "Extreme hyperbole describing impossibility."
+  },
+  {
+    "figure_name": "antithesis",
+    "definition": "Juxtaposition of opposing ideas."
+  },
+  {
+    "figure_name": "hypozeuxis",
+    "definition": "Every clause has its own verb."
+  },
+  {
+    "figure_name": "parataxis",
+    "definition": "Phrases placed side by side without subordination."
+  },
+  {
+    "figure_name": "hypotaxis",
+    "definition": "Use of subordinate clauses."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "Breaking the grammatical sequence of a sentence."
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Substituting the name of one thing with something closely associated."
+  },
+  {
+    "figure_name": "synecdoche",
+    "definition": "Substitution of part for whole or vice versa."
+  },
+  {
+    "figure_name": "onomatopoeia",
+    "definition": "Use of words imitating sounds."
+  },
+  {
+    "figure_name": "litotes",
+    "definition": "Deliberate understatement by negation."
+  },
+  {
+    "figure_name": "meiosis",
+    "definition": "Intentional understatement."
+  },
+  {
+    "figure_name": "periphrasis",
+    "definition": "Use of a descriptive phrase in place of a simpler term."
+  },
+  {
+    "figure_name": "epanadiplosis",
+    "definition": "Repetition of the same word at the beginning and end of a clause."
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repeating the initial word at the end of a clause."
+  },
+  {
+    "figure_name": "procatalepsis",
+    "definition": "Anticipating and responding to objections."
+  },
+  {
+    "figure_name": "aporia",
+    "definition": "Expressing doubt or uncertainty."
+  },
+  {
+    "figure_name": "epiplexis",
+    "definition": "Rhetorical question to reproach rather than elicit answers."
+  },
+  {
+    "figure_name": "anthypophora",
+    "definition": "Asking and immediately answering one's own question."
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "A word applies to multiple parts of the sentence."
+  },
+  {
+    "figure_name": "hypozeuxis",
+    "definition": "Each clause has its own verb."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversing logical order of ideas."
+  },
+  {
+    "figure_name": "anastrophe",
+    "definition": "Unusual word order inversion."
+  },
+  {
+    "figure_name": "polysyndeton",
+    "definition": "Excessive use of conjunctions."
+  },
+  {
+    "figure_name": "pleonasm",
+    "definition": "Redundant language use."
+  },
+  {
+    "figure_name": "tmesis",
+    "definition": "Inserting a word between parts of a compound."
+  },
+  {
+    "figure_name": "paronomasia",
+    "definition": "Play on words or pun."
+  },
+  {
+    "figure_name": "prolepsis",
+    "definition": "Foreseeing and answering objections."
+  },
+  {
+    "figure_name": "auxesis",
+    "definition": "Amplification for rhetorical effect."
+  },
+  {
+    "figure_name": "epithet",
+    "definition": "An adjective describing a key quality."
+  },
+  {
+    "figure_name": "hyperbole",
+    "definition": "Exaggeration for emphasis."
+  },
+  {
+    "figure_name": "antiphrasis",
+    "definition": "Use of a word contrary to its meaning."
+  },
+  {
+    "figure_name": "apostrophe",
+    "definition": "Addressing absent persons or abstractions."
+  },
+  {
+    "figure_name": "antonomasia",
+    "definition": "Substitution of a title or descriptive phrase for a proper name."
+  },
+  {
+    "figure_name": "commoratio",
+    "definition": "Dwelling on a point through repetition."
+  },
+  {
+    "figure_name": "erotesis",
+    "definition": "Rhetorical questioning."
+  },
+  {
+    "figure_name": "metaphor",
+    "definition": "Implied comparison between different things."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition at beginnings of clauses."
+  },
+  {
+    "figure_name": "epistrophe",
+    "definition": "Repetition at endings of clauses."
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Order of increasing importance."
+  },
+  {
+    "figure_name": "paronomasia",
+    "definition": "Pun or wordplay."
+  },
+  {
+    "figure_name": "prolepsis",
+    "definition": "Anticipation of objections."
+  },
+  {
+    "figure_name": "praeteritio",
+    "definition": "Mentioning something while disclaiming intention to mention it."
+  },
+  {
+    "figure_name": "ellipsis",
+    "definition": "Omitting words understood in context."
+  },
+  {
+    "figure_name": "hypotaxis",
+    "definition": "Using subordination to show relationships."
+  },
+  {
+    "figure_name": "parataxis",
+    "definition": "Placing phrases side by side without subordination."
+  },
+  {
+    "figure_name": "paradox",
+    "definition": "Statement that appears contradictory but reveals truth."
+  },
+  {
+    "figure_name": "synecdoche",
+    "definition": "Substituting part for the whole."
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Naming something by association."
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repetition at beginning and end of clause."
+  },
+  {
+    "figure_name": "anadiplosis",
+    "definition": "Repetition of the last word of one clause at the start of the next."
+  },
+  {
+    "figure_name": "polyptoton",
+    "definition": "Repetition of words with the same root."
+  },
+  {
+    "figure_name": "isocolon",
+    "definition": "Parallel structure of equal length."
+  },
+  {
+    "figure_name": "tricolon",
+    "definition": "Three parallel elements."
+  },
+  {
+    "figure_name": "homoioptoton",
+    "definition": "Similar case endings."
+  },
+  {
+    "figure_name": "homoioteleuton",
+    "definition": "Similarity of word endings."
+  },
+  {
+    "figure_name": "periphrasis",
+    "definition": "Using a descriptive phrase instead of a simpler term."
+  },
+  {
+    "figure_name": "anapodoton",
+    "definition": "Deliberate sentence fragment."
+  },
+  {
+    "figure_name": "apophasis",
+    "definition": "Mentioning something by pretending not to mention it."
+  },
+  {
+    "figure_name": "epiplexis",
+    "definition": "Rhetorical question expressing disapproval."
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate correction of previous statement."
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "Single word governs multiple parts of sentence differently."
+  },
+  {
+    "figure_name": "hypallage",
+    "definition": "Transferring an adjective to another noun."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Dismissing argument with contempt."
+  },
+  {
+    "figure_name": "diacope",
+    "definition": "Repetition with words between."
+  },
+  {
+    "figure_name": "correctio",
+    "definition": "Amending a statement."
+  },
+  {
+    "figure_name": "mesodiplosis",
+    "definition": "Repetition in the middle of clauses."
+  },
+  {
+    "figure_name": "encomium",
+    "definition": "Speech of praise."
+  },
+  {
+    "figure_name": "gnome",
+    "definition": "Short statement of general truth."
+  },
+  {
+    "figure_name": "auxesis",
+    "definition": "Arranging words in increasing importance."
+  },
+  {
+    "figure_name": "epitrope",
+    "definition": "Ironically granting permission."
+  },
+  {
+    "figure_name": "metastasis",
+    "definition": "Dismissing one point to move to another."
+  },
+  {
+    "figure_name": "paraprosdokian",
+    "definition": "Unexpected ending."
+  },
+  {
+    "figure_name": "hypotyposis",
+    "definition": "Vivid description."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Imagining another's character."
+  },
+  {
+    "figure_name": "antirrhesis",
+    "definition": "Rejecting opposing argument."
+  },
+  {
+    "figure_name": "aporia",
+    "definition": "Expressing doubt."
+  },
+  {
+    "figure_name": "anesis",
+    "definition": "Diminishing by adding final clause."
+  },
+  {
+    "figure_name": "archaism",
+    "definition": "Using old-fashioned language."
+  },
+  {
+    "figure_name": "bdelygmia",
+    "definition": "Expressing hatred."
+  },
+  {
+    "figure_name": "anthypophora",
+    "definition": "Asking and answering a question."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Contemptuous rejection."
+  },
+  {
+    "figure_name": "commoratio",
+    "definition": "Lingering on a point."
+  },
+  {
+    "figure_name": "anadiplosis",
+    "definition": "Repeating last word of clause."
+  },
+  {
+    "figure_name": "paradiastole",
+    "definition": "Reframing negative traits."
+  },
+  {
+    "figure_name": "endonym",
+    "definition": "Self-used name of group."
+  },
+  {
+    "figure_name": "neologism",
+    "definition": "Newly coined word or phrase."
+  },
+  {
+    "figure_name": "euphemism",
+    "definition": "Mild or indirect word substituted for a harsher one."
+  },
+  {
+    "figure_name": "enallage",
+    "definition": "Intentional misuse of grammar to characterize speech."
+  },
+  {
+    "figure_name": "cataphora",
+    "definition": "Reference forward to a later expression."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference made through intermediary phrase."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Expressing one idea through two nouns joined by 'and.'"
+  },
+  {
+    "figure_name": "archaism",
+    "definition": "Use of obsolete expression."
+  },
+  {
+    "figure_name": "anthimeria",
+    "definition": "Substituting one part of speech for another."
+  },
+  {
+    "figure_name": "aphorismus",
+    "definition": "Questioning whether a term is properly used."
+  },
+  {
+    "figure_name": "procatalepsis",
+    "definition": "Anticipating objection and addressing it."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversing logical sequence."
+  },
+  {
+    "figure_name": "homoioptoton",
+    "definition": "Similarity of case endings in adjacent words."
+  },
+  {
+    "figure_name": "epizeuxis",
+    "definition": "Repetition with no intervening words."
+  },
+  {
+    "figure_name": "erotesis",
+    "definition": "Asking a question with no answer expected."
+  },
+  {
+    "figure_name": "epiplexis",
+    "definition": "Rhetorical question expressing reproach."
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate correction of prior statement."
+  },
+  {
+    "figure_name": "epanadiplosis",
+    "definition": "Repetition of word at start and end."
+  },
+  {
+    "figure_name": "diacope",
+    "definition": "Repetition with other words between."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Rejecting argument with scorn."
+  },
+  {
+    "figure_name": "correctio",
+    "definition": "Amending or correcting prior statement."
+  },
+  {
+    "figure_name": "commoratio",
+    "definition": "Dwelling on a point by repeating."
+  },
+  {
+    "figure_name": "chiasmus",
+    "definition": "Reversing grammatical structure."
+  },
+  {
+    "figure_name": "auxesis",
+    "definition": "Amplification by arrangement."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition at start of clauses."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "Breaking grammatical sequence."
+  },
+  {
+    "figure_name": "allusion",
+    "definition": "Indirect reference."
+  },
+  {
+    "figure_name": "alliteration",
+    "definition": "Repetition of initial consonant sounds."
+  },
+  {
+    "figure_name": "adynaton",
+    "definition": "Extreme hyperbole suggesting impossibility."
+  },
+  {
+    "figure_name": "accismus",
+    "definition": "Pretending to refuse something desired."
+  },
+  {
+    "figure_name": "adynaton",
+    "definition": "Hyperbole taken to an extreme so that it seems impossible."
+  },
+  {
+    "figure_name": "alliteration",
+    "definition": "Repetition of the same letter or sound within nearby words."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "A syntactic interruption from one construction to another."
+  },
+  {
+    "figure_name": "anadiplosis",
+    "definition": "Repetition of the last word of one clause at the beginning of the next."
+  },
+  {
+    "figure_name": "anaphora",
+    "definition": "Repetition of the same word or phrase at the beginning of successive clauses."
+  },
+  {
+    "figure_name": "antiphrasis",
+    "definition": "Irony of one word, often derisive."
+  },
+  {
+    "figure_name": "apostrophe",
+    "definition": "Turning aside to address an absent person or abstraction.",
+    "examples": [
+      "O Death, where is thy sting?"
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.22.33"
+    ]
+  },
+  {
+    "figure_name": "catachresis",
+    "definition": "An extravagant, strained metaphor.",
+    "examples": [
+      "He looked at the price and his pocketbook screamed."
+    ],
+    "sources": [
+      "Quintilian 8.6.31"
+    ]
+  },
+  {
+    "figure_name": "conduplicatio",
+    "definition": "Repetition of a key word over successive phrases.",
+    "examples": [
+      "Drugs destroy lives. Drugs ruin families. Drugs erode communities."
+    ],
+    "sources": [
+      "Quintilian 9.3.67"
+    ]
+  },
+  {
+    "figure_name": "ellipsis",
+    "definition": "Omission of a word easily understood in context.",
+    "examples": [
+      "Fire when ready."
+    ],
+    "sources": [
+      "Quintilian 9.2.54"
+    ]
+  },
+  {
+    "figure_name": "enthymeme",
+    "definition": "An informally stated syllogism with an unstated premise.",
+    "examples": [
+      "He must be honest—he's a clergyman."
+    ],
+    "sources": [
+      "Aristotle Rhetoric 1.2"
+    ]
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate rephrasing to correct or strengthen.",
+    "examples": [
+      "I am angry—no, furious—with you."
+    ],
+    "sources": [
+      "Quintilian 9.3.62"
+    ]
+  },
+  {
+    "figure_name": "epiphora",
+    "definition": "Repetition at the end of successive clauses."
+  },
+  {
+    "figure_name": "epistrophe",
+    "definition": "Repetition of a word or phrase at the end of clauses.",
+    "examples": [
+      "See no evil, hear no evil, speak no evil."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.20.27"
+    ]
+  },
+  {
+    "figure_name": "erotesis",
+    "definition": "A rhetorical question."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Putting oneself in another's place."
+  },
+  {
+    "figure_name": "euphemism",
+    "definition": "Mild substitution for a harsh term."
+  },
+  {
+    "figure_name": "exergasia",
+    "definition": "Repetition of the same idea in different words."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Expression of a single idea by two words connected by 'and.'"
+  },
+  {
+    "figure_name": "hypophora",
+    "definition": "Raising a question and immediately answering it.",
+    "examples": [
+      "What makes a king out of a slave? Courage!"
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.25.34"
+    ]
+  },
+  {
+    "figure_name": "irony",
+    "definition": "Expression that means the opposite.",
+    "examples": [
+      "Lovely weather we're having (in a storm)."
+    ],
+    "sources": [
+      "Quintilian 9.2.44"
+    ]
+  },
+  {
+    "figure_name": "litotes",
+    "definition": "Deliberate understatement via negation.",
+    "examples": [
+      "He's not exactly a rocket scientist."
+    ],
+    "sources": [
+      "Quintilian 8.6.31"
+    ]
+  },
+  {
+    "figure_name": "merism",
+    "definition": "Reference to a whole by enumerating its parts."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference by means of another related reference."
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Naming something by an attribute or association.",
+    "examples": [
+      "The White House issued a statement."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.33.44"
+    ]
+  },
+  {
+    "figure_name": "neologism",
+    "definition": "A newly coined word."
+  },
+  {
+    "figure_name": "onomatopoeia",
+    "definition": "Imitation of sound.",
+    "examples": [
+      "The bees buzzed in the garden."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.34.46"
+    ]
+  },
+  {
+    "figure_name": "oxymoron",
+    "definition": "Joining contradictory terms.",
+    "examples": [
+      "Deafening silence."
+    ],
+    "sources": [
+      "Quintilian 9.3.99"
+    ]
+  },
+  {
+    "figure_name": "paradox",
+    "definition": "A statement that seems self-contradictory but true.",
+    "examples": [
+      "Less is more."
+    ],
+    "sources": [
+      "Quintilian 9.2.44"
+    ]
+  },
+  {
+    "figure_name": "parallelism",
+    "definition": "Similarity of structure in related words or clauses.",
+    "examples": [
+      "She likes cooking, jogging, and reading."
+    ],
+    "sources": [
+      "Quintilian 9.3.18"
+    ]
+  },
+  {
+    "figure_name": "parenthesis",
+    "definition": "Insertion of an aside or additional information.",
+    "examples": [
+      "The governor—foolish and corrupt—was impeached."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.20.28"
+    ]
+  },
+  {
+    "figure_name": "paronomasia",
+    "definition": "Pun or play on words.",
+    "examples": [
+      "A pun is its own reword."
+    ],
+    "sources": [
+      "Quintilian 9.3.67"
+    ]
+  },
+  {
+    "figure_name": "periphrasis",
+    "definition": "Use of descriptive phrase instead of a simpler term.",
+    "examples": [
+      "The big man upstairs hears your prayers."
+    ],
+    "sources": [
+      "Quintilian 8.6.42"
+    ]
+  },
+  {
+    "figure_name": "personification",
+    "definition": "Attributing human qualities to nonhuman things.",
+    "examples": [
+      "The wind whispered through the trees."
+    ],
+    "sources": [
+      "Quintilian 9.2.36"
+    ]
+  },
+  {
+    "figure_name": "praeteritio",
+    "definition": "Emphasizing something by professing to ignore it.",
+    "examples": [
+      "Not to mention the fact you were late."
+    ],
+    "sources": [
+      "Quintilian 9.2.44"
+    ]
+  },
+  {
+    "figure_name": "prolepsis",
+    "definition": "Anticipating and answering objections.",
+    "examples": [
+      "You might say this is impossible, but here's how it works."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.24.33"
+    ]
+  },
+  {
+    "figure_name": "prosopopoeia",
+    "definition": "Giving voice to inanimate objects or absent persons.",
+    "examples": [
+      "The walls have ears."
+    ],
+    "sources": [
+      "Quintilian 9.2.29"
+    ]
+  },
+  {
+    "figure_name": "rhetorical question",
+    "definition": "Asking a question to make a point.",
+    "examples": [
+      "Who doesn't love freedom?"
+    ],
+    "sources": [
+      "Quintilian 9.2.7"
+    ]
+  },
+  {
+    "figure_name": "simile",
+    "definition": "Comparison using 'like' or 'as'.",
+    "examples": [
+      "Her smile was as bright as the sun."
+    ],
+    "sources": [
+      "Quintilian 8.6.6"
+    ]
+  },
+  {
+    "figure_name": "synecdoche",
+    "definition": "Substitution of a part for the whole.",
+    "examples": [
+      "All hands on deck."
+    ],
+    "sources": [
+      "Quintilian 8.6.19"
+    ]
+  },
+  {
+    "figure_name": "tmesis",
+    "definition": "Insertion of a word between parts of a compound.",
+    "examples": [
+      "This is not Romeo, he's some other where."
+    ],
+    "sources": [
+      "Quintilian 1.5.38"
+    ]
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "A word applies to multiple parts of a sentence.",
+    "examples": [
+      "She broke his car and his heart."
+    ],
+    "sources": [
+      "Rhetorica ad Herennium 4.33.44"
+    ]
+  },
+  {
+    "figure_name": "tricolon",
+    "definition": "Three parallel words, phrases, or clauses.",
+    "examples": [
+      "Veni, vidi, vici."
+    ],
+    "sources": [
+      "Quintilian 9.3.72"
+    ]
+  },
+  {
+    "figure_name": "aposiopesis",
+    "definition": "Breaking off suddenly in speech.",
+    "examples": [
+      "I will have revenge on you, I swear by—"
+    ],
+    "sources": [
+      "Quintilian 9.2.54"
+    ]
+  },
+  {
+    "figure_name": "chiasmus",
+    "definition": "Two pairs arranged in inverted order.",
+    "examples": [
+      "Never let a fool kiss you or a kiss fool you."
+    ],
+    "sources": [
+      "Quintilian 9.3.61"
+    ]
+  },
+  {
+    "figure_name": "epimone",
+    "definition": "Frequent repetition to dwell on a point.",
+    "examples": [
+      "And you, Brutus? You too, Brutus?"
+    ],
+    "sources": [
+      "Quintilian 9.3.50"
+    ]
+  },
+  {
+    "figure_name": "aphorismus",
+    "definition": "Questioning whether a word is used properly."
+  },
+  {
+    "figure_name": "archaism",
+    "definition": "Use of old-fashioned language."
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Arrangement in order of increasing importance."
+  },
+  {
+    "figure_name": "endonym",
+    "definition": "A name used by a group to refer to itself."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Impersonation or taking on another's character."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Use of two words joined by 'and' instead of one modified noun."
+  },
+  {
+    "figure_name": "homeoteleuton",
+    "definition": "Similar endings of adjacent words."
+  },
+  {
+    "figure_name": "hypotyposis",
+    "definition": "A vivid, picturesque description."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversal of the logical order of ideas."
+  },
+  {
+    "figure_name": "metalepsis",
+    "definition": "Reference through another related reference."
+  },
+  {
+    "figure_name": "antiphrasis",
+    "definition": "Use of a word in a sense opposite to the usual."
+  },
+  {
+    "figure_name": "litotes",
+    "definition": "Deliberate understatement by using double negatives.",
+    "examples": [
+      "Not bad at all."
+    ]
+  },
+  {
+    "figure_name": "meiosis",
+    "definition": "Intentional understatement to belittle."
+  },
+  {
+    "figure_name": "pleonasm",
+    "definition": "Use of more words than needed."
+  },
+  {
+    "figure_name": "hyperbaton",
+    "definition": "Departure from normal word order."
+  },
+  {
+    "figure_name": "aposiopesis",
+    "definition": "Breaking off abruptly in speech."
+  },
+  {
+    "figure_name": "accismus",
+    "definition": "Feigning indifference while actually desiring something."
+  },
+  {
+    "figure_name": "acronym",
+    "definition": "Word formed from the initial letters of other words."
+  },
+  {
+    "figure_name": "ad hominem",
+    "definition": "Attack directed against the person rather than their argument."
+  },
+  {
+    "figure_name": "ambiguity",
+    "definition": "Use of language with multiple meanings."
+  },
+  {
+    "figure_name": "anacoluthon",
+    "definition": "Sudden break in grammatical sequence."
+  },
+  {
+    "figure_name": "apophasis",
+    "definition": "Mentioning something by saying it will not be mentioned."
+  },
+  {
+    "figure_name": "catachresis",
+    "definition": "Extreme or mixed metaphor."
+  },
+  {
+    "figure_name": "climax",
+    "definition": "Arrangement in increasing importance."
+  },
+  {
+    "figure_name": "diasyrmus",
+    "definition": "Rejecting an argument contemptuously."
+  },
+  {
+    "figure_name": "ellipsis",
+    "definition": "Omission of understood words."
+  },
+  {
+    "figure_name": "enallage",
+    "definition": "Substitution of one grammatical form."
+  },
+  {
+    "figure_name": "encomium",
+    "definition": "Speech or text in praise."
+  },
+  {
+    "figure_name": "enthymeme",
+    "definition": "An argument with an unstated premise."
+  },
+  {
+    "figure_name": "epanalepsis",
+    "definition": "Repetition at the start and end of a clause."
+  },
+  {
+    "figure_name": "epanorthosis",
+    "definition": "Immediate rephrasing."
+  },
+  {
+    "figure_name": "epizeuxis",
+    "definition": "Immediate repetition."
+  },
+  {
+    "figure_name": "ethopoeia",
+    "definition": "Impersonation or character simulation."
+  },
+  {
+    "figure_name": "exergasia",
+    "definition": "Repetition of an idea in varied ways."
+  },
+  {
+    "figure_name": "hendiadys",
+    "definition": "Two nouns linked by 'and' for one idea."
+  },
+  {
+    "figure_name": "homeoteleuton",
+    "definition": "Similar endings in adjacent words."
+  },
+  {
+    "figure_name": "hysteron proteron",
+    "definition": "Reversing logical order."
+  },
+  {
+    "figure_name": "irony",
+    "definition": "Expression of the opposite meaning."
+  },
+  {
+    "figure_name": "merism",
+    "definition": "Reference to a whole by listing parts."
+  },
+  {
+    "figure_name": "metonymy",
+    "definition": "Reference to something by naming one of its attributes."
+  },
+  {
+    "figure_name": "neologism",
+    "definition": "A newly coined word or phrase."
+  },
+  {
+    "figure_name": "onomatopoeia",
+    "definition": "Imitation of a sound in a word."
+  },
+  {
+    "figure_name": "paradox",
+    "definition": "A self-contradictory statement revealing truth."
+  },
+  {
+    "figure_name": "paralipsis",
+    "definition": "Drawing attention by pretending to omit."
+  },
+  {
+    "figure_name": "parallelism",
+    "definition": "Similarity of structure in related phrases."
+  },
+  {
+    "figure_name": "parenthesis",
+    "definition": "Insertion of an aside."
+  },
+  {
+    "figure_name": "periphrasis",
+    "definition": "Substitution of a descriptive phrase for a simpler term."
+  },
+  {
+    "figure_name": "personification",
+    "definition": "Attributing human qualities to nonhumans."
+  },
+  {
+    "figure_name": "pleonasm",
+    "definition": "Using more words than necessary."
+  },
+  {
+    "figure_name": "polysyndeton",
+    "definition": "Repetition of conjunctions."
+  },
+  {
+    "figure_name": "praeteritio",
+    "definition": "Emphasizing by professing to omit."
+  },
+  {
+    "figure_name": "prosopopoeia",
+    "definition": "Speaking as another or an inanimate object."
+  },
+  {
+    "figure_name": "rhetorical question",
+    "definition": "Asking a question for effect, not answer."
+  },
+  {
+    "figure_name": "synecdoche",
+    "definition": "Part standing for whole or vice versa."
+  },
+  {
+    "figure_name": "tmesis",
+    "definition": "Splitting a compound word with another word."
+  },
+  {
+    "figure_name": "tricolon",
+    "definition": "Three parallel words or phrases."
+  },
+  {
+    "figure_name": "zeugma",
+    "definition": "A word applies to multiple parts."
+  },
+  {
+    "figure_name": "aposiopesis",
+    "definition": "Breaking off speech abruptly."
+  },
+  {
+    "figure_name": "chiasmus",
+    "definition": "Inverted parallel structure."
+  },
+  {
+    "figure_name": "epimone",
+    "definition": "Persistent repetition to emphasize."
+  }
+]

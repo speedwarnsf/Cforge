@@ -52,6 +52,9 @@ export function loadAllRhetoricalDevices(): Record<string, string> {
     '/var/task/server/data/rhetorical_figures_cleaned.json',
     // Vercel with includeFiles puts files relative to function
     join(process.cwd(), 'api', 'data', 'rhetorical_figures_cleaned.json'),
+    // Vercel: includeFiles relative to function root
+    '/var/task/api/data/rhetorical_figures_cleaned.json',
+    '/var/task/.next/server/data/rhetorical_figures_cleaned.json',
   ];
 
   console.log(`🔍 Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
