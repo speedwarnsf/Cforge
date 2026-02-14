@@ -1,25 +1,8 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "../../server/routes";
-import { readFileSync, readdirSync, existsSync } from "fs";
+import { readFileSync } from "fs";
 import { join } from "path";
-
-// Debug: log directory structure
-function debugPaths() {
-  const dirs = ["/var/task", "/var/task/api", "/var/task/data", "/var/task/api/data", process.cwd()];
-  for (const d of dirs) {
-    try {
-      if (existsSync(d)) {
-        console.log(`[DEBUG] ${d}: ${readdirSync(d).join(", ")}`);
-      } else {
-        console.log(`[DEBUG] ${d}: DOES NOT EXIST`);
-      }
-    } catch (e: any) {
-      console.log(`[DEBUG] ${d}: ERROR ${e.message}`);
-    }
-  }
-}
-debugPaths();
 
 // Try multiple paths for Vercel compatibility
 function loadDevicesData() {
