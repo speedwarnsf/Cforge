@@ -49,7 +49,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   const carouselItems = [
     {
       icon: Target,
-      title: "411 rhetorical devices at your fingertips",
+      title: "290+ rhetorical devices at your fingertips",
       subtitle: "From antithesis to zeugma. Classical rhetoric meets modern advertising.",
       gradient: "from-blue-500 to-blue-600",
       textGradient: "linear-gradient(to right, #60a5fa, #a78bfa)"
@@ -254,7 +254,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
           id: result.conceptId || `concept-${Date.now()}`,
           headline,
           devices,
-          rationale: `Generated concept with ${result.tokens || 0} tokens`,
+          rationale: result.processingTime ? `Generated in ${result.processingTime}` : 'Generated concept',
           originalityScore: result.originalityCheck?.confidence || 0
         };
 

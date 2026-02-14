@@ -9685,7 +9685,7 @@ ${content}
     }
   });
   app2.get("/api/debug-paths", async (_req, res) => {
-    const { existsSync: existsSync6, readdirSync } = await import("fs");
+    const { existsSync: existsSync6, readdirSync: readdirSync2 } = await import("fs");
     const { join: join6 } = await import("path");
     const paths = [
       "/var/task/data",
@@ -9696,7 +9696,7 @@ ${content}
     const results = { cwd: process.cwd(), dirname: __dirname };
     for (const p of paths) {
       try {
-        results[p] = existsSync6(p) ? readdirSync(p).slice(0, 5) : "NOT FOUND";
+        results[p] = existsSync6(p) ? readdirSync2(p).slice(0, 5) : "NOT FOUND";
       } catch (e) {
         results[p] = e.message;
       }
@@ -9723,7 +9723,7 @@ ${content}
 }
 
 // src/api/handler.ts
-import { readFileSync as readFileSync6, existsSync as existsSync5 } from "fs";
+import { readFileSync as readFileSync6, existsSync as existsSync5, readdirSync } from "fs";
 import { join as join5, dirname as dirname3 } from "path";
 import { fileURLToPath as fileURLToPath2 } from "url";
 var app = express();
@@ -9778,8 +9778,17 @@ app.get("/api/devices", (_req, res) => {
         return res.json(deviceList);
       }
     }
+    const debugPaths = [handlerDir, process.cwd(), "/var/task", "/var/task/api", "/var/task/data"];
+    for (const dp of debugPaths) {
+      try {
+        const contents = readdirSync(dp);
+        console.log(`[devices] ls ${dp}: ${contents.join(", ")}`);
+      } catch (e) {
+        console.log(`[devices] ls ${dp}: ERROR ${e}`);
+      }
+    }
     console.error(`[devices] Data file not found. Searched: ${searchPaths.join(", ")}`);
-    return res.status(500).json({ error: "Rhetorical devices data file not found" });
+    return res.status(500).json({ error: "Rhetorical devices data file not found", searchPaths, handlerDir, cwd: process.cwd() });
   } catch (error) {
     console.error("[devices] Error:", error);
     return res.status(500).json({ error: "Failed to load devices" });
