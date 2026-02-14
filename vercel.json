@@ -5,7 +5,7 @@
   "functions": {
     "api/index.mjs": {
       "maxDuration": 300,
-      "includeFiles": "data/**"
+      "includeFiles": "api/data/**"
     }
   },
   "rewrites": [
