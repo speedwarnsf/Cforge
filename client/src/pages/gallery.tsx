@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept } from '@/lib/conceptStorage';
 import ArbiterScoreViz from '@/components/ArbiterScoreViz';
+import ArbiterDetailPanel from '@/components/ArbiterDetailPanel';
 import { useToast } from '@/hooks/use-toast';
 import { exportConceptsAsPDF, exportConceptsAsPresentation } from '@/lib/conceptExport';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -274,8 +275,8 @@ const GalleryCard = React.memo(function GalleryCard({
             </div>
           )}
 
-          <ErrorBoundary compact label="arbiter chart">
-            <ArbiterScoreViz
+          <ErrorBoundary compact label="arbiter detail">
+            <ArbiterDetailPanel
               originalityScore={concept.originalityScore}
               professionalismScore={concept.professionalismScore}
               clarityScore={concept.clarityScore}
@@ -283,6 +284,11 @@ const GalleryCard = React.memo(function GalleryCard({
               resonanceScore={concept.resonanceScore}
               awardsScore={concept.awardsScore}
               finalStatus={concept.finalStatus}
+              critique={concept.critique}
+              juryComment={concept.juryComment}
+              improvementTip={concept.improvementTip}
+              reflection={concept.reflection}
+              vibe={concept.vibe}
             />
           </ErrorBoundary>
 
@@ -340,7 +346,13 @@ export default function GalleryPage() {
   const [concepts, setConcepts] = useState<StoredConcept[]>(() => getConceptHistory());
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 250);
-  const [filter, setFilter] = useState<FilterMode>('all');
+  const [filter, setFilter] = useState<FilterMode>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('filter') === 'favorites') return 'favorites';
+    }
+    return 'all';
+  });
   const [sort, setSort] = useState<SortMode>('newest');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [refiningId, setRefiningId] = useState<string | null>(null);

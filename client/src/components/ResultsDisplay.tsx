@@ -1,8 +1,11 @@
 import React, { memo, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThumbsUp, ThumbsDown, Star, Copy, Download, ChevronDown, ChevronUp, Check, ExternalLink } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Star, Copy, Download, ChevronDown, ChevronUp, Check, ExternalLink, FileText, Presentation } from "lucide-react";
 import ArbiterScoreViz from './ArbiterScoreViz';
+import { exportConceptsAsPDF, exportConceptsAsPresentation } from '@/lib/conceptExport';
+import { resultToStoredConcept } from '@/lib/conceptStorage';
+import ArbiterDetailPanel from './ArbiterDetailPanel';
 import { Link } from 'wouter';
 
 interface ResultsDisplayProps {
@@ -84,21 +87,25 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
             variant="ghost"
             size="sm"
             onClick={() => {
-              const text = exportAllAsText();
-              const blob = new Blob([text], { type: 'text/plain' });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = `conceptforge-${new Date().toISOString().slice(0,10)}.txt`;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(url);
+              const stored = results.map(c => resultToStoredConcept(c, '', ''));
+              exportConceptsAsPDF(stored);
             }}
             className="text-gray-500 hover:text-white text-xs"
           >
-            <Download className="w-3.5 h-3.5 mr-1.5" />
-            Export
+            <FileText className="w-3.5 h-3.5 mr-1.5" />
+            PDF
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              const stored = results.map(c => resultToStoredConcept(c, '', ''));
+              exportConceptsAsPresentation(stored);
+            }}
+            className="text-gray-500 hover:text-white text-xs"
+          >
+            <Presentation className="w-3.5 h-3.5 mr-1.5" />
+            Deck
           </Button>
           <Link href="/gallery">
             <Button variant="ghost" size="sm" className="text-gray-500 hover:text-white text-xs">
@@ -194,10 +201,18 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
                 </div>
               )}
 
-              {/* Arbiter Scores */}
+              {/* Device Attribution */}
+              {concept.deviceDefinition && (
+                <div className="mb-4">
+                  <div className="text-[10px] text-gray-600 uppercase tracking-widest font-black mb-1 font-mono">Device Definition</div>
+                  <p className="text-gray-500 text-xs italic leading-relaxed">{concept.deviceDefinition}</p>
+                </div>
+              )}
+
+              {/* Arbiter Assessment */}
               {(concept.originalityScore > 0 || concept.professionalismScore > 0 || concept.clarityScore > 0) && (
                 <div className="mt-6 pt-6 border-t border-gray-800/60">
-                  <ArbiterScoreViz
+                  <ArbiterDetailPanel
                     originalityScore={concept.originalityScore}
                     professionalismScore={concept.professionalismScore}
                     clarityScore={concept.clarityScore}
@@ -205,7 +220,11 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
                     resonanceScore={concept.resonanceScore}
                     awardsScore={concept.awardsScore}
                     finalStatus={concept.finalStatus}
-                    compact
+                    critique={concept.critique}
+                    juryComment={concept.juryComment}
+                    improvementTip={concept.improvementTip}
+                    reflection={concept.reflection}
+                    vibe={concept.vibe}
                   />
                 </div>
               )}

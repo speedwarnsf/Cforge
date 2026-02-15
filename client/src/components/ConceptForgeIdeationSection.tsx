@@ -10,6 +10,7 @@ import PromptRefinementPanel from "./PromptRefinementPanel";
 import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
 import BriefHistory from "./BriefHistory";
+import BriefTemplatesPanel from "./BriefTemplatesPanel";
 import { useVideo } from "@/hooks/use-video";
 import { apiClient, handleAPIError } from "@/lib/apiClient";
 import { useViewport, useTouchFeedback } from "@/hooks/useMobileOptimizations";
@@ -197,16 +198,49 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         );
 
         if (finalResult?.outputs) {
-          const parsedConcepts = finalResult.outputs.map((output: any, idx: number) => ({
-            id: output.id || `concept-${idx}`,
-            headline: output.headlines?.[0] || `Concept ${idx + 1}`,
-            tagline: output.tagline || output.headlines?.[1] || '',
-            bodyCopy: output.bodyCopy || '',
-            visualConcept: output.visualDescription || '',
-            devices: output.rhetoricalDevice || 'metaphor',
-            rationale: output.visualDescription?.substring(0, 100) + (output.visualDescription?.length > 100 ? '...' : '') || 'Generated concept',
-            originalityScore: (output.originalityCheck?.confidence || 0) * 100
-          }));
+          const parsedConcepts = finalResult.outputs.map((output: any, idx: number) => {
+            // Extract scores from hybridMetadata or direct properties
+            const scores = output.hybridMetadata?.scores || {};
+            const originality = output.originalityScore || Math.round((scores.originality || 0) * 100) || (output.originalityCheck?.confidence || 0) * 100;
+            const professionalismScore = output.professionalismScore || Math.round((scores.coherence || 0) * 100) || 0;
+            const clarityScore = output.clarityScore || Math.round((scores.coherence || 0) * 100) || 0;
+            const freshnessScore = output.freshnessScore || Math.round((scores.distinctiveness || 0) * 100) || 0;
+            const resonanceScore = output.resonanceScore || Math.round((scores.tropeAlignment || 0) * 100) || 0;
+            const awardsScore = output.awardsScore || Math.round((scores.overall || 0) * 100) || 0;
+
+            // Format device name nicely
+            const deviceName = (output.rhetoricalDevice || 'metaphor')
+              .split('_')
+              .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+              .join(' ');
+
+            // Build rhetorical analysis reasoning
+            const analysis = output.hybridMetadata?.rhetoricalAnalysis;
+            const reasoning = analysis?.applicationExplanation || '';
+
+            return {
+              id: output.conceptId || output.id || `concept-${idx}`,
+              headline: output.headlines?.[0] || `Concept ${idx + 1}`,
+              tagline: output.tagline || output.headlines?.[1] || '',
+              bodyCopy: output.bodyCopy || '',
+              visualConcept: output.visualDescription || '',
+              devices: deviceName,
+              deviceDefinition: output.rhetoricalDeviceDefinition || analysis?.deviceDefinition || '',
+              rationale: reasoning || output.visualDescription?.substring(0, 100) + (output.visualDescription?.length > 100 ? '...' : '') || 'Generated concept',
+              originalityScore: originality,
+              professionalismScore,
+              clarityScore,
+              freshnessScore,
+              resonanceScore,
+              awardsScore,
+              finalStatus: output.finalStatus || (awardsScore >= 70 ? 'Passed' : awardsScore >= 50 ? 'Needs Review' : undefined),
+              critique: output.critique || '',
+              juryComment: output.juryComment || '',
+              improvementTip: output.improvementTip || '',
+              reflection: output.reflection || '',
+              vibe: output.vibe || '',
+            };
+          });
 
           setResults(parsedConcepts);
           setGenerationStatus(prev => ({
@@ -257,15 +291,17 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         const content = result.content || '';
         // Handle both **HEADLINE:** and **HEADLINE** formats (with or without colon)
         // Also handle markdown fenced blocks: ```markdown\n**HEADLINE**\n...```
-        const cleanContent = content.replace(/```markdown\s*/g, '').replace(/```/g, '');
-        const headlineMatch = cleanContent.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
-        const devicesMatch = cleanContent.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*([\s\S]*?)(?:\*\*STRATEGIC|$)/i);
-        const taglineMatch = cleanContent.match(/\*\*TAGLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
-        const bodyCopyMatch = cleanContent.match(/\*\*BODY COPY:?\*\*\s*([\s\S]*?)(?=\*\*VISUAL|\*\*RHETORICAL|$)/i);
-        const visualMatch = cleanContent.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]*?)(?=\*\*RHETORICAL|$)/i);
+        const cleanContent = content.replace(/```markdown\s*/g, '').replace(/```/g, '').trim();
+        const headlineMatch = cleanContent.match(/\*\*HEADLINE:?\*\*\s*\n?(.+?)(?:\n|$)/i);
+        const devicesMatch = cleanContent.match(/\*\*RHETORICAL CRAFT.*?\*\*\s*\n?\*\*(.+?)\*\*\s*\n?([\s\S]*?)(?=\*\*STRATEGIC|$)/i);
+        const taglineMatch = cleanContent.match(/\*\*TAGLINE:?\*\*\s*\n?(.+?)(?:\n|$)/i);
+        const bodyCopyMatch = cleanContent.match(/\*\*BODY COPY:?\*\*\s*\n?([\s\S]*?)(?=\*\*VISUAL|\*\*RHETORICAL|$)/i);
+        const visualMatch = cleanContent.match(/\*\*VISUAL CONCEPT:?\*\*\s*\n?([\s\S]*?)(?=\*\*RHETORICAL|$)/i);
         
         const headline = headlineMatch?.[1]?.trim() || 'No headline found';
-        const devices = devicesMatch?.[1]?.trim() || 'No devices found';
+        const deviceName = devicesMatch?.[1]?.trim() || '';
+        const deviceExplanation = devicesMatch?.[2]?.trim() || '';
+        const devices = deviceName || 'Rhetorical device';
 
         const parsedConcept = {
           id: result.conceptId || `concept-${Date.now()}`,
@@ -274,9 +310,20 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
           bodyCopy: bodyCopyMatch?.[1]?.trim() || '',
           visualConcept: visualMatch?.[1]?.trim() || '',
           devices,
+          deviceDefinition: '',
           content: cleanContent,
-          rationale: result.processingTime ? `Generated in ${result.processingTime}` : 'Generated concept',
-          originalityScore: (result.originalityCheck?.confidence || 0) * 100
+          rationale: deviceExplanation || (result.processingTime ? `Generated in ${result.processingTime}` : 'Generated concept'),
+          originalityScore: (result.originalityCheck?.confidence || 0) * 100,
+          professionalismScore: 0,
+          clarityScore: 0,
+          freshnessScore: 0,
+          resonanceScore: 0,
+          awardsScore: 0,
+          critique: '',
+          juryComment: '',
+          improvementTip: '',
+          reflection: '',
+          vibe: '',
         };
 
         setResults([parsedConcept]);
@@ -463,7 +510,18 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                   />
 
                   {/* Brief History - Load previous briefs */}
-                  <div className="mt-4">
+                  <div className="mt-4 space-y-3">
+                    <BriefTemplatesPanel
+                      onSelectTemplate={(template) => {
+                        setBrief(template.brief);
+                        setSelectedLens(template.suggestedTone);
+                        if (template.suggestedCount > 1) {
+                          setMode('multi');
+                          setVariantCount(template.suggestedCount);
+                          localStorage.setItem('conceptForge_mode', 'multi');
+                        }
+                      }}
+                    />
                     <BriefHistory
                       currentQuery={brief}
                       onSelectBrief={(selectedBrief) => {
@@ -581,8 +639,17 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     aria-describedby="brief-length-multi"
                   />
 
-                  {/* Brief History - Load previous briefs */}
-                  <div className="mt-4">
+                  {/* Brief History and Templates */}
+                  <div className="mt-4 space-y-3">
+                    <BriefTemplatesPanel
+                      onSelectTemplate={(template) => {
+                        setBrief(template.brief);
+                        setSelectedLens(template.suggestedTone);
+                        if (template.suggestedCount > 1) {
+                          setVariantCount(template.suggestedCount);
+                        }
+                      }}
+                    />
                     <BriefHistory
                       currentQuery={brief}
                       onSelectBrief={(selectedBrief) => {

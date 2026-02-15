@@ -156,6 +156,15 @@ export default function Home() {
             Gallery
           </Button>
         </Link>
+        <Link href="/gallery?filter=favorites">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-0.5 h-6 bg-black/60 border-pink-700/50 text-pink-400/70 hover:text-pink-300 transition-all"
+          >
+            Starred
+          </Button>
+        </Link>
         {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
           <>
             <Link href="/test-admin">

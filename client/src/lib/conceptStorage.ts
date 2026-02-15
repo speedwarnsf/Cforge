@@ -19,6 +19,13 @@ export interface StoredConcept {
   resonanceScore?: number;
   awardsScore?: number;
   finalStatus?: string;
+  // Arbiter reasoning
+  critique?: string;
+  juryComment?: string;
+  improvementTip?: string;
+  reflection?: string;
+  vibe?: string;
+  deviceDefinition?: string;
   // Meta
   isFavorite: boolean;
 }
@@ -56,6 +63,12 @@ export function resultToStoredConcept(
     resonanceScore: result.resonanceScore,
     awardsScore: result.awardsScore,
     finalStatus: result.finalStatus,
+    critique: result.critique || '',
+    juryComment: result.juryComment || '',
+    improvementTip: result.improvementTip || '',
+    reflection: result.reflection || '',
+    vibe: result.vibe || '',
+    deviceDefinition: result.deviceDefinition || '',
     isFavorite: false,
   };
 }
