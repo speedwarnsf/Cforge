@@ -30,8 +30,8 @@ import {
 import { reportSimilarityToRatedConcepts, analyzeFeedbackSimilarity } from '../utils/feedbackSimilarityReporter';
 
 const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
+  apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
+  baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
 });
 
 // Enhanced historical similarity filtering using embeddings with fallback
@@ -693,7 +693,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         (async () => {
           const apiStartTime = Date.now();
           const response = await openai.chat.completions.create({
-            model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+            model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
             messages: [
               { 
                 role: "system", 
@@ -782,7 +782,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
             });
             
             const regeneratedResponse = await openai.chat.completions.create({
-              model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+              model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
               messages: [{ role: "user", content: regenerationPrompt }],
               temperature: 1.3,
               max_tokens: 1200, // GPT-5.2 requires more tokens

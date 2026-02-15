@@ -258,8 +258,8 @@ export class ProgressiveEvolutionEngine {
 
   constructor(seedOrOptions?: CreativeSeed | EvolutionEngineOptions, refinementSteps: number = 5) {
     this.openai = new OpenAI({
-      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
+      apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
+      baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
     });
 
     // Handle both constructor signatures for backward compatibility
@@ -541,7 +541,7 @@ Include 20-30 words with probabilities summing to 1.0.
 Focus on words that serve the rhetorical device and creative direction.`;
 
     const response = await this.openai.chat.completions.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+      model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 500
@@ -600,7 +600,7 @@ Rhetorical device: ${this.state.creativeSeed.tropeCompatibility[0]}
 Generate ONLY the ${block.name} text, nothing else.`;
 
     const response = await this.openai.chat.completions.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+      model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
       max_tokens: block.name === 'bodyCopy' ? 200 : 50

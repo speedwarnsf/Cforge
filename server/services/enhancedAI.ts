@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY, baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 interface ConceptOutput {
   headline: string;
@@ -152,7 +152,7 @@ Do not include any commentary, references to this process, or extra text.`;
     
     try {
       const completion = await openai.chat.completions.create({
-        model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+        model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Generate an original advertising concept for: ${request.query}\n\nTone: ${request.tone}\n\nAvoid ALL references to color symbolism, ribbons, tapestry, threads, rising voices, or breaking chains. Create something genuinely innovative.` }

@@ -7,7 +7,7 @@ import fs from 'fs/promises';
 import crypto from 'crypto';
 
 const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
   baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
 });
 

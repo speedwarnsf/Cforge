@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { performanceTracker } from './performanceTracker';
 
-const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY, baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 export async function evaluateRelevance(concept: any, userPrompt: string) {
   const relevancePrompt = `
@@ -36,7 +36,7 @@ Recommendation: {Only if score <70, suggest how to improve relevance}
   try {
     const arbiterStartTime = Date.now();
     const response = await openai.chat.completions.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o", // the newest OpenAI model is "gpt-5.2" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "system", content: relevancePrompt }],
       temperature: 0.3
     });

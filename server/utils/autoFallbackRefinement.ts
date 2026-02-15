@@ -1,11 +1,11 @@
 // Auto-fallback refinement for low-sophistication outputs
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY, baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 async function generateOpenAIResponse(prompt: string, tone: string, temperature: number): Promise<string> {
   const response = await openai.chat.completions.create({
-    model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
+    model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
     messages: [
       { role: 'system', content: `You are a creative advertising expert. Tone: ${tone}` },
       { role: 'user', content: prompt }

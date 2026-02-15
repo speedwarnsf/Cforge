@@ -147,6 +147,7 @@ export interface HybridVariant {
 
 export class HybridGenerationOrchestrator {
   private openai: OpenAI;
+  private useGemini: boolean;
   private tropeEngine: TropeConstraintEngine;
   private trajectoryCapture: TrajectoryCapture;
   private trajectoryStorage: TrajectoryStorage;
@@ -154,9 +155,12 @@ export class HybridGenerationOrchestrator {
   private initialized: boolean;
 
   constructor(config: Partial<HybridConfig> = {}) {
+    // Prefer OpenAI if available; only use Gemini if OPENAI_API_KEY is absent
+    this.useGemini = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+    const useGemini = this.useGemini;
     this.openai = new OpenAI({
-      apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY,
-      baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
+      apiKey: useGemini ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
+      baseURL: useGemini ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
     });
     this.tropeEngine = new TropeConstraintEngine();
     this.trajectoryCapture = new TrajectoryCapture();
@@ -431,7 +435,7 @@ Use a completely different visual approach and angle than other variants.
 
       try {
         const response = await this.openai.chat.completions.create({
-          model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
+          model: this.useGemini ? 'gemini-2.0-flash' : 'gpt-4o',
           messages: [
             {
               role: 'system',
@@ -890,7 +894,7 @@ DO NOT use these overused visual settings: kitchen, gallery, museum, stark white
     // Simple legacy generation
     for (let i = 0; i < (input.variantCount || 3); i++) {
       const response = await this.openai.chat.completions.create({
-        model: process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
+        model: this.useGemini ? 'gemini-2.0-flash' : 'gpt-4o',
         messages: [{
           role: 'user',
           content: `Create an advertising concept for: ${input.userBrief}\nTone: ${input.tone}\n\nProvide a visual description and 3 headline options.`

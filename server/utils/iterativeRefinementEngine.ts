@@ -7,7 +7,7 @@ import { performanceTracker } from './performanceTracker';
 import { parseOpenAIResponse } from '../routes/generateMultivariant';
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY, baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY, baseURL: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined });
 
 interface ConceptEvaluation {
   originality_confidence: number;
@@ -238,7 +238,7 @@ Return your response as JSON with this structure:
   try {
     const refinementStartTime = Date.now();
     const response = await openai.chat.completions.create({
-      model: process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+      model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [{ role: "user", content: refinementPrompt }],
       temperature: 1.2, // Slightly higher temperature for creative refinement
       max_tokens: 500,
