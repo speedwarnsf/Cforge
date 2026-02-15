@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Lightbulb, Grid3X3, Zap, Target, MessageCircle, Search, BookOpen, History, Eye, Shield, Brain, Database, Vault } from "lucide-react";
+import { Lightbulb, Grid3X3, Zap, Target, MessageCircle, Search, BookOpen, History, Eye, Shield, Brain, Database, Vault, Shuffle, Columns } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Link, useLocation } from "wouter";
 import SessionHistory from "./session-history";
@@ -11,8 +11,11 @@ import LoadingWindow from "./LoadingWindow";
 import ResultsDisplay from "./ResultsDisplay";
 import BriefHistory from "./BriefHistory";
 import BriefTemplatesPanel from "./BriefTemplatesPanel";
+import BrandProfilePanel from "./BrandProfilePanel";
+import ConceptComparison from "./ConceptComparison";
 import { useVideo } from "@/hooks/use-video";
 import { apiClient, handleAPIError } from "@/lib/apiClient";
+import { generateSurpriseConfig } from "@/lib/surpriseMe";
 import { useViewport, useTouchFeedback } from "@/hooks/useMobileOptimizations";
 import { toast } from "@/hooks/use-toast";
 import { saveConceptsToHistory, resultToStoredConcept } from "@/lib/conceptStorage";
@@ -46,6 +49,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   const [imageAnalysisEnabled, setImageAnalysisEnabled] = useState(false);
   const [allowCliches, setAllowCliches] = useState(false);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  const [showComparison, setShowComparison] = useState(false);
 
   // Carousel data - focused on the rhetorical craft
   const carouselItems = [
@@ -120,6 +124,33 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       color: "from-yellow-500 to-orange-500"
     }
   ];
+
+  const handleSurpriseMe = () => {
+    const config = generateSurpriseConfig();
+    setBrief(config.brief);
+    setSelectedLens(config.tone);
+    if (config.conceptCount > 1) {
+      setMode('multi');
+      setVariantCount(config.conceptCount);
+      localStorage.setItem('conceptForge_mode', 'multi');
+    } else {
+      setMode('single');
+      localStorage.setItem('conceptForge_mode', 'single');
+    }
+    toast({
+      title: 'Surprise brief loaded',
+      description: 'Hit Forge when ready -- or tweak it first.',
+      duration: 3000,
+    });
+  };
+
+  const handleApplyBrandProfile = (prefix: string, tone: string) => {
+    setBrief(prev => {
+      if (prev.trim()) return `[${prefix}]\n\n${prev}`;
+      return prefix;
+    });
+    setSelectedLens(tone);
+  };
 
   const handleGenerate = async () => {
     console.log('Enhanced generation starting');
@@ -406,49 +437,29 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       {/* Content Container */}
       <div className="max-w-6xl mx-auto px-6 pt-8">
         
-        {/* Single Item Carousel - Raised 75px higher, adjusted size */}
-        <div className="text-center mb-16" style={{ marginTop: '-115px', transform: 'scale(1.0)' }}>
-          <div className="relative h-36 flex items-center justify-center overflow-hidden">
+        {/* Hero Value Proposition */}
+        <div className="text-center mb-12" style={{ marginTop: '-115px' }}>
+          <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-8">
+            AI-powered creative concepting with 290+ rhetorical devices, 
+            originality verification, and multi-arbiter quality scoring.
+          </p>
+
+          {/* Feature pills - rotating highlight */}
+          <div className="flex flex-wrap justify-center gap-3 mb-6">
             {carouselItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = index === currentCarouselIndex;
-              
               return (
                 <div
                   key={index}
-                  className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ${
-                    isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  className={`flex items-center gap-2 px-4 py-2 border transition-all duration-700 cursor-default ${
+                    isActive
+                      ? 'border-blue-500/50 bg-blue-950/30 text-white'
+                      : 'border-gray-700/50 bg-gray-900/30 text-gray-500'
                   }`}
                 >
-                  <div 
-                    className={`bg-gradient-to-r ${item.gradient} flex items-center justify-center mx-auto mb-4`}
-                    style={{ 
-                      width: '40px', 
-                      height: '40px', 
-                      borderRadius: '0px',
-                      border: 'none',
-                      flexShrink: 0
-                    }}
-                  >
-                    <Icon className="h-5 w-5 text-white" />
-                  </div>
-                  <h4 className="text-base font-semibold mb-2">
-                    <span 
-                      style={{
-                        background: item.textGradient,
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        color: '#60a5fa',
-                        display: 'inline-block'
-                      }}
-                    >
-                      {item.title}
-                    </span>
-                  </h4>
-                  <p 
-                    className="text-gray-400 max-w-xl mx-auto text-sm"
-                  >{item.subtitle}</p>
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-blue-400' : 'text-gray-600'}`} />
+                  <span className="text-xs font-medium">{item.title}</span>
                 </div>
               );
             })}
@@ -456,7 +467,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         </div>
 
         {/* Generation Mode Toggle */}
-        <div className="flex justify-center gap-3 sm:gap-4 mb-12" style={{ marginTop: '90px' }}>
+        <div className="flex justify-center gap-3 sm:gap-4 mb-12 flex-wrap" style={{ marginTop: '90px' }}>
           <Button
             onClick={() => {
               setMode("single");
@@ -485,6 +496,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
             <Grid3X3 className="w-5 h-5 mr-2" />
             Multi-Variant
           </Button>
+          <Button
+            onClick={handleSurpriseMe}
+            className="px-5 sm:px-8 py-3 sm:py-4 rounded-none text-base sm:text-lg font-semibold transition-all bg-gray-800 border-2 border-gray-600 text-gray-300 hover:bg-amber-900/40 hover:text-amber-300 hover:border-amber-600"
+          >
+            <Shuffle className="w-5 h-5 mr-2" />
+            Surprise Me
+          </Button>
         </div>
 
         {/* Mode-Specific Interface */}
@@ -509,8 +527,9 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     aria-describedby="brief-length-single"
                   />
 
-                  {/* Brief History - Load previous briefs */}
+                  {/* Brief History, Brand Profiles, Templates */}
                   <div className="mt-4 space-y-3">
+                    <BrandProfilePanel onApplyProfile={handleApplyBrandProfile} />
                     <BriefTemplatesPanel
                       onSelectTemplate={(template) => {
                         setBrief(template.brief);
@@ -639,8 +658,9 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
                     aria-describedby="brief-length-multi"
                   />
 
-                  {/* Brief History and Templates */}
+                  {/* Brief History, Brand Profiles, Templates */}
                   <div className="mt-4 space-y-3">
+                    <BrandProfilePanel onApplyProfile={handleApplyBrandProfile} />
                     <BriefTemplatesPanel
                       onSelectTemplate={(template) => {
                         setBrief(template.brief);
@@ -834,6 +854,27 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
       {/* Loading Window */}
       <LoadingWindow isLoading={isLoading} onClose={() => setIsLoading(false)} progress={generationStatus} />
       
+      {/* Compare Button - show when 2+ results */}
+      {results.length >= 2 && !showComparison && (
+        <div className="fixed bottom-6 right-6 z-40">
+          <Button
+            onClick={() => setShowComparison(true)}
+            className="bg-white text-black hover:bg-gray-200 shadow-xl px-5 py-3 text-sm font-bold"
+          >
+            <Columns className="w-4 h-4 mr-2" />
+            Compare Side-by-Side
+          </Button>
+        </div>
+      )}
+
+      {/* Comparison Overlay */}
+      {showComparison && results.length >= 2 && (
+        <ConceptComparison
+          concepts={results}
+          onClose={() => setShowComparison(false)}
+        />
+      )}
+
       {/* Results Display */}
       <ResultsDisplay results={results} onFeedback={(index, type) => fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ type, conceptId: index }) })} />
     </div>

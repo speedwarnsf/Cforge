@@ -8,7 +8,8 @@ import {
   Star, StarOff, Trash2, Search, ArrowLeft, Download,
   Filter, Clock, Heart, XCircle, RefreshCw, Copy, ChevronDown, ChevronUp
 } from 'lucide-react';
-import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept } from '@/lib/conceptStorage';
+import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept, getVersionChain } from '@/lib/conceptStorage';
+import ConceptVersionHistory, { ConceptVersion } from '@/components/ConceptVersionHistory';
 import ArbiterScoreViz from '@/components/ArbiterScoreViz';
 import ArbiterDetailPanel from '@/components/ArbiterDetailPanel';
 import { useToast } from '@/hooks/use-toast';
@@ -56,6 +57,7 @@ function ConceptRefinementPanel({
         const bodyCopyMatch = content.match(/\*\*BODY COPY:?\*\*\s*([\s\S]*?)(?=\*\*VISUAL|\*\*RHETORICAL|$)/i);
         const visualMatch = content.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]*?)(?=\*\*RHETORICAL|$)/i);
 
+        const parentVersion = concept.version || 1;
         const refined = resultToStoredConcept({
           headline: headlineMatch?.[1]?.trim() || concept.headlines[0],
           tagline: taglineMatch?.[1]?.trim() || concept.tagline,
@@ -65,6 +67,11 @@ function ConceptRefinementPanel({
           originalityScore: (result.originalityCheck?.confidence || 0) * 100,
           content,
         }, concept.prompt + ` [Refined: ${refinementType}]`, concept.tone);
+
+        // Attach versioning metadata
+        refined.parentId = concept.id;
+        refined.version = parentVersion + 1;
+        refined.refinementType = refinementType;
 
         saveConceptsToHistory([refined]);
         onRefined(refined);
@@ -329,6 +336,32 @@ const GalleryCard = React.memo(function GalleryCard({
           </div>
         </div>
       )}
+
+      {/* Version History */}
+      {isExpanded && (() => {
+        const chain = getVersionChain(concept.id);
+        if (chain.length <= 1) return null;
+        const versions: ConceptVersion[] = chain.map(c => ({
+          id: c.id,
+          headline: c.headlines[0] || 'Untitled',
+          version: c.version || 1,
+          refinementType: c.refinementType,
+          timestamp: c.timestamp,
+          originalityScore: c.originalityScore,
+        }));
+        return (
+          <div className="px-5 pb-2">
+            <ConceptVersionHistory
+              versions={versions}
+              currentId={concept.id}
+              onSelectVersion={(id) => {
+                onToggleExpand(concept.id); // collapse current
+                setTimeout(() => onToggleExpand(id), 50); // expand target
+              }}
+            />
+          </div>
+        );
+      })()}
 
       {/* Refinement panel */}
       {isRefining && (

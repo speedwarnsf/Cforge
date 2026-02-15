@@ -28,6 +28,10 @@ export interface StoredConcept {
   deviceDefinition?: string;
   // Meta
   isFavorite: boolean;
+  // Versioning
+  parentId?: string;
+  version?: number;
+  refinementType?: string;
 }
 
 /**
@@ -116,4 +120,40 @@ export function deleteConcept(conceptId: string): void {
 export function clearHistory(): void {
   const favorites = getFavorites();
   localStorage.setItem(HISTORY_KEY, JSON.stringify(favorites));
+}
+
+/** Get all versions in a concept's chain (oldest first) */
+export function getVersionChain(conceptId: string): StoredConcept[] {
+  const all = getConceptHistory();
+  
+  // Walk up to find root
+  let rootId = conceptId;
+  const visited = new Set<string>();
+  while (true) {
+    const current = all.find(c => c.id === rootId);
+    if (!current || !current.parentId || visited.has(rootId)) break;
+    visited.add(rootId);
+    rootId = current.parentId;
+  }
+  
+  // Walk down from root collecting all descendants
+  const chain: StoredConcept[] = [];
+  const queue = [rootId];
+  const seen = new Set<string>();
+  
+  while (queue.length > 0) {
+    const id = queue.shift()!;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const concept = all.find(c => c.id === id);
+    if (concept) {
+      chain.push(concept);
+      // Find children
+      const children = all.filter(c => c.parentId === id);
+      children.forEach(c => queue.push(c.id));
+    }
+  }
+  
+  // Sort by version number or timestamp
+  return chain.sort((a, b) => (a.version || 1) - (b.version || 1));
 }
