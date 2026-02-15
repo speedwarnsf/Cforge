@@ -26,6 +26,8 @@ export interface StoredConcept {
   reflection?: string;
   vibe?: string;
   deviceDefinition?: string;
+  // Tags
+  tags?: string[];
   // Meta
   isFavorite: boolean;
   // Versioning
@@ -120,6 +122,35 @@ export function deleteConcept(conceptId: string): void {
 export function clearHistory(): void {
   const favorites = getFavorites();
   localStorage.setItem(HISTORY_KEY, JSON.stringify(favorites));
+}
+
+export function addTagToConcept(conceptId: string, tag: string): void {
+  const history = getConceptHistory();
+  const concept = history.find(c => c.id === conceptId);
+  if (concept) {
+    if (!concept.tags) concept.tags = [];
+    const normalized = tag.trim().toLowerCase();
+    if (normalized && !concept.tags.includes(normalized)) {
+      concept.tags.push(normalized);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    }
+  }
+}
+
+export function removeTagFromConcept(conceptId: string, tag: string): void {
+  const history = getConceptHistory();
+  const concept = history.find(c => c.id === conceptId);
+  if (concept && concept.tags) {
+    concept.tags = concept.tags.filter(t => t !== tag);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  }
+}
+
+export function getAllTags(): string[] {
+  const history = getConceptHistory();
+  const tagSet = new Set<string>();
+  history.forEach(c => (c.tags || []).forEach(t => tagSet.add(t)));
+  return Array.from(tagSet).sort();
 }
 
 /** Get all versions in a concept's chain (oldest first) */

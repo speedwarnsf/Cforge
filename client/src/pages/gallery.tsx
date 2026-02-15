@@ -6,9 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Star, StarOff, Trash2, Search, ArrowLeft, Download,
-  Filter, Clock, Heart, XCircle, RefreshCw, Copy, ChevronDown, ChevronUp
+  Filter, Clock, Heart, XCircle, RefreshCw, Copy, ChevronDown, ChevronUp,
+  Presentation, LayoutGrid, Share2, Tag, MessageSquare
 } from 'lucide-react';
-import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept, getVersionChain } from '@/lib/conceptStorage';
+import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept, getVersionChain, getAllTags } from '@/lib/conceptStorage';
+import PresentationMode from '@/components/PresentationMode';
+import MoodBoard from '@/components/MoodBoard';
+import ConceptTags from '@/components/ConceptTags';
 import ConceptVersionHistory, { ConceptVersion } from '@/components/ConceptVersionHistory';
 import ArbiterScoreViz from '@/components/ArbiterScoreViz';
 import ArbiterDetailPanel from '@/components/ArbiterDetailPanel';
@@ -172,6 +176,7 @@ const GalleryCard = React.memo(function GalleryCard({
   isRefining,
   onRefined,
   onRefineClose,
+  onTagsChanged,
 }: {
   concept: StoredConcept;
   isExpanded: boolean;
@@ -182,6 +187,7 @@ const GalleryCard = React.memo(function GalleryCard({
   isRefining: boolean;
   onRefined: (c: StoredConcept) => void;
   onRefineClose: () => void;
+  onTagsChanged: () => void;
 }) {
   return (
     <article
@@ -248,6 +254,17 @@ const GalleryCard = React.memo(function GalleryCard({
           />
         </ErrorBoundary>
 
+        {/* Tags */}
+        {(concept.tags && concept.tags.length > 0) && (
+          <div className="flex flex-wrap gap-1 mt-2">
+            {concept.tags.map(tag => (
+              <span key={tag} className="px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider text-gray-500 border border-gray-800">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Timestamp */}
         <p className="text-[10px] text-gray-600 mt-3 font-mono">
           <time dateTime={concept.timestamp}>
@@ -298,6 +315,11 @@ const GalleryCard = React.memo(function GalleryCard({
               vibe={concept.vibe}
             />
           </ErrorBoundary>
+
+          {/* Tags editor */}
+          <div className="mb-4">
+            <ConceptTags conceptId={concept.id} tags={concept.tags || []} onChange={onTagsChanged} />
+          </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
             <Button
@@ -389,6 +411,10 @@ export default function GalleryPage() {
   const [sort, setSort] = useState<SortMode>('newest');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [refiningId, setRefiningId] = useState<string | null>(null);
+  const [showPresentation, setShowPresentation] = useState(false);
+  const [presentationIndex, setPresentationIndex] = useState(0);
+  const [showMoodBoard, setShowMoodBoard] = useState(false);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
   const { toast } = useToast();
 
   const filtered = useMemo(() => {
@@ -401,13 +427,18 @@ export default function GalleryPage() {
       result = result.filter(c => new Date(c.timestamp).getTime() > dayAgo);
     }
 
+    if (tagFilter) {
+      result = result.filter(c => c.tags && c.tags.includes(tagFilter));
+    }
+
     if (debouncedSearch.trim()) {
       const q = debouncedSearch.toLowerCase();
       result = result.filter(c =>
         c.headlines.some(h => h.toLowerCase().includes(q)) ||
         c.prompt.toLowerCase().includes(q) ||
         c.rhetoricalDevice.toLowerCase().includes(q) ||
-        (c.tagline || '').toLowerCase().includes(q)
+        (c.tagline || '').toLowerCase().includes(q) ||
+        (c.tags || []).some(t => t.includes(q))
       );
     }
 
@@ -420,7 +451,7 @@ export default function GalleryPage() {
     // 'newest' is default order from storage
 
     return result;
-  }, [concepts, debouncedSearch, filter, sort]);
+  }, [concepts, debouncedSearch, filter, sort, tagFilter]);
 
   const handleToggleFavorite = useCallback((id: string) => {
     toggleFavorite(id);
@@ -451,6 +482,32 @@ export default function GalleryPage() {
     setExpandedId(newConcept.id);
     setRefiningId(null);
   }, []);
+
+  const handleShareForFeedback = useCallback(() => {
+    const toShare = filtered.length > 0 ? filtered : concepts;
+    if (toShare.length === 0) {
+      toast({ title: 'No concepts to share', duration: 2000 });
+      return;
+    }
+    const shareData = {
+      name: 'Concept Review',
+      concepts: toShare.map(c => ({
+        id: c.id,
+        headline: c.headlines[0] || 'Untitled',
+        tagline: c.tagline,
+        bodyCopy: c.bodyCopy,
+        visualDescription: c.visualDescription,
+        rhetoricalDevice: c.rhetoricalDevice,
+        tags: c.tags,
+      })),
+    };
+    const encoded = btoa(JSON.stringify(shareData));
+    const url = `${window.location.origin}/feedback#${encoded}`;
+    navigator.clipboard.writeText(url);
+    toast({ title: 'Feedback link copied', description: 'Share this link with clients for review.' });
+  }, [filtered, concepts, toast]);
+
+  const allTags = useMemo(() => getAllTags(), [concepts]);
 
   const filterButtons: { mode: FilterMode; label: string; icon: React.ReactNode }[] = [
     { mode: 'all', label: 'All', icon: <Filter className="w-3 h-3" /> },
@@ -490,7 +547,16 @@ export default function GalleryPage() {
                 {stats.avgScore > 0 && <span>avg {stats.avgScore}% originality</span>}
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-end">
+              <Button variant="outline" size="sm" onClick={() => { setPresentationIndex(0); setShowPresentation(true); }} disabled={filtered.length === 0 && concepts.length === 0} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
+                <Presentation className="w-3 h-3 mr-1" /> Present
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setShowMoodBoard(true)} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
+                <LayoutGrid className="w-3 h-3 mr-1" /> Board
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleShareForFeedback} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
+                <Share2 className="w-3 h-3 mr-1" /> Share
+              </Button>
               <Button variant="outline" size="sm" onClick={() => exportConceptsAsPDF(filtered.length > 0 ? filtered : concepts)} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
                 <Download className="w-3 h-3 mr-1" /> PDF
               </Button>
@@ -547,6 +613,34 @@ export default function GalleryPage() {
               ))}
             </div>
           </div>
+
+          {/* Tag filters */}
+          {allTags.length > 0 && (
+            <div className="flex items-center gap-1.5 mt-3 flex-wrap">
+              <Tag className="w-3 h-3 text-gray-600" />
+              {tagFilter && (
+                <button
+                  onClick={() => setTagFilter(null)}
+                  className="px-2 py-0.5 text-[10px] font-mono text-gray-500 border border-dashed border-gray-700 hover:border-gray-500"
+                >
+                  clear
+                </button>
+              )}
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => setTagFilter(tagFilter === tag ? null : tag)}
+                  className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider transition-all ${
+                    tagFilter === tag
+                      ? 'bg-white text-black border border-white'
+                      : 'text-gray-500 border border-gray-800 hover:border-gray-600'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
@@ -582,11 +676,29 @@ export default function GalleryPage() {
                 isRefining={refiningId === concept.id}
                 onRefined={handleRefined}
                 onRefineClose={() => setRefiningId(null)}
+                onTagsChanged={() => setConcepts(getConceptHistory())}
               />
             ))}
           </div>
         )}
       </div>
+
+      {/* Presentation Mode */}
+      {showPresentation && (
+        <PresentationMode
+          concepts={filtered.length > 0 ? filtered : concepts}
+          initialIndex={presentationIndex}
+          onClose={() => setShowPresentation(false)}
+        />
+      )}
+
+      {/* Mood Board */}
+      {showMoodBoard && (
+        <MoodBoard
+          concepts={concepts}
+          onClose={() => setShowMoodBoard(false)}
+        />
+      )}
     </div>
   );
 }

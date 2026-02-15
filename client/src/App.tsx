@@ -20,6 +20,7 @@ const Review = lazy(() => import("@/pages/Review"));
 const CorpusDownload = lazy(() => import("@/pages/corpus-download"));
 const Gallery = lazy(() => import("@/pages/gallery"));
 const Devices = lazy(() => import("@/pages/devices"));
+const Feedback = lazy(() => import("@/pages/feedback"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
         <Route path="/corpus" component={CorpusDownload} />
         <Route path="/gallery" component={Gallery} />
         <Route path="/devices" component={Devices} />
+        <Route path="/feedback" component={Feedback} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
