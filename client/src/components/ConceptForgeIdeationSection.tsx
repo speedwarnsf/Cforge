@@ -14,6 +14,7 @@ import { useVideo } from "@/hooks/use-video";
 import { apiClient, handleAPIError } from "@/lib/apiClient";
 import { useViewport, useTouchFeedback } from "@/hooks/useMobileOptimizations";
 import { toast } from "@/hooks/use-toast";
+import { saveConceptsToHistory, resultToStoredConcept } from "@/lib/conceptStorage";
 
 
 
@@ -215,10 +216,20 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
             detail: `${finalResult.outputs.length} breakthrough concepts ready!`
           }));
 
+          // Auto-save to gallery
+          try {
+            const storedConcepts = parsedConcepts.map((c: any) =>
+              resultToStoredConcept(c, brief, selectedLens)
+            );
+            saveConceptsToHistory(storedConcepts);
+          } catch (e) {
+            console.warn('Failed to save concepts to gallery:', e);
+          }
+
           // Success feedback
           toast({
             title: 'Concepts Generated!',
-            description: `Successfully created ${finalResult.outputs.length} unique concepts.`
+            description: `Successfully created ${finalResult.outputs.length} unique concepts. Saved to Gallery.`
           });
 
           if (onGenerateComplete) {
@@ -273,10 +284,18 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         addGenerationLog('Concept ready.');
         setGenerationStatus(prev => ({ ...prev!, step: 'complete', progress: 100, detail: 'Breakthrough concept created.' }));
 
+        // Auto-save to gallery
+        try {
+          const stored = resultToStoredConcept(parsedConcept, brief, selectedLens);
+          saveConceptsToHistory([stored]);
+        } catch (e) {
+          console.warn('Failed to save concept to gallery:', e);
+        }
+
         // Success feedback
         toast({
           title: 'Concept Created!',
-          description: `"${headline}" - Ready to make an impact.`
+          description: `"${headline}" - Saved to Gallery.`
         });
 
         if (onGenerateComplete) {

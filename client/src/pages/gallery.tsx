@@ -3,88 +3,231 @@ import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { 
-  Star, StarOff, Trash2, Search, ArrowLeft, Download, 
-  Filter, Clock, Heart, XCircle 
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Star, StarOff, Trash2, Search, ArrowLeft, Download,
+  Filter, Clock, Heart, XCircle, RefreshCw, Copy, ChevronDown, ChevronUp
 } from 'lucide-react';
-import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept } from '@/lib/conceptStorage';
+import { getConceptHistory, toggleFavorite, deleteConcept, clearHistory, StoredConcept, saveConceptsToHistory, resultToStoredConcept } from '@/lib/conceptStorage';
 import ArbiterScoreViz from '@/components/ArbiterScoreViz';
 import { useToast } from '@/hooks/use-toast';
 import { exportConceptsAsPDF, exportConceptsAsPresentation } from '@/lib/conceptExport';
 import { useDebounce } from '@/hooks/use-debounce';
-import { GalleryGridSkeleton } from '@/components/SkeletonLoaders';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { apiClient, handleAPIError } from '@/lib/apiClient';
 
 type FilterMode = 'all' | 'favorites' | 'passed' | 'recent';
+type SortMode = 'newest' | 'oldest' | 'score';
 
-/** Memoized gallery card to avoid re-renders */
+// Refinement panel for iterating on a concept
+function ConceptRefinementPanel({
+  concept,
+  onClose,
+  onRefined,
+}: {
+  concept: StoredConcept;
+  onClose: () => void;
+  onRefined: (newConcept: StoredConcept) => void;
+}) {
+  const [refinementType, setRefinementType] = useState<'headline' | 'tone' | 'device' | 'full'>('headline');
+  const [instructions, setInstructions] = useState('');
+  const [isRefining, setIsRefining] = useState(false);
+  const { toast } = useToast();
+
+  const handleRefine = async () => {
+    setIsRefining(true);
+    try {
+      const refinementPrompt = buildRefinementPrompt(concept, refinementType, instructions);
+
+      const result = await apiClient.post<any>('/api/generate', {
+        query: refinementPrompt,
+        tone: concept.tone,
+        includeCliches: false,
+        deepScan: false,
+        conceptCount: 1,
+        projectId: 'concept_forge_refinement',
+      });
+
+      if (result && !result.error) {
+        const content = (result.content || '').replace(/```markdown\s*/g, '').replace(/```/g, '');
+        const headlineMatch = content.match(/\*\*HEADLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
+        const taglineMatch = content.match(/\*\*TAGLINE:?\*\*\s*(.+?)(?:\n|\*\*)/i);
+        const bodyCopyMatch = content.match(/\*\*BODY COPY:?\*\*\s*([\s\S]*?)(?=\*\*VISUAL|\*\*RHETORICAL|$)/i);
+        const visualMatch = content.match(/\*\*VISUAL CONCEPT:?\*\*\s*([\s\S]*?)(?=\*\*RHETORICAL|$)/i);
+
+        const refined = resultToStoredConcept({
+          headline: headlineMatch?.[1]?.trim() || concept.headlines[0],
+          tagline: taglineMatch?.[1]?.trim() || concept.tagline,
+          bodyCopy: bodyCopyMatch?.[1]?.trim() || concept.bodyCopy,
+          visualConcept: visualMatch?.[1]?.trim() || concept.visualDescription,
+          devices: concept.rhetoricalDevice,
+          originalityScore: (result.originalityCheck?.confidence || 0) * 100,
+          content,
+        }, concept.prompt + ` [Refined: ${refinementType}]`, concept.tone);
+
+        saveConceptsToHistory([refined]);
+        onRefined(refined);
+        toast({ title: 'Concept refined', description: 'New version saved to gallery.' });
+      }
+    } catch (error) {
+      handleAPIError(error);
+    } finally {
+      setIsRefining(false);
+    }
+  };
+
+  return (
+    <div className="border-t border-gray-700 p-5 bg-gray-900/90" onClick={e => e.stopPropagation()}>
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-xs font-black text-white uppercase tracking-widest font-mono">Refine Concept</h4>
+        <button onClick={onClose} className="text-gray-500 hover:text-white text-xs p-1">
+          Close
+        </button>
+      </div>
+
+      {/* Refinement type selector */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {([
+          { id: 'headline', label: 'Sharpen Headline' },
+          { id: 'tone', label: 'Shift Tone' },
+          { id: 'device', label: 'Try New Device' },
+          { id: 'full', label: 'Full Rework' },
+        ] as const).map(type => (
+          <button
+            key={type.id}
+            onClick={() => setRefinementType(type.id)}
+            className={`px-3 py-1.5 text-xs font-medium border transition-all ${
+              refinementType === type.id
+                ? 'bg-white text-black border-white'
+                : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500'
+            }`}
+          >
+            {type.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Additional instructions */}
+      <Textarea
+        placeholder="Optional: specific direction for the refinement (e.g., 'make it edgier', 'target Gen Z', 'use irony')..."
+        value={instructions}
+        onChange={e => setInstructions(e.target.value)}
+        className="h-20 bg-gray-800 border-gray-700 text-white text-sm placeholder-gray-500 mb-4 resize-none"
+      />
+
+      <Button
+        onClick={handleRefine}
+        disabled={isRefining}
+        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold"
+      >
+        {isRefining ? (
+          <>
+            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            Refining...
+          </>
+        ) : (
+          <>
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refine Concept
+          </>
+        )}
+      </Button>
+    </div>
+  );
+}
+
+function buildRefinementPrompt(concept: StoredConcept, type: string, extra: string): string {
+  const base = `Original brief: "${concept.prompt}"\nOriginal headline: "${concept.headlines[0]}"\nOriginal tagline: "${concept.tagline || ''}"\nOriginal body: "${concept.bodyCopy || ''}"\nDevice used: ${concept.rhetoricalDevice}\n\n`;
+
+  switch (type) {
+    case 'headline':
+      return base + `Generate a stronger, more impactful headline for this concept. Keep the same strategic direction but make the headline more memorable, sharper, and award-worthy. ${extra}`;
+    case 'tone':
+      return base + `Rewrite this concept with a significantly different tone. If it was serious, make it witty. If it was playful, make it authoritative. Transform the emotional register while keeping the core insight. ${extra}`;
+    case 'device':
+      return base + `Rewrite this concept using a completely different rhetorical device. The current device is ${concept.rhetoricalDevice}. Choose a contrasting approach -- if it used metaphor, try antithesis; if repetition, try litotes. ${extra}`;
+    case 'full':
+      return base + `Completely rework this concept from scratch. Keep the same brief and strategic objective, but find a totally new creative angle, new rhetorical approach, new headline, new visual direction. ${extra}`;
+    default:
+      return base + extra;
+  }
+}
+
+/** Gallery card */
 const GalleryCard = React.memo(function GalleryCard({
   concept,
   isExpanded,
   onToggleExpand,
   onToggleFavorite,
   onDelete,
+  onRefineStart,
+  isRefining,
+  onRefined,
+  onRefineClose,
 }: {
   concept: StoredConcept;
   isExpanded: boolean;
   onToggleExpand: (id: string) => void;
   onToggleFavorite: (id: string) => void;
   onDelete: (id: string) => void;
+  onRefineStart: (id: string) => void;
+  isRefining: boolean;
+  onRefined: (c: StoredConcept) => void;
+  onRefineClose: () => void;
 }) {
   return (
     <article
-      className={`group bg-gray-900/60 border rounded-none overflow-hidden transition-all cursor-pointer ${
-        concept.isFavorite ? 'border-amber-700/50' : 'border-gray-700/50'
-      } hover:border-gray-500/70 focus-within:ring-2 focus-within:ring-blue-500/50`}
+      className={`group bg-gray-950 border overflow-hidden transition-all cursor-pointer ${
+        concept.isFavorite ? 'border-amber-800/60' : 'border-gray-800'
+      } hover:border-gray-600 ${isExpanded ? 'col-span-1 md:col-span-2 xl:col-span-3' : ''}`}
       onClick={() => onToggleExpand(concept.id)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggleExpand(concept.id); } }}
       tabIndex={0}
       role="button"
       aria-expanded={isExpanded}
-      aria-label={`Concept: ${concept.headlines[0] || 'Untitled'}${concept.isFavorite ? ' (favorited)' : ''}`}
     >
-      <div className="p-4">
-        {/* Header row */}
-        <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="p-5">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-bold text-white truncate">
+            <h3 className="text-base font-black text-white leading-tight tracking-tight">
               {concept.headlines[0] || 'Untitled'}
             </h3>
             {concept.tagline && (
-              <p className="text-xs text-cyan-400 italic truncate mt-0.5">{concept.tagline}</p>
+              <p className="text-xs text-cyan-400 italic mt-1 line-clamp-1">{concept.tagline}</p>
             )}
           </div>
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-0.5 shrink-0">
             <button
               onClick={e => { e.stopPropagation(); onToggleFavorite(concept.id); }}
-              className="p-1.5 hover:bg-gray-800 min-w-[32px] min-h-[32px] flex items-center justify-center"
-              aria-label={concept.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              aria-pressed={concept.isFavorite}
+              className="p-1.5 hover:bg-gray-800 transition-colors"
+              aria-label={concept.isFavorite ? 'Remove favorite' : 'Add favorite'}
             >
               {concept.isFavorite
-                ? <Star className="w-4 h-4 text-amber-400 fill-current" aria-hidden="true" />
-                : <StarOff className="w-4 h-4 text-gray-500 hover:text-amber-400" aria-hidden="true" />}
+                ? <Star className="w-4 h-4 text-amber-400 fill-current" />
+                : <StarOff className="w-4 h-4 text-gray-600 hover:text-amber-400" />}
             </button>
             <button
               onClick={e => { e.stopPropagation(); onDelete(concept.id); }}
-              className="p-1.5 hover:bg-gray-800 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity min-w-[32px] min-h-[32px] flex items-center justify-center"
-              aria-label={`Delete concept: ${concept.headlines[0] || 'Untitled'}`}
+              className="p-1.5 hover:bg-gray-800 opacity-0 group-hover:opacity-100 transition-all"
+              aria-label="Delete"
             >
-              <XCircle className="w-3.5 h-3.5 text-gray-500 hover:text-red-400" aria-hidden="true" />
+              <XCircle className="w-3.5 h-3.5 text-gray-600 hover:text-red-400" />
             </button>
           </div>
         </div>
 
-        {/* Device & Prompt */}
-        <Badge variant="secondary" className="bg-slate-800/80 text-gray-300 border-slate-700 text-[10px] mb-2">
+        {/* Device badge */}
+        <Badge variant="secondary" className="bg-gray-800 text-gray-400 border-gray-700 text-[10px] uppercase tracking-widest font-mono mb-3">
           {concept.rhetoricalDevice}
         </Badge>
-        <p className="text-xs text-gray-500 line-clamp-2 mb-3">
+
+        {/* Brief excerpt */}
+        <p className="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed">
           {concept.prompt}
         </p>
 
-        {/* Compact Arbiter Scores */}
-        <ErrorBoundary compact label="arbiter scores">
+        {/* Scores */}
+        <ErrorBoundary compact label="scores">
           <ArbiterScoreViz
             originalityScore={concept.originalityScore}
             professionalismScore={concept.professionalismScore}
@@ -98,7 +241,7 @@ const GalleryCard = React.memo(function GalleryCard({
         </ErrorBoundary>
 
         {/* Timestamp */}
-        <p className="text-[10px] text-gray-600 mt-2">
+        <p className="text-[10px] text-gray-600 mt-3 font-mono">
           <time dateTime={concept.timestamp}>
             {new Date(concept.timestamp).toLocaleString()}
           </time>
@@ -107,27 +250,27 @@ const GalleryCard = React.memo(function GalleryCard({
 
       {/* Expanded detail */}
       {isExpanded && (
-        <div className="border-t border-gray-800 p-4 bg-gray-900/80" onClick={e => e.stopPropagation()}>
+        <div className="border-t border-gray-800 p-5 bg-gray-900/60" onClick={e => e.stopPropagation()}>
           {concept.headlines.length > 1 && (
-            <div className="mb-3">
-              <h4 className="text-xs font-semibold text-gray-400 uppercase mb-1">Headlines</h4>
+            <div className="mb-4">
+              <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 font-mono">Headlines</h4>
               {concept.headlines.map((h, i) => (
-                <p key={i} className="text-sm text-white font-semibold">{h}</p>
+                <p key={i} className="text-base text-white font-bold leading-tight">{h}</p>
               ))}
             </div>
           )}
 
           {concept.bodyCopy && (
-            <div className="mb-3">
-              <h4 className="text-xs font-semibold text-gray-400 uppercase mb-1">Body Copy</h4>
-              <p className="text-xs text-gray-300 leading-relaxed">{concept.bodyCopy}</p>
+            <div className="mb-4">
+              <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 font-mono">Body Copy</h4>
+              <p className="text-sm text-gray-300 leading-relaxed">{concept.bodyCopy}</p>
             </div>
           )}
 
           {concept.visualDescription && (
-            <div className="mb-3">
-              <h4 className="text-xs font-semibold text-gray-400 uppercase mb-1">Visual</h4>
-              <p className="text-xs text-gray-300 leading-relaxed">{concept.visualDescription}</p>
+            <div className="mb-4 border-l-2 border-gray-700 pl-4">
+              <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2 font-mono">Visual Direction</h4>
+              <p className="text-sm text-gray-400 leading-relaxed">{concept.visualDescription}</p>
             </div>
           )}
 
@@ -143,33 +286,51 @@ const GalleryCard = React.memo(function GalleryCard({
             />
           </ErrorBoundary>
 
-          <div className="flex gap-2 mt-3" role="group" aria-label="Concept actions">
+          <div className="flex flex-wrap gap-2 mt-4">
             <Button
               variant="outline"
               size="sm"
-              className="text-xs h-8 min-h-[32px] border-gray-600 text-gray-300 bg-transparent"
-              aria-label="Copy concept to clipboard"
+              className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800"
               onClick={() => {
-                const text = concept.headlines.join('\n') + 
+                const text = concept.headlines.join('\n') +
                   (concept.tagline ? '\n' + concept.tagline : '') +
                   (concept.bodyCopy ? '\n\n' + concept.bodyCopy : '') +
                   '\n\nVisual: ' + concept.visualDescription;
                 navigator.clipboard.writeText(text);
               }}
             >
+              <Copy className="w-3 h-3 mr-1.5" />
               Copy
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="text-xs h-8 min-h-[32px] border-gray-600 text-gray-300 bg-transparent"
-              aria-label="Export concept as PDF"
+              className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800"
               onClick={() => exportConceptsAsPDF([concept])}
             >
+              <Download className="w-3 h-3 mr-1.5" />
               Export
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs h-8 border-blue-800 text-blue-400 bg-transparent hover:bg-blue-950/50"
+              onClick={() => onRefineStart(concept.id)}
+            >
+              <RefreshCw className="w-3 h-3 mr-1.5" />
+              Refine
             </Button>
           </div>
         </div>
+      )}
+
+      {/* Refinement panel */}
+      {isRefining && (
+        <ConceptRefinementPanel
+          concept={concept}
+          onClose={onRefineClose}
+          onRefined={onRefined}
+        />
       )}
     </article>
   );
@@ -180,12 +341,14 @@ export default function GalleryPage() {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 250);
   const [filter, setFilter] = useState<FilterMode>('all');
+  const [sort, setSort] = useState<SortMode>('newest');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [refiningId, setRefiningId] = useState<string | null>(null);
   const { toast } = useToast();
 
   const filtered = useMemo(() => {
     let result = concepts;
-    
+
     if (filter === 'favorites') result = result.filter(c => c.isFavorite);
     else if (filter === 'passed') result = result.filter(c => c.finalStatus === 'Passed');
     else if (filter === 'recent') {
@@ -195,15 +358,24 @@ export default function GalleryPage() {
 
     if (debouncedSearch.trim()) {
       const q = debouncedSearch.toLowerCase();
-      result = result.filter(c => 
+      result = result.filter(c =>
         c.headlines.some(h => h.toLowerCase().includes(q)) ||
         c.prompt.toLowerCase().includes(q) ||
-        c.rhetoricalDevice.toLowerCase().includes(q)
+        c.rhetoricalDevice.toLowerCase().includes(q) ||
+        (c.tagline || '').toLowerCase().includes(q)
       );
     }
 
+    // Sort
+    if (sort === 'oldest') {
+      result = [...result].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    } else if (sort === 'score') {
+      result = [...result].sort((a, b) => (b.originalityScore || 0) - (a.originalityScore || 0));
+    }
+    // 'newest' is default order from storage
+
     return result;
-  }, [concepts, debouncedSearch, filter]);
+  }, [concepts, debouncedSearch, filter, sort]);
 
   const handleToggleFavorite = useCallback((id: string) => {
     toggleFavorite(id);
@@ -218,6 +390,7 @@ export default function GalleryPage() {
 
   const handleToggleExpand = useCallback((id: string) => {
     setExpandedId(prev => prev === id ? null : id);
+    setRefiningId(null);
   }, []);
 
   const handleClearHistory = () => {
@@ -228,114 +401,130 @@ export default function GalleryPage() {
     }
   };
 
-  const handleExportPDF = () => {
-    const toExport = filtered.length > 0 ? filtered : concepts;
-    exportConceptsAsPDF(toExport);
-    toast({ title: 'PDF-ready export downloaded', duration: 2000 });
-  };
-
-  const handleExportPresentation = () => {
-    const toExport = filtered.length > 0 ? filtered : concepts;
-    exportConceptsAsPresentation(toExport);
-    toast({ title: 'Presentation export downloaded', duration: 2000 });
-  };
+  const handleRefined = useCallback((newConcept: StoredConcept) => {
+    setConcepts(getConceptHistory());
+    setExpandedId(newConcept.id);
+    setRefiningId(null);
+  }, []);
 
   const filterButtons: { mode: FilterMode; label: string; icon: React.ReactNode }[] = [
-    { mode: 'all', label: 'All', icon: <Filter className="w-3 h-3" aria-hidden="true" /> },
-    { mode: 'favorites', label: 'Favorites', icon: <Heart className="w-3 h-3" aria-hidden="true" /> },
-    { mode: 'passed', label: 'Passed', icon: <Badge className="w-3 h-3 bg-emerald-600 text-white text-[8px] p-0">✓</Badge> },
-    { mode: 'recent', label: '24h', icon: <Clock className="w-3 h-3" aria-hidden="true" /> },
+    { mode: 'all', label: 'All', icon: <Filter className="w-3 h-3" /> },
+    { mode: 'favorites', label: 'Favorites', icon: <Heart className="w-3 h-3" /> },
+    { mode: 'passed', label: 'Passed', icon: null },
+    { mode: 'recent', label: '24h', icon: <Clock className="w-3 h-3" /> },
   ];
 
-  return (
-    <div className="min-h-screen bg-black text-white" role="main">
-      {/* Skip to content link for keyboard users */}
-      <a href="#gallery-grid" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:text-white focus:p-2 focus:top-0 focus:left-0">
-        Skip to gallery
-      </a>
+  // Stats
+  const stats = useMemo(() => ({
+    total: concepts.length,
+    favorites: concepts.filter(c => c.isFavorite).length,
+    passed: concepts.filter(c => c.finalStatus === 'Passed').length,
+    avgScore: concepts.length > 0
+      ? Math.round(concepts.reduce((sum, c) => sum + (c.originalityScore || 0), 0) / concepts.length)
+      : 0,
+  }), [concepts]);
 
+  return (
+    <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-sm border-b border-gray-800" role="banner">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Link href="/multivariant">
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-1 min-w-[36px] min-h-[36px]" aria-label="Back to generator">
-                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+      <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-sm border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          {/* Top row */}
+          <div className="flex items-center gap-3 mb-4">
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-1">
+                <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <h1 className="text-lg font-bold tracking-wide">CONCEPT GALLERY</h1>
-            <Badge variant="outline" className="text-xs text-gray-400 border-gray-600" aria-label={`${filtered.length} of ${concepts.length} concepts shown`}>
-              {filtered.length} / {concepts.length}
-            </Badge>
+            <div className="flex-1">
+              <h1 className="text-xl font-black tracking-tight uppercase">Concept Gallery</h1>
+              <div className="flex items-center gap-3 text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>{stats.total} concepts</span>
+                <span>{stats.favorites} favorited</span>
+                <span>{stats.passed} passed</span>
+                {stats.avgScore > 0 && <span>avg {stats.avgScore}% originality</span>}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => exportConceptsAsPDF(filtered.length > 0 ? filtered : concepts)} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
+                <Download className="w-3 h-3 mr-1" /> PDF
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => exportConceptsAsPresentation(filtered.length > 0 ? filtered : concepts)} className="text-xs h-8 border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
+                <Download className="w-3 h-3 mr-1" /> Deck
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleClearHistory} className="text-xs h-8 border-red-900 text-red-400 bg-transparent hover:bg-red-950">
+                <Trash2 className="w-3 h-3 mr-1" /> Clear
+              </Button>
+            </div>
           </div>
-          
+
           {/* Search */}
-          <div className="relative flex-1 w-full sm:max-w-xs">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500" aria-hidden="true" />
+          <div className="relative mb-3">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <Input
-              placeholder="Search concepts..."
+              placeholder="Search by headline, prompt, device, tagline..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 h-8 bg-gray-900 border-gray-700 text-white text-sm placeholder-gray-500"
-              aria-label="Search concepts by headline, prompt, or rhetorical device"
+              className="pl-10 h-10 bg-gray-900 border-gray-700 text-white text-sm placeholder-gray-500 focus:border-white/30"
               type="search"
             />
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-2 flex-wrap" role="group" aria-label="Export and management actions">
-            <Button variant="outline" size="sm" onClick={handleExportPDF} className="text-xs h-8 min-h-[32px] border-gray-600 text-gray-300 bg-transparent hover:bg-gray-800" aria-label="Export as PDF">
-              <Download className="w-3 h-3 mr-1" aria-hidden="true" /> PDF
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleExportPresentation} className="text-xs h-8 min-h-[32px] border-gray-600 text-gray-300 bg-transparent hover:bg-gray-800" aria-label="Export as presentation deck">
-              <Download className="w-3 h-3 mr-1" aria-hidden="true" /> Deck
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleClearHistory} className="text-xs h-8 min-h-[32px] border-red-800 text-red-400 bg-transparent hover:bg-red-950" aria-label="Clear non-favorited concepts">
-              <Trash2 className="w-3 h-3 mr-1" aria-hidden="true" /> Clear
-            </Button>
+          {/* Filters + Sort */}
+          <div className="flex items-center justify-between">
+            <div className="flex gap-1.5">
+              {filterButtons.map(f => (
+                <button
+                  key={f.mode}
+                  onClick={() => setFilter(f.mode)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs transition-all font-medium ${
+                    filter === f.mode
+                      ? 'bg-white text-black'
+                      : 'bg-gray-900 text-gray-400 hover:bg-gray-800'
+                  }`}
+                >
+                  {f.icon}
+                  {f.label}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-1.5">
+              {(['newest', 'oldest', 'score'] as SortMode[]).map(s => (
+                <button
+                  key={s}
+                  onClick={() => setSort(s)}
+                  className={`px-2 py-1 text-[10px] uppercase tracking-wider font-mono transition-all ${
+                    sort === s ? 'text-white' : 'text-gray-600 hover:text-gray-400'
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Filters */}
-        <nav className="max-w-6xl mx-auto px-4 pb-3 flex gap-2" role="tablist" aria-label="Filter concepts">
-          {filterButtons.map(f => (
-            <button
-              key={f.mode}
-              onClick={() => setFilter(f.mode)}
-              role="tab"
-              aria-selected={filter === f.mode}
-              aria-label={`Filter: ${f.label}`}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors min-h-[32px] ${
-                filter === f.mode
-                  ? 'bg-white text-black font-medium'
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-              }`}
-            >
-              {f.icon}
-              {f.label}
-            </button>
-          ))}
-        </nav>
       </header>
 
-      {/* Gallery Grid */}
-      <div className="max-w-6xl mx-auto px-4 py-6" id="gallery-grid" role="tabpanel">
+      {/* Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {filtered.length === 0 ? (
-          <div className="text-center py-20 text-gray-500" role="status">
-            <p className="text-lg mb-2">No concepts found</p>
-            <p className="text-sm">
+          <div className="text-center py-24 text-gray-500">
+            <p className="text-xl font-bold mb-2">
+              {concepts.length === 0 ? 'No concepts yet' : 'No matches'}
+            </p>
+            <p className="text-sm text-gray-600 mb-6">
               {concepts.length === 0
-                ? 'Generate some concepts to build your gallery'
+                ? 'Generate concepts from the home page to build your gallery'
                 : 'Try adjusting your search or filters'}
             </p>
-            <Link href="/multivariant">
-              <Button variant="outline" className="mt-4 border-gray-600 text-gray-300 bg-transparent hover:bg-gray-800">
+            <Link href="/">
+              <Button variant="outline" className="border-gray-700 text-gray-300 bg-transparent hover:bg-gray-800">
                 Go to Generator
               </Button>
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
             {filtered.map(concept => (
               <GalleryCard
                 key={concept.id}
@@ -344,6 +533,10 @@ export default function GalleryPage() {
                 onToggleExpand={handleToggleExpand}
                 onToggleFavorite={handleToggleFavorite}
                 onDelete={handleDelete}
+                onRefineStart={setRefiningId}
+                isRefining={refiningId === concept.id}
+                onRefined={handleRefined}
+                onRefineClose={() => setRefiningId(null)}
               />
             ))}
           </div>

@@ -23,6 +23,43 @@ export interface StoredConcept {
   isFavorite: boolean;
 }
 
+/**
+ * Convert a raw result from the generation pipeline into a StoredConcept
+ */
+export function resultToStoredConcept(
+  result: any,
+  prompt: string,
+  tone: string
+): StoredConcept {
+  const headlines: string[] = [];
+  if (result.headline) headlines.push(result.headline);
+  if (result.headlines) headlines.push(...result.headlines);
+  if (headlines.length === 0) headlines.push('Untitled Concept');
+
+  return {
+    id: result.id || `concept-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    timestamp: new Date().toISOString(),
+    prompt,
+    tone,
+    headlines,
+    tagline: result.tagline || '',
+    bodyCopy: result.bodyCopy || '',
+    visualDescription: result.visualConcept || result.visualDescription || '',
+    rhetoricalDevice: Array.isArray(result.devices)
+      ? result.devices.join(', ')
+      : result.devices || result.rhetoricalDevice || 'Unknown',
+    originalityScore: result.originalityScore || 0,
+    fullMarkdown: result.content || '',
+    professionalismScore: result.professionalismScore,
+    clarityScore: result.clarityScore,
+    freshnessScore: result.freshnessScore,
+    resonanceScore: result.resonanceScore,
+    awardsScore: result.awardsScore,
+    finalStatus: result.finalStatus,
+    isFavorite: false,
+  };
+}
+
 const HISTORY_KEY = 'cforge_concept_history';
 const MAX_HISTORY = 200;
 
