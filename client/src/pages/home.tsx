@@ -174,6 +174,15 @@ export default function Home() {
             Campaigns
           </Button>
         </Link>
+        <Link href="/agency">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-0.5 h-6 bg-black/60 border-cyan-700/50 text-cyan-400/70 hover:text-cyan-300 transition-all"
+          >
+            Agency
+          </Button>
+        </Link>
         {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
           <>
             <Link href="/test-admin">

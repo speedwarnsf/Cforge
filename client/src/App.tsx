@@ -22,6 +22,7 @@ const Gallery = lazy(() => import("@/pages/gallery"));
 const Devices = lazy(() => import("@/pages/devices"));
 const Feedback = lazy(() => import("@/pages/feedback"));
 const Campaigns = lazy(() => import("@/pages/campaigns"));
+const Agency = lazy(() => import("@/pages/agency"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -39,6 +40,7 @@ function Router() {
         <Route path="/campaigns" component={Campaigns} />
         <Route path="/campaigns/:id" component={Campaigns} />
         <Route path="/campaigns/share/:token" component={Campaigns} />
+        <Route path="/agency" component={Agency} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

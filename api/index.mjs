@@ -2208,8 +2208,8 @@ var init_openai = __esm({
     recentConceptsCache = /* @__PURE__ */ new Map();
     CACHE_DURATION = 1e3 * 60 * 60;
     MAX_CACHE_SIZE2 = 1e3;
-    if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
-      throw new Error("OpenAI API key not set in environment variables.");
+    if (!process.env.OPENAI_API_KEY && !process.env.GEMINI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
+      throw new Error("No AI API key set (OPENAI_API_KEY or GEMINI_API_KEY).");
     }
     openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR,
