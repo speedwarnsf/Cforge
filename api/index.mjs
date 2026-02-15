@@ -261,7 +261,7 @@ var GEMINI_API_KEY, GEMINI_EMBEDDING_URL;
 var init_embeddingSimilarity = __esm({
   "server/utils/embeddingSimilarity.ts"() {
     "use strict";
-    GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
     GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
   }
 });
@@ -748,7 +748,7 @@ var init_embeddingRetrieval = __esm({
     "use strict";
     init_embeddingSimilarity();
     init_performanceMonitor();
-    GEMINI_API_KEY2 = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_API_KEY2 = process.env.GEMINI_API_KEY || "";
     GEMINI_EMBEDDING_URL2 = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY2}`;
     retrievalCorpusData = loadRetrievalCorpus();
     retrievalCorpus = retrievalCorpusData.campaigns || [];
@@ -1531,7 +1531,7 @@ var init_embeddingArbiters = __esm({
   "server/utils/embeddingArbiters.ts"() {
     "use strict";
     init_embeddingSimilarity();
-    GEMINI_API_KEY3 = process.env.GEMINI_API_KEY || "AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE";
+    GEMINI_API_KEY3 = process.env.GEMINI_API_KEY || "";
     GEMINI_CHAT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY3}`;
     QUALITY_BENCHMARKS = [
       "Just Do It - Nike",

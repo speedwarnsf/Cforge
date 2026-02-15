@@ -8,7 +8,7 @@ import { performanceMonitor, measureAsync } from "./performanceMonitor";
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCNJLK_QaOf6kZRUq48RVOOWcxFfet04WE';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
 
 // Lazy-initialize Supabase client only when needed and env vars are available
