@@ -347,7 +347,7 @@ export default function TestAdmin() {
                     Settings: {test.maxOutputs} outputs, {test.avoidCliches ? 'avoid' : 'allow'} clichés
                   </div>
                   {test.error && (
-                    <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+                    <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-none text-red-700 text-sm">
                       Error: {test.error}
                     </div>
                   )}
@@ -386,12 +386,12 @@ export default function TestAdmin() {
                             {(concept.isTooLong || concept.hasFormatError) && (
                               <div className="mb-3 text-sm">
                                 {concept.isTooLong && (
-                                  <span className="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded mr-2">
+                                  <span className="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded-none mr-2">
                                     Headlines too long
                                   </span>
                                 )}
                                 {concept.hasFormatError && (
-                                  <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded">
+                                  <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded-none">
                                     Format error
                                   </span>
                                 )}

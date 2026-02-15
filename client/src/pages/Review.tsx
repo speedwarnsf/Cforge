@@ -299,7 +299,7 @@ export default function Review() {
                                 key={index} 
                                 className={`font-medium ${
                                   isDuplicate 
-                                    ? 'text-red-700 bg-red-50 px-2 py-1 rounded border border-red-200' 
+                                    ? 'text-red-700 bg-red-50 px-2 py-1 rounded-none border border-red-200' 
                                     : 'text-gray-700'
                                 }`}
                               >
@@ -390,7 +390,7 @@ export default function Review() {
                         </p>
                       )}
                       {entry.flagged_for_review && (
-                        <div className="mt-2 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-yellow-800 text-xs font-medium">
+                        <div className="mt-2 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded-none text-yellow-800 text-xs font-medium">
                           Flagged for Review
                         </div>
                       )}
@@ -431,8 +431,8 @@ export default function Review() {
                         </p>
                       )}
                       {entry.low_audience_resonance && (
-                        <div className="mt-2 px-2 py-1 bg-red-100 border border-red-300 rounded text-red-800 text-xs font-medium">
-                          🔻 Low Audience Resonance
+                        <div className="mt-2 px-2 py-1 bg-red-100 border border-red-300 rounded-none text-red-800 text-xs font-medium">
+                          Low Audience Resonance
                         </div>
                       )}
                     </div>
@@ -479,8 +479,8 @@ export default function Review() {
                         </div>
                       )}
                       {entry.high_awards_potential && (
-                        <div className="mt-2 px-2 py-1 bg-green-100 border border-green-300 rounded text-green-800 text-xs font-medium">
-                          🏆 High Awards Potential
+                        <div className="mt-2 px-2 py-1 bg-green-100 border border-green-300 rounded-none text-green-800 text-xs font-medium">
+                          High Awards Potential
                         </div>
                       )}
                     </div>
@@ -523,7 +523,7 @@ export default function Review() {
                       {/* Four Arbiter Results */}
                       <div className="grid grid-cols-4 gap-3 mb-3">
                         {entry.audience_resonance && (
-                          <div className="text-center p-2 bg-white rounded border">
+                          <div className="text-center p-2 bg-white rounded-none border">
                             <div className={`text-sm font-bold ${
                               entry.audience_resonance === 'High' ? 'text-green-600' : 
                               entry.audience_resonance === 'Medium' ? 'text-yellow-600' : 'text-red-600'
@@ -534,7 +534,7 @@ export default function Review() {
                           </div>
                         )}
                         {entry.award_potential_level && (
-                          <div className="text-center p-2 bg-white rounded border">
+                          <div className="text-center p-2 bg-white rounded-none border">
                             <div className={`text-sm font-bold ${
                               entry.award_potential_level === 'High' ? 'text-green-600' : 
                               entry.award_potential_level === 'Medium' ? 'text-yellow-600' : 'text-red-600'
@@ -545,7 +545,7 @@ export default function Review() {
                           </div>
                         )}
                         {entry.relevance_score && (
-                          <div className="text-center p-2 bg-white rounded border">
+                          <div className="text-center p-2 bg-white rounded-none border">
                             <div className={`text-sm font-bold ${entry.relevance_score >= 70 ? 'text-green-600' : 'text-red-600'}`}>
                               {entry.relevance_score}
                             </div>
@@ -553,7 +553,7 @@ export default function Review() {
                           </div>
                         )}
                         {entry.passes_all_thresholds !== undefined && (
-                          <div className="text-center p-2 bg-white rounded border">
+                          <div className="text-center p-2 bg-white rounded-none border">
                             <div className={`text-sm font-bold ${entry.passes_all_thresholds ? 'text-green-600' : 'text-red-600'}`}>
                               {entry.passes_all_thresholds ? 'PASSED' : 'FAILED'}
                             </div>
@@ -568,7 +568,7 @@ export default function Review() {
                           <span className="text-sm font-medium text-green-800">Failed Criteria: </span>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {entry.failed_criteria.map((criteria, index) => (
-                              <span key={index} className="px-2 py-1 bg-red-100 border border-red-300 rounded text-red-800 text-xs">
+                              <span key={index} className="px-2 py-1 bg-red-100 border border-red-300 rounded-none text-red-800 text-xs">
                                 {criteria}
                               </span>
                             ))}
@@ -603,7 +603,7 @@ export default function Review() {
                       className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-lg"
                     >
                       <ThumbsUp className="w-5 h-5 mr-2" />
-                      👍 More Like This
+                      More Like This
                     </Button>
                     
                     <Button
@@ -612,7 +612,7 @@ export default function Review() {
                       className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 text-lg"
                     >
                       <ThumbsDown className="w-5 h-5 mr-2" />
-                      👎 Less Like This
+                      Less Like This
                     </Button>
                   </div>
                 </div>

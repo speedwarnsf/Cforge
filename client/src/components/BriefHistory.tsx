@@ -314,7 +314,7 @@ export default function BriefHistory({ onSelectBrief, currentQuery }: BriefHisto
                       </button>
                       <button
                         onClick={(e) => handleDelete(brief.id, e)}
-                        className="p-1.5 rounded text-gray-500 hover:text-red-400 hover:bg-gray-700 transition-colors"
+                        className="p-1.5 rounded-none text-gray-500 hover:text-red-400 hover:bg-gray-700 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

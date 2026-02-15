@@ -982,7 +982,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                           onClick={() => handleFeedback(result.id, "more_like_this")}
                           className="bg-transparent border-green-500 text-green-300 hover:bg-green-800 text-xs"
                         >
-                          👍 More
+                          More
                         </Button>
                         
                         <Button
@@ -991,7 +991,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                           onClick={() => handleFeedback(result.id, "less_like_this")}
                           className="bg-transparent border-red-500 text-red-300 hover:bg-red-800 text-xs"
                         >
-                          👎 Less
+                          Less
                         </Button>
                       </div>
                 </div>
