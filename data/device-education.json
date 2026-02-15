@@ -1,0 +1,548 @@
+{
+  "families": {
+    "schemes": {
+      "name": "Schemes",
+      "description": "Artful deviations from the ordinary arrangement of words. Schemes alter the pattern or structure of language without changing meaning.",
+      "subcategories": ["repetition", "omission", "word_order", "balance"]
+    },
+    "tropes": {
+      "name": "Tropes",
+      "description": "Artful deviations from the ordinary or principal signification of a word. Tropes turn words from their literal meaning to a figurative one.",
+      "subcategories": ["comparison", "wordplay", "substitution", "overstatement", "understatement", "semantic_inversion"]
+    },
+    "figures_of_thought": {
+      "name": "Figures of Thought",
+      "description": "Strategies of argument and ways of framing ideas that transcend mere verbal expression. They shape how audiences think about a subject.",
+      "subcategories": ["emotion", "dialogue", "reasoning", "description"]
+    },
+    "figures_of_sound": {
+      "name": "Figures of Sound",
+      "description": "Devices that exploit the sonic qualities of language -- rhythm, repetition of sounds, and phonetic patterns -- to create memorable, musical prose.",
+      "subcategories": ["consonance_patterns", "vowel_patterns", "rhythm"]
+    },
+    "figures_of_amplification": {
+      "name": "Figures of Amplification",
+      "description": "Devices that expand, elaborate, or intensify a point beyond its simple statement. They overlap between schemes, tropes, and figures of thought.",
+      "subcategories": ["expansion", "intensification", "accumulation"]
+    }
+  },
+  "device_metadata": {
+    "accismus": {
+      "family": "tropes",
+      "difficulty": "advanced",
+      "origin": "Greek 'akkismos' -- coyness, prudery. Used by classical rhetoricians to describe feigned refusal.",
+      "advertising_use": "Creates aspirational tension. Luxury brands use accismus when they make products seem exclusive or hard to get. The 'we don't need your business' posture paradoxically increases desire.",
+      "ad_examples": [
+        {"brand": "Patek Philippe", "example": "You never actually own a Patek Philippe. You merely look after it for the next generation.", "year": "1996"},
+        {"brand": "Rolls-Royce", "example": "At 60 miles an hour the loudest noise in this new Rolls-Royce comes from the electric clock.", "year": "1958"},
+        {"brand": "Apple", "example": "Think Different -- positioning as indifferent to mainstream computing conventions.", "year": "1997"}
+      ]
+    },
+    "acrostic": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'akrostichis' -- end of a verse line. Ancient poets embedded hidden messages in the first letters of lines.",
+      "advertising_use": "Creates easter eggs and hidden messaging in campaigns. Used for engagement-driven campaigns where audiences discover embedded brand messages or calls to action.",
+      "ad_examples": [
+        {"brand": "Coca-Cola", "example": "Creating campaigns where first letters of menu items spell seasonal messages.", "year": "2015"},
+        {"brand": "Google", "example": "Hidden messages in search result page elements during special events.", "year": "2018"},
+        {"brand": "IKEA", "example": "Product catalog descriptions with embedded brand values in first letters.", "year": "2019"}
+      ]
+    },
+    "acyrologia": {
+      "family": "tropes",
+      "difficulty": "advanced",
+      "origin": "Greek 'a-' (not) + 'kyrios' (proper). The use of incorrect words, often malapropisms.",
+      "advertising_use": "Used deliberately in humorous campaigns to create memorable word confusion. Can make brands feel more human and approachable through intentional 'mistakes'.",
+      "ad_examples": [
+        {"brand": "Snickers", "example": "You're not you when you're hungry -- characters using wrong words to show confusion.", "year": "2010"},
+        {"brand": "Geico", "example": "Deliberate word confusion in character dialogues for comedic effect.", "year": "2014"},
+        {"brand": "Old Spice", "example": "Surreal misuse of language to create memorable absurdity.", "year": "2010"}
+      ]
+    },
+    "adynaton": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'adynaton' -- impossible thing. Classical rhetoric's way of expressing impossibility for emphasis.",
+      "advertising_use": "Makes product benefits feel extraordinarily powerful by comparing them to impossible feats. Creates hyperbolic, memorable claims that audiences understand as figurative.",
+      "ad_examples": [
+        {"brand": "Red Bull", "example": "Red Bull gives you wings -- transforming the impossible into brand promise.", "year": "1997"},
+        {"brand": "Energizer", "example": "It keeps going and going and going -- implying infinite endurance.", "year": "1989"},
+        {"brand": "FedEx", "example": "When it absolutely, positively has to be there overnight -- implying supernatural reliability.", "year": "1978"}
+      ]
+    },
+    "alliteration": {
+      "family": "figures_of_sound",
+      "difficulty": "beginner",
+      "origin": "Latin 'ad literam' -- to the letter. One of the oldest sound devices, found in Anglo-Saxon poetry and oral traditions worldwide.",
+      "advertising_use": "The workhorse of sonic branding. Alliterative brand names and taglines are dramatically more memorable. Creates instant phonetic hooks that embed in memory.",
+      "ad_examples": [
+        {"brand": "Coca-Cola", "example": "The brand name itself -- double C creates one of the most recognizable sonic signatures in history.", "year": "1886"},
+        {"brand": "Dunkin' Donuts", "example": "America Runs on Dunkin' -- alliterative brand name anchors the tagline.", "year": "2006"},
+        {"brand": "PayPal", "example": "The name's double P creates a percussive, trustworthy sound -- 'pay' and 'pal' linked by alliteration.", "year": "1999"}
+      ]
+    },
+    "allegory": {
+      "family": "tropes",
+      "difficulty": "advanced",
+      "origin": "Greek 'allegoria' -- speaking otherwise. Extended metaphor where an entire narrative represents something else.",
+      "advertising_use": "Brands use allegory to tell stories that represent larger truths about their products. Particularly powerful in long-form content, brand films, and campaign narratives.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "1984 Super Bowl ad -- Orwellian allegory for IBM's computing monopoly.", "year": "1984"},
+        {"brand": "Johnnie Walker", "example": "Keep Walking campaign -- the journey as allegory for personal achievement.", "year": "1999"},
+        {"brand": "Nike", "example": "Find Your Greatness -- everyday athletes as allegory for universal human potential.", "year": "2012"}
+      ]
+    },
+    "amphiboly": {
+      "family": "tropes",
+      "difficulty": "advanced",
+      "origin": "Greek 'amphibolia' -- ambiguity. When grammatical structure allows multiple interpretations.",
+      "advertising_use": "Creates deliberate double meanings in headlines. Audiences engage more deeply when they discover the second reading. Powerful for witty, award-winning campaigns.",
+      "ad_examples": [
+        {"brand": "Volkswagen", "example": "Think Small -- ambiguous whether it's an imperative or a description.", "year": "1959"},
+        {"brand": "The Economist", "example": "I never read The Economist. -- Management trainee, aged 42. Ambiguity in 'never' and career implication.", "year": "2000"},
+        {"brand": "FedEx", "example": "When there's no tomorrow -- ambiguous urgency between deadline and existential.", "year": "2003"}
+      ]
+    },
+    "anacoluthon": {
+      "family": "schemes",
+      "difficulty": "advanced",
+      "origin": "Greek 'anakolouthon' -- not following. A break in grammatical sequence mid-sentence.",
+      "advertising_use": "Mimics natural speech patterns, making copy feel authentic and conversational. Creates surprise by breaking expected sentence structure.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "A thousand songs in your pocket -- the abrupt simplicity breaks expected tech-speak.", "year": "2001"},
+        {"brand": "MasterCard", "example": "Priceless campaign -- sentence structure deliberately shifts from list to emotional payoff.", "year": "1997"},
+        {"brand": "Nike", "example": "Just Do It -- three words that break from any expected elaboration.", "year": "1988"}
+      ]
+    },
+    "anadiplosis": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'anadiplosis' -- doubling back. Last word of one clause begins the next.",
+      "advertising_use": "Creates chain-like momentum in copy. Each idea links to the next, pulling the reader forward. Powerful for building toward a climactic brand promise.",
+      "ad_examples": [
+        {"brand": "BMW", "example": "Power leads to performance. Performance leads to victory. Victory leads to legend.", "year": "2016"},
+        {"brand": "L'Oreal", "example": "Science that creates beauty. Beauty that moves the world.", "year": "2018"},
+        {"brand": "Lexus", "example": "Precision creates confidence. Confidence creates freedom.", "year": "2017"}
+      ]
+    },
+    "analogy": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Greek 'analogia' -- proportion. One of Aristotle's fundamental tools of persuasion.",
+      "advertising_use": "Makes unfamiliar products accessible by comparing them to familiar concepts. Essential for tech brands explaining new categories and for creating emotional connections to abstract services.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "iPod: Like having a record store in your pocket.", "year": "2001"},
+        {"brand": "Dropbox", "example": "Your files, everywhere -- like carrying your filing cabinet in the cloud.", "year": "2008"},
+        {"brand": "Slack", "example": "Email is where work goes to die. Slack is where work comes alive.", "year": "2014"}
+      ]
+    },
+    "anaphora": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'anaphora' -- carrying back. Repetition at the beginning of successive clauses. Made famous by MLK's 'I have a dream.'",
+      "advertising_use": "Creates rhythmic, memorable campaigns with building intensity. Each repetition reinforces the brand message while adding new dimension. The most widely used repetition device in advertising.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Here's to the crazy ones. Here's to the misfits. Here's to the rebels.", "year": "1997"},
+        {"brand": "L'Oreal", "example": "Because you're worth it. Because you deserve it. Because it's time.", "year": "2009"},
+        {"brand": "BMW", "example": "The Ultimate Driving Machine. The Ultimate in Luxury. The Ultimate in Performance.", "year": "2012"}
+      ]
+    },
+    "antanaclasis": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'antanaklasis' -- reflection. Repeating a word in two different senses.",
+      "advertising_use": "Creates clever wordplay that rewards audience attention. The dual meaning creates a 'click' moment of understanding that bonds audience to brand.",
+      "ad_examples": [
+        {"brand": "FedEx", "example": "We live in a world of packages. It's time you had a complete package.", "year": "2012"},
+        {"brand": "Mercedes-Benz", "example": "The best or nothing -- 'best' as superlative and as brand identity.", "year": "2010"},
+        {"brand": "De Beers", "example": "A diamond is forever -- 'forever' as durability and commitment.", "year": "1947"}
+      ]
+    },
+    "anthimeria": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'anti' (against) + 'meros' (part). Substituting one part of speech for another.",
+      "advertising_use": "Makes language feel fresh and unconventional. Verbing nouns or nouning verbs creates distinctive brand voice. Particularly effective for tech and lifestyle brands.",
+      "ad_examples": [
+        {"brand": "Google", "example": "Just Google it -- transforming a proper noun into a verb.", "year": "2000s"},
+        {"brand": "Nike", "example": "Just Do It -- 'do' as both verb and attitude noun.", "year": "1988"},
+        {"brand": "Uber", "example": "Uber it -- brand name as verb, implying action.", "year": "2015"}
+      ]
+    },
+    "antimetabole": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'antimetabole' -- turning about. Repeating words in reverse order. Often confused with chiasmus.",
+      "advertising_use": "Creates instantly quotable, bumper-sticker-worthy lines. The reversal creates a satisfying click of meaning. One of the most powerful devices for taglines.",
+      "ad_examples": [
+        {"brand": "Vidal Sassoon", "example": "If you don't look good, we don't look good.", "year": "1980s"},
+        {"brand": "Avis", "example": "We try harder because we're number two. We're number two because we try harder.", "year": "1962"},
+        {"brand": "State Farm", "example": "Like a good neighbor, State Farm is there. State Farm is there, like a good neighbor.", "year": "1971"}
+      ]
+    },
+    "antithesis": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'antithesis' -- opposition. Juxtaposition of contrasting ideas in balanced phrases. A cornerstone of Western rhetoric since Aristotle.",
+      "advertising_use": "Creates dramatic tension and makes product differentiation crystal clear. Before/after, old/new, problem/solution -- antithesis structures the most compelling brand narratives.",
+      "ad_examples": [
+        {"brand": "Volkswagen", "example": "Think Small -- antithesis to the American automotive ethos of the era.", "year": "1959"},
+        {"brand": "Apple", "example": "Think Different -- implicit antithesis to IBM's Think.", "year": "1997"},
+        {"brand": "Nike", "example": "Yesterday you said tomorrow. Just Do It.", "year": "2018"}
+      ]
+    },
+    "aphorism": {
+      "family": "figures_of_thought",
+      "difficulty": "beginner",
+      "origin": "Greek 'aphorismos' -- definition. A concise statement of principle. The oldest form of wisdom literature.",
+      "advertising_use": "Distills brand philosophy into memorable, shareable wisdom. The best taglines are aphorisms that transcend advertising to become cultural touchstones.",
+      "ad_examples": [
+        {"brand": "Nike", "example": "Just Do It -- an aphorism that transcended advertising.", "year": "1988"},
+        {"brand": "Apple", "example": "Think Different -- brand philosophy as cultural aphorism.", "year": "1997"},
+        {"brand": "De Beers", "example": "A diamond is forever -- product truth elevated to life wisdom.", "year": "1947"}
+      ]
+    },
+    "apophasis": {
+      "family": "figures_of_thought",
+      "difficulty": "advanced",
+      "origin": "Greek 'apophasis' -- denial. Bringing up a subject by denying that it should be brought up.",
+      "advertising_use": "Allows brands to make claims while appearing not to. 'We won't mention that competitors charge twice as much' -- the mention IS the message.",
+      "ad_examples": [
+        {"brand": "Sprint", "example": "We won't bore you with technical specs. Let's just say: fastest network.", "year": "2016"},
+        {"brand": "Wendy's", "example": "We're not going to say our beef is better. We'll let you taste the difference.", "year": "2015"},
+        {"brand": "BMW", "example": "We could tell you about our engineering. But the road will do that for us.", "year": "2014"}
+      ]
+    },
+    "aposiopesis": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'aposiopesis' -- becoming silent. Breaking off speech as if unable or unwilling to continue.",
+      "advertising_use": "Creates dramatic tension and invites audience completion. The unsaid becomes more powerful than words. Particularly effective in visual advertising where images complete the thought.",
+      "ad_examples": [
+        {"brand": "Chanel", "example": "Chanel No. 5. Need we say more...", "year": "Various"},
+        {"brand": "Levi's", "example": "Quality never goes out of...", "year": "2008"},
+        {"brand": "Mastercard", "example": "There are some things money can't buy. For everything else...", "year": "1997"}
+      ]
+    },
+    "apostrophe": {
+      "family": "figures_of_thought",
+      "difficulty": "intermediate",
+      "origin": "Greek 'apostrophe' -- turning away. Addressing an absent person, abstract concept, or inanimate object directly.",
+      "advertising_use": "Creates intimate, emotional moments by addressing concepts, places, or absent people. Powerful for nostalgia campaigns and brand manifestos.",
+      "ad_examples": [
+        {"brand": "Jeep", "example": "Dear winter, we're ready. -- addressing the season directly.", "year": "2019"},
+        {"brand": "John Lewis", "example": "Dear future, we have something to show you -- addressing time itself.", "year": "2017"},
+        {"brand": "Budweiser", "example": "This Bud's for you -- addressing the consumer as absent third party in celebration.", "year": "1979"}
+      ]
+    },
+    "assonance": {
+      "family": "figures_of_sound",
+      "difficulty": "intermediate",
+      "origin": "Latin 'assonare' -- to respond to. Repetition of vowel sounds in nearby words.",
+      "advertising_use": "Creates musical, memorable copy that flows when read aloud. Subtler than alliteration, assonance gives taglines an unconscious sonic cohesion.",
+      "ad_examples": [
+        {"brand": "Jaguar", "example": "Grace, Space, Pace -- the long 'a' creates aristocratic elegance.", "year": "1950s"},
+        {"brand": "Bounty", "example": "The quicker picker-upper -- short 'i' sounds create energy.", "year": "1965"},
+        {"brand": "Harley-Davidson", "example": "All for freedom, freedom for all -- the 'or' and 'all' vowels rumble.", "year": "2010"}
+      ]
+    },
+    "asyndeton": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'asyndeton' -- unconnected. Omitting conjunctions between words or clauses.",
+      "advertising_use": "Creates speed, urgency, and punch. Three words without 'and' hit harder than three words with it. The engine of modern tagline writing.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Light. Fast. Powerful. -- iPhone product descriptors stripped of conjunctions.", "year": "2020"},
+        {"brand": "BMW", "example": "Power. Precision. Perfection.", "year": "2015"},
+        {"brand": "Adidas", "example": "Impossible is nothing -- asyndetic compression of a larger philosophical statement.", "year": "2004"}
+      ]
+    },
+    "chiasmus": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'chiasmos' -- crossing. From the letter chi (X). Repetition of grammatical structures in reverse order.",
+      "advertising_use": "Creates intellectually satisfying symmetry. The crossing pattern rewards audiences with an 'aha' moment. Particularly valued in premium and intellectual brand positioning.",
+      "ad_examples": [
+        {"brand": "JFK/Branding", "example": "Ask not what your country can do for you -- the template for countless brand reversals.", "year": "1961"},
+        {"brand": "Levi's", "example": "Style is what you make it. What you make, that's style.", "year": "2011"},
+        {"brand": "Porsche", "example": "We don't make sports cars. Sports cars make us.", "year": "2014"}
+      ]
+    },
+    "climax": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'klimax' -- ladder. Arrangement of words or ideas in order of increasing importance.",
+      "advertising_use": "Builds to a crescendo. Each element raises the stakes until the final, most powerful statement. The architecture of manifesto-style brand films.",
+      "ad_examples": [
+        {"brand": "Nike", "example": "You train. You compete. You conquer. -- ascending intensity.", "year": "2016"},
+        {"brand": "Apple", "example": "This changes music. This changes video. This changes everything.", "year": "2007"},
+        {"brand": "Under Armour", "example": "Protect This House. Protect This Team. Protect This Dream.", "year": "2013"}
+      ]
+    },
+    "ellipsis": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'elleipsis' -- falling short. Omission of words that are understood from context.",
+      "advertising_use": "Less is more. Ellipsis creates space for the audience to fill in meaning, increasing engagement and memorability. The backbone of minimalist advertising.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Think Different. -- ellipsis of 'you should think differently' compressed to its essence.", "year": "1997"},
+        {"brand": "Volkswagen", "example": "Drivers wanted. -- omitting everything except the core appeal.", "year": "1995"},
+        {"brand": "Got Milk?", "example": "Two words. Everything else -- the brand, the benefit, the lifestyle -- is implied.", "year": "1993"}
+      ]
+    },
+    "epistrophe": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'epistrophe' -- turning upon. Repetition at the end of successive clauses. The mirror of anaphora.",
+      "advertising_use": "Builds momentum toward a repeated conclusion. Each clause adds evidence, but the repeated ending drives the message home. Creates a drumbeat effect.",
+      "ad_examples": [
+        {"brand": "Barack Obama / Branding", "example": "Yes we can. Yes we can. Yes we can. -- ending repetition as rallying cry.", "year": "2008"},
+        {"brand": "Amazon", "example": "Work hard. Have fun. Make history. -- each clause ends with a strong noun.", "year": "2015"},
+        {"brand": "Beats by Dre", "example": "Hear what you want. Feel what you want. Be what you want.", "year": "2014"}
+      ]
+    },
+    "euphemism": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Greek 'euphemismos' -- use of good words. Substituting an agreeable expression for one that is harsh or offensive.",
+      "advertising_use": "Essential for sensitive product categories. Transforms taboo topics into comfortable conversations. Also used strategically to elevate ordinary products.",
+      "ad_examples": [
+        {"brand": "Febreze", "example": "Breathe happy -- euphemism for 'your house smells bad and this fixes it.'", "year": "2012"},
+        {"brand": "Charmin", "example": "Enjoy the go -- euphemism elevating a mundane bathroom product.", "year": "2014"},
+        {"brand": "Cottonelle", "example": "Go Commando -- euphemistic campaign for toilet paper confidence.", "year": "2016"}
+      ]
+    },
+    "hendiadys": {
+      "family": "schemes",
+      "difficulty": "advanced",
+      "origin": "Greek 'hen dia dyoin' -- one through two. Expressing one idea with two nouns joined by 'and' instead of a noun and modifier.",
+      "advertising_use": "Gives equal weight to two aspects of a single idea. 'Sound and fury' hits harder than 'furious sound.' Creates a sense of abundance and richness.",
+      "ad_examples": [
+        {"brand": "Tiffany & Co.", "example": "Beauty and craftsmanship -- hendiadys for 'beautifully crafted.'", "year": "Various"},
+        {"brand": "BMW", "example": "Joy and performance -- two nouns capturing one driving experience.", "year": "2009"},
+        {"brand": "Patagonia", "example": "Quality and purpose -- hendiadys for 'purposefully made quality.'", "year": "2018"}
+      ]
+    },
+    "hyperbole": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Greek 'hyperbole' -- excess. The oldest and most universal form of exaggeration, found in every culture's rhetoric.",
+      "advertising_use": "The engine of advertising claims. Strategic exaggeration is the difference between 'good product' and 'the best product ever made.' Audiences understand the convention and respond to the enthusiasm.",
+      "ad_examples": [
+        {"brand": "Gillette", "example": "The Best a Man Can Get -- absolute superlative as brand positioning.", "year": "1989"},
+        {"brand": "Red Bull", "example": "Red Bull gives you wings -- hyperbolic transformation claim.", "year": "1997"},
+        {"brand": "M&Ms", "example": "Melts in your mouth, not in your hands -- implying supernatural heat resistance.", "year": "1954"}
+      ]
+    },
+    "irony": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'eironeia' -- feigned ignorance. Socrates' primary rhetorical weapon. Saying the opposite of what you mean.",
+      "advertising_use": "Speaks to sophisticated audiences. Ironic campaigns signal intelligence and create in-group bonding with audiences who 'get it.' Dominant in challenger brand positioning.",
+      "ad_examples": [
+        {"brand": "Avis", "example": "We're number two. We try harder. -- ironic celebration of second place.", "year": "1962"},
+        {"brand": "The Economist", "example": "I never read The Economist. Management Trainee. Aged 42.", "year": "2000"},
+        {"brand": "Old Spice", "example": "The Man Your Man Could Smell Like -- ironic masculinity.", "year": "2010"}
+      ]
+    },
+    "litotes": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'litotes' -- plainness, simplicity. Understatement through negation of the opposite.",
+      "advertising_use": "Creates premium positioning through restraint. 'Not bad' is cooler than 'great.' Luxury and prestige brands use litotes to suggest confidence that doesn't need to shout.",
+      "ad_examples": [
+        {"brand": "Rolls-Royce", "example": "Not a bad way to travel. -- monumental understatement for a luxury car.", "year": "1960s"},
+        {"brand": "Stella Artois", "example": "Not cheap, but worth it. -- litotes elevating price as quality signal.", "year": "Various"},
+        {"brand": "Jaguar", "example": "It's not a car. -- negation that elevates beyond category.", "year": "2014"}
+      ]
+    },
+    "metaphor": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Greek 'metaphora' -- transference. Aristotle called metaphor 'the mark of genius.' The fundamental trope from which all others derive.",
+      "advertising_use": "The most powerful device in advertising. Metaphor transfers emotional qualities from one domain to another. 'Red Bull gives you wings' doesn't describe the drink -- it transfers the feeling of flight to a can of caffeine.",
+      "ad_examples": [
+        {"brand": "Red Bull", "example": "Red Bull gives you wings -- drink as flight, energy as liberation.", "year": "1997"},
+        {"brand": "Nike", "example": "Just Do It -- life as athletic performance, every action as sport.", "year": "1988"},
+        {"brand": "Apple", "example": "Your verse -- life as poetry, each person's contribution to the human story.", "year": "2014"}
+      ]
+    },
+    "metonymy": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'metonymia' -- change of name. Substituting one thing for another closely associated with it.",
+      "advertising_use": "Creates shorthand that feels natural. 'Hollywood' for the film industry, 'the bottle' for alcohol. Brands use metonymy to associate products with aspirational contexts.",
+      "ad_examples": [
+        {"brand": "Rolex", "example": "A Crown for Every Achievement -- the crown (metonym for Rolex) represents success.", "year": "Various"},
+        {"brand": "BMW", "example": "The Ultimate Driving Machine -- 'machine' as metonym for the entire driving experience.", "year": "1974"},
+        {"brand": "Budweiser", "example": "King of Beers -- royalty as metonym for market dominance.", "year": "1956"}
+      ]
+    },
+    "onomatopoeia": {
+      "family": "figures_of_sound",
+      "difficulty": "beginner",
+      "origin": "Greek 'onomatopoiia' -- word-making. Words that sound like what they describe. Found in every language.",
+      "advertising_use": "Creates multi-sensory advertising. Sound words trigger sensory memory. Particularly powerful in food, beverage, and automotive categories where sound implies quality.",
+      "ad_examples": [
+        {"brand": "Rice Krispies", "example": "Snap, Crackle, Pop -- the brand IS its sounds.", "year": "1932"},
+        {"brand": "Alka-Seltzer", "example": "Plop plop, fizz fizz -- the product experience as sonic identity.", "year": "1976"},
+        {"brand": "Pringles", "example": "Once you pop, you can't stop -- the 'pop' makes you hear the can opening.", "year": "1996"}
+      ]
+    },
+    "oxymoron": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Greek 'oxys' (sharp) + 'moros' (foolish). A compressed paradox: two contradictory terms placed together.",
+      "advertising_use": "Creates intrigue and memorability through contradiction. Forces audiences to reconcile two opposing ideas, creating deeper engagement and brand curiosity.",
+      "ad_examples": [
+        {"brand": "Microsoft", "example": "Seriously Fun -- oxymoron positioning Xbox as entertainment with depth.", "year": "2013"},
+        {"brand": "Bittersweet Symphony (Verve)", "example": "Used in multiple campaigns -- the phrase itself is an oxymoron.", "year": "1997"},
+        {"brand": "Toyota", "example": "Compact luxury -- oxymoronic product positioning for small premium cars.", "year": "2015"}
+      ]
+    },
+    "paradox": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'paradoxon' -- contrary to expectation. A statement that seems contradictory but reveals a deeper truth.",
+      "advertising_use": "Makes audiences think. Paradoxical statements demand resolution, creating engagement. Often used for brands that challenge conventions or redefine categories.",
+      "ad_examples": [
+        {"brand": "Volkswagen", "example": "Think Small -- paradox of a car company asking you to think small.", "year": "1959"},
+        {"brand": "Less is More", "example": "Used by minimalist brands -- fewer features as superior product.", "year": "Various"},
+        {"brand": "Patagonia", "example": "Don't Buy This Jacket -- paradox of anti-consumerism as marketing.", "year": "2011"}
+      ]
+    },
+    "parallelism": {
+      "family": "schemes",
+      "difficulty": "beginner",
+      "origin": "Greek 'parallelos' -- beside one another. Similar grammatical structure in adjacent phrases or clauses.",
+      "advertising_use": "Creates rhythm, balance, and memorability. Parallel structure makes complex ideas feel organized and inevitable. The backbone of manifesto-style brand writing.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Thinner. Lighter. Faster. -- parallel adjectives, identical structure.", "year": "2012"},
+        {"brand": "Obama Campaign", "example": "Fired up. Ready to go. -- parallel energy in parallel structure.", "year": "2008"},
+        {"brand": "Under Armour", "example": "I Will. I Will. I Will. -- parallel declaration as brand manifesto.", "year": "2013"}
+      ]
+    },
+    "paronomasia": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'paronomasia' -- beside-naming. Punning: using words that sound alike but differ in meaning.",
+      "advertising_use": "Creates wit, memorability, and shareability. Puns reward audiences with cleverness and create headlines that demand a second reading.",
+      "ad_examples": [
+        {"brand": "IKEA", "example": "Make room for life -- 'room' as both space and opportunity.", "year": "2016"},
+        {"brand": "Heinz", "example": "Beanz Meanz Heinz -- phonetic punning as brand identity.", "year": "1967"},
+        {"brand": "KFC", "example": "Finger Lickin' Good -- sensory pun on taste and quality.", "year": "1956"}
+      ]
+    },
+    "personification": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Latin 'personificatio' -- making into a person. Giving human attributes to non-human things.",
+      "advertising_use": "Makes products relatable and emotionally engaging. When your car 'knows' you or your phone 'understands' you, technology becomes companion rather than tool.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Siri -- personifying AI as a helpful assistant with personality.", "year": "2011"},
+        {"brand": "M&Ms", "example": "The M&M characters -- candy personified with distinct personalities.", "year": "1954"},
+        {"brand": "Geico", "example": "The Gecko -- insurance personified as a friendly, relatable character.", "year": "1999"}
+      ]
+    },
+    "polysyndeton": {
+      "family": "schemes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'polysyndeton' -- much bound together. Excessive use of conjunctions. The opposite of asyndeton.",
+      "advertising_use": "Creates weight, deliberation, and emotional accumulation. Each 'and' adds gravity. Used when brands want to convey abundance, thoroughness, or emotional depth.",
+      "ad_examples": [
+        {"brand": "Coca-Cola", "example": "Taste the feeling and the joy and the moment and the music.", "year": "2016"},
+        {"brand": "Levi's", "example": "And we wore them and we loved them and we lived in them.", "year": "2010"},
+        {"brand": "Land Rover", "example": "Over rivers and through forests and across deserts and beyond horizons.", "year": "2018"}
+      ]
+    },
+    "prosopopoeia": {
+      "family": "figures_of_thought",
+      "difficulty": "advanced",
+      "origin": "Greek 'prosopon' (face) + 'poiein' (to make). Speaking as another person or giving speech to the absent, dead, or inanimate.",
+      "advertising_use": "Creates dramatic testimonials and character-driven campaigns. Lets products, historical figures, or even abstract concepts 'speak' directly to audiences.",
+      "ad_examples": [
+        {"brand": "Apple", "example": "Here's to the crazy ones -- speaking for/as icons like Einstein and Gandhi.", "year": "1997"},
+        {"brand": "Lincoln", "example": "Matthew McConaughey campaigns -- the car seemingly speaking through the driver.", "year": "2014"},
+        {"brand": "Dos Equis", "example": "The Most Interesting Man in the World -- a constructed persona delivering brand values.", "year": "2006"}
+      ]
+    },
+    "rhetorical_question": {
+      "family": "figures_of_thought",
+      "difficulty": "beginner",
+      "origin": "Greek 'erotesis' -- questioning. A question asked for effect rather than to elicit an answer.",
+      "advertising_use": "The most direct form of audience engagement in advertising. Forces mental participation. The audience's silent answer IS the brand message.",
+      "ad_examples": [
+        {"brand": "Got Milk?", "example": "Two words that launched a cultural phenomenon. The answer is always yes.", "year": "1993"},
+        {"brand": "Wendy's", "example": "Where's the beef? -- rhetorical question that devastated competitors.", "year": "1984"},
+        {"brand": "L'Oreal", "example": "Because you're worth it. (Implied: aren't you?)", "year": "1973"}
+      ]
+    },
+    "simile": {
+      "family": "tropes",
+      "difficulty": "beginner",
+      "origin": "Latin 'similis' -- like. Explicit comparison using 'like' or 'as.' Unlike metaphor, simile preserves the distinction between compared things.",
+      "advertising_use": "Makes abstract benefits tangible. While metaphor transforms, simile clarifies. Particularly useful for explaining new products or complex benefits in familiar terms.",
+      "ad_examples": [
+        {"brand": "Energizer", "example": "Like a battery that never dies -- simile as hyperbolic product promise.", "year": "1989"},
+        {"brand": "State Farm", "example": "Like a good neighbor, State Farm is there.", "year": "1971"},
+        {"brand": "Chevrolet", "example": "Like a rock -- product durability through natural comparison.", "year": "1991"}
+      ]
+    },
+    "syllepsis": {
+      "family": "tropes",
+      "difficulty": "advanced",
+      "origin": "Greek 'syllepsis' -- a taking together. One word governs two others in different senses.",
+      "advertising_use": "Creates compact, witty headlines that reward close reading. The double meaning in a single word creates efficiency and cleverness simultaneously.",
+      "ad_examples": [
+        {"brand": "British Airways", "example": "Fly to London and to your dreams -- 'fly' as transportation and aspiration.", "year": "Various"},
+        {"brand": "Volvo", "example": "Drive safely and drive ambition -- 'drive' as operate and motivate.", "year": "2017"},
+        {"brand": "American Express", "example": "Don't leave home without it -- applying to both card and confidence.", "year": "1975"}
+      ]
+    },
+    "symploce": {
+      "family": "schemes",
+      "difficulty": "advanced",
+      "origin": "Greek 'symploke' -- interweaving. Combining anaphora and epistrophe -- repeating both at beginning and end.",
+      "advertising_use": "Creates powerful, incantatory rhythm. The most emphatic form of repetition. Used sparingly but devastatingly in brand manifestos and political campaigns.",
+      "ad_examples": [
+        {"brand": "Nike", "example": "When you run, you feel free. When you compete, you feel free. When you win, you feel free.", "year": "2015"},
+        {"brand": "Johnnie Walker", "example": "Every step counts. Every mile counts. Every journey counts.", "year": "2018"},
+        {"brand": "Dove", "example": "Real beauty is confidence. Real beauty is courage. Real beauty is you.", "year": "2017"}
+      ]
+    },
+    "synecdoche": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'synekdoche' -- understanding together. Using a part to represent the whole, or the whole for a part.",
+      "advertising_use": "Creates elegant shorthand. 'Wheels' for car, 'suit' for businessperson. Synecdoche lets advertisers zoom in on the most compelling aspect of a product or experience.",
+      "ad_examples": [
+        {"brand": "Ford", "example": "Get behind the wheel -- the wheel (part) represents the entire driving experience (whole).", "year": "Various"},
+        {"brand": "Apple", "example": "All eyes on the new screen -- 'eyes' representing the full attention of consumers.", "year": "2019"},
+        {"brand": "Samsung", "example": "The next big screen -- 'screen' as synecdoche for the entire phone experience.", "year": "2020"}
+      ]
+    },
+    "zeugma": {
+      "family": "tropes",
+      "difficulty": "intermediate",
+      "origin": "Greek 'zeugma' -- yoking. One word governs or modifies two or more words, often in different senses.",
+      "advertising_use": "Creates efficient, witty copy. One verb doing double duty saves space while adding cleverness. Audiences feel smart when they catch both meanings.",
+      "ad_examples": [
+        {"brand": "Mastercard", "example": "Open your wallet and your mind -- 'open' governs both physical and mental.", "year": "2010"},
+        {"brand": "Honda", "example": "Save gas and the planet -- 'save' serves economic and environmental.", "year": "2009"},
+        {"brand": "HSBC", "example": "We understand money and people -- 'understand' bridges financial and human.", "year": "2012"}
+      ]
+    }
+  },
+  "default_metadata": {
+    "family": "figures_of_thought",
+    "difficulty": "intermediate",
+    "origin": "From the classical rhetorical tradition, catalogued by Greek and Roman rhetoricians including Aristotle, Quintilian, and the anonymous author of Rhetorica ad Herennium.",
+    "advertising_use": "Apply this device to add rhetorical sophistication to headlines, body copy, and visual concepts. Creates deeper audience impact through deliberate language craft.",
+    "ad_examples": [
+      {"brand": "Apple", "example": "Think Different -- demonstrating how classical rhetoric powers modern brand communication.", "year": "1997"},
+      {"brand": "Nike", "example": "Just Do It -- three words that prove the power of rhetorical compression.", "year": "1988"},
+      {"brand": "Volkswagen", "example": "Think Small -- the ad that proved rhetoric could revolutionize an industry.", "year": "1959"}
+    ]
+  }
+}

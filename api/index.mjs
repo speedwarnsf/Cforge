@@ -9720,6 +9720,137 @@ ${content}
       res.status(500).json({ error: "Failed to load rhetorical devices" });
     }
   });
+  app2.get("/api/devices/education", async (_req, res) => {
+    try {
+      const { loadAllRhetoricalDevices: loadAllRhetoricalDevices3 } = await Promise.resolve().then(() => (init_tropeConstraints(), tropeConstraints_exports));
+      const { existsSync: existsSync5, readFileSync: readFileSync7 } = await import("fs");
+      const { join: join6 } = await import("path");
+      const devices = loadAllRhetoricalDevices3();
+      const educationPaths = [
+        join6(process.cwd(), "data", "device-education.json"),
+        "/var/task/data/device-education.json",
+        "/var/task/api/data/device-education.json"
+      ];
+      let education = { families: {}, device_metadata: {}, default_metadata: {} };
+      for (const p of educationPaths) {
+        if (existsSync5(p)) {
+          education = JSON.parse(readFileSync7(p, "utf-8"));
+          break;
+        }
+      }
+      const deviceList = Object.entries(devices).map(([id, definition]) => {
+        const name = id.replace(/_/g, " ");
+        const meta = education.device_metadata[id] || education.default_metadata || {};
+        return {
+          figure_name: name,
+          id,
+          definition,
+          family: meta.family || "figures_of_thought",
+          difficulty: meta.difficulty || "intermediate",
+          origin: meta.origin || education.default_metadata?.origin || "",
+          advertising_use: meta.advertising_use || education.default_metadata?.advertising_use || "",
+          ad_examples: meta.ad_examples || education.default_metadata?.ad_examples || []
+        };
+      });
+      deviceList.sort((a, b) => a.figure_name.localeCompare(b.figure_name));
+      res.json({
+        devices: deviceList,
+        families: education.families || {}
+      });
+    } catch (error) {
+      console.error("Error loading education data:", error);
+      res.status(500).json({ error: "Failed to load education data" });
+    }
+  });
+  app2.get("/api/devices/daily", async (_req, res) => {
+    try {
+      const { loadAllRhetoricalDevices: loadAllRhetoricalDevices3 } = await Promise.resolve().then(() => (init_tropeConstraints(), tropeConstraints_exports));
+      const { existsSync: existsSync5, readFileSync: readFileSync7 } = await import("fs");
+      const { join: join6 } = await import("path");
+      const devices = loadAllRhetoricalDevices3();
+      const keys = Object.keys(devices).sort();
+      const today = /* @__PURE__ */ new Date();
+      const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 864e5);
+      const index = (dayOfYear + today.getFullYear() * 7) % keys.length;
+      const id = keys[index];
+      const educationPaths = [
+        join6(process.cwd(), "data", "device-education.json")
+      ];
+      let education = { device_metadata: {}, default_metadata: {} };
+      for (const p of educationPaths) {
+        if (existsSync5(p)) {
+          education = JSON.parse(readFileSync7(p, "utf-8"));
+          break;
+        }
+      }
+      const meta = education.device_metadata[id] || education.default_metadata || {};
+      res.json({
+        figure_name: id.replace(/_/g, " "),
+        id,
+        definition: devices[id],
+        family: meta.family || "figures_of_thought",
+        difficulty: meta.difficulty || "intermediate",
+        origin: meta.origin || "",
+        advertising_use: meta.advertising_use || "",
+        ad_examples: meta.ad_examples || [],
+        day: today.toISOString().split("T")[0]
+      });
+    } catch (error) {
+      console.error("Error loading daily device:", error);
+      res.status(500).json({ error: "Failed to load daily device" });
+    }
+  });
+  app2.get("/api/devices/quiz", async (_req, res) => {
+    try {
+      const { existsSync: existsSync5, readFileSync: readFileSync7 } = await import("fs");
+      const { join: join6 } = await import("path");
+      const educationPaths = [
+        join6(process.cwd(), "data", "device-education.json")
+      ];
+      let education = { device_metadata: {}, default_metadata: {} };
+      for (const p of educationPaths) {
+        if (existsSync5(p)) {
+          education = JSON.parse(readFileSync7(p, "utf-8"));
+          break;
+        }
+      }
+      const devicesWithExamples = Object.entries(education.device_metadata).filter(([_, meta]) => meta.ad_examples && meta.ad_examples.length > 0);
+      if (devicesWithExamples.length < 4) {
+        return res.status(500).json({ error: "Not enough devices with examples for quiz" });
+      }
+      const correctIdx = Math.floor(Math.random() * devicesWithExamples.length);
+      const [correctId, correctMeta] = devicesWithExamples[correctIdx];
+      const exampleIdx = Math.floor(Math.random() * correctMeta.ad_examples.length);
+      const example = correctMeta.ad_examples[exampleIdx];
+      const wrongOptions = [];
+      const usedIndices = /* @__PURE__ */ new Set([correctIdx]);
+      while (wrongOptions.length < 3) {
+        const idx = Math.floor(Math.random() * devicesWithExamples.length);
+        if (!usedIndices.has(idx)) {
+          usedIndices.add(idx);
+          wrongOptions.push(devicesWithExamples[idx][0].replace(/_/g, " "));
+        }
+      }
+      const options = [correctId.replace(/_/g, " "), ...wrongOptions];
+      for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+      res.json({
+        question: {
+          ad_example: example.example,
+          brand: example.brand,
+          year: example.year
+        },
+        options,
+        correct_answer: correctId.replace(/_/g, " "),
+        hint: correctMeta.advertising_use || ""
+      });
+    } catch (error) {
+      console.error("Error generating quiz:", error);
+      res.status(500).json({ error: "Failed to generate quiz" });
+    }
+  });
   const httpServer = createServer(app2);
   return httpServer;
 }
