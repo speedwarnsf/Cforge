@@ -165,6 +165,15 @@ export default function Home() {
             Starred
           </Button>
         </Link>
+        <Link href="/campaigns">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="text-xs px-2 py-0.5 h-6 bg-black/60 border-cyan-700/50 text-cyan-400/70 hover:text-cyan-300 transition-all"
+          >
+            Campaigns
+          </Button>
+        </Link>
         {(import.meta.env.DEV || new URLSearchParams(window.location.search).has('admin')) && (
           <>
             <Link href="/test-admin">

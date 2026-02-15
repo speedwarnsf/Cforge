@@ -48,8 +48,8 @@ async function getHistoricalConcepts(limit: number = 50): Promise<string[]> {
   }
 }
 
-if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
-  throw new Error("OpenAI API key not set in environment variables.");
+if (!process.env.OPENAI_API_KEY && !process.env.GEMINI_API_KEY && !process.env.OPENAI_API_KEY_ENV_VAR) {
+  throw new Error("No AI API key set (OPENAI_API_KEY or GEMINI_API_KEY).");
 }
 
 // Use Gemini via OpenAI-compatible API (OpenAI key has insufficient quota)
