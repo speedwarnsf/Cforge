@@ -112,14 +112,14 @@ export const EnhancedLoadingOverlay = memo(({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="bg-slate-900/95 border border-slate-700/50 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl"
+          className="bg-slate-900/95 border border-slate-700/50 rounded-none p-8 max-w-md w-full mx-4 shadow-2xl"
         >
           {/* Header */}
           <div className="text-center mb-8">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4"
+              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-none mb-4"
             >
               <Zap className="w-8 h-8 text-white" />
             </motion.div>
@@ -139,12 +139,12 @@ export const EnhancedLoadingOverlay = memo(({
               <span>Progress</span>
               <span>{Math.round(localProgress)}%</span>
             </div>
-            <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+            <div className="h-2 bg-slate-700/50 rounded-none overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${localProgress}%` }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-none"
               />
             </div>
           </div>
@@ -158,7 +158,7 @@ export const EnhancedLoadingOverlay = memo(({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl"
+                className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-none"
               >
                 <div className="text-blue-400">
                   {(() => { const Icon = generationSteps[activeStepIndex]?.icon; return Icon ? <Icon className="w-6 h-6" /> : null; })()}
@@ -192,7 +192,7 @@ export const EnhancedLoadingOverlay = memo(({
                   backgroundColor: index <= activeStepIndex ? '#3b82f6' : '#475569'
                 }}
                 transition={{ duration: 0.2 }}
-                className="w-2 h-2 rounded-full"
+                className="w-2 h-2 rounded-none"
               />
             ))}
           </div>
@@ -203,7 +203,7 @@ export const EnhancedLoadingOverlay = memo(({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onCancel}
-              className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 rounded-lg transition-colors text-sm font-medium"
+              className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 rounded-none transition-colors text-sm font-medium"
             >
               Cancel Generation
             </motion.button>
@@ -281,9 +281,9 @@ export const LoadingCard = ({
   showImage?: boolean;
 }) => {
   return (
-    <div className={`border border-slate-700/50 rounded-xl p-6 ${className}`}>
+    <div className={`border border-slate-700/50 rounded-none p-6 ${className}`}>
       {showImage && (
-        <div className="h-40 bg-slate-700/50 rounded-lg animate-pulse mb-4" />
+        <div className="h-40 bg-slate-700/50 rounded-none animate-pulse mb-4" />
       )}
       <div className="space-y-3">
         <div className="h-6 bg-slate-700/50 rounded animate-pulse" />
