@@ -57,3 +57,4 @@ google-credentials.json
 attached_assets/*.txt
 .vercel
 VERCEL_ENV_VARIABLES.txt
+.env.vercel

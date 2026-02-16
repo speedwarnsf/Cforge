@@ -11,6 +11,10 @@ import OpenAI from 'openai';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
 import { loadAllRhetoricalDevices, getAllAvailableDeviceIds, getDeviceDefinition } from './tropeConstraints';
 
+// Shared AI model selection
+const USE_GEMINI = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+const AI_MODEL = USE_GEMINI ? 'gemini-2.0-flash' : 'gpt-4o';
+
 // ============================================
 // RHETORICAL DEVICE INJECTION
 // ============================================
@@ -278,9 +282,9 @@ export async function exploreDivergently(
   } = {}
 ): Promise<DivergentPool> {
   const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
-  baseURL: process.env.GEMINI_API_KEY ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
-});
+    apiKey: USE_GEMINI ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
+    baseURL: USE_GEMINI ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+  });
 
   const {
     poolSize = 15,
@@ -499,7 +503,7 @@ async function generateRawIdeas(
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
 
   const response = await openai.chat.completions.create({
-    model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
+    model: AI_MODEL,
     messages: [
       { role: 'system', content: persona.systemPromptOverride },
       { role: 'user', content: prompt }
@@ -549,7 +553,7 @@ async function checkThematicCoherence(
   openai: OpenAI
 ): Promise<number> {
   const response = await openai.chat.completions.create({
-    model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? 'gemini-2.0-flash' : 'gpt-4o',
+    model: AI_MODEL,
     messages: [{
       role: 'user',
       content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):

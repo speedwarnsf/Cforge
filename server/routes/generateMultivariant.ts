@@ -478,7 +478,7 @@ export async function generateMultivariant(req: Request, res: Response) {
       try {
         const orchestrator = new HybridGenerationOrchestrator({
           enableDivergentExploration: hybridConfig?.enableDivergentExploration ?? true,
-          enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? true,
+          enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? false,  // PERF: disabled - adds latency with minimal quality gain
           enableTropeConstraints: hybridConfig?.enableTropeConstraints ?? true,
           creativityLevel: hybridConfig?.creativityLevel ?? 'balanced',
           fallbackToLegacy: true

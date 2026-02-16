@@ -3292,8 +3292,8 @@ Each direction should feel like it could anchor an entirely different campaign.`
 }
 async function exploreDivergently(userBrief, options = {}) {
   const openai14 = new OpenAI3({
-    apiKey: process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
-    baseURL: process.env.GEMINI_API_KEY ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+    apiKey: USE_GEMINI ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
+    baseURL: USE_GEMINI ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
   });
   const {
     poolSize = 15,
@@ -3430,7 +3430,7 @@ function selectPersona(index, rotation, counts) {
 async function generateRawIdeas(openai14, theme, persona, temperature, device, domainIndex) {
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
   const response = await openai14.chat.completions.create({
-    model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
+    model: AI_MODEL,
     messages: [
       { role: "system", content: persona.systemPromptOverride },
       { role: "user", content: prompt }
@@ -3531,12 +3531,14 @@ function deduplicateSeeds(seeds) {
   }
   return unique;
 }
-var BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS, METAPHOR_DOMAINS;
+var USE_GEMINI, AI_MODEL, BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS, METAPHOR_DOMAINS;
 var init_divergentExplorer = __esm({
   "server/utils/divergentExplorer.ts"() {
     "use strict";
     init_embeddingSimilarity();
     init_tropeConstraints();
+    USE_GEMINI = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+    AI_MODEL = USE_GEMINI ? "gemini-2.0-flash" : "gpt-4o";
     BANNED_COMMON_DEVICES = /* @__PURE__ */ new Set([
       "metaphor",
       "simile",
@@ -7782,7 +7784,8 @@ async function generateMultivariant(req, res) {
       try {
         const orchestrator = new HybridGenerationOrchestrator({
           enableDivergentExploration: hybridConfig?.enableDivergentExploration ?? true,
-          enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? true,
+          enableProgressiveEvolution: hybridConfig?.enableProgressiveEvolution ?? false,
+          // PERF: disabled - adds latency with minimal quality gain
           enableTropeConstraints: hybridConfig?.enableTropeConstraints ?? true,
           creativityLevel: hybridConfig?.creativityLevel ?? "balanced",
           fallbackToLegacy: true
