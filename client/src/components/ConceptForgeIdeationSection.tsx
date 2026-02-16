@@ -785,7 +785,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         {/* Analysis Tools */}
         <div className="mt-12 mb-16">
           <div className="max-w-2xl mx-auto">
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               {/* Image Analysis Toggle */}
               <div className={`bg-gray-800/20 backdrop-blur-sm border rounded-none p-4 transition-all duration-200 ${
                 imageAnalysisEnabled ? 'border-green-400 bg-green-900/20' : 'border-gray-700'
