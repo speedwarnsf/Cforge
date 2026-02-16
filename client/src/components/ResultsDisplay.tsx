@@ -62,18 +62,18 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 mt-12 mb-20">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-4 mt-12 mb-20 box-border" style={{ minWidth: 0 }}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-10 border-b border-gray-800 pb-6">
-        <div>
-          <h2 className="text-2xl font-black text-white tracking-tight uppercase mb-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 border-b border-gray-800 pb-6">
+        <div className="min-w-0 shrink-0">
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase mb-1" style={{ textWrap: 'balance' }}>
             Generated Concept{results.length > 1 ? 's' : ''}
           </h2>
-          <p className="text-xs text-gray-500 font-mono">
+          <p className="text-xs text-gray-500 font-mono whitespace-nowrap">
             {results.length} result{results.length > 1 ? 's' : ''} -- auto-saved to gallery
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 shrink-0">
           <Button
             variant="ghost"
             size="sm"
@@ -125,8 +125,8 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
           >
             <div className="p-8 sm:p-10">
               {/* Top row: number + devices + originality */}
-              <div className="flex items-start justify-between mb-8">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-8">
+                <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 bg-white text-black flex items-center justify-center text-sm font-black shrink-0">
                     {i + 1}
                   </div>
@@ -230,7 +230,7 @@ const ResultsDisplay = memo(({ results, onFeedback }: ResultsDisplayProps) => {
               )}
 
               {/* Actions */}
-              <div className="flex items-center gap-2 pt-6 mt-6 border-t border-gray-800/40">
+              <div className="flex flex-wrap items-center gap-2 pt-6 mt-6 border-t border-gray-800/40">
                 <Button
                   variant="ghost"
                   size="sm"

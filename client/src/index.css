@@ -126,27 +126,21 @@ body {
   }
 
   /* All text elements */
-  p, span, h1, h2, h3, h4, h5, h6, li, td, th, label, a, div {
+  p, span, h1, h2, h3, h4, h5, h6, li, td, th, label {
     max-width: 100% !important;
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
-    word-break: break-word !important;
   }
 
   /* Concept card specific - highest specificity */
   .concept-card,
-  .concept-card > *,
   .concept-card p,
   .concept-card h2,
   .concept-card h3,
-  .concept-card h4,
-  .concept-card div,
-  .concept-card span {
+  .concept-card h4 {
     max-width: 100% !important;
-    width: 100% !important;
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
-    word-break: break-word !important;
     white-space: normal !important;
   }
 

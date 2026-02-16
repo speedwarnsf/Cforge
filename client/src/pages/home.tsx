@@ -137,7 +137,7 @@ export default function Home() {
       </div>
 
       {/* Admin Navigation - Only visible in development or with ?admin query param */}
-      <div className="fixed right-4 top-4 flex gap-2 z-50">
+      <div className="fixed left-0 sm:left-auto sm:right-4 top-4 flex gap-2 z-50 w-full sm:w-auto overflow-x-auto px-4 sm:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
         <Link href="/devices">
           <Button 
             variant="outline" 
