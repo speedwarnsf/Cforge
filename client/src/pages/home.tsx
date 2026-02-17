@@ -4,7 +4,7 @@ import { useVideo } from "@/hooks/use-video";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useRef, useEffect } from "react";
-import conceptForgeLogo from "@assets/Headline_1752875122000.png";
+// Logo image replaced with type treatment matching login page
 // Use static video paths for better bundle optimization
 const backgroundVideoOptimized = "/videos/clean_anvil_video_optimized.mp4";
 const backgroundVideoFallback = "/videos/clean_anvil_video_optimized.mp4"; // Use optimized for both
@@ -112,26 +112,25 @@ export default function Home() {
           }}
         />
 
-        {/* ConceptForge Logo - Inside hero container */}
+        {/* ConceptForge Type Treatment - Matching login page */}
         <div 
           ref={logoRef}
-          className="absolute pointer-events-none px-5"
+          className="absolute pointer-events-none px-5 text-center"
           style={{
             top: '15vh',
             left: '50%',
-            transform: 'translateX(-50%) scale(1.2) translateZ(0)',
+            transform: 'translateX(-50%) translateZ(0)',
             zIndex: 5,
-            maxWidth: '450px',
           }}
         >
-          <img 
-            src={conceptForgeLogo} 
-            alt="ConceptForge" 
-            className="w-full h-auto max-w-[450px]"
-            style={{
-              filter: 'drop-shadow(0 8px 25px rgba(0, 0, 0, 0.9))',
-            }}
-          />
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.2em] text-white whitespace-nowrap"
+            style={{ textShadow: '0 8px 25px rgba(0, 0, 0, 0.9)' }}
+          >
+            CONCEPT<span className="font-semibold">FORGE</span>
+          </h1>
+          <p className="text-white/50 text-sm md:text-base tracking-widest mt-3">
+            Creative Ideation Platform
+          </p>
         </div>
 
       </div>

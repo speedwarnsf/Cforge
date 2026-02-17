@@ -520,17 +520,11 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
         <div className="fixed inset-0 bg-slate-900/90 text-white z-50 flex items-center justify-center" role="alert" aria-live="assertive" aria-label="Generating concepts">
           <div className="text-center">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              {/* ConceptForge Logo */}
+              {/* ConceptForge Type Treatment */}
               <div className="mb-6">
-                <img 
-                  src="/attached_assets/Headline_1752875122000.png" 
-                  alt="ConceptForge" 
-                  className="w-64 h-auto mx-auto opacity-90"
-                  style={{
-                    filter: 'drop-shadow(0 8px 25px rgba(0, 0, 0, 0.9))',
-                    maxWidth: '320px'
-                  }}
-                />
+                <h2 className="text-4xl md:text-5xl font-light tracking-[0.2em] text-white">
+                  CONCEPT<span className="font-semibold">FORGE</span>
+                </h2>
               </div>
               
               <div className="text-center">
