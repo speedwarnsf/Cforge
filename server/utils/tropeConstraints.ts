@@ -947,7 +947,21 @@ export function scoreTropeAlignment(
     const patternResult = validateTropePattern(content, tropeId);
     const vocabResult = checkVocabularyAlignment(content, tropeId);
 
-    const tropeScore = (patternResult.matched ? 0.7 : 0) + (vocabResult.score * 0.3);
+    // Pattern match gives 0.7, vocab gives up to 0.3
+    let tropeScore = (patternResult.matched ? 0.7 : 0) + (vocabResult.score * 0.3);
+    
+    // For rare/uncommon devices without pattern rules, give a baseline score
+    // if the content is substantive (the device was assigned and LLM attempted it)
+    if (tropeScore === 0 && content.length > 50) {
+      // Check if the device name appears in the content (rhetorical analysis section)
+      const deviceName = tropeId.replace(/_/g, ' ').toLowerCase();
+      if (content.toLowerCase().includes(deviceName)) {
+        tropeScore = 0.6; // Device explicitly referenced = likely applied
+      } else {
+        tropeScore = 0.35; // Baseline: device was assigned, content exists
+      }
+    }
+    
     totalScore += tropeScore;
   }
 

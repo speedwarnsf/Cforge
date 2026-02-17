@@ -69,7 +69,7 @@ const DEFAULT_CONFIG: HybridConfig = {
   enableTropeConstraints: true,
   enableTropeVariety: true,  // Strongly favor unexplored devices from 411 corpus
   fallbackToLegacy: true,
-  divergentPoolSize: 5,  // PERF: Reduced from 15 - 1 iteration instead of 3
+  divergentPoolSize: 10,  // Tuned: 2 iterations for better seed diversity (was 5=1 iter, 15=3 iter)
   maxEvolutionCycles: 50,
   tropeValidationStrength: 'moderate',
   creativityLevel: 'balanced'

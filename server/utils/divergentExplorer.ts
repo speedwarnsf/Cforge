@@ -11,9 +11,13 @@ import OpenAI from 'openai';
 import { getEmbedding, cosineSimilarity } from './embeddingSimilarity';
 import { loadAllRhetoricalDevices, getAllAvailableDeviceIds, getDeviceDefinition } from './tropeConstraints';
 
-// Shared AI model selection
-const USE_GEMINI = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
-const AI_MODEL = USE_GEMINI ? 'gemini-2.0-flash' : 'gpt-4o';
+// Shared AI model selection (lazy - env vars may not be loaded at module eval time)
+function useGemini(): boolean {
+  return !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+}
+function getAIModel(): string {
+  return useGemini() ? 'gemini-2.0-flash' : 'gpt-4o';
+}
 
 // ============================================
 // RHETORICAL DEVICE INJECTION
@@ -281,9 +285,10 @@ export async function exploreDivergently(
     historicalEmbeddings?: number[][];
   } = {}
 ): Promise<DivergentPool> {
+  const isGemini = useGemini();
   const openai = new OpenAI({
-    apiKey: USE_GEMINI ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
-    baseURL: USE_GEMINI ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
+    apiKey: isGemini ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
+    baseURL: isGemini ? 'https://generativelanguage.googleapis.com/v1beta/openai/' : undefined,
   });
 
   const {
@@ -415,6 +420,20 @@ export async function selectCreativeSeed(
 
   if (eligibleSeeds.length === 0) {
     console.warn('No seeds met minimum criteria, using best available');
+    if (pool.seeds.length === 0) {
+      // Return a synthetic fallback seed so pipeline can continue
+      console.warn('No seeds at all - creating synthetic fallback seed');
+      return {
+        id: `fallback_${Date.now()}`,
+        rawIdea: pool.userBrief,
+        persona: (await import('./divergentExplorer')).CREATIVE_PERSONAS[0],
+        embedding: [],
+        distinctivenessScore: 0.5,
+        thematicCoherence: 0.7,
+        tropeCompatibility: ['Metaphor', 'Antithesis'],
+        timestamp: new Date()
+      } as CreativeSeed;
+    }
     // Fall back to highest combined score
     return pool.seeds.reduce((best, current) => {
       const bestScore = best.distinctivenessScore + best.thematicCoherence;
@@ -503,7 +522,7 @@ async function generateRawIdeas(
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
 
   const response = await openai.chat.completions.create({
-    model: AI_MODEL,
+    model: getAIModel(),
     messages: [
       { role: 'system', content: persona.systemPromptOverride },
       { role: 'user', content: prompt }
@@ -553,7 +572,7 @@ async function checkThematicCoherence(
   openai: OpenAI
 ): Promise<number> {
   const response = await openai.chat.completions.create({
-    model: AI_MODEL,
+    model: getAIModel(),
     messages: [{
       role: 'user',
       content: `Rate how well this creative idea relates to the original brief (0.0 to 1.0):

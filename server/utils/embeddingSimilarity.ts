@@ -1,5 +1,8 @@
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-const GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
+// Lazy - env vars may not be loaded at module eval time (ESM hoisting)
+function getGeminiEmbeddingUrl(): string {
+  const key = process.env.GEMINI_API_KEY || '';
+  return `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${key}`;
+}
 
 /**
  * Sanitizes text by removing stray unicode and normalizing whitespace.
@@ -24,7 +27,7 @@ function sanitizeText(text: string): string {
 async function getEmbedding(text: string): Promise<number[]> {
   try {
     const sanitizedText = sanitizeText(text);
-    const response = await fetch(GEMINI_EMBEDDING_URL, {
+    const response = await fetch(getGeminiEmbeddingUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

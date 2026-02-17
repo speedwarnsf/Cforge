@@ -1,20 +1,38 @@
 /**
  * Shared AI client configuration
  * Prefers OpenAI when available; only falls back to Gemini if OPENAI_API_KEY is absent
+ * Uses lazy evaluation to avoid capturing env vars before dotenv loads
  */
 import OpenAI from 'openai';
 
-// Prefer OpenAI if available; only use Gemini if OPENAI_API_KEY is absent
-const useGemini = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+// Lazy evaluation - env vars may not be loaded at module eval time (ESM hoisting)
+function isGemini(): boolean {
+  return !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+}
 
-export const AI_MODEL = useGemini ? 'gemini-2.0-flash' : 'gpt-4o';
+export function getAIModel(): string {
+  return isGemini() ? 'gemini-2.0-flash' : 'gpt-4o';
+}
+
+// Keep as getter for backward compat
+export const AI_MODEL = 'gemini-2.0-flash'; // Default; use getAIModel() for runtime
 
 export function createAIClient(): OpenAI {
+  const gemini = isGemini();
   return new OpenAI({
-    apiKey: useGemini ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
-    baseURL: useGemini ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
+    apiKey: gemini ? process.env.GEMINI_API_KEY : (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY),
+    baseURL: gemini ? "https://generativelanguage.googleapis.com/v1beta/openai/" : undefined,
   });
 }
 
-// Singleton for modules that use a global client
-export const sharedAIClient = createAIClient();
+// Lazy singleton
+let _sharedClient: OpenAI | null = null;
+export function getSharedAIClient(): OpenAI {
+  if (!_sharedClient) _sharedClient = createAIClient();
+  return _sharedClient;
+}
+export const sharedAIClient = new Proxy({} as OpenAI, {
+  get(_, prop) {
+    return (getSharedAIClient() as any)[prop];
+  }
+});

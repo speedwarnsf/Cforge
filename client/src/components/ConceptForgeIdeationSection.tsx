@@ -55,7 +55,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   const carouselItems = [
     {
       icon: Target,
-      title: "290+ rhetorical devices at your fingertips",
+      title: "411 rhetorical devices at your fingertips",
       subtitle: "From antithesis to zeugma. Classical rhetoric meets modern advertising.",
       gradient: "from-blue-500 to-blue-600",
       textGradient: "linear-gradient(to right, #60a5fa, #a78bfa)"
@@ -247,7 +247,13 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
 
             // Build rhetorical analysis reasoning
             const analysis = output.hybridMetadata?.rhetoricalAnalysis;
-            const reasoning = analysis?.applicationExplanation || '';
+            // Combine all analysis fields into a rich rationale
+            const reasoningParts = [
+              analysis?.applicationExplanation,
+              analysis?.textualEvidence?.length ? `Evidence: ${analysis.textualEvidence.join('; ')}` : null,
+              analysis?.effectivenessNote ? `Why it works: ${analysis.effectivenessNote}` : null,
+            ].filter(Boolean);
+            const reasoning = reasoningParts.join(' | ') || '';
 
             return {
               id: output.conceptId || output.id || `concept-${idx}`,
@@ -440,7 +446,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
         {/* Hero Value Proposition */}
         <div className="text-center mb-12" style={{ marginTop: '-115px' }}>
           <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-8">
-            AI-powered creative concepting with 290+ rhetorical devices, 
+            AI-powered creative concepting with 411 rhetorical devices, 
             originality verification, and multi-arbiter quality scoring.
           </p>
 
