@@ -123,20 +123,20 @@ export default function Home() {
             zIndex: 5,
           }}
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.2em] text-white whitespace-nowrap"
+          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.15em] sm:tracking-[0.2em] text-white"
             style={{ textShadow: '0 8px 25px rgba(0, 0, 0, 0.9)' }}
           >
             CONCEPT<span className="font-semibold">FORGE</span>
           </h1>
-          <p className="text-white/50 text-sm md:text-base tracking-widest mt-3">
+          <p className="text-white/50 text-xs sm:text-sm md:text-base tracking-widest mt-3">
             Creative Ideation Platform
           </p>
         </div>
 
       </div>
 
-      {/* Admin Navigation - Only visible in development or with ?admin query param */}
-      <div className="fixed left-0 sm:left-auto sm:right-4 top-4 flex gap-2 z-50 w-full sm:w-auto overflow-x-auto px-4 sm:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+      {/* Admin Navigation - Hidden on mobile, top-right on desktop */}
+      <div className="fixed right-4 top-4 hidden sm:flex gap-2 z-50">
         <Link href="/devices">
           <Button 
             variant="outline" 
