@@ -279,7 +279,7 @@ export class TrajectoryCapture {
     };
 
     this.stepBuffer = [];
-    console.log(`📊 Started trajectory capture: ${this.currentTrajectory.id}`);
+    //console.log(`📊 Started trajectory capture: ${this.currentTrajectory.id}`);
   }
 
   /**
@@ -400,10 +400,10 @@ export class TrajectoryCapture {
     // Calculate cumulative loss with temporal weighting
     this.currentTrajectory.totalLoss = this.calculateCumulativeLoss();
 
-    console.log(`📊 Ended trajectory capture: ${this.currentTrajectory.id}`);
-    console.log(`   Steps: ${this.currentTrajectory.steps.length}`);
-    console.log(`   Total Loss: ${this.currentTrajectory.totalLoss.toFixed(4)}`);
-    console.log(`   Final Score: ${finalScore.toFixed(4)}`);
+    //console.log(`📊 Ended trajectory capture: ${this.currentTrajectory.id}`);
+    //console.log(`   Steps: ${this.currentTrajectory.steps.length}`);
+    //console.log(`   Total Loss: ${this.currentTrajectory.totalLoss.toFixed(4)}`);
+    //console.log(`   Final Score: ${finalScore.toFixed(4)}`);
 
     const completed = this.currentTrajectory;
     this.currentTrajectory = null;
@@ -516,10 +516,10 @@ export class TrainingBatchProcessor {
       gradientStats: { mean, variance, maxNorm }
     };
 
-    console.log(`🎓 Processed training batch ${this.processedBatches}:`);
-    console.log(`   Trajectories: ${trajectories.length}`);
-    console.log(`   Batch Loss: ${batchLoss.toFixed(4)}`);
-    console.log(`   Avg Final Score: ${averageFinalScore.toFixed(4)}`);
+    //console.log(`🎓 Processed training batch ${this.processedBatches}:`);
+    //console.log(`   Trajectories: ${trajectories.length}`);
+    //console.log(`   Batch Loss: ${batchLoss.toFixed(4)}`);
+    //console.log(`   Avg Final Score: ${averageFinalScore.toFixed(4)}`);
 
     return batch;
   }
@@ -546,7 +546,7 @@ export class TrajectoryStorage {
    */
   async saveTrajectory(trajectory: Trajectory): Promise<boolean> {
     if (!supabase) {
-      console.log('Supabase not configured, skipping trajectory save');
+      //console.log('Supabase not configured, skipping trajectory save');
       return false;
     }
     try {
@@ -574,7 +574,7 @@ export class TrajectoryStorage {
         return false;
       }
 
-      console.log(`💾 Saved trajectory ${trajectory.id} to database`);
+      //console.log(`💾 Saved trajectory ${trajectory.id} to database`);
       return true;
     } catch (error) {
       console.error('Trajectory save error:', error);
@@ -591,7 +591,7 @@ export class TrajectoryStorage {
     sessionId?: string;
   } = {}): Promise<Trajectory[]> {
     if (!supabase) {
-      console.log('Supabase not configured, returning empty trajectories');
+      //console.log('Supabase not configured, returning empty trajectories');
       return [];
     }
     try {

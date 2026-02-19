@@ -64,14 +64,14 @@ function cosineSimilarity(a: number[], b: number[]): number {
  * Returns true if all concepts pass similarity threshold.
  */
 async function checkConceptDiversity(concepts: string[], similarityThreshold = 0.85): Promise<boolean> {
-  console.log(`🔍 Checking semantic diversity for ${concepts.length} concepts...`);
+  //console.log(`🔍 Checking semantic diversity for ${concepts.length} concepts...`);
   
   const embeddings = await Promise.all(concepts.map(c => getEmbedding(c)));
   
   for (let i = 0; i < embeddings.length; i++) {
     for (let j = i + 1; j < embeddings.length; j++) {
       const similarity = cosineSimilarity(embeddings[i], embeddings[j]);
-      console.log(`🔍 Semantic similarity between concept ${i + 1} and ${j + 1}: ${similarity.toFixed(3)}`);
+      //console.log(`🔍 Semantic similarity between concept ${i + 1} and ${j + 1}: ${similarity.toFixed(3)}`);
       
       if (similarity >= similarityThreshold) {
         console.warn(`Concepts ${i + 1} and ${j + 1} are semantically too similar (similarity=${similarity.toFixed(3)}).`);
@@ -80,7 +80,7 @@ async function checkConceptDiversity(concepts: string[], similarityThreshold = 0
     }
   }
   
-  console.log(`All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
+  //console.log(`All concepts pass semantic diversity check (threshold: ${similarityThreshold})`);
   return true;
 }
 
@@ -97,7 +97,7 @@ async function checkHistoricalSimilarityWithEmbeddings(
     return { isSimilar: false };
   }
 
-  console.log(`🔍 Checking semantic similarity against ${historicalConcepts.length} historical concepts...`);
+  //console.log(`🔍 Checking semantic similarity against ${historicalConcepts.length} historical concepts...`);
   
   const newEmbedding = await getEmbedding(newConcept);
   const historicalEmbeddings = await Promise.all(historicalConcepts.map(c => getEmbedding(c)));
@@ -114,7 +114,7 @@ async function checkHistoricalSimilarityWithEmbeddings(
     }
   }
   
-  console.log(`🔍 Highest semantic similarity: ${maxSimilarity.toFixed(3)} (threshold: ${similarityThreshold})`);
+  //console.log(`🔍 Highest semantic similarity: ${maxSimilarity.toFixed(3)} (threshold: ${similarityThreshold})`);
   
   if (maxSimilarity >= similarityThreshold) {
     console.warn(`New concept is semantically too similar to historical concept (similarity=${maxSimilarity.toFixed(3)})`);
@@ -142,22 +142,22 @@ export async function enforceConceptDiversity(
     try {
       const isDiverse = await checkConceptDiversity(currentConcepts, similarityThreshold);
       if (isDiverse) {
-        console.log(`All concepts passed semantic diversity check on attempt ${attempt}.`);
+        //console.log(`All concepts passed semantic diversity check on attempt ${attempt}.`);
         return currentConcepts;
       }
       
-      console.log(`🔄 Regenerating concepts (attempt ${attempt + 1}) due to high semantic similarity.`);
+      //console.log(`🔄 Regenerating concepts (attempt ${attempt + 1}) due to high semantic similarity.`);
       currentConcepts = await regenerateCallback();
       attempt++;
     } catch (error) {
       console.error(`Error during diversity check attempt ${attempt}:`, error);
       // Fall back to basic word-based similarity on embedding failure
-      console.log('🔄 Falling back to word-based similarity check...');
+      //console.log('🔄 Falling back to word-based similarity check...');
       return currentConcepts;
     }
   }
   
-  console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
+  //console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
   return currentConcepts;
 }
 
@@ -180,7 +180,7 @@ export async function generateAiResponse(options: {
   const GEMINI_CHAT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   while (attempt <= maxAttempts && !diversityPassed) {
-    console.log(`Generating concepts (Attempt ${attempt})`);
+    //console.log(`Generating concepts (Attempt ${attempt})`);
 
     const chatResponse = await fetch(GEMINI_CHAT_URL, {
       method: 'POST',
@@ -198,7 +198,7 @@ export async function generateAiResponse(options: {
       .map(c => sanitizeText(c))
       .filter(Boolean);
 
-    console.log(`Generated ${concepts.length} concepts.`);
+    //console.log(`Generated ${concepts.length} concepts.`);
 
     diversityPassed = await checkConceptDiversity(concepts, similarityThreshold);
 
@@ -212,7 +212,7 @@ export async function generateAiResponse(options: {
   if (!diversityPassed) {
     console.warn(`Returning concepts after ${maxAttempts} attempts despite similarity.`);
   } else {
-    console.log(`🎉 Diversity check passed.`);
+    //console.log(`🎉 Diversity check passed.`);
   }
 
   return concepts;

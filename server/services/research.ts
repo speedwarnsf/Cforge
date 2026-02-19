@@ -164,7 +164,7 @@ async function performGoogleSearch(query: string): Promise<SearchMatch[]> {
   const searchEngineId = process.env.GOOGLE_SEARCH_ENGINE_ID;
   
   if (!apiKey || !searchEngineId) {
-    console.log('Google Search API credentials not available, skipping originality check');
+    //console.log('Google Search API credentials not available, skipping originality check');
     return [];
   }
 

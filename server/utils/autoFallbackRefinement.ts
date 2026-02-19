@@ -43,7 +43,7 @@ export async function refineIfLowSophistication(
     return { concept, wasRefined: false };
   }
 
-  console.log(`🔧 Auto-refining concept with ${concept.scores.overall}% sophistication (threshold: ${minThreshold}%)`);
+  //console.log(`🔧 Auto-refining concept with ${concept.scores.overall}% sophistication (threshold: ${minThreshold}%)`);
 
   let refinementReason = '';
   let simplifiedInject = '';
@@ -80,7 +80,7 @@ export async function refineIfLowSophistication(
       }
     };
 
-    console.log(`Concept refined successfully. Reason: ${refinementReason}`);
+    //console.log(`Concept refined successfully. Reason: ${refinementReason}`);
 
     return {
       concept: refinedConcept,
@@ -109,7 +109,7 @@ export async function batchRefineIfNeeded(
   const results = await Promise.all(refinementPromises);
   
   const refinedCount = results.filter(r => r.wasRefined).length;
-  console.log(`🔧 Auto-refinement completed: ${refinedCount}/${concepts.length} concepts refined`);
+  //console.log(`🔧 Auto-refinement completed: ${refinedCount}/${concepts.length} concepts refined`);
 
   return results;
 }

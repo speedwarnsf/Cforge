@@ -36,7 +36,7 @@ export async function applyFeedback(
   conceptId: string
 ): Promise<{ status: string; message: string }> {
   if (!FEEDBACK_INFLUENCE_ACTIVE) {
-    console.log('📊 Feedback influence system is deactivated');
+    //console.log('📊 Feedback influence system is deactivated');
     return { status: 'skipped', message: 'Feedback influence not active' };
   }
 
@@ -47,10 +47,10 @@ export async function applyFeedback(
     // Apply weight adjustments based on feedback type
     if (feedbackType === 'more_like_this') {
       preferences.weights[conceptId] = (preferences.weights[conceptId] || 0) + 0.2; // Boost weight
-      console.log(`👍 Boosted weight for concept ${conceptId} by +0.2 (now: ${preferences.weights[conceptId]})`);
+      //console.log(`👍 Boosted weight for concept ${conceptId} by +0.2 (now: ${preferences.weights[conceptId]})`);
     } else if (feedbackType === 'less_like_this') {
       preferences.weights[conceptId] = (preferences.weights[conceptId] || 0) - 0.3; // Reduce weight
-      console.log(`👎 Reduced weight for concept ${conceptId} by -0.3 (now: ${preferences.weights[conceptId]})`);
+      //console.log(`👎 Reduced weight for concept ${conceptId} by -0.3 (now: ${preferences.weights[conceptId]})`);
     }
 
     preferences.lastUpdated = new Date();
@@ -61,7 +61,7 @@ export async function applyFeedback(
     // Store updated preferences
     await savePreferences(preferences);
 
-    console.log(`Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
+    //console.log(`Feedback influence applied: ${feedbackType} for concept ${conceptId}`);
     return { 
       status: 'success', 
       message: `Feedback applied and biases updated for ${feedbackType}` 
@@ -100,7 +100,7 @@ async function loadPreferences(projectId: string): Promise<UserPreferences> {
       };
     }
   } catch (error) {
-    console.log('Could not load preferences from database, using defaults:', error);
+    //console.log('Could not load preferences from database, using defaults:', error);
   }
 
   // Return default preferences if none found
@@ -131,11 +131,11 @@ async function savePreferences(preferences: UserPreferences): Promise<void> {
       throw error;
     }
 
-    console.log(`💾 User preferences saved for project ${preferences.projectId}`);
+    //console.log(`💾 User preferences saved for project ${preferences.projectId}`);
   } catch (error) {
     console.error('Failed to save preferences:', error);
     // Fall back to in-memory storage (could implement Redis/file storage here)
-    console.log('Using in-memory preference storage as fallback');
+    //console.log('Using in-memory preference storage as fallback');
   }
 }
 
@@ -151,13 +151,13 @@ async function ensurePreferencesTable(): Promise<void> {
       .limit(0);
 
     if (error && error.code === '42P01') { // Table doesn't exist
-      console.log('📋 Creating user_preferences table...');
+      //console.log('📋 Creating user_preferences table...');
       // Note: In production, you'd want to create this table via migration
       // This is a fallback approach
     }
   } catch (error) {
     // Silently handle table creation issues
-    console.log('Could not verify user_preferences table');
+    //console.log('Could not verify user_preferences table');
   }
 }
 
@@ -178,7 +178,7 @@ async function updateRetrievalBias(preferences: UserPreferences): Promise<void> 
       lastBiasUpdate: new Date()
     }));
 
-    console.log(`🔄 Applied retrieval bias to ${biasUpdates.length} corpus entries`);
+    //console.log(`🔄 Applied retrieval bias to ${biasUpdates.length} corpus entries`);
     
     // Store bias adjustments for retrieval system to use
     if (biasUpdates.length > 0) {
@@ -238,7 +238,7 @@ async function storeRetrievalBias(biasUpdates: Array<{ conceptId: string; retrie
         .eq('id', bias.conceptId);
     }
 
-    console.log(`Stored retrieval bias for ${biasUpdates.length} concepts`);
+    //console.log(`Stored retrieval bias for ${biasUpdates.length} concepts`);
   } catch (error) {
     console.error('Failed to store retrieval bias:', error);
   }

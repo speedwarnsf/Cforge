@@ -75,7 +75,7 @@ Be rigorous in your evaluation, referencing the standards of globally awarded ca
       json.award_potential = 'Moderate';
     }
     
-    console.log(`🏆 Awards Jury Score: ${json.awards_score}/100, Potential: ${json.award_potential}`);
+    //console.log(`🏆 Awards Jury Score: ${json.awards_score}/100, Potential: ${json.award_potential}`);
     
     return json;
   } catch (error) {

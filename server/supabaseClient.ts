@@ -4,7 +4,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.log('Supabase credentials missing, logging will be disabled');
+  //console.log('Supabase credentials missing, logging will be disabled');
 }
 
 // Create client with auth config to bypass RLS for service operations
@@ -85,7 +85,7 @@ export async function clearUsedExamples(): Promise<void> {
     if (error) {
       console.error('Error clearing used examples:', error);
     } else {
-      console.log('🔄 Used examples table cleared - reset cycle completed');
+      //console.log('🔄 Used examples table cleared - reset cycle completed');
     }
   } catch (error) {
     console.error('Error in clearUsedExamples:', error);
@@ -179,7 +179,7 @@ export async function logSession({
   originalityConfidence?: number | null;
 }): Promise<string | null> {
   if (!supabase) {
-    console.log('Supabase not configured, skipping log');
+    //console.log('Supabase not configured, skipping log');
     return null;
   }
 
@@ -198,7 +198,7 @@ export async function logSession({
         created_at: new Date().toISOString()
       };
 
-      console.log(`🔄 Attempting to log session to Supabase (attempt ${currentRetry + 1})...`);
+      //console.log(`🔄 Attempting to log session to Supabase (attempt ${currentRetry + 1})...`);
       
       const { data, error } = await supabase
         .from('concept_logs')
@@ -210,7 +210,7 @@ export async function logSession({
         
         if (currentRetry < maxRetries) {
           currentRetry++;
-          console.log(`🔄 Retrying in 1 second... (${currentRetry}/${maxRetries})`);
+          //console.log(`🔄 Retrying in 1 second... (${currentRetry}/${maxRetries})`);
           await new Promise(resolve => setTimeout(resolve, 1000));
           continue;
         } else {
@@ -219,7 +219,7 @@ export async function logSession({
         }
       }
 
-      console.log('Session logged to Supabase successfully');
+      //console.log('Session logged to Supabase successfully');
       return (data as any)?.[0]?.id || null;
     } catch (error) {
       console.error(`Failed to log session (attempt ${currentRetry + 1}):`, error);
@@ -241,7 +241,7 @@ export async function logSession({
 // New function to retrieve all concepts from Supabase
 export async function getAllConceptsFromSupabase(): Promise<any[]> {
   if (!supabase) {
-    console.log('Supabase not configured');
+    //console.log('Supabase not configured');
     return [];
   }
 
@@ -256,7 +256,7 @@ export async function getAllConceptsFromSupabase(): Promise<any[]> {
       return [];
     }
 
-    console.log(`📚 Found ${data?.length || 0} historical entries in database`);
+    //console.log(`📚 Found ${data?.length || 0} historical entries in database`);
     return data || [];
   } catch (error) {
     console.error('Error in getAllConceptsFromSupabase:', error);
@@ -288,7 +288,7 @@ export interface CreativeBrief {
  */
 export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'created_at'>): Promise<string | null> {
   if (!supabase) {
-    console.log('Supabase not configured, skipping brief save');
+    //console.log('Supabase not configured, skipping brief save');
     return null;
   }
 
@@ -319,7 +319,7 @@ export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'creat
         return null;
       }
 
-      console.log('Updated existing creative brief');
+      //console.log('Updated existing creative brief');
       return existing.id;
     } else {
       // Insert new brief
@@ -343,7 +343,7 @@ export async function saveCreativeBrief(brief: Omit<CreativeBrief, 'id' | 'creat
         return null;
       }
 
-      console.log('Saved new creative brief');
+      //console.log('Saved new creative brief');
       return (data as any)?.[0]?.id || null;
     }
   } catch (error) {
@@ -360,7 +360,7 @@ export async function getCreativeBriefs(options?: {
   starredOnly?: boolean;
 }): Promise<CreativeBrief[]> {
   if (!supabase) {
-    console.log('Supabase not configured');
+    //console.log('Supabase not configured');
     return [];
   }
 

@@ -52,7 +52,7 @@ Return your assessment as a JSON object:
     }
     json.award_feedback = json.award_feedback || "Award potential evaluation unavailable";
     
-    console.log(`🏆 Award Potential: ${json.award_potential}`);
+    //console.log(`🏆 Award Potential: ${json.award_potential}`);
     
     return json;
   } catch (error) {

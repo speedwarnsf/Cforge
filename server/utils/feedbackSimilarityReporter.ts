@@ -35,7 +35,7 @@ async function getRatedConcepts(projectId: string): Promise<{
   }
 
   if (!ratings || ratings.length === 0) {
-    console.log("ℹ️ No rated concepts found for project:", projectId);
+    //console.log("ℹ️ No rated concepts found for project:", projectId);
     return [];
   }
 
@@ -106,7 +106,7 @@ export async function reportSimilarityToRatedConcepts(
 ): Promise<void> {
   const ratedConcepts = await getRatedConcepts(projectId);
   if (ratedConcepts.length === 0) {
-    console.log("ℹ️ No rated concepts found.");
+    //console.log("ℹ️ No rated concepts found.");
     return;
   }
 
@@ -115,7 +115,7 @@ export async function reportSimilarityToRatedConcepts(
   ratedConcepts.forEach((rated) => {
     const similarity = cosineSimilarity(newEmbedding, rated.embedding);
     if (similarity >= similarityThreshold) {
-      console.log(
+      //console.log(
         `🔍 Similarity to rated concept ${rated.conceptId}: ${(similarity * 100).toFixed(1)}% (${rated.rating})`
       );
     }
@@ -195,11 +195,11 @@ export async function analyzeFeedbackSimilarity(
   }
 
   if (detailedReport) {
-    console.log(`📊 Feedback Similarity Analysis for Project ${projectId}`);
-    console.log(`Similar to ${moreLikeThis.length} preferred concepts`);
-    console.log(`Similar to ${lessLikeThis.length} rejected concepts`);
-    console.log(`Overall feedback score: ${overallScore.toFixed(3)}`);
-    console.log(`Recommendation: ${recommendation}`);
+    //console.log(`📊 Feedback Similarity Analysis for Project ${projectId}`);
+    //console.log(`Similar to ${moreLikeThis.length} preferred concepts`);
+    //console.log(`Similar to ${lessLikeThis.length} rejected concepts`);
+    //console.log(`Overall feedback score: ${overallScore.toFixed(3)}`);
+    //console.log(`Recommendation: ${recommendation}`);
   }
 
   return {
@@ -221,7 +221,7 @@ export async function storeConceptEmbedding(
     const embedding = await getEmbedding(conceptText);
     
     // For now, simulate embedding storage since Supabase schema may not have embedding column
-    console.log(`📊 Generated embedding for concept ${conceptId} (${embedding.length} dimensions)`);
+    //console.log(`📊 Generated embedding for concept ${conceptId} (${embedding.length} dimensions)`);
     
     // Note: This would work once the embedding column is added to concept_logs table in Supabase
     // const { error } = await supabase
@@ -236,7 +236,7 @@ export async function storeConceptEmbedding(
     // }
     
     // For testing, just log success
-    console.log(`Embedding ready for concept ${conceptId} (storage pending schema update)`);
+    //console.log(`Embedding ready for concept ${conceptId} (storage pending schema update)`);
     
   } catch (error) {
     console.warn(`Error generating embedding for concept ${conceptId}:`, error);
@@ -267,7 +267,7 @@ export async function createConceptRating(
     if (error) {
       console.warn(`Failed to store rating for concept ${conceptId}:`, error.message);
     } else {
-      console.log(`Stored ${rating} rating for concept ${conceptId}`);
+      //console.log(`Stored ${rating} rating for concept ${conceptId}`);
     }
   } catch (error) {
     console.warn(`Error storing concept rating:`, error);

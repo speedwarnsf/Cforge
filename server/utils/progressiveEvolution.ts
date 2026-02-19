@@ -292,7 +292,7 @@ export class ProgressiveEvolutionEngine {
    * Simplified evolve method for external use
    */
   async evolve(blocks: ConceptBlock[]): Promise<EvolutionResult> {
-    console.log(`🔄 Starting evolution with ${blocks.length} blocks`);
+    //console.log(`🔄 Starting evolution with ${blocks.length} blocks`);
 
     const maxCycles = this.options.maxCycles || 50;
     let cycles = 0;
@@ -360,7 +360,7 @@ export class ProgressiveEvolutionEngine {
       .filter(c => c)
       .join('\n\n');
 
-    console.log(`Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
+    //console.log(`Evolution complete: ${cycles} cycles, coherence: ${(globalCoherence * 100).toFixed(1)}%`);
 
     return {
       blocks: normalizedBlocks,
@@ -422,7 +422,7 @@ export class ProgressiveEvolutionEngine {
       });
     }
 
-    console.log(`🔄 Evolution engine initialized with ${this.state.blocks.length} blocks`);
+    //console.log(`🔄 Evolution engine initialized with ${this.state.blocks.length} blocks`);
   }
 
   async evolveBlock(blockIndex: number): Promise<ConceptBlock> {
@@ -431,7 +431,7 @@ export class ProgressiveEvolutionEngine {
     const alpha = this.alphaScheduler.getCurrentAlpha();
     const trope = this.state.creativeSeed.tropeCompatibility[0] || 'Metaphor';
 
-    console.log(`   Evolving block "${block.name}" (alpha=${alpha.toFixed(3)})`);
+    //console.log(`   Evolving block "${block.name}" (alpha=${alpha.toFixed(3)})`);
 
     // Stage 1->2: Generate vocabulary distribution from LLM
     const vocabDistribution = await this.generateVocabularyDistribution(
@@ -473,7 +473,7 @@ export class ProgressiveEvolutionEngine {
 
     // Check if arbiter requirements are met
     if (!arbiterEvaluation.passed) {
-      console.log(`   Block "${block.name}" failed arbiter check`);
+      //console.log(`   Block "${block.name}" failed arbiter check`);
       this.state.arbiterHistory.push(arbiterEvaluation);
       return { success: false, content: '' };
     }
@@ -490,7 +490,7 @@ export class ProgressiveEvolutionEngine {
       token.committed = true;
     }
 
-    console.log(`   Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
+    //console.log(`   Block "${block.name}" decoded: "${decodedContent.substring(0, 50)}..."`);
 
     return { success: true, content: decodedContent };
   }
@@ -509,7 +509,7 @@ export class ProgressiveEvolutionEngine {
         token.state = TokenState.SOFT_MASK_V;
         token.alpha = Math.min(token.alpha + 0.2, 0.8);
       }
-      console.log(`   ↩️ Soft regression for block "${block.name}"`);
+      //console.log(`   ↩️ Soft regression for block "${block.name}"`);
     } else {
       // Full regression to MASK
       block.state = TokenState.MASK;
@@ -520,7 +520,7 @@ export class ProgressiveEvolutionEngine {
         token.distribution = new Map([['[MASK]', 1.0]]);
         token.embedding = [...maskEmbedding];
       }
-      console.log(`   ↩️ Full regression for block "${block.name}"`);
+      //console.log(`   ↩️ Full regression for block "${block.name}"`);
     }
 
     block.committed = false;
@@ -631,13 +631,13 @@ Generate ONLY the ${block.name} text, nothing else.`;
     const regressionCounts = new Map<number, number>();
 
     for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-      console.log(`\n🔄 Evolution iteration ${iteration + 1}/${MAX_ITERATIONS} (alpha=${this.alphaScheduler.getCurrentAlpha().toFixed(3)})`);
+      //console.log(`\n🔄 Evolution iteration ${iteration + 1}/${MAX_ITERATIONS} (alpha=${this.alphaScheduler.getCurrentAlpha().toFixed(3)})`);
 
       for (let i = 0; i < this.state.blocks.length; i++) {
         const block = this.state.blocks[i];
 
         if (block.committed) {
-          console.log(`   ⏭️ Block "${block.name}" already committed, skipping`);
+          //console.log(`   ⏭️ Block "${block.name}" already committed, skipping`);
           continue;
         }
 
@@ -654,7 +654,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
           const regressions = regressionCounts.get(i) || 0;
 
           if (regressions >= MAX_REGRESSIONS_PER_BLOCK) {
-            console.log(`   Max regressions reached for "${block.name}", forcing decode`);
+            //console.log(`   Max regressions reached for "${block.name}", forcing decode`);
             block.committed = true;
             block.content = await this.sampleFromDistributions(block);
           } else {
@@ -668,7 +668,7 @@ Generate ONLY the ${block.name} text, nothing else.`;
       // Check if all blocks committed
       const allCommitted = this.state.blocks.every(b => b.committed);
       if (allCommitted) {
-        console.log(`\nAll blocks committed after ${iteration + 1} iterations`);
+        //console.log(`\nAll blocks committed after ${iteration + 1} iterations`);
         break;
       }
 

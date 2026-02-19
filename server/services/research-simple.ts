@@ -81,7 +81,7 @@ function classifySource(title: string, snippet: string, url: string): 'brand' | 
 }
 
 export async function checkOriginality(query: string, deepScan: boolean = false): Promise<OriginalityCheck> {
-  console.log(`🔍 Starting ${deepScan ? 'deep scan' : 'fast'} originality check for: "${query}"`);
+  //console.log(`🔍 Starting ${deepScan ? 'deep scan' : 'fast'} originality check for: "${query}"`);
   
   // Clean cache periodically to prevent memory leaks
   if (Math.random() < 0.1) { // 10% chance to clean on each call
@@ -93,7 +93,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
   const cached = searchCache.get(cacheKey);
   
   if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION_MS) {
-    console.log('Returning cached originality result');
+    //console.log('Returning cached originality result');
     return cached.result;
   }
 
@@ -112,7 +112,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
   }
 
   try {
-    console.log('🔍 Performing Google search...');
+    //console.log('🔍 Performing Google search...');
     
     // Search configuration based on scan type
     const searchUrl = deepScan 
@@ -136,7 +136,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
     const data = await response.json();
     
     if (!data.items || data.items.length === 0) {
-      console.log('No similar content found - original');
+      //console.log('No similar content found - original');
       const result: OriginalityCheck = {
         query,
         isOriginal: true,
@@ -165,10 +165,10 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
 
     // For deep scan, add simple image analysis simulation
     if (deepScan && matches.length > 0) {
-      console.log('🔍 Deep scan enabled - analyzing images...');
+      //console.log('🔍 Deep scan enabled - analyzing images...');
       // Simulate image analysis delay
       await new Promise(resolve => setTimeout(resolve, 3000));
-      console.log('Image analysis completed');
+      //console.log('Image analysis completed');
     }
 
     // Fast originality determination
@@ -186,7 +186,7 @@ export async function checkOriginality(query: string, deepScan: boolean = false)
     // Cache result
     searchCache.set(cacheKey, { result, timestamp: Date.now() });
 
-    console.log(`Originality check complete: ${isOriginal ? 'Original' : 'Similar content found'} (${matches.length} matches)`);
+    //console.log(`Originality check complete: ${isOriginal ? 'Original' : 'Similar content found'} (${matches.length} matches)`);
     return result;
 
   } catch (error) {

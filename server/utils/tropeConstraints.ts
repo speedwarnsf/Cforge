@@ -57,9 +57,9 @@ export function loadAllRhetoricalDevices(): Record<string, string> {
     '/var/task/.next/server/data/rhetorical_figures_cleaned.json',
   ];
 
-  console.log(`🔍 Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
-  console.log(`   __dirname: ${__dirname}`);
-  console.log(`   process.cwd(): ${process.cwd()}`);
+  //console.log(`🔍 Searching for rhetorical corpus in ${possiblePaths.length} locations...`);
+  //console.log(`   __dirname: ${__dirname}`);
+  //console.log(`   process.cwd(): ${process.cwd()}`);
 
   for (const p of possiblePaths) {
     if (existsSync(p)) {
@@ -71,7 +71,7 @@ export function loadAllRhetoricalDevices(): Record<string, string> {
           const id = item.figure_name.toLowerCase().replace(/\s+/g, '_');
           devices[id] = item.definition;
         }
-        console.log(`📚 TropeConstraints: Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
+        //console.log(`📚 TropeConstraints: Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
         _allRhetoricalDevices = devices;
         return devices;
       } catch (error) {
@@ -411,7 +411,7 @@ export class TropeConstraintEngine {
    * Initialize trope embeddings for semantic matching
    */
   async initialize(): Promise<void> {
-    console.log('Initializing TropeConstraintEngine...');
+    //console.log('Initializing TropeConstraintEngine...');
 
     for (const [tropeId, pattern] of Object.entries(TROPE_PATTERNS)) {
       const tropeDescription = `${pattern.name}: ${pattern.description}. Examples: ${pattern.examplePhrases.join('; ')}`;
@@ -419,7 +419,7 @@ export class TropeConstraintEngine {
       this.tropeEmbeddings.set(tropeId, embedding);
     }
 
-    console.log(`   Initialized ${this.tropeEmbeddings.size} trope embeddings`);
+    //console.log(`   Initialized ${this.tropeEmbeddings.size} trope embeddings`);
   }
 
   /**

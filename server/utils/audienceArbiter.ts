@@ -52,7 +52,7 @@ Return your assessment as a JSON object:
     }
     json.audience_feedback = json.audience_feedback || "Audience evaluation unavailable";
     
-    console.log(`👥 Audience Resonance: ${json.audience_resonance}`);
+    //console.log(`👥 Audience Resonance: ${json.audience_resonance}`);
     
     return json;
   } catch (error) {

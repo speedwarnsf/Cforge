@@ -105,7 +105,7 @@ export async function selectVariedTropes(
 
   // Get all available devices from corpus
   const allDeviceIds = getAllAvailableDeviceIds();
-  console.log(`Selecting from ${allDeviceIds.length} available rhetorical devices`);
+  //console.log(`Selecting from ${allDeviceIds.length} available rhetorical devices`);
 
   // Get current usage counts
   const usageCounts = await getRhetoricalDeviceUsage();
@@ -117,8 +117,8 @@ export async function selectVariedTropes(
   const fullExcludeSet = new Set([...excludeSet, ...OVERUSED_COMMON_DEVICES]);
   const eligibleDevices = allDeviceIds.filter(id => !fullExcludeSet.has(id));
 
-  console.log(`   🚫 Excluding ${OVERUSED_COMMON_DEVICES.size} overused common devices (metaphor, simile, etc.)`);
-  console.log(`   ${eligibleDevices.length} uncommon devices available for selection`);
+  //console.log(`   🚫 Excluding ${OVERUSED_COMMON_DEVICES.size} overused common devices (metaphor, simile, etc.)`);
+  //console.log(`   ${eligibleDevices.length} uncommon devices available for selection`);
 
   // Categorize devices by usage
   const unexploredDevices: string[] = [];
@@ -136,7 +136,7 @@ export async function selectVariedTropes(
     }
   }
 
-  console.log(`   📊 Unexplored: ${unexploredDevices.length}, Lightly used: ${lightlyUsedDevices.length}, Moderate: ${moderatelyUsedDevices.length}`);
+  //console.log(`   📊 Unexplored: ${unexploredDevices.length}, Lightly used: ${lightlyUsedDevices.length}, Moderate: ${moderatelyUsedDevices.length}`);
 
   // Get tone-appropriate devices
   const toneDevices = TONE_DEVICE_AFFINITIES[tone] || TONE_DEVICE_AFFINITIES.creative;
@@ -173,7 +173,7 @@ export async function selectVariedTropes(
   const explorationQuota = Math.ceil(count * 0.8); // At least 80% must be unexplored/lightly-used
   const toneQuota = count - explorationQuota;      // Only 20% can be familiar devices
 
-  console.log(`   🔬 AGGRESSIVE exploration quota: ${explorationQuota} unexplored (80%), ${toneQuota} familiar (20%)`);
+  //console.log(`   🔬 AGGRESSIVE exploration quota: ${explorationQuota} unexplored (80%), ${toneQuota} familiar (20%)`);
 
   // PHASE 1: Fill exploration quota from FULL unexplored corpus (ignoring tone)
   // This is the key change - we pick randomly from ALL unexplored devices first
@@ -232,7 +232,7 @@ export async function selectVariedTropes(
   }
 
   const unexploredCount = selected.filter(s => s.selectionReason === 'unexplored').length;
-  console.log(`   Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
+  //console.log(`   Selected ${selected.length} devices (${unexploredCount} unexplored): ${selected.map(s => `${s.deviceName} (${s.selectionReason})`).join(', ')}`);
 
   return selected;
 }
@@ -241,7 +241,7 @@ export async function selectVariedTropes(
  * Record that devices were used (call after generation)
  */
 export async function recordTropeUsage(deviceIds: string[]): Promise<void> {
-  console.log(`Recording usage for ${deviceIds.length} devices`);
+  //console.log(`Recording usage for ${deviceIds.length} devices`);
 
   for (const deviceId of deviceIds) {
     const normalizedId = deviceId.toLowerCase().replace(/\s+/g, '_');

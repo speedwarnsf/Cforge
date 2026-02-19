@@ -9,7 +9,7 @@ router.post('/api/test-optimizations', async (req, res) => {
   const startTime = Date.now();
   
   try {
-    console.log('🚀 OPTIMIZATION TEST: Starting performance validation...');
+    //console.log('🚀 OPTIMIZATION TEST: Starting performance validation...');
     
     const testPrompt = "Create an empowering HIV awareness campaign that is bold and sexy, focuses on self-love and staying in treatment, with NYC edge";
     const basePrompt = "Generate a creative advertising concept with sophisticated rhetorical frameworks:";
@@ -57,12 +57,12 @@ router.post('/api/test-optimizations', async (req, res) => {
       }
     };
     
-    console.log('OPTIMIZATION RESULTS:');
-    console.log(`- Original processing: ${originalTime}ms`);
-    console.log(`- Optimized processing: ${parallelTime}ms`);
-    console.log(`- Token reduction: ${analysis.improvements.tokenReduction} chars`);
-    console.log(`- Efficiency gain: ${analysis.improvements.efficiencyGain}%`);
-    console.log(`- Corpus coverage: ${analysis.corpusStatus.coverageRate} (${analysis.corpusStatus.totalEntries} entries)`);
+    //console.log('OPTIMIZATION RESULTS:');
+    //console.log(`- Original processing: ${originalTime}ms`);
+    //console.log(`- Optimized processing: ${parallelTime}ms`);
+    //console.log(`- Token reduction: ${analysis.improvements.tokenReduction} chars`);
+    //console.log(`- Efficiency gain: ${analysis.improvements.efficiencyGain}%`);
+    //console.log(`- Corpus coverage: ${analysis.corpusStatus.coverageRate} (${analysis.corpusStatus.totalEntries} entries)`);
     
     res.json({
       success: true,

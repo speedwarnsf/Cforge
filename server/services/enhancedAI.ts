@@ -178,26 +178,26 @@ Do not include any commentary, references to this process, or extra text.`;
       const clicheCheck = detectCliches(concept);
       const repetitionCheck = checkRepetition(concept, request.sessionHistory, request.recentConcepts);
 
-      console.log(`🔍 Attempt ${attempts} Quality Check:
+      //console.log(`🔍 Attempt ${attempts} Quality Check:
         Cultural Similarity: ${culturalCheck.score.toFixed(2)} (${culturalCheck.isSimilar ? 'FLAGGED' : 'PASS'})
         Clichés: ${clicheCheck.found.length} found (${clicheCheck.hasCliches ? 'FLAGGED' : 'PASS'})
         Repetition: ${(repetitionCheck.similarity * 100).toFixed(1)}% (${repetitionCheck.isRepetitive ? 'FLAGGED' : 'PASS'})`);
 
       // If concept passes all checks, return it
       if (!culturalCheck.isSimilar && !clicheCheck.hasCliches && !repetitionCheck.isRepetitive) {
-        console.log(`Enhanced concept generated successfully on attempt ${attempts}`);
+        //console.log(`Enhanced concept generated successfully on attempt ${attempts}`);
         return concept;
       }
 
       // Log specific issues for regeneration
       if (culturalCheck.isSimilar) {
-        console.log(`🚫 Cultural similarity detected: ${culturalCheck.matches.join(', ')}`);
+        //console.log(`🚫 Cultural similarity detected: ${culturalCheck.matches.join(', ')}`);
       }
       if (clicheCheck.hasCliches) {
-        console.log(`🚫 Clichés detected: ${clicheCheck.found.join(', ')}`);
+        //console.log(`🚫 Clichés detected: ${clicheCheck.found.join(', ')}`);
       }
       if (repetitionCheck.isRepetitive) {
-        console.log(`🚫 Repetition detected: ${(repetitionCheck.similarity * 100).toFixed(1)}% similarity`);
+        //console.log(`🚫 Repetition detected: ${(repetitionCheck.similarity * 100).toFixed(1)}% similarity`);
       }
 
     } catch (error) {

@@ -63,7 +63,7 @@ const retrievalCache: { [hash: string]: RetrievalCacheRecord } = {};
 
 export async function precomputeCorpusEmbeddings() {
   return measureAsync('precompute_embeddings', async () => {
-    console.log("🔄 Precomputing corpus embeddings...");
+    //console.log("🔄 Precomputing corpus embeddings...");
     let computed = 0;
     let embeddingsFailed = false;
     
@@ -82,12 +82,12 @@ export async function precomputeCorpusEmbeddings() {
         computed++;
         
         if (computed % 20 === 0) {
-          console.log(`📊 Computed ${computed}/${retrievalCorpus.length} embeddings`);
+          //console.log(`📊 Computed ${computed}/${retrievalCorpus.length} embeddings`);
         }
       }
     }
     
-    console.log(`Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
+    //console.log(`Corpus embeddings precomputed (${computed} new, ${Object.keys(corpusEmbeddings).length} total).`);
     return computed;
   }, { corpusSize: retrievalCorpus.length });
 }
@@ -137,16 +137,16 @@ export async function retrieveTopNWithRotation(
         const { getBiasedConcepts } = await import('./feedbackInfluenceSystem');
         feedbackBiases = await getBiasedConcepts(projectId);
         if (feedbackBiases.length > 0) {
-          console.log(`Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
+          //console.log(`Loaded ${feedbackBiases.length} feedback biases for retrieval influence`);
         }
       } catch (error) {
-        console.log('📊 Could not load feedback biases, continuing without influence');
+        //console.log('📊 Could not load feedback biases, continuing without influence');
       }
     }
 
     // Check if embeddings are ready
     if (Object.keys(corpusEmbeddings).length === 0) {
-      console.log("Embeddings not ready yet, using enhanced fallback with theory prioritization");
+      //console.log("Embeddings not ready yet, using enhanced fallback with theory prioritization");
       return fallbackWithTheoryPrioritization(promptText, count, combinedTheories);
     }
 
@@ -158,7 +158,7 @@ export async function retrieveTopNWithRotation(
     let cacheRecord = retrievalCache[promptHash];
 
     if (!cacheRecord) {
-      console.log(`🔍 Computing enhanced retrieval with theory prioritization: [${combinedTheories.join(', ')}]`);
+      //console.log(`🔍 Computing enhanced retrieval with theory prioritization: [${combinedTheories.join(', ')}]`);
       const promptEmbedding = await getEmbedding(promptText);
 
       // Filter relevant entries by query keywords in rationale
@@ -196,7 +196,7 @@ export async function retrieveTopNWithRotation(
           );
           if (bias) {
             sim.similarity *= bias.bias; // Apply bias multiplier
-            console.log(`Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
+            //console.log(`Applied ${bias.feedbackType} bias (${bias.bias}x) to ${sim.entry.campaign}`);
           }
         });
         // Re-sort after applying biases
@@ -222,7 +222,7 @@ export async function retrieveTopNWithRotation(
           return b.similarity - a.similarity; // Fall back to similarity
         });
         
-        console.log(`Theory prioritization applied: ${prioritized.slice(0, 3).map(s => s.entry.campaign).join(', ')}`);
+        //console.log(`Theory prioritization applied: ${prioritized.slice(0, 3).map(s => s.entry.campaign).join(', ')}`);
       }
 
       const top10 = similarities.slice(0, 10).map((s) => s.entry);
@@ -244,7 +244,7 @@ export async function retrieveTopNWithRotation(
     const shuffledRotated = [...rotated].sort(() => 0.5 - Math.random());
     const retrieved = shuffledRotated.slice(0, Math.min(count, rotated.length));
 
-    console.log(
+    //console.log(
       `🔄 Enhanced retrieval (session ${sessionCounter}, theories: [${combinedTheories.join(', ')}], biases: ${feedbackBiases.length}) - ` +
       `rotation offset: ${rotationOffset}, retrieved: ${retrieved.map(r => r.campaign).join(', ')}`
     );
@@ -279,7 +279,7 @@ function fallbackWithTheoryPrioritization(
   const combined = [...prioritized, ...remaining];
   const shuffled = combined.sort(() => 0.5 - Math.random());
   
-  console.log(`📋 Fallback with theory prioritization: ${theoriesToPrioritize.join(', ')}`);
+  //console.log(`📋 Fallback with theory prioritization: ${theoriesToPrioritize.join(', ')}`);
   return shuffled.slice(0, count) as CorpusEntry[];
 }
 

@@ -46,7 +46,7 @@ class PerformanceTracker {
     this.metrics.promptTokens = 0;
     this.metrics.completionTokens = 0;
     this.metrics.totalCost = 0;
-    console.log('📊 Performance tracking started');
+    //console.log('📊 Performance tracking started');
   }
 
   trackOperation(operation: string, startTime: number, endTime: number, tokenUsage?: {
@@ -80,7 +80,7 @@ class PerformanceTracker {
       this.metrics.totalCost += cost;
     }
     
-    console.log(`🔍 ${operation}: ${duration}ms${tokenUsage ? `, ${tokenUsage.total_tokens} tokens, $${cost.toFixed(4)}` : ''}`);
+    //console.log(`🔍 ${operation}: ${duration}ms${tokenUsage ? `, ${tokenUsage.total_tokens} tokens, $${cost.toFixed(4)}` : ''}`);
   }
 
   getMetrics(): PerformanceMetrics {
@@ -91,21 +91,21 @@ class PerformanceTracker {
   printSummary(): void {
     const finalMetrics = this.getMetrics();
     
-    console.log('\nPERFORMANCE SUMMARY');
-    console.log('========================');
-    console.log(`⏱️  Total Time: ${finalMetrics.totalTime}ms (${(finalMetrics.totalTime / 1000).toFixed(2)}s)`);
-    console.log(`🔗 API Calls: ${finalMetrics.apiCalls}`);
-    console.log(`Total Tokens: ${finalMetrics.totalTokens}`);
-    console.log(`Prompt Tokens: ${finalMetrics.promptTokens}`);
-    console.log(`💬 Completion Tokens: ${finalMetrics.completionTokens}`);
-    console.log(`💰 Total Cost: $${finalMetrics.totalCost.toFixed(4)}`);
+    //console.log('\nPERFORMANCE SUMMARY');
+    //console.log('========================');
+    //console.log(`⏱️  Total Time: ${finalMetrics.totalTime}ms (${(finalMetrics.totalTime / 1000).toFixed(2)}s)`);
+    //console.log(`🔗 API Calls: ${finalMetrics.apiCalls}`);
+    //console.log(`Total Tokens: ${finalMetrics.totalTokens}`);
+    //console.log(`Prompt Tokens: ${finalMetrics.promptTokens}`);
+    //console.log(`💬 Completion Tokens: ${finalMetrics.completionTokens}`);
+    //console.log(`💰 Total Cost: $${finalMetrics.totalCost.toFixed(4)}`);
     
     if (finalMetrics.operations.length > 0) {
-      console.log('\n🔍 Operation Breakdown:');
+      //console.log('\n🔍 Operation Breakdown:');
       finalMetrics.operations.forEach(op => {
         const tokenInfo = op.tokens ? ` (${op.tokens} tokens)` : '';
         const costInfo = op.cost ? `, $${op.cost.toFixed(4)}` : '';
-        console.log(`  • ${op.operation}: ${op.duration}ms${tokenInfo}${costInfo}`);
+        //console.log(`  • ${op.operation}: ${op.duration}ms${tokenInfo}${costInfo}`);
       });
     }
     
@@ -113,11 +113,11 @@ class PerformanceTracker {
     const avgTokensPerCall = finalMetrics.apiCalls > 0 ? (finalMetrics.totalTokens / finalMetrics.apiCalls).toFixed(0) : 0;
     const avgCostPerCall = finalMetrics.apiCalls > 0 ? (finalMetrics.totalCost / finalMetrics.apiCalls).toFixed(4) : 0;
     
-    console.log('\n📊 Averages:');
-    console.log(`  • Time per API call: ${avgTimePerCall}ms`);
-    console.log(`  • Tokens per API call: ${avgTokensPerCall}`);
-    console.log(`  • Cost per API call: $${avgCostPerCall}`);
-    console.log('========================\n');
+    //console.log('\n📊 Averages:');
+    //console.log(`  • Time per API call: ${avgTimePerCall}ms`);
+    //console.log(`  • Tokens per API call: ${avgTokensPerCall}`);
+    //console.log(`  • Cost per API call: $${avgCostPerCall}`);
+    //console.log('========================\n');
   }
 
   reset(): void {

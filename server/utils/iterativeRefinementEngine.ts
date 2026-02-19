@@ -61,16 +61,16 @@ export async function runIterativeRefinement(
     };
   }
 
-  console.log(`🔄 Starting iterative refinement for concept...`);
+  //console.log(`🔄 Starting iterative refinement for concept...`);
   
   // Iteration 1: Evaluate initial concept
   let currentConcept = initialConcept;
   let evaluation = await evaluateConcept(currentConcept, context.query);
   
-  console.log(`📊 Iteration 1 Results: Originality ${evaluation.originality_confidence}/100, Audience ${evaluation.audience_resonance}, Awards ${evaluation.award_potential}, Relevance ${evaluation.relevance_score}/100`);
+  //console.log(`📊 Iteration 1 Results: Originality ${evaluation.originality_confidence}/100, Audience ${evaluation.audience_resonance}, Awards ${evaluation.award_potential}, Relevance ${evaluation.relevance_score}/100`);
   
   if (evaluation.passes_all_thresholds) {
-    console.log(`Concept passed all thresholds on iteration 1`);
+    //console.log(`Concept passed all thresholds on iteration 1`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -82,12 +82,12 @@ export async function runIterativeRefinement(
   }
 
   // Iteration 2: Attempt refinement
-  console.log(`🔄 Iteration 1 failed criteria: ${evaluation.failed_criteria.join(', ')}. Attempting refinement...`);
+  //console.log(`🔄 Iteration 1 failed criteria: ${evaluation.failed_criteria.join(', ')}. Attempting refinement...`);
   
   const refinedConcept = await refineConcept(currentConcept, evaluation, context);
   
   if (!refinedConcept) {
-    console.log(`Refinement failed, keeping original concept`);
+    //console.log(`Refinement failed, keeping original concept`);
     return {
       visualDescription: currentConcept.visualDescription,
       headlines: currentConcept.headlines,
@@ -105,11 +105,11 @@ export async function runIterativeRefinement(
     targetAudience: currentConcept.targetAudience
   }, context.query);
   
-  console.log(`📊 Iteration 2 Results: Originality ${refinedEvaluation.originality_confidence}/100, Audience ${refinedEvaluation.audience_resonance}, Awards ${refinedEvaluation.award_potential}, Relevance ${refinedEvaluation.relevance_score}/100`);
+  //console.log(`📊 Iteration 2 Results: Originality ${refinedEvaluation.originality_confidence}/100, Audience ${refinedEvaluation.audience_resonance}, Awards ${refinedEvaluation.award_potential}, Relevance ${refinedEvaluation.relevance_score}/100`);
   
   const finalStatus = refinedEvaluation.passes_all_thresholds ? 'Passed' : 'Needs Review';
   
-  console.log(`Final Status: ${finalStatus}`);
+  //console.log(`Final Status: ${finalStatus}`);
   
   return {
     visualDescription: refinedConcept.visualDescription,

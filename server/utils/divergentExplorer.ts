@@ -73,7 +73,7 @@ function getUncommonDevices(count: number): Array<{ id: string; name: string; de
   const priorityIds = uncommonIds.filter(id => PRIORITY_RARE_DEVICES.has(id));
   const regularIds = uncommonIds.filter(id => !PRIORITY_RARE_DEVICES.has(id));
 
-  console.log(`   🎲 Device selection: ${priorityIds.length} priority rare, ${regularIds.length} other uncommon`);
+  //console.log(`   🎲 Device selection: ${priorityIds.length} priority rare, ${regularIds.length} other uncommon`);
 
   // Weighted selection: 70% from priority rare devices, 30% from other uncommon
   const priorityCount = Math.ceil(count * 0.7);
@@ -303,9 +303,9 @@ export async function exploreDivergently(
   // Extract theme from user brief
   const theme = await extractTheme(userBrief, openai);
 
-  console.log(`🌀 Starting divergent exploration for theme: "${theme}"`);
-  console.log(`   Pool size target: ${poolSize}`);
-  console.log(`   Persona rotation: ${personaRotation}`);
+  //console.log(`🌀 Starting divergent exploration for theme: "${theme}"`);
+  //console.log(`   Pool size target: ${poolSize}`);
+  //console.log(`   Persona rotation: ${personaRotation}`);
 
   // Generate raw ideas across personas
   const iterationsNeeded = Math.ceil(poolSize / 5); // Each persona generates ~5 ideas
@@ -313,11 +313,11 @@ export async function exploreDivergently(
   // Get uncommon rhetorical devices to anchor each persona's exploration
   // This forces creative diversity by grounding each exploration in different rhetorical territory
   const deviceAnchors = getUncommonDevices(iterationsNeeded);
-  console.log(`   Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
-  deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
+  //console.log(`   Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
+  deviceAnchors.forEach((d, i) => //console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
 
   // PARALLEL OPTIMIZATION: Run all persona iterations in parallel
-  console.log(`   🚀 Running ${iterationsNeeded} persona iterations in parallel...`);
+  //console.log(`   🚀 Running ${iterationsNeeded} persona iterations in parallel...`);
 
   const personaIterations = Array.from({ length: iterationsNeeded }, (_, i) => {
     const persona = selectPersona(i, personaRotation, personaCounts);
@@ -332,7 +332,7 @@ export async function exploreDivergently(
   const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
     try {
       const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(' ')[0];
-      console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
+      //console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
       const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device, domainIndex);
       return rawIdeas.map(idea => ({ idea, persona }));
     } catch (error) {
@@ -344,7 +344,7 @@ export async function exploreDivergently(
   const allIdeaResults = await Promise.all(ideaGenerationPromises);
   const allIdeas = allIdeaResults.flat().slice(0, poolSize);
 
-  console.log(`   Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
+  //console.log(`   Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
 
   // PERF: Skip expensive per-seed embedding + coherence checks (~15 API calls saved)
   // Use lightweight heuristic scoring instead
@@ -376,10 +376,10 @@ export async function exploreDivergently(
     personaDistribution: personaCounts
   };
 
-  console.log(`Divergent exploration complete:`);
-  console.log(`   Total seeds: ${metrics.totalGenerated}`);
-  console.log(`   Unique seeds: ${metrics.uniqueAfterDedup}`);
-  console.log(`   Avg distinctiveness: ${(metrics.averageDistinctiveness * 100).toFixed(1)}%`);
+  //console.log(`Divergent exploration complete:`);
+  //console.log(`   Total seeds: ${metrics.totalGenerated}`);
+  //console.log(`   Unique seeds: ${metrics.uniqueAfterDedup}`);
+  //console.log(`   Avg distinctiveness: ${(metrics.averageDistinctiveness * 100).toFixed(1)}%`);
 
   return {
     seeds: uniqueSeeds,
@@ -456,12 +456,12 @@ export async function selectCreativeSeed(
 
   const selected = scoredSeeds[0].seed;
 
-  console.log(`Selected creative seed:`);
-  console.log(`   Persona: ${selected.persona.name}`);
-  console.log(`   Distinctiveness: ${(selected.distinctivenessScore * 100).toFixed(1)}%`);
-  console.log(`   Coherence: ${(selected.thematicCoherence * 100).toFixed(1)}%`);
-  console.log(`   Compatible tropes: ${selected.tropeCompatibility.join(', ')}`);
-  console.log(`   Raw idea: "${selected.rawIdea.substring(0, 100)}..."`);
+  //console.log(`Selected creative seed:`);
+  //console.log(`   Persona: ${selected.persona.name}`);
+  //console.log(`   Distinctiveness: ${(selected.distinctivenessScore * 100).toFixed(1)}%`);
+  //console.log(`   Coherence: ${(selected.thematicCoherence * 100).toFixed(1)}%`);
+  //console.log(`   Compatible tropes: ${selected.tropeCompatibility.join(', ')}`);
+  //console.log(`   Raw idea: "${selected.rawIdea.substring(0, 100)}..."`);
 
   return selected;
 }
@@ -692,25 +692,25 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
       usedPersonas.add(seed.persona.id);
       // Add all themes from this seed to used themes
       seedThemes.forEach(theme => usedThemes.add(theme));
-      console.log(`   Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
-      console.log(`      Themes: ${[...seedThemes].join(', ') || 'none detected'}`);
+      //console.log(`   Seed accepted from ${seed.persona.name}: "${seed.rawIdea.substring(0, 50)}..."`);
+      //console.log(`      Themes: ${[...seedThemes].join(', ') || 'none detected'}`);
     } else if (isSimilarEmbedding) {
-      console.log(`   Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
+      //console.log(`   Seed rejected (near-duplicate): "${seed.rawIdea.substring(0, 50)}..."`);
     } else if (hasThemeCollision) {
-      console.log(`   Seed rejected (theme collision: ${[...seedThemes].join(', ')}): "${seed.rawIdea.substring(0, 50)}..."`);
+      //console.log(`   Seed rejected (theme collision: ${[...seedThemes].join(', ')}): "${seed.rawIdea.substring(0, 50)}..."`);
     } else {
-      console.log(`   Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
+      //console.log(`   Seed rejected (persona ${seed.persona.name} already used): "${seed.rawIdea.substring(0, 50)}..."`);
     }
   }
 
   // If we have too few unique seeds, be less strict and add more
   if (unique.length < 5 && seeds.length > unique.length) {
-    console.log(`   🔄 Relaxing criteria to get more seeds...`);
+    //console.log(`   🔄 Relaxing criteria to get more seeds...`);
     for (const seed of seeds) {
       if (unique.length >= 5) break;
       if (!unique.some(u => u.rawIdea === seed.rawIdea)) {
         unique.push(seed);
-        console.log(`   Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
+        //console.log(`   Seed added (relaxed): "${seed.rawIdea.substring(0, 50)}..."`);
       }
     }
   }

@@ -39,7 +39,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
   try {
     // Check if Supabase environment variables are available
     if (!process.env.SUPABASE_URL || (!process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY)) {
-      console.log('Supabase credentials not available, skipping historical similarity check');
+      //console.log('Supabase credentials not available, skipping historical similarity check');
       return false;
     }
 
@@ -57,7 +57,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
       .limit(50);
 
     if (error || !recentConcepts) {
-      console.log('Could not fetch recent concepts for similarity check, proceeding without filtering');
+      //console.log('Could not fetch recent concepts for similarity check, proceeding without filtering');
       return false;
     }
 
@@ -66,7 +66,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
 
     try {
       // Try advanced embedding-based similarity first
-      console.log('🔬 Using advanced embedding-based similarity detection...');
+      //console.log('🔬 Using advanced embedding-based similarity detection...');
       const embeddingResult = await checkHistoricalSimilarityWithEmbeddings(
         newContent, 
         historicalConcepts, 
@@ -74,13 +74,13 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
       );
       
       if (embeddingResult.isSimilar && embeddingResult.mostSimilar) {
-        console.log(`🚫 Concept rejected - semantic similarity: ${embeddingResult.mostSimilar.similarity.toFixed(3)} with: "${embeddingResult.mostSimilar.concept.substring(0, 100)}..."`);
+        //console.log(`🚫 Concept rejected - semantic similarity: ${embeddingResult.mostSimilar.similarity.toFixed(3)} with: "${embeddingResult.mostSimilar.concept.substring(0, 100)}..."`);
         return true;
       }
       
       return false;
     } catch (embeddingError) {
-      console.log('Embedding similarity failed, falling back to word-based similarity:', embeddingError);
+      //console.log('Embedding similarity failed, falling back to word-based similarity:', embeddingError);
       
       // Fallback to original word-based similarity
       const newWords = newContent.toLowerCase().split(/\s+/).filter((word: string) => word.length > 2);
@@ -92,7 +92,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
         const commonWords = newWords.filter((word: string) => existingWords.includes(word));
         
         if (commonWords.length > 3) {
-          console.log(`🚫 Concept discarded for word-based similarity - ${commonWords.length} shared keywords: ${commonWords.join(', ')}`);
+          //console.log(`🚫 Concept discarded for word-based similarity - ${commonWords.length} shared keywords: ${commonWords.join(', ')}`);
           return true;
         }
       }
@@ -100,7 +100,7 @@ async function checkHistoricalSimilarity(visualDescription: string, headlines: s
       return false;
     }
   } catch (error) {
-    console.log('Error checking historical similarity:', error);
+    //console.log('Error checking historical similarity:', error);
     return false;
   }
 }
@@ -241,8 +241,8 @@ interface ParsedOutput {
 export function parseOpenAIResponse(response: string): ParsedOutput | null {
   try {
     const cleanResponse = response.trim();
-    console.log('🔍 Parsing response length:', cleanResponse.length);
-    console.log('🔍 Response first 300 chars:', cleanResponse.substring(0, 300));
+    //console.log('🔍 Parsing response length:', cleanResponse.length);
+    //console.log('🔍 Response first 300 chars:', cleanResponse.substring(0, 300));
     
     // Parse Markdown format response
     const lines = cleanResponse.split('\n');
@@ -261,45 +261,45 @@ export function parseOpenAIResponse(response: string): ParsedOutput | null {
       
       if (line.startsWith('# ')) {
         headline = line.substring(2).trim();
-        console.log('Found headline:', headline);
+        //console.log('Found headline:', headline);
       } else if (line.startsWith('## ')) {
         tagline = line.substring(3).trim();
-        console.log('Found tagline:', tagline);
+        //console.log('Found tagline:', tagline);
       } else if (line.startsWith('**Tagline:**')) {
         tagline = line.replace('**Tagline:**', '').trim();
-        console.log('Found tagline (alt):', tagline);
+        //console.log('Found tagline (alt):', tagline);
       } else if (line.startsWith('**Body Copy:**')) {
         currentSection = 'bodyCopy';
         const content = line.replace('**Body Copy:**', '').trim();
         if (content) bodyCopy = content;
-        console.log('Found body copy section');
+        //console.log('Found body copy section');
       } else if (line.startsWith('**Visual Concept:**') || line.startsWith('**Visual:**') || line.startsWith('**Visual Description:**')) {
         currentSection = 'visualConcept';
         const content = line.replace(/\*\*(Visual Concept|Visual|Visual Description):\*\*/, '').trim();
         if (content) visualConcept = content;
-        console.log('Found visual concept section:', content || 'empty, will collect from next lines');
+        //console.log('Found visual concept section:', content || 'empty, will collect from next lines');
       } else if (line.startsWith('**Rhetorical Craft:**') || line.startsWith('**Rhetorical Device:**')) {
         currentSection = 'rhetoricalCraft';
-        console.log('Found rhetorical craft section');
+        //console.log('Found rhetorical craft section');
       } else if (line.startsWith('**Strategic Impact:**')) {
         currentSection = 'strategicImpact';
         const content = line.replace('**Strategic Impact:**', '').trim();
         if (content) strategicImpact = content;
-        console.log('Found strategic impact section');
+        //console.log('Found strategic impact section');
       } else if (line.startsWith('**Headlines:**')) {
         currentSection = 'headlines';
-        console.log('Found headlines section');
+        //console.log('Found headlines section');
       } else if (line.startsWith('**Success Metrics:**') || line.startsWith('**Evaluation:**') || line.startsWith('**Quality Standards:**') || line.startsWith('### Quality Standards') || line.startsWith('**Effectiveness:**')) {
         currentSection = 'other'; // Stop processing headlines
-        console.log('Found section end, stopping headline collection');
+        //console.log('Found section end, stopping headline collection');
       } else if (line.startsWith('### Headlines') || line.startsWith('### Visual Description')) {
         // Handle ### format instead of **
         if (line.includes('Headlines')) {
           currentSection = 'headlines';
-          console.log('Found headlines section (### format)');
+          //console.log('Found headlines section (### format)');
         } else if (line.includes('Visual Description')) {
           currentSection = 'visualConcept';
-          console.log('Found visual concept section (### format)');
+          //console.log('Found visual concept section (### format)');
         }
       } else if (line.startsWith('- ') && currentSection === 'rhetoricalCraft') {
         rhetoricalCraft.push(line.substring(2).trim());
@@ -314,7 +314,7 @@ export function parseOpenAIResponse(response: string): ParsedOutput | null {
         headlineText = headlineText.replace(/\*\*/g, '');
         if (headlineText && !headlines.includes(headlineText) && headlineText.length < 50) {
           headlines.push(headlineText);
-          console.log('Found headline:', headlineText);
+          //console.log('Found headline:', headlineText);
         }
       } else if (currentSection && line && !line.startsWith('**') && !line.startsWith('- Option')) {
         // Continue multi-line content
@@ -322,7 +322,7 @@ export function parseOpenAIResponse(response: string): ParsedOutput | null {
           bodyCopy += (bodyCopy ? ' ' : '') + line;
         } else if (currentSection === 'visualConcept') {
           visualConcept += (visualConcept ? ' ' : '') + line;
-          console.log('Added visual content:', line);
+          //console.log('Added visual content:', line);
         } else if (currentSection === 'strategicImpact') {
           strategicImpact += (strategicImpact ? ' ' : '') + line;
         }
@@ -336,10 +336,10 @@ export function parseOpenAIResponse(response: string): ParsedOutput | null {
     // If we still don't have a visual concept, try to extract from body copy or create a fallback
     if (!visualConcept.trim()) {
       visualConcept = bodyCopy || "Innovative visual concept showcasing the product's unique value proposition";
-      console.log('Using fallback visual concept');
+      //console.log('Using fallback visual concept');
     }
     
-    console.log('📊 Final parsing result:', {
+    //console.log('📊 Final parsing result:', {
       visual: visualConcept.substring(0, 50) + '...',
       headlineCount: headlines.length,
       hasContent: !!(visualConcept && headlines.length > 0)
@@ -403,8 +403,8 @@ async function selectRhetoricalDevicesWeighted(tone: string, count: number = 5):
     selected.push(remainingDevices.splice(randomIndex, 1)[0]);
   }
   
-  console.log(`Selected DIVERSE devices for ${tone}: ${selected.join(', ')}`);
-  console.log(`📊 Device usage stats:`, selected.map(d => `${d}:${deviceUsage[d] || 0}`).join(', '));
+  //console.log(`Selected DIVERSE devices for ${tone}: ${selected.join(', ')}`);
+  //console.log(`📊 Device usage stats:`, selected.map(d => `${d}:${deviceUsage[d] || 0}`).join(', '));
   return selected;
 }
 
@@ -461,7 +461,7 @@ export async function generateMultivariant(req: Request, res: Response) {
 
     // Start performance tracking
     performanceTracker.startTracking();
-    console.log(`🚀 Starting multi-variant generation: "${query}" (${tone}, max ${variantCount})`);
+    //console.log(`🚀 Starting multi-variant generation: "${query}" (${tone}, max ${variantCount})`);
 
     const startTime = Date.now();
 
@@ -473,7 +473,7 @@ export async function generateMultivariant(req: Request, res: Response) {
     // HYBRID GENERATION MODE
     // ============================================
     if (enableHybridMode) {
-      console.log('🌀 HYBRID MODE ENABLED - Using CREATIVEDC + EvoToken-DLM pipeline');
+      //console.log('🌀 HYBRID MODE ENABLED - Using CREATIVEDC + EvoToken-DLM pipeline');
 
       try {
         const orchestrator = new HybridGenerationOrchestrator({
@@ -520,10 +520,10 @@ export async function generateMultivariant(req: Request, res: Response) {
 
         const endTime = Date.now();
 
-        console.log(`Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
-        console.log(`   Mode: ${hybridResult.metadata.mode}`);
-        console.log(`   Creativity Score: ${(hybridResult.metadata.creativityScore * 100).toFixed(1)}%`);
-        console.log(`   Divergent Pool: ${hybridResult.metadata.divergentPoolSize} seeds`);
+        //console.log(`Hybrid generation complete: ${outputs.length} variants in ${endTime - startTime}ms`);
+        //console.log(`   Mode: ${hybridResult.metadata.mode}`);
+        //console.log(`   Creativity Score: ${(hybridResult.metadata.creativityScore * 100).toFixed(1)}%`);
+        //console.log(`   Divergent Pool: ${hybridResult.metadata.divergentPoolSize} seeds`);
 
         // **SAVE TO SUPABASE** - Save each hybrid concept to the database
         const { logSession } = await import('../supabaseClient');
@@ -556,14 +556,14 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
             conceptIds.push(conceptId);
             // Update the output with the database ID
             (outputs[i] as any).conceptId = conceptId;
-            console.log(`Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
+            //console.log(`Hybrid concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
           } else {
             console.error(`Failed to save hybrid concept ${i + 1} to Supabase`);
             conceptIds.push(`failed-${Date.now()}-${i}`);
           }
         }
 
-        console.log(`📦 Saved ${conceptIds.filter(id => !id.startsWith('failed')).length}/${outputs.length} hybrid concepts to database`);
+        //console.log(`📦 Saved ${conceptIds.filter(id => !id.startsWith('failed')).length}/${outputs.length} hybrid concepts to database`);
 
         return res.json({
           success: true,
@@ -596,12 +596,12 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
     
     // If all examples have been used, clear the table and reset
     if (availableExamples.length === 0) {
-      console.log('🔄 All examples used, resetting cycle...');
+      //console.log('🔄 All examples used, resetting cycle...');
       await clearUsedExamples();
       availableExamples = [...allExamples];
     }
     
-    console.log(`📋 Available examples: ${availableExamples.length}/${allExamples.length} (${usedExampleIds.length} already used)`);
+    //console.log(`📋 Available examples: ${availableExamples.length}/${allExamples.length} (${usedExampleIds.length} already used)`);
     
     // Select MORE rhetorical devices with stronger weighting for diversity  
     const selectedDevices = await selectRhetoricalDevicesWeighted(tone, 12);
@@ -624,10 +624,10 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
       
       if (!error && data) {
         salvagedFragments = data;
-        console.log(`Retrieved ${salvagedFragments.length} salvaged fragments for inspiration`);
+        //console.log(`Retrieved ${salvagedFragments.length} salvaged fragments for inspiration`);
       }
     } catch (error) {
-      console.log('No salvaged fragments available or Supabase not configured');
+      //console.log('No salvaged fragments available or Supabase not configured');
     }
     
     // Generate up to 10 completions in parallel with unique examples
@@ -659,15 +659,15 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         const theoryContext = detectTheoryContext(query);
         const theoriesToPrioritize = getContextualTheoryPriority(query);
         
-        console.log(`🧠 MULTIVARIANT THEORY DETECTION: Primary=${theoryContext.primaryFramework}, Priority=[${theoriesToPrioritize.join(' → ')}]`);
+        //console.log(`🧠 MULTIVARIANT THEORY DETECTION: Primary=${theoryContext.primaryFramework}, Priority=[${theoriesToPrioritize.join(' → ')}]`);
         
         const corpusResults = await retrieveTopNWithRotation(query, 1, i, theoriesToPrioritize.slice(0, 3), 'default_project');
         if (corpusResults && corpusResults.length > 0) {
           semanticExample = corpusResults[0];
-          console.log(`🧠 Retrieved semantic example: ${semanticExample.campaign} (${semanticExample.brand}) - ${semanticExample.rhetoricalDevices?.join(', ')}`);
+          //console.log(`🧠 Retrieved semantic example: ${semanticExample.campaign} (${semanticExample.brand}) - ${semanticExample.rhetoricalDevices?.join(', ')}`);
         }
       } catch (error) {
-        console.log('📚 Semantic retrieval unavailable, using traditional examples');
+        //console.log('📚 Semantic retrieval unavailable, using traditional examples');
       }
       
       // Also select from traditional examples if available
@@ -675,7 +675,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         const randomIndex = Math.floor(Math.random() * availableExamples.length);
         selectedExample = availableExamples.splice(randomIndex, 1)[0]; // Remove from available pool
         batchUsedExamples.push(selectedExample);
-        console.log(`Selected traditional example for generation ${i + 1}: ${selectedExample.campaign_name} - ${selectedExample.brand}`);
+        //console.log(`Selected traditional example for generation ${i + 1}: ${selectedExample.campaign_name} - ${selectedExample.brand}`);
       }
       
       const prompt = generateMultivariantPrompt({
@@ -725,7 +725,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
       );
     }
     
-    console.log(`Generated ${completionPromises.length} unique prompts with ${batchUsedExamples.length} unique examples`);
+    //console.log(`Generated ${completionPromises.length} unique prompts with ${batchUsedExamples.length} unique examples`);
     
     const completions = await Promise.all(completionPromises);
     
@@ -740,17 +740,17 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
       await updateRhetoricalDeviceUsage(device);
     }
     
-    console.log(`Marked ${batchUsedExamples.length} examples as used and updated usage for ${batchUsedDevices.length} devices`);
+    //console.log(`Marked ${batchUsedExamples.length} examples as used and updated usage for ${batchUsedDevices.length} devices`);
     
     // Process completions with historical similarity filtering
-    console.log(`🔍 Processing ${completions.length} completions...`);
+    //console.log(`🔍 Processing ${completions.length} completions...`);
     for (const completion of completions) {
-      console.log(`🔍 Raw AI response for ${completion.device}:`, completion.response.substring(0, 300) + '...');
-      console.log(`🔍 Response has content:`, !!completion.response);
-      console.log(`🔍 Response length:`, completion.response.length);
+      //console.log(`🔍 Raw AI response for ${completion.device}:`, completion.response.substring(0, 300) + '...');
+      //console.log(`🔍 Response has content:`, !!completion.response);
+      //console.log(`🔍 Response length:`, completion.response.length);
       
       const parsed = parseOpenAIResponse(completion.response);
-      console.log(`Parsing result for device ${completion.device}:`, { 
+      //console.log(`Parsing result for device ${completion.device}:`, { 
         hasVisual: !!parsed?.visual, 
         headlineCount: parsed?.headlines?.length || 0,
         visual: parsed?.visual?.substring(0, 100) || 'N/A',
@@ -763,12 +763,12 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         try {
           isSimilar = await checkHistoricalSimilarity(parsed.visual, parsed.headlines);
         } catch (error) {
-          console.log('Error checking historical similarity:', error);
+          //console.log('Error checking historical similarity:', error);
           isSimilar = false; // Continue without similarity check if it fails
         }
         
         if (isSimilar) {
-          console.log(`🔄 Regenerating concept due to historical similarity...`);
+          //console.log(`🔄 Regenerating concept due to historical similarity...`);
           
           // Regenerate this specific concept with a new prompt
           try {
@@ -850,9 +850,9 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
                 highAwardsPotential: hasHighAwardsPotential(awardsEvaluation.awards_score)
               });
               
-              console.log(`Successfully regenerated unique concept`);
+              //console.log(`Successfully regenerated unique concept`);
             } else {
-              console.log(`Regeneration failed, using original concept`);
+              //console.log(`Regeneration failed, using original concept`);
               // Fallback to original if regeneration fails
               const combinedContent = `${parsed.visual} ${parsed.headlines.join(' ')}`;
               const originalityResult = await checkOriginality(combinedContent);
@@ -899,7 +899,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
               });
             }
           } catch (error) {
-            console.log(`Regeneration error:`, error);
+            //console.log(`Regeneration error:`, error);
             // Fallback to original concept
             const combinedContent = `${parsed.visual} ${parsed.headlines.join(' ')}`;
             const originalityResult = await checkOriginality(combinedContent);
@@ -1037,7 +1037,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
                 };
               }
             } catch (error) {
-              console.log('Refinement skipped due to error:', error);
+              //console.log('Refinement skipped due to error:', error);
             }
           }
           
@@ -1112,7 +1112,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
       }
     }
     
-    console.log(`Generated ${rawOutputs.length} raw concepts, applying embedding-based diversity enforcement...`);
+    //console.log(`Generated ${rawOutputs.length} raw concepts, applying embedding-based diversity enforcement...`);
     
     // Apply embedding-based diversity enforcement
     let finalOutputs = rawOutputs;
@@ -1127,7 +1127,7 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
         const diverseConceptTexts = await enforceConceptDiversity(
           conceptTexts,
           async () => {
-            console.log('🔄 Regenerating concepts due to high semantic similarity...');
+            //console.log('🔄 Regenerating concepts due to high semantic similarity...');
             // Actually filter out similar concepts rather than returning originals
             const filteredConcepts: string[] = [];
             for (let i = 0; i < conceptTexts.length; i++) {
@@ -1147,15 +1147,15 @@ ${output.bodyCopy ? `**BODY COPY:** ${output.bodyCopy}\n` : ''}
                 filteredConcepts.push(conceptTexts[i]);
               }
             }
-            console.log(`Filtered ${conceptTexts.length} → ${filteredConcepts.length} unique concepts`);
+            //console.log(`Filtered ${conceptTexts.length} → ${filteredConcepts.length} unique concepts`);
             return filteredConcepts;
           },
           0.75 // STRICTER 75% similarity threshold instead of 85%
         );
         
-        console.log(`Semantic diversity check completed - ${diverseConceptTexts.length} concepts passed`);
+        //console.log(`Semantic diversity check completed - ${diverseConceptTexts.length} concepts passed`);
       } catch (embeddingError) {
-        console.log('Embedding diversity check failed, proceeding with existing concepts:', embeddingError);
+        //console.log('Embedding diversity check failed, proceeding with existing concepts:', embeddingError);
         // Continue with existing diversity scoring as fallback
       }
     }
@@ -1211,7 +1211,7 @@ ${output.reflection || 'Designed to resonate with target audience and achieve ca
       
       if (conceptId) {
         conceptIds.push(conceptId);
-        console.log(`Multivariant concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
+        //console.log(`Multivariant concept ${i + 1} saved to Supabase with ID: ${conceptId}`);
         
         // **FEEDBACK SIMILARITY ANALYSIS**: Check against user ratings
         try {
@@ -1234,10 +1234,10 @@ ${output.reflection || 'Designed to resonate with target audience and achieve ca
           );
           
           if (feedbackAnalysis.overallScore !== 0) {
-            console.log(`Feedback alignment for concept ${i + 1}: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+            //console.log(`Feedback alignment for concept ${i + 1}: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
           }
         } catch (feedbackError) {
-          console.log(`📊 Feedback analysis skipped for concept ${i + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
+          //console.log(`📊 Feedback analysis skipped for concept ${i + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
         }
       } else {
         console.error(`Failed to save multivariant concept ${i + 1} to Supabase!`);
@@ -1246,7 +1246,7 @@ ${output.reflection || 'Designed to resonate with target audience and achieve ca
       }
     }
     
-    console.log(`Logged ${conceptIds.length} individual concepts as structured JSON`);
+    //console.log(`Logged ${conceptIds.length} individual concepts as structured JSON`);
     const logResult = conceptIds[0]; // Use first concept ID for compatibility
     
     // Check for fragment recombination and track usage
@@ -1277,7 +1277,7 @@ ${output.reflection || 'Designed to resonate with target audience and achieve ca
                 .update({ recombined_from: fragment.id })
                 .eq('id', logResult);
               
-              console.log(`🔄 Tracked recombination: Concept ${logResult} inspired by fragment "${fragment.fragment_text}"`);
+              //console.log(`🔄 Tracked recombination: Concept ${logResult} inspired by fragment "${fragment.fragment_text}"`);
               break; // Only track one fragment per concept
             }
           }

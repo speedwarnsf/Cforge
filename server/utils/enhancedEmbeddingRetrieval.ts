@@ -49,7 +49,7 @@ class EnhancedEmbeddingRetrieval {
   private cacheFile = 'corpus-embeddings-cache.json';
 
   async initialize(): Promise<void> {
-    console.log('🔄 Initializing enhanced embedding retrieval...');
+    //console.log('🔄 Initializing enhanced embedding retrieval...');
     
     try {
       // Load corpus
@@ -59,7 +59,7 @@ class EnhancedEmbeddingRetrieval {
       await this.loadOrComputeEmbeddings();
       
       this.embeddingsReady = true;
-      console.log('Enhanced embedding retrieval ready');
+      //console.log('Enhanced embedding retrieval ready');
     } catch (error) {
       console.error('Failed to initialize embedding retrieval:', error);
       this.embeddingsReady = false;
@@ -71,7 +71,7 @@ class EnhancedEmbeddingRetrieval {
       const data = await fs.readFile('data/retrieval-corpus.json', 'utf8');
       const parsed = JSON.parse(data);
       this.corpus = parsed.campaigns || [];
-      console.log(`📚 Loaded ${this.corpus.length} campaigns`);
+      //console.log(`📚 Loaded ${this.corpus.length} campaigns`);
     } catch (error) {
       console.error('Failed to load corpus:', error);
       this.corpus = [];
@@ -90,13 +90,13 @@ class EnhancedEmbeddingRetrieval {
       );
       
       if (missingEmbeddings.length > 0) {
-        console.log(`🔄 Computing ${missingEmbeddings.length} missing embeddings...`);
+        //console.log(`🔄 Computing ${missingEmbeddings.length} missing embeddings...`);
         await this.computeMissingEmbeddings(missingEmbeddings);
       } else {
-        console.log('Using cached embeddings');
+        //console.log('Using cached embeddings');
       }
     } catch (error) {
-      console.log('🔄 Computing all embeddings (no cache found)...');
+      //console.log('🔄 Computing all embeddings (no cache found)...');
       await this.computeAllEmbeddings();
     }
   }
@@ -113,7 +113,7 @@ class EnhancedEmbeddingRetrieval {
         this.embeddings[i.toString()] = embedding;
         
         if ((i + 1) % 10 === 0) {
-          console.log(`📊 Computed ${i + 1}/${this.corpus.length} embeddings`);
+          //console.log(`📊 Computed ${i + 1}/${this.corpus.length} embeddings`);
         }
         
         // Small delay to respect rate limits
@@ -167,7 +167,7 @@ class EnhancedEmbeddingRetrieval {
   private async saveEmbeddingsCache(): Promise<void> {
     try {
       await fs.writeFile(this.cacheFile, JSON.stringify(this.embeddings, null, 2));
-      console.log('💾 Embeddings cache saved');
+      //console.log('💾 Embeddings cache saved');
     } catch (error) {
       console.error('Failed to save embeddings cache:', error);
     }
@@ -227,7 +227,7 @@ class EnhancedEmbeddingRetrieval {
 
   async retrieveTopN(prompt: string, n: number = 2): Promise<CampaignEntry[]> {
     if (!this.embeddingsReady || this.corpus.length === 0) {
-      console.log('Embeddings not ready, using fallback');
+      //console.log('Embeddings not ready, using fallback');
       return this.getFallbackCampaigns(n);
     }
 
@@ -274,13 +274,13 @@ class EnhancedEmbeddingRetrieval {
         };
         
         this.retrievalCache.set(promptHash, cacheRecord);
-        console.log(`🔍 New retrieval cached for prompt hash: ${promptHash}`);
+        //console.log(`🔍 New retrieval cached for prompt hash: ${promptHash}`);
       }
       
       // Select diverse campaigns using round-robin with diversity scoring
       const selected = this.selectDiverseCampaigns(cacheRecord, n);
       
-      console.log(`📊 Retrieved ${selected.length} diverse campaigns (used pairs: ${cacheRecord.usedPairs})`);
+      //console.log(`📊 Retrieved ${selected.length} diverse campaigns (used pairs: ${cacheRecord.usedPairs})`);
       return selected;
       
     } catch (error) {

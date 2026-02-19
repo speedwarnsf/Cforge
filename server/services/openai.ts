@@ -1,4 +1,4 @@
-console.log("🔐 OpenAI API KEY:", process.env.OPENAI_API_KEY?.slice(0, 5));
+//console.log("🔐 OpenAI API KEY:", process.env.OPENAI_API_KEY?.slice(0, 5));
 import OpenAI from "openai";
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
@@ -20,7 +20,7 @@ const MAX_CACHE_SIZE = 1000;
 async function getHistoricalConcepts(limit: number = 50): Promise<string[]> {
   try {
     if (!process.env.SUPABASE_URL || (!process.env.SUPABASE_ANON_KEY && !process.env.SUPABASE_KEY)) {
-      console.log('Supabase credentials not available, returning empty historical concepts');
+      //console.log('Supabase credentials not available, returning empty historical concepts');
       return [];
     }
 
@@ -37,7 +37,7 @@ async function getHistoricalConcepts(limit: number = 50): Promise<string[]> {
       .limit(limit);
 
     if (error || !recentConcepts) {
-      console.log('Could not fetch historical concepts for arbiter evaluation');
+      //console.log('Could not fetch historical concepts for arbiter evaluation');
       return [];
     }
 
@@ -79,7 +79,7 @@ function loadRhetoricalDevices(): Record<string, string> {
             .join(' ');
           devices[name] = item.definition;
         }
-        console.log(`📚 Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
+        //console.log(`📚 Loaded ${Object.keys(devices).length} rhetorical devices from ${p}`);
         return devices;
       } catch (error) {
         console.error(`Error loading rhetorical devices from ${p}:`, error);
@@ -154,7 +154,7 @@ function getStrategicRhetoricalDevices(tone: string, count: number = 4): { name:
   const shuffled = [...allDeviceNames].sort(() => Math.random() - 0.5);
   const selected = shuffled.slice(0, count);
 
-  console.log(`🎲 Selected ${count} diverse devices from ${allDeviceNames.length} available: ${selected.join(', ')}`);
+  //console.log(`🎲 Selected ${count} diverse devices from ${allDeviceNames.length} available: ${selected.join(', ')}`);
 
   return selected.map(deviceName => ({
     name: deviceName,
@@ -399,7 +399,7 @@ function selectDiverseDevices(count: number, preferredTone: string, userRatings?
   const shuffled = availableDevices.sort(() => Math.random() - 0.5);
   const selected = shuffled.slice(0, count);
 
-  console.log(`🎲 selectDiverseDevices: Selected ${selected.length} from ${allDevices.length} devices: ${selected.join(', ')}`);
+  //console.log(`🎲 selectDiverseDevices: Selected ${selected.length} from ${allDevices.length} devices: ${selected.join(', ')}`);
 
   return selected;
 }
@@ -489,16 +489,16 @@ Also available in your arsenal (use as secondary layers): ${deviceNames}
 ${getTonePrompt(request.tone)}`;
 
     // Debug logging to track what's being sent
-    console.log(`Processing query: "${request.query}"`);
-    console.log(`Using tone: ${request.tone}`);
-    console.log(`🎪 Using rhetorical device: ${rhetoricalDevice || 'Auto-selected'}`);
+    //console.log(`Processing query: "${request.query}"`);
+    //console.log(`Using tone: ${request.tone}`);
+    //console.log(`🎪 Using rhetorical device: ${rhetoricalDevice || 'Auto-selected'}`);
     
     // ENHANCED THEORY INJECTION SYSTEM
     const theoryContext = detectTheoryContext(request.query);
     const contextualPriority = getContextualTheoryPriority(request.query);
     
-    console.log(`🧠 THEORY CONTEXT: Primary=${theoryContext.primaryFramework}, Secondary=[${theoryContext.secondaryFrameworks.join(', ')}]`);
-    console.log(`CONTEXTUAL PRIORITY: [${contextualPriority.join(' → ')}]`);
+    //console.log(`🧠 THEORY CONTEXT: Primary=${theoryContext.primaryFramework}, Secondary=[${theoryContext.secondaryFrameworks.join(', ')}]`);
+    //console.log(`CONTEXTUAL PRIORITY: [${contextualPriority.join(' → ')}]`);
     
     // Retrieve top 2 most relevant corpus examples
     const retrievedExamples = await retrieveTopN(request.query, 2);
@@ -506,7 +506,7 @@ ${getTonePrompt(request.tone)}`;
     // Apply enhanced theory injection
     const theoryInjection = generateConceptWithTheoryInject(systemPrompt, request.query, retrievedExamples);
     
-    console.log(`📚 ENHANCED THEORY INJECTION: Detected keywords [${theoryInjection.detectedKeywords.join(', ')}] → Applied theories [${theoryInjection.selectedTheories.join(', ')}]`);
+    //console.log(`📚 ENHANCED THEORY INJECTION: Detected keywords [${theoryInjection.detectedKeywords.join(', ')}] → Applied theories [${theoryInjection.selectedTheories.join(', ')}]`);
 
     // Format retrieval examples into a structured block
     let retrievalText = "";
@@ -561,9 +561,9 @@ HEADLINE LENGTH EXAMPLES:
 
 CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with an unexpected angle that makes the target audience think "I never thought of it that way." Your concept must be laser-focused on solving THIS brief.`;
     
-    console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
+    //console.log(`Sending user message (first 200 chars): ${userMessage.substring(0, 200)}...`);
 
-    console.log('🚀 Calling OpenAI API with model: gpt-5.2');
+    //console.log('🚀 Calling OpenAI API with model: gpt-5.2');
     const response = await openai.chat.completions.create({
       model: !process.env.OPENAI_API_KEY && process.env.GEMINI_API_KEY ? "gemini-2.0-flash" : "gpt-4o",
       messages: [
@@ -593,11 +593,11 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     const cost = (tokensUsed / 1000) * TOKEN_COST_PER_1K;
 
     // Log token usage summary
-    console.log(`Token Usage Summary`);
-    console.log(`Prompt tokens: ${promptTokens}`);
-    console.log(`Completion tokens: ${completionTokens}`);
-    console.log(`Total tokens: ${tokensUsed}`);
-    console.log(`Estimated Cost: $${cost.toFixed(4)}`);
+    //console.log(`Token Usage Summary`);
+    //console.log(`Prompt tokens: ${promptTokens}`);
+    //console.log(`Completion tokens: ${completionTokens}`);
+    //console.log(`Total tokens: ${tokensUsed}`);
+    //console.log(`Estimated Cost: $${cost.toFixed(4)}`);
 
     // Extract content from response
     const content = response.choices[0]?.message?.content || "No response generated";
@@ -607,9 +607,9 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
     }
 
     // Generate visual prompt
-    console.log("Generating visual prompt for:", request.query, request.tone);
+    //console.log("Generating visual prompt for:", request.query, request.tone);
     const visualPrompt = await generateVisualPrompt(request.query, request.tone, content);
-    console.log("Generated visual prompt:", visualPrompt);
+    //console.log("Generated visual prompt:", visualPrompt);
 
     // Extract headline for originality check and duplication tracking
     const headlineMatch = content.match(/\*\*HEADLINE:\*\*\s*(.+?)(?:\n|\*\*|$)/i);
@@ -621,11 +621,11 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
       // Store this concept to prevent future duplication
       storeRecentConcept(request.query, headline);
       
-      console.log(`🔍 Checking originality for headline: "${headline}" (Deep scan: ${request.deepScan ? 'enabled' : 'disabled'})`);
+      //console.log(`🔍 Checking originality for headline: "${headline}" (Deep scan: ${request.deepScan ? 'enabled' : 'disabled'})`);
       
       try {
         originalityCheck = await checkOriginality(headline, request.deepScan);
-        console.log(`Originality check result: ${originalityCheck.isOriginal ? 'Original' : 'Potentially unoriginal'} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
+        //console.log(`Originality check result: ${originalityCheck.isOriginal ? 'Original' : 'Potentially unoriginal'} (confidence: ${originalityCheck.confidence.toFixed(2)})`);
       } catch (error) {
         console.error('Error performing originality check:', error);
       }
@@ -638,7 +638,7 @@ CREATIVE CONSTRAINT: Address the specific challenge in "${request.query}" with a
         const historicalConcepts = await getHistoricalConcepts();
         const arbiterStartTime = Date.now();
         const arbiterResults = await comprehensiveConceptEvaluation(content, request.query, historicalConcepts, { useConfigurableThresholds: true, runAllArbiters: true });
-        console.log(`🔍 Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
+        //console.log(`🔍 Arbiter Evaluation (background): ${Date.now() - arbiterStartTime}ms, Score ${arbiterResults.overallScore.toFixed(1)}/100, Passed: ${arbiterResults.overallPassed}`);
       } catch (error) {
         console.error('Arbiter evaluation failed:', error);
       }
@@ -710,7 +710,7 @@ export async function generateAiResponse(request: AiGenerationRequest): Promise<
           
           // Check for duplication
           if (headline && generatedHeadlines.has(headline)) {
-            console.log(`🔄 Duplicate headline detected: "${headline}" - retrying (attempt ${attempts + 1}/${maxRetries})`);
+            //console.log(`🔄 Duplicate headline detected: "${headline}" - retrying (attempt ${attempts + 1}/${maxRetries})`);
             attempts++;
             continue;
           }
@@ -724,7 +724,7 @@ export async function generateAiResponse(request: AiGenerationRequest): Promise<
           totalTokens += concept.tokens;
           conceptGenerated = true;
           
-          console.log(`Generated unique concept ${i + 1}: "${headline}"`);
+          //console.log(`Generated unique concept ${i + 1}: "${headline}"`);
           
           // Add small delay between requests to prevent rate limiting
           if (i < conceptCount - 1) {
@@ -769,11 +769,11 @@ async function generateVisualPrompt(query: string, tone: string, aiResponse: str
     const visualConceptMatch = aiResponse.match(/\*\*VISUAL CONCEPT:\*\*\s*([^*]+?)(?=\*\*|$)/s);
     const headlineMatch = aiResponse.match(/\*\*HEADLINE:\*\*\s*([^*]+?)(?=\*\*|$)/s);
     
-    console.log("Full AI response for extraction:", aiResponse.substring(0, 500));
+    //console.log("Full AI response for extraction:", aiResponse.substring(0, 500));
     
     if (visualConceptMatch) {
       const visualConcept = visualConceptMatch[1].trim();
-      console.log("SUCCESS: Visual concept extracted:", visualConcept);
+      //console.log("SUCCESS: Visual concept extracted:", visualConcept);
       
       // Generate sophisticated prompt from the visual concept
       const promptResponse = await openai.chat.completions.create({
@@ -808,29 +808,29 @@ OUTPUT: "steaming coffee cup on volcanic crater edge, dramatic backlighting, ste
       const visualCompletionTokens = promptResponse.usage?.completion_tokens ?? 0;
       const visualCost = (visualTokens / 1000) * 0.03;
       
-      console.log(`Visual Prompt Token Usage:`);
-      console.log(`Prompt tokens: ${visualPromptTokens}`);
-      console.log(`Completion tokens: ${visualCompletionTokens}`);
-      console.log(`Total tokens: ${visualTokens}`);
-      console.log(`Estimated Cost: $${visualCost.toFixed(4)}`);
+      //console.log(`Visual Prompt Token Usage:`);
+      //console.log(`Prompt tokens: ${visualPromptTokens}`);
+      //console.log(`Completion tokens: ${visualCompletionTokens}`);
+      //console.log(`Total tokens: ${visualTokens}`);
+      //console.log(`Estimated Cost: $${visualCost.toFixed(4)}`);
       
       const generatedPrompt = promptResponse.choices[0].message.content?.trim() || "";
-      console.log("AI-generated visual prompt:", generatedPrompt);
+      //console.log("AI-generated visual prompt:", generatedPrompt);
       
       if (generatedPrompt && generatedPrompt.length > 15) {
         return generatedPrompt;
       }
     } else {
-      console.log("NO VISUAL CONCEPT MATCH found in response");
+      //console.log("NO VISUAL CONCEPT MATCH found in response");
     }
     
     // Enhanced fallback using headline and style
     const subject = query.split(' ').slice(0, 3).join(' ');
     const headline = headlineMatch ? headlineMatch[1].trim().split(' ').slice(0, 4).join(' ') : subject;
     const fallbackPrompt = `${headline}, ${styleDirection}, professional advertising photography --ar 16:9 --v 6`;
-    console.log("Using fallback prompt:", fallbackPrompt);
+    //console.log("Using fallback prompt:", fallbackPrompt);
     
-    console.log("Final visual prompt:", fallbackPrompt);
+    //console.log("Final visual prompt:", fallbackPrompt);
     return fallbackPrompt;
     
   } catch (error) {

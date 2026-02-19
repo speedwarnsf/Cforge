@@ -32,7 +32,7 @@ class OptimizedCorpusSearch {
   }
 
   private buildIndices(): void {
-    console.log(`📚 Building optimized corpus indices for ${this.corpus.length} entries`);
+    //console.log(`📚 Building optimized corpus indices for ${this.corpus.length} entries`);
     
     for (const entry of this.corpus) {
       this.index.set(entry.id, entry);
@@ -68,7 +68,7 @@ class OptimizedCorpusSearch {
     }
     
     this.isIndexed = true;
-    console.log(`Corpus indices built successfully`);
+    //console.log(`Corpus indices built successfully`);
   }
 
   private extractWords(text: string): string[] {
@@ -309,7 +309,7 @@ class OptimizedCorpusSearch {
     try {
       // This would integrate with your embedding service
       // Placeholder for actual embedding API call
-      console.log('Getting embedding for:', text);
+      //console.log('Getting embedding for:', text);
       return null; // Return actual embedding
     } catch (error) {
       console.warn('Failed to get embedding:', error);

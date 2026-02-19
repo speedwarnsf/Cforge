@@ -103,7 +103,7 @@ export function addCorpusEntry(entry: RetrievalCorpusEntry): boolean {
 
     // Check for duplicates
     if (entryExists(entry.headline, entry.campaign, corpus)) {
-      console.log(`Skipping duplicate entry: "${entry.headline}" from ${entry.campaign}`);
+      //console.log(`Skipping duplicate entry: "${entry.headline}" from ${entry.campaign}`);
       return false;
     }
 
@@ -113,7 +113,7 @@ export function addCorpusEntry(entry: RetrievalCorpusEntry): boolean {
     // Save back to file
     saveCorpusToFile(corpus);
 
-    console.log(`Added corpus entry: "${entry.headline}" from ${entry.campaign} (${entry.year})`);
+    //console.log(`Added corpus entry: "${entry.headline}" from ${entry.campaign} (${entry.year})`);
     return true;
 
   } catch (error) {
@@ -135,7 +135,7 @@ export function importCorpusEntries(entries: RetrievalCorpusEntry[]): {
   let skipped = 0;
   let errors = 0;
 
-  console.log(`Importing ${entries.length} corpus entries...`);
+  //console.log(`Importing ${entries.length} corpus entries...`);
 
   // Load existing corpus once
   const corpus = loadCorpusFromFile();
@@ -150,14 +150,14 @@ export function importCorpusEntries(entries: RetrievalCorpusEntry[]): {
 
     // Check for duplicates
     if (entryExists(entry.headline, entry.campaign, corpus)) {
-      console.log(`Skipping duplicate entry: "${entry.headline}" from ${entry.campaign}`);
+      //console.log(`Skipping duplicate entry: "${entry.headline}" from ${entry.campaign}`);
       skipped++;
       continue;
     }
 
     // Add to corpus
     corpus.push(entry);
-    console.log(`Added corpus entry: "${entry.headline}" from ${entry.campaign} (${entry.year})`);
+    //console.log(`Added corpus entry: "${entry.headline}" from ${entry.campaign} (${entry.year})`);
     added++;
   }
 
@@ -173,7 +173,7 @@ export function importCorpusEntries(entries: RetrievalCorpusEntry[]): {
     errors
   };
 
-  console.log(`📊 Import Summary: ${added} added, ${skipped} skipped (duplicates), ${errors} errors`);
+  //console.log(`📊 Import Summary: ${added} added, ${skipped} skipped (duplicates), ${errors} errors`);
   return summary;
 }
 

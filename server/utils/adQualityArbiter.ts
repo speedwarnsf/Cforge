@@ -59,7 +59,7 @@ Inspired By: ${concept.rhetoricalExample}
     json.clarity_score = Math.max(0, Math.min(100, json.clarity_score));
     json.freshness_score = Math.max(0, Math.min(100, json.freshness_score));
     
-    console.log(`Quality Scores - Professional: ${json.professionalism_score}, Clarity: ${json.clarity_score}, Freshness: ${json.freshness_score}`);
+    //console.log(`Quality Scores - Professional: ${json.professionalism_score}, Clarity: ${json.clarity_score}, Freshness: ${json.freshness_score}`);
     
     return json;
   } catch (error) {

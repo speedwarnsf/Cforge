@@ -77,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate", async (req, res) => {
     try {
       // ALL generation now routes through the hybrid pipeline
-      console.log(`🔀 Routing ALL generation through hybrid multivariant pipeline`);
+      //console.log(`🔀 Routing ALL generation through hybrid multivariant pipeline`);
       const requestedCount = req.body?.conceptCount || 1;
       req.body.conceptCount = requestedCount;
       req.body.enableHybridMode = true;
@@ -143,7 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Legacy single-concept path below (kept for reference, unreachable)
       const conceptCount = req.body?.conceptCount || 1;
       if (conceptCount > 1) {
-        console.log(`🔀 Routing to multivariant endpoint for ${conceptCount} concepts`);
+        //console.log(`🔀 Routing to multivariant endpoint for ${conceptCount} concepts`);
         return generateMultivariant(req, res);
       }
 
@@ -165,9 +165,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = aiRequestFormSchema.parse(req.body);
       
-      console.log(`RECEIVED QUERY: "${validatedData.query}"`);
-      console.log(`RECEIVED TONE: ${validatedData.tone}`);
-      console.log(`🔍 Deep scan enabled: ${validatedData.deepScan}`);
+      //console.log(`RECEIVED QUERY: "${validatedData.query}"`);
+      //console.log(`RECEIVED TONE: ${validatedData.tone}`);
+      //console.log(`🔍 Deep scan enabled: ${validatedData.deepScan}`);
       
       // ENHANCED DIVERSITY ENFORCEMENT: Apply 3-5 random theories and expanded diverse synonyms
       const theories = ['Burke', 'Messaris', 'Barthes', 'Lupton', 'Phillips & McQuarrie', 'Tufte', 'Forceville', 'Kress', 'Aristotle'];
@@ -199,8 +199,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Inject theoretical frameworks for enhanced sophistication
       enhancedQuery += ` Apply theoretical frameworks: ${randomTheories.join(', ')}. Ensure high originality with unique angles and rhetorical devices.`;
       
-      console.log(`🔧 DIVERSITY ENHANCED QUERY: "${enhancedQuery}"`);
-      console.log(`🎓 APPLIED THEORIES: ${randomTheories.join(', ')}`);
+      //console.log(`🔧 DIVERSITY ENHANCED QUERY: "${enhancedQuery}"`);
+      //console.log(`🎓 APPLIED THEORIES: ${randomTheories.join(', ')}`);
       
       // Fetch user ratings to inform AI generation
       let userRatings: Array<{ rhetoricalDevice: string; tone: string; rating: 'more_like_this' | 'less_like_this' }> = [];
@@ -213,7 +213,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             tone: rating.tone,
             rating: rating.rating as 'more_like_this' | 'less_like_this'
           }));
-          console.log(`📊 Applying ${userRatings.length} user ratings to generation`);
+          //console.log(`📊 Applying ${userRatings.length} user ratings to generation`);
         } catch (error) {
           console.warn('Failed to fetch user ratings:', error);
         }
@@ -235,7 +235,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const firstConcept = aiResponse.concepts[0];
         const originalityScore = firstConcept.originalityCheck?.confidence ? 
           firstConcept.originalityCheck.confidence * 100 : 0;
-        console.log(`ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
+        //console.log(`ORIGINALITY SCORE: ${originalityScore.toFixed(2)} (retries disabled for performance)`);
       }
 
       // Determine iteration type based on query content
@@ -280,10 +280,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
               await reportSimilarityToRatedConcepts(validatedData.projectId!, concept.content, 0.75);
               const feedbackAnalysis = await analyzeFeedbackSimilarity(validatedData.projectId!, concept.content, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
               if (feedbackAnalysis.overallScore !== 0) {
-                console.log(`Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                //console.log(`Single concept feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
               }
             } catch (feedbackError) {
-              console.log(`📊 Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
+              //console.log(`📊 Feedback analysis skipped:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
             }
           });
         }
@@ -339,10 +339,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 await reportSimilarityToRatedConcepts(projId, conceptContent, 0.75);
                 const feedbackAnalysis = await analyzeFeedbackSimilarity(projId, conceptContent, { similarityThreshold: 0.70, detailedReport: false, includeScoring: true });
                 if (feedbackAnalysis.overallScore !== 0) {
-                  console.log(`Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
+                  //console.log(`Multi-concept ${idx + 1} feedback alignment: ${feedbackAnalysis.overallScore.toFixed(3)} (${feedbackAnalysis.recommendation})`);
                 }
               } catch (feedbackError) {
-                console.log(`📊 Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
+                //console.log(`📊 Feedback analysis skipped for multi-concept ${idx + 1}:`, feedbackError instanceof Error ? feedbackError.message : String(feedbackError));
               }
             });
           }
@@ -472,7 +472,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const { supabase } = await import('./supabaseClient');
         
         if (supabase) {
-          console.log('🔍 Attempting to fetch historical data from Supabase...');
+          //console.log('🔍 Attempting to fetch historical data from Supabase...');
           
           const { data, error } = await supabase
             .from('concept_logs')
@@ -480,7 +480,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             .order('created_at', { ascending: false });
 
           if (!error && data) {
-            console.log(`📚 Found ${data.length} historical entries in database`);
+            //console.log(`📚 Found ${data.length} historical entries in database`);
             
             // Convert Supabase data to session history format
             const historicalEntries: SessionHistoryEntry[] = data.map(entry => ({
@@ -509,18 +509,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
               }
             });
           } else if (error) {
-            console.log('📖 Database read error (continuing with session data):', error.message);
+            //console.log('📖 Database read error (continuing with session data):', error.message);
           }
         }
       } catch (dbError) {
-        console.log('📖 Database connection issue (continuing with session data):', dbError);
+        //console.log('📖 Database connection issue (continuing with session data):', dbError);
       }
 
       // Sort all entries by timestamp (no artificial limit)
       const sortedHistory = allHistory
         .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       
-      console.log(`📊 Returning ${sortedHistory.length} total history entries (${sessionHistory.length} current session + ${allHistory.length - sessionHistory.length} historical)`);
+      //console.log(`📊 Returning ${sortedHistory.length} total history entries (${sessionHistory.length} current session + ${allHistory.length - sessionHistory.length} historical)`);
       
       res.json(sortedHistory);
     } catch (error) {
@@ -538,9 +538,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { getRejectionStats } = await import("./utils/embeddingArbiters");
       const stats = getRejectionStats();
       
-      console.log(`📊 REJECTION STATS: ${stats.totalRejections} total rejections since threshold optimization`);
+      //console.log(`📊 REJECTION STATS: ${stats.totalRejections} total rejections since threshold optimization`);
       Object.entries(stats.rejectionReasons).forEach(([reason, count]) => {
-        console.log(`   ${reason}: ${count} rejections`);
+        //console.log(`   ${reason}: ${count} rejections`);
       });
       
       res.json({
@@ -979,7 +979,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         validatedData.conceptId
       );
 
-      console.log(`Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
+      //console.log(`Feedback influence applied: ${influenceResult.status} - ${influenceResult.message}`);
 
       res.json({ 
         success: true,
@@ -1088,7 +1088,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         recentConcepts: z.array(z.string()).optional()
       }).parse(req.body);
 
-      console.log(`Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
+      //console.log(`Enhanced concept generation request: "${validatedData.query}" (${validatedData.tone})`);
 
       const concept = await generateEnhancedConcept({
         query: validatedData.query,
@@ -1113,7 +1113,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!conceptId) {
         console.error('Failed to save concept to Supabase - this should not happen!');
       } else {
-        console.log(`Concept saved to Supabase with ID: ${conceptId}`);
+        //console.log(`Concept saved to Supabase with ID: ${conceptId}`);
       }
 
       // Add to in-memory session history as backup
@@ -1150,7 +1150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { generateExampleConcept } = await import("./services/enhancedAI");
       
-      console.log(`🧪 Generating test concept to confirm enhanced AI understanding`);
+      //console.log(`🧪 Generating test concept to confirm enhanced AI understanding`);
       
       const concept = await generateExampleConcept();
       
@@ -1237,7 +1237,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
       
-      console.log(`📚 Retrieved ${rows?.length || 0} concepts from database`);
+      //console.log(`📚 Retrieved ${rows?.length || 0} concepts from database`);
       res.json(rows || []);
     } catch (error) {
       console.error("Database history error:", error);

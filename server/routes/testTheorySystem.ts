@@ -15,11 +15,11 @@ export async function testTheorySystem(req: Request, res: Response) {
     const basePrompt = "Generate a sophisticated advertising concept that leverages advanced rhetorical theory:";
     const results = [];
 
-    console.log('🧪 TESTING ENHANCED THEORY SYSTEM WITH CACHING AND LOGGING...');
+    //console.log('🧪 TESTING ENHANCED THEORY SYSTEM WITH CACHING AND LOGGING...');
     
     for (let i = 0; i < testQueries.length; i++) {
       const query = testQueries[i];
-      console.log(`\n--- Test ${i + 1}: ${query.substring(0, 50)}... ---`);
+      //console.log(`\n--- Test ${i + 1}: ${query.substring(0, 50)}... ---`);
       
       const startTime = performance.now();
       const result = generateConceptWithTheoryInject(basePrompt, query, []);
@@ -40,7 +40,7 @@ export async function testTheorySystem(req: Request, res: Response) {
     try {
       logContents = readFileSync('./theory_inject.log', 'utf-8');
     } catch (error) {
-      console.log('Theory injection log not yet created');
+      //console.log('Theory injection log not yet created');
     }
 
     const summary = {

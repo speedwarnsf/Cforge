@@ -24,7 +24,7 @@ interface ConceptForSalvage {
  */
 export async function salvageConceptFragments(concept: ConceptForSalvage): Promise<void> {
   try {
-    console.log(`🔍 Analyzing concept ${concept.id} for salvageable fragments...`);
+    //console.log(`🔍 Analyzing concept ${concept.id} for salvageable fragments...`);
     
     // Create AI prompt to analyze the concept for salvageable fragments
     const analysisPrompt = `Analyze this advertising concept for promising creative fragments that could inspire future ideas:
@@ -74,7 +74,7 @@ Respond in JSON format:
     const fragments: SalvagedFragment[] = analysisResult.fragments || [];
 
     if (fragments.length === 0) {
-      console.log(`No salvageable fragments found in concept ${concept.id}`);
+      //console.log(`No salvageable fragments found in concept ${concept.id}`);
       return;
     }
 
@@ -82,7 +82,7 @@ Respond in JSON format:
     for (const fragment of fragments) {
       try {
         if (!supabase) {
-          console.log('Supabase not available, skipping fragment storage');
+          //console.log('Supabase not available, skipping fragment storage');
           continue;
         }
         
@@ -98,14 +98,14 @@ Respond in JSON format:
         if (error) {
           console.error('Error storing salvaged fragment:', error);
         } else {
-          console.log(`💎 Salvaged ${fragment.fragment_type}: "${fragment.fragment_text}"`);
+          //console.log(`💎 Salvaged ${fragment.fragment_type}: "${fragment.fragment_text}"`);
         }
       } catch (insertError) {
         console.error('Error inserting fragment:', insertError);
       }
     }
 
-    console.log(`Salvaged ${fragments.length} fragments from concept ${concept.id}`);
+    //console.log(`Salvaged ${fragments.length} fragments from concept ${concept.id}`);
 
   } catch (error) {
     console.error('Error in fragment salvaging:', error);
@@ -118,10 +118,10 @@ Respond in JSON format:
  */
 export async function getFragmentsForRecombination(currentTone: string, currentTopic: string, limit: number = 10): Promise<SalvagedFragment[]> {
   try {
-    console.log(`🔄 Fetching fragments for recombination (tone: ${currentTone}, topic: ${currentTopic})`);
+    //console.log(`🔄 Fetching fragments for recombination (tone: ${currentTone}, topic: ${currentTopic})`);
     
     if (!supabase) {
-      console.log('Supabase not available, skipping fragment recombination');
+      //console.log('Supabase not available, skipping fragment recombination');
       return [];
     }
     
@@ -138,7 +138,7 @@ export async function getFragmentsForRecombination(currentTone: string, currentT
     }
 
     if (!fragments || fragments.length === 0) {
-      console.log('📭 No salvaged fragments available for recombination');
+      //console.log('📭 No salvaged fragments available for recombination');
       return [];
     }
 
@@ -163,7 +163,7 @@ export async function getFragmentsForRecombination(currentTone: string, currentT
     // Limit to requested number of fragments
     const selectedFragments = compatibleFragments.slice(0, Math.min(limit, 2));
     
-    console.log(`Selected ${selectedFragments.length} compatible fragments for recombination`);
+    //console.log(`Selected ${selectedFragments.length} compatible fragments for recombination`);
     
     return selectedFragments;
 
@@ -179,7 +179,7 @@ export async function getFragmentsForRecombination(currentTone: string, currentT
 export async function markFragmentAsUsed(fragmentText: string): Promise<void> {
   try {
     if (!supabase) {
-      console.log('Supabase not available, skipping fragment usage tracking');
+      //console.log('Supabase not available, skipping fragment usage tracking');
       return;
     }
     
@@ -206,7 +206,7 @@ export async function markFragmentAsUsed(fragmentText: string): Promise<void> {
     if (error) {
       console.error('Error updating fragment usage:', error);
     } else {
-      console.log(`📊 Updated usage tracking for fragment: "${fragmentText}"`);
+      //console.log(`📊 Updated usage tracking for fragment: "${fragmentText}"`);
     }
   } catch (error) {
     console.error('Error marking fragment as used:', error);

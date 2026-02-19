@@ -423,7 +423,7 @@ function logRejection(concept: string, brief: string, rejections: string[], scor
     rejectionLogs.shift();
   }
   
-  console.log(`🚫 CONCEPT REJECTED: ${rejections.join(', ')} | Scores: ${Object.entries(scores).map(([k,v]) => `${k}:${v}`).join(', ')}`);
+  //console.log(`🚫 CONCEPT REJECTED: ${rejections.join(', ')} | Scores: ${Object.entries(scores).map(([k,v]) => `${k}:${v}`).join(', ')}`);
 }
 
 export function getRejectionStats(): { totalRejections: number; rejectionReasons: { [key: string]: number }; averageScores: { [key: string]: number } } {

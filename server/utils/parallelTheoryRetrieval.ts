@@ -26,7 +26,7 @@ export async function parallelQueryCorpusForTheories(theories: string[], corpus:
       const theoryStartTime = performance.now();
       const matches = await queryCorpusForTheory(theory, corpus);
       const processingTime = Math.round(performance.now() - theoryStartTime);
-      console.log(`🔍 Theory "${theory}": ${matches.length} matches in ${processingTime}ms`);
+      //console.log(`🔍 Theory "${theory}": ${matches.length} matches in ${processingTime}ms`);
       return { theory, matches };
     });
     
@@ -43,7 +43,7 @@ export async function parallelQueryCorpusForTheories(theories: string[], corpus:
   }
   
   const totalTime = Math.round(performance.now() - startTime);
-  console.log(`Parallel theory retrieval: ${theories.length} theories in ${totalTime}ms`);
+  //console.log(`Parallel theory retrieval: ${theories.length} theories in ${totalTime}ms`);
   
   return results;
 }
@@ -88,7 +88,7 @@ export async function generateConceptWithParallelTheoryInject(
     detectedKeywords.flatMap(keyword => THEORY_MAP[keyword])
   ));
   
-  console.log(`PARALLEL THEORY MAPPING: ${detectedKeywords.length} keywords → ${selectedTheories.length} theories`);
+  //console.log(`PARALLEL THEORY MAPPING: ${detectedKeywords.length} keywords → ${selectedTheories.length} theories`);
   
   // Import corpus data
   const retrievalCorpusData = await import("../../data/retrieval-corpus.json");

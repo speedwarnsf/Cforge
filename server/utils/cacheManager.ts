@@ -88,7 +88,7 @@ class ConceptCacheManager {
       concept.last_accessed = Date.now();
     });
 
-    console.log(`Cache hit for key: ${key} (used ${cached.usage_count} times)`);
+    //console.log(`Cache hit for key: ${key} (used ${cached.usage_count} times)`);
     return cached;
   }
 
@@ -136,7 +136,7 @@ class ConceptCacheManager {
       this.cleanupOldEntries();
     }
 
-    console.log(`💾 Cached generation for key: ${key} with ${concepts.length} concepts`);
+    //console.log(`💾 Cached generation for key: ${key} with ${concepts.length} concepts`);
   }
 
   // Get recent headlines for a brief to avoid duplication
@@ -239,7 +239,7 @@ class ConceptCacheManager {
       remaining.forEach(([key, cached]) => this.cache.set(key, cached));
     }
 
-    console.log(`Cache cleanup: removed ${expired.length} expired entries, ${this.cache.size} remaining`);
+    //console.log(`Cache cleanup: removed ${expired.length} expired entries, ${this.cache.size} remaining`);
   }
 
   // Start periodic cleanup
@@ -260,12 +260,12 @@ class ConceptCacheManager {
   clear(): void {
     this.cache.clear();
     this.recentBriefs.clear();
-    console.log('🗑️ Cache cleared completely');
+    //console.log('🗑️ Cache cleared completely');
   }
 
   // Warm up cache with popular concepts
   async warmupCache(popularBriefs: Array<{ brief: string; tone: string }>): Promise<void> {
-    console.log(`Warming up cache with ${popularBriefs.length} popular briefs...`);
+    //console.log(`Warming up cache with ${popularBriefs.length} popular briefs...`);
     // Implementation would depend on your generation service
     // This is a placeholder for the warmup process
   }

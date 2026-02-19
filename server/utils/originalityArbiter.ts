@@ -45,7 +45,7 @@ Return your assessment as a JSON object:
     json.originality_confidence = Math.max(0, Math.min(100, json.originality_confidence || 50));
     json.originality_feedback = json.originality_feedback || "Originality evaluation unavailable";
     
-    console.log(`Originality Score: ${json.originality_confidence}/100`);
+    //console.log(`Originality Score: ${json.originality_confidence}/100`);
     
     return json;
   } catch (error) {

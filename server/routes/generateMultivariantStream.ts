@@ -69,7 +69,7 @@ export async function generateMultivariantStream(req: Request, res: Response) {
       is_starred: false,
       last_used_at: new Date().toISOString(),
       times_used: 1
-    }).catch(err => console.log('Brief auto-save skipped:', err.message));
+    }).catch(err => //console.log('Brief auto-save skipped:', err.message));
 
     if (enableHybridMode) {
       log('Hybrid mode enabled - using CREATIVEDC + EvoToken-DLM pipeline');

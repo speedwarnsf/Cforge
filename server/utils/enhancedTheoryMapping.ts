@@ -45,16 +45,16 @@ const corpusQueryCache = new Map<string, any[]>();
 export function preWarmTheoryCache(): void {
   const commonTheories = ['Burke', 'Barthes', 'Messaris', 'Tufte', 'Lupton', 'Phillips & McQuarrie', 'Forceville', 'Kress', 'Aristotle'];
   
-  console.log('Pre-warming theory cache with common frameworks...');
+  //console.log('Pre-warming theory cache with common frameworks...');
   
   for (const theory of commonTheories) {
     const startTime = performance.now();
     const matches = queryCachedCorpusForTheory(theory);
     const duration = Math.round(performance.now() - startTime);
-    console.log(`  - ${theory}: ${matches.length} matches cached in ${duration}ms`);
+    //console.log(`  - ${theory}: ${matches.length} matches cached in ${duration}ms`);
   }
   
-  console.log(`Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
+  //console.log(`Theory cache pre-warmed: ${corpusQueryCache.size} theories ready`);
 }
 
 // A/B testing configuration
@@ -74,9 +74,9 @@ function logTheoryInjection(query: string, detectedKeywords: string[], selectedT
   
   try {
     appendFileSync('./theory_inject.log', `${JSON.stringify(logEntry)}\n`);
-    console.log(`🧠 THEORY INJECTION LOG: ${selectedTheories.size} theories applied for query: "${query.substring(0, 50)}..."`);
+    //console.log(`🧠 THEORY INJECTION LOG: ${selectedTheories.size} theories applied for query: "${query.substring(0, 50)}..."`);
   } catch (error) {
-    console.log('Theory injection logging error:', error);
+    //console.log('Theory injection logging error:', error);
   }
 }
 
@@ -85,7 +85,7 @@ function queryCachedCorpusForTheory(theory: string): any[] {
   const cacheKey = theory.toLowerCase();
   
   if (corpusQueryCache.has(cacheKey)) {
-    console.log(`📚 CACHE HIT: Retrieved ${theory} theory examples from cache`);
+    //console.log(`📚 CACHE HIT: Retrieved ${theory} theory examples from cache`);
     return corpusQueryCache.get(cacheKey) || [];
   }
   
@@ -96,7 +96,7 @@ function queryCachedCorpusForTheory(theory: string): any[] {
   );
   
   corpusQueryCache.set(cacheKey, matches);
-  console.log(`📚 CACHE MISS: Loaded ${matches.length} examples for ${theory} theory`);
+  //console.log(`📚 CACHE MISS: Loaded ${matches.length} examples for ${theory} theory`);
   
   return matches;
 }
@@ -300,7 +300,7 @@ export function generateConceptWithTheoryInject(
     detectedKeywords.flatMap(keyword => THEORY_MAP[keyword])
   ));
   
-  console.log(`ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(', ')}" → Selected theories: ${selectedTheories.join(', ')}`);
+  //console.log(`ENHANCED THEORY MAPPING: Detected "${detectedKeywords.join(', ')}" → Selected theories: ${selectedTheories.join(', ')}`);
   
   // Generate theory injection text
   let theoryInjection = "";
@@ -377,7 +377,7 @@ export function abTestGenerate(basePrompt: string, query: string, retrievedExamp
     const endTime = performance.now();
     const processingTime = Math.round(endTime - startTime);
     
-    console.log(`🧪 A/B TEST MODE: Generated both variants in ${processingTime}ms. Theories applied: ${withTheoryResult.selectedTheories.join(', ')}`);
+    //console.log(`🧪 A/B TEST MODE: Generated both variants in ${processingTime}ms. Theories applied: ${withTheoryResult.selectedTheories.join(', ')}`);
     
     return {
       withTheory: withTheoryResult.enhancedPrompt,
