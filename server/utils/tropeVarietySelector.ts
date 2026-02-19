@@ -80,7 +80,7 @@ const TONE_DEVICE_AFFINITIES: Record<string, string[]> = {
  * Select rhetorical devices with GUARANTEED variety enforcement
  *
  * KEY GUARANTEE: At least 50% of selections will be from unexplored devices
- * in the FULL 411 corpus, regardless of tone/lens selection.
+ * in the FULL 294 corpus, regardless of tone/lens selection.
  * This ensures systematic exploration of the entire rhetorical device corpus.
  */
 // Overused common devices to STRONGLY AVOID (unless explicitly requested)

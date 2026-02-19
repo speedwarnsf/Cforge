@@ -2,7 +2,7 @@
 
 **Last Updated:** January 2026
 **Model:** GPT-5.2-pro
-**Rhetorical Device Corpus:** 411 devices
+**Rhetorical Device Corpus:** 294 devices
 
 ---
 
@@ -175,7 +175,7 @@ The full corpus includes classical rhetoric, modern advertising techniques, and 
 
 ### 50% Exploration Guarantee
 
-**Problem solved:** Creative lenses were limiting users to ~17 tone-affiliated devices, preventing exploration of the full 411-device corpus.
+**Problem solved:** Creative lenses were limiting users to ~17 tone-affiliated devices, preventing exploration of the full 294-device corpus.
 
 **Solution:** Regardless of selected lens, at least 50% of rhetorical device selections come from unexplored devices in the full corpus.
 
@@ -244,7 +244,7 @@ User-facing lens options and their backend mappings:
 |------|---------|
 | `server/utils/tropeVarietySelector.ts` | 50% exploration guarantee logic |
 | `server/utils/tropeConstraints.ts` | Device validation and pattern matching |
-| `data/rhetorical-devices.json` | Full 411-device corpus |
+| `data/rhetorical_figures_cleaned.json` | Full 294-device corpus |
 
 ### Quality Arbiters
 
@@ -313,7 +313,7 @@ User-facing lens options and their backend mappings:
 
 #### 50% Rhetorical Device Exploration Guarantee
 - File: `server/utils/tropeVarietySelector.ts`
-- Ensures systematic exploration of full 411-device corpus
+- Ensures systematic exploration of full 294-device corpus
 - Prevents lens selection from limiting device variety
 
 #### Hybrid Mode Enabled by Default

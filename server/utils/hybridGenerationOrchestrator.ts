@@ -67,7 +67,7 @@ const DEFAULT_CONFIG: HybridConfig = {
   enableProgressiveEvolution: false,  // PERF: Disabled - adds ~5s with minimal quality gain
   enableTrajectoryCapture: true,
   enableTropeConstraints: true,
-  enableTropeVariety: true,  // Strongly favor unexplored devices from 411 corpus
+  enableTropeVariety: true,  // Strongly favor unexplored devices from 294 corpus
   fallbackToLegacy: true,
   divergentPoolSize: 15,  // Tuned: 3 iterations for max seed diversity across personas
   maxEvolutionCycles: 50,
@@ -359,7 +359,7 @@ export class HybridGenerationOrchestrator {
   ): Promise<HybridVariant[]> {
     const variantCount = input.variantCount || 3;
 
-    // Determine tropes to use - with variety enforcement from 411 device corpus
+    // Determine tropes to use - with variety enforcement from 294 device corpus
     let tropesToUse: string[];
     let selectedTropeDetails: TropeSelection[] = [];
 
@@ -368,8 +368,8 @@ export class HybridGenerationOrchestrator {
       tropesToUse = input.requestedTropes;
       //console.log(`   Using user-requested tropes: ${tropesToUse.join(', ')}`);
     } else if (config.enableTropeVariety) {
-      // Select varied tropes from full 411 corpus, favoring unexplored
-      //console.log('   Selecting varied tropes from 411-device corpus...');
+      // Select varied tropes from full 294 corpus, favoring unexplored
+      //console.log('   Selecting varied tropes from 294-device corpus...');
       selectedTropeDetails = await selectVariedTropes({
         tone: input.tone,
         count: Math.max(3, variantCount),

@@ -308,13 +308,13 @@ export async function exploreDivergently(
   //console.log(`   Persona rotation: ${personaRotation}`);
 
   // Generate raw ideas across personas
-  const iterationsNeeded = Math.ceil(poolSize / 5); // Each persona generates ~5 ideas
+  const iterationsNeeded = Math.max(3, Math.ceil(poolSize / 5)); // At least 3 iterations for persona diversity
 
   // Get uncommon rhetorical devices to anchor each persona's exploration
   // This forces creative diversity by grounding each exploration in different rhetorical territory
   const deviceAnchors = getUncommonDevices(iterationsNeeded);
   //console.log(`   Anchoring exploration with ${deviceAnchors.length} uncommon rhetorical devices:`);
-  deviceAnchors.forEach((d, i) => //console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
+  //deviceAnchors.forEach((d, i) => console.log(`      ${i + 1}. ${d.name}: "${d.definition.substring(0, 60)}..."`));
 
   // PARALLEL OPTIMIZATION: Run all persona iterations in parallel
   //console.log(`   🚀 Running ${iterationsNeeded} persona iterations in parallel...`);
@@ -328,20 +328,21 @@ export async function exploreDivergently(
     return { persona, temperature, device, domainIndex };
   });
 
-  // Generate all raw ideas in parallel across all personas
-  const ideaGenerationPromises = personaIterations.map(async ({ persona, temperature, device, domainIndex }) => {
+  // Generate ideas sequentially to avoid Gemini rate limits
+  const allIdeaResults: { idea: string; persona: CreativePersona }[][] = [];
+  for (const { persona, temperature, device, domainIndex } of personaIterations) {
     try {
-      const domain = METAPHOR_DOMAINS[domainIndex % METAPHOR_DOMAINS.length].split(' ')[0];
-      //console.log(`   ${persona.name} exploring ${domain} with device: ${device?.name || 'none'}`);
       const rawIdeas = await generateRawIdeas(openai, theme, persona, temperature, device, domainIndex);
-      return rawIdeas.map(idea => ({ idea, persona }));
+      allIdeaResults.push(rawIdeas.map(idea => ({ idea, persona })));
     } catch (error) {
       console.error(`   Failed generation for persona ${persona.name}:`, error);
-      return [];
+      allIdeaResults.push([]);
     }
-  });
-
-  const allIdeaResults = await Promise.all(ideaGenerationPromises);
+    // Small delay between API calls to respect rate limits
+    if (allIdeaResults.length < personaIterations.length) {
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
   const allIdeas = allIdeaResults.flat().slice(0, poolSize);
 
   //console.log(`   Generated ${allIdeas.length} raw ideas, now processing in parallel...`);
@@ -675,8 +676,9 @@ function deduplicateSeeds(seeds: CreativeSeed[]): CreativeSeed[] {
 
   for (const seed of seeds) {
     // Check 1: Embedding similarity (only catches near-duplicates now)
-    const isSimilarEmbedding = unique.some(
-      existing => cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
+    // Skip check if embeddings are empty (perf optimization skips embedding generation)
+    const isSimilarEmbedding = seed.embedding.length > 0 && unique.some(
+      existing => existing.embedding.length > 0 && cosineSimilarity(seed.embedding, existing.embedding) > EMBEDDING_SIMILARITY_THRESHOLD
     );
 
     // Check 2: Same persona already used (force persona diversity)
