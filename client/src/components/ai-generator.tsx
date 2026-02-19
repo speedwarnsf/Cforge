@@ -211,7 +211,7 @@ const AiGenerator = forwardRef<AiGeneratorRef, AiGeneratorProps>(({ onSubmit }, 
         // Transform multivariant outputs to concept format and display them
         const concepts = data.outputs.map((output: any, index: number) => ({
           id: output.conceptId || `multi_${Date.now()}_${index}`,
-          content: output.content || `**HEADLINE**\n${output.headlines?.[0] || 'Generated Concept'}\n\n**VISUAL CONCEPT**\n${output.visualDescription || 'Visual concept'}`,
+          content: output.content || `**HEADLINE**\n${output.headlines?.[0] || 'Generated Concept'}\n\n**TAGLINE**\n${output.tagline || output.headlines?.[1] || ''}\n\n**BODY COPY**\n${output.bodyCopy || ''}\n\n**VISUAL CONCEPT**\n${output.visualDescription || 'Visual concept'}\n\n**RHETORICAL CRAFT BREAKDOWN**\n${output.rhetoricalDevice || ''}: ${output.hybridMetadata?.rhetoricalAnalysis?.applicationExplanation || 'Strategic application of rhetorical device.'}`,
           tone: output.tone || data.metadata?.tone || 'bold',
           visualPrompt: output.visualDescription || '',
           tokens: 0,

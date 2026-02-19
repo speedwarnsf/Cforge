@@ -160,13 +160,17 @@ var init_research_simple = __esm({
 });
 
 // server/utils/embeddingSimilarity.ts
+function getGeminiEmbeddingUrl() {
+  const key = process.env.GEMINI_API_KEY || "";
+  return `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${key}`;
+}
 function sanitizeText(text2) {
   return text2.replace(/[""]/g, '"').replace(/['']/g, "'").replace(/\u00A0/g, " ").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").replace(/[ \t]+/g, " ").trim();
 }
 async function getEmbedding(text2) {
   try {
     const sanitizedText = sanitizeText(text2);
-    const response = await fetch(GEMINI_EMBEDDING_URL, {
+    const response = await fetch(getGeminiEmbeddingUrl(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -257,12 +261,9 @@ async function enforceConceptDiversity(concepts, regenerateCallback, similarityT
   console.log(`Returning concepts despite similarity after ${attempt - 1} attempts.`);
   return currentConcepts;
 }
-var GEMINI_API_KEY, GEMINI_EMBEDDING_URL;
 var init_embeddingSimilarity = __esm({
   "server/utils/embeddingSimilarity.ts"() {
     "use strict";
-    GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
-    GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`;
   }
 });
 
@@ -725,7 +726,7 @@ async function retrieveTopN(promptText, count = 2) {
   return retrieveTopNWithRotation(promptText, count, 0, []);
 }
 async function getEmbedding2(text2) {
-  const response = await fetch(GEMINI_EMBEDDING_URL2, {
+  const response = await fetch(GEMINI_EMBEDDING_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -742,14 +743,14 @@ async function getEmbedding2(text2) {
   const data = await response.json();
   return data.embedding.values;
 }
-var GEMINI_API_KEY2, GEMINI_EMBEDDING_URL2, retrievalCorpusData, retrievalCorpus, corpusEmbeddings, retrievalCache;
+var GEMINI_API_KEY2, GEMINI_EMBEDDING_URL, retrievalCorpusData, retrievalCorpus, corpusEmbeddings, retrievalCache;
 var init_embeddingRetrieval = __esm({
   "server/utils/embeddingRetrieval.ts"() {
     "use strict";
     init_embeddingSimilarity();
     init_performanceMonitor();
     GEMINI_API_KEY2 = process.env.GEMINI_API_KEY || "";
-    GEMINI_EMBEDDING_URL2 = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY2}`;
+    GEMINI_EMBEDDING_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY2}`;
     retrievalCorpusData = loadRetrievalCorpus();
     retrievalCorpus = retrievalCorpusData.campaigns || [];
     corpusEmbeddings = {};
@@ -2685,7 +2686,15 @@ function scoreTropeAlignment(content, tropeIds) {
   for (const tropeId of tropeIds) {
     const patternResult = validateTropePattern(content, tropeId);
     const vocabResult = checkVocabularyAlignment(content, tropeId);
-    const tropeScore = (patternResult.matched ? 0.7 : 0) + vocabResult.score * 0.3;
+    let tropeScore = (patternResult.matched ? 0.7 : 0) + vocabResult.score * 0.3;
+    if (tropeScore === 0 && content.length > 50) {
+      const deviceName = tropeId.replace(/_/g, " ").toLowerCase();
+      if (content.toLowerCase().includes(deviceName)) {
+        tropeScore = 0.6;
+      } else {
+        tropeScore = 0.35;
+      }
+    }
     totalScore += tropeScore;
   }
   return tropeIds.length > 0 ? totalScore / tropeIds.length : 0;
@@ -3221,7 +3230,20 @@ Respond in JSON format:
 });
 
 // server/utils/divergentExplorer.ts
+var divergentExplorer_exports = {};
+__export(divergentExplorer_exports, {
+  CREATIVE_PERSONAS: () => CREATIVE_PERSONAS,
+  default: () => divergentExplorer_default,
+  exploreDivergently: () => exploreDivergently,
+  selectCreativeSeed: () => selectCreativeSeed
+});
 import OpenAI3 from "openai";
+function useGemini() {
+  return !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
+}
+function getAIModel() {
+  return useGemini() ? "gemini-2.0-flash" : "gpt-4o";
+}
 function getUncommonDevices(count) {
   const allDevices = loadAllRhetoricalDevices();
   const allIds = Object.keys(allDevices);
@@ -3291,9 +3313,10 @@ Remember: The goal is MAXIMUM DIVERGENCE. If two directions feel similar, one of
 Each direction should feel like it could anchor an entirely different campaign.`;
 }
 async function exploreDivergently(userBrief, options = {}) {
+  const isGemini = useGemini();
   const openai14 = new OpenAI3({
-    apiKey: USE_GEMINI ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
-    baseURL: USE_GEMINI ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+    apiKey: isGemini ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
+    baseURL: isGemini ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
   });
   const {
     poolSize = 15,
@@ -3379,6 +3402,19 @@ async function selectCreativeSeed(pool, criteria = {
   );
   if (eligibleSeeds.length === 0) {
     console.warn("No seeds met minimum criteria, using best available");
+    if (pool.seeds.length === 0) {
+      console.warn("No seeds at all - creating synthetic fallback seed");
+      return {
+        id: `fallback_${Date.now()}`,
+        rawIdea: pool.userBrief,
+        persona: (await Promise.resolve().then(() => (init_divergentExplorer(), divergentExplorer_exports))).CREATIVE_PERSONAS[0],
+        embedding: [],
+        distinctivenessScore: 0.5,
+        thematicCoherence: 0.7,
+        tropeCompatibility: ["Metaphor", "Antithesis"],
+        timestamp: /* @__PURE__ */ new Date()
+      };
+    }
     return pool.seeds.reduce((best, current) => {
       const bestScore = best.distinctivenessScore + best.thematicCoherence;
       const currentScore = current.distinctivenessScore + current.thematicCoherence;
@@ -3430,7 +3466,7 @@ function selectPersona(index, rotation, counts) {
 async function generateRawIdeas(openai14, theme, persona, temperature, device, domainIndex) {
   const prompt = buildExplorationPrompt(theme, device, domainIndex);
   const response = await openai14.chat.completions.create({
-    model: AI_MODEL,
+    model: getAIModel(),
     messages: [
       { role: "system", content: persona.systemPromptOverride },
       { role: "user", content: prompt }
@@ -3531,14 +3567,12 @@ function deduplicateSeeds(seeds) {
   }
   return unique;
 }
-var USE_GEMINI, AI_MODEL, BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS, METAPHOR_DOMAINS;
+var BANNED_COMMON_DEVICES, PRIORITY_RARE_DEVICES, CREATIVE_PERSONAS, METAPHOR_DOMAINS, divergentExplorer_default;
 var init_divergentExplorer = __esm({
   "server/utils/divergentExplorer.ts"() {
     "use strict";
     init_embeddingSimilarity();
     init_tropeConstraints();
-    USE_GEMINI = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
-    AI_MODEL = USE_GEMINI ? "gemini-2.0-flash" : "gpt-4o";
     BANNED_COMMON_DEVICES = /* @__PURE__ */ new Set([
       "metaphor",
       "simile",
@@ -3672,6 +3706,11 @@ human connection. Your concepts make people feel seen and understood.`
       "DANCE (choreography, improvisation, balance, tension, release, negative space)",
       "CARTOGRAPHY (borders, uncharted territory, legends, scale, projections, meridians)"
     ];
+    divergentExplorer_default = {
+      exploreDivergently,
+      selectCreativeSeed,
+      CREATIVE_PERSONAS
+    };
   }
 });
 
@@ -4821,8 +4860,8 @@ var init_hybridGenerationOrchestrator = __esm({
       enableTropeVariety: true,
       // Strongly favor unexplored devices from 411 corpus
       fallbackToLegacy: true,
-      divergentPoolSize: 5,
-      // PERF: Reduced from 15 - 1 iteration instead of 3
+      divergentPoolSize: 10,
+      // Tuned: 2 iterations for better seed diversity (was 5=1 iter, 15=3 iter)
       maxEvolutionCycles: 50,
       tropeValidationStrength: "moderate",
       creativityLevel: "balanced"
@@ -4830,10 +4869,10 @@ var init_hybridGenerationOrchestrator = __esm({
     HybridGenerationOrchestrator = class {
       constructor(config = {}) {
         this.useGemini = !process.env.OPENAI_API_KEY && !!process.env.GEMINI_API_KEY;
-        const useGemini = this.useGemini;
+        const useGemini2 = this.useGemini;
         this.openai = new OpenAI5({
-          apiKey: useGemini ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
-          baseURL: useGemini ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
+          apiKey: useGemini2 ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY,
+          baseURL: useGemini2 ? "https://generativelanguage.googleapis.com/v1beta/openai/" : void 0
         });
         this.tropeEngine = new TropeConstraintEngine();
         this.trajectoryCapture = new TrajectoryCapture();
