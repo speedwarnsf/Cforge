@@ -351,6 +351,22 @@ interface MultivariantOutput {
     visual_device: string;
     tone: string;
   } | null;
+  hybridMetadata?: {
+    rhetoricalAnalysis?: {
+      deviceName: string;
+      deviceDefinition: string;
+      applicationExplanation: string;
+      textualEvidence: string[];
+      effectivenessNote?: string;
+    };
+    scores?: {
+      originality: number;
+      tropeAlignment: number;
+      coherence: number;
+      distinctiveness: number;
+      overall: number;
+    };
+  };
 }
 
 interface MultivariantRequest {
@@ -913,6 +929,16 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                           ))}
                         </div>
                         
+                        {/* Tagline */}
+                        {result.tagline && (
+                          <div className="mb-4">
+                            <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Tagline</h4>
+                            <p className="text-lg italic text-amber-300">
+                              {result.tagline}
+                            </p>
+                          </div>
+                        )}
+
                         {/* Visual Description */}
                         <div className="mb-4">
                           <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Visual Concept</h4>
@@ -920,13 +946,36 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
                             {result.visualDescription}
                           </p>
                         </div>
+
+                        {/* Body Copy */}
+                        {result.bodyCopy && (
+                          <div className="mb-4">
+                            <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Body Copy</h4>
+                            <p className="text-gray-300 leading-relaxed">
+                              {result.bodyCopy}
+                            </p>
+                          </div>
+                        )}
                         
-                        {/* Rhetorical Device */}
+                        {/* Rhetorical Device & Analysis */}
                         <div className="mb-4">
                           <h4 className="text-sm font-semibold text-gray-300 uppercase tracking-wide mb-2">Rhetorical Device</h4>
-                          <p className="text-gray-200">
+                          <p className="text-gray-200 font-medium">
                             {result.rhetoricalDevice}
                           </p>
+                          {result.hybridMetadata?.rhetoricalAnalysis && (
+                            <div className="mt-2 pl-3 border-l-2 border-amber-600/40 space-y-1">
+                              {result.hybridMetadata.rhetoricalAnalysis.deviceDefinition && (
+                                <p className="text-xs text-gray-400 italic">{result.hybridMetadata.rhetoricalAnalysis.deviceDefinition}</p>
+                              )}
+                              {result.hybridMetadata.rhetoricalAnalysis.applicationExplanation && (
+                                <p className="text-xs text-gray-300">{result.hybridMetadata.rhetoricalAnalysis.applicationExplanation}</p>
+                              )}
+                              {result.hybridMetadata.rhetoricalAnalysis.textualEvidence?.length > 0 && (
+                                <p className="text-xs text-amber-300/70">Evidence: {result.hybridMetadata.rhetoricalAnalysis.textualEvidence.join('; ')}</p>
+                              )}
+                            </div>
+                          )}
                         </div>
                         
                         {/* Arbiter Score Visualization */}

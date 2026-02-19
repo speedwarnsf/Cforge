@@ -116,7 +116,7 @@ export const CREATIVE_PERSONAS: CreativePersona[] = [
     name: 'Maverick Creative',
     perspective: 'Category disruption and shock value',
     vocabularyBias: ['unexpected', 'provocative', 'disruptive', 'radical'],
-    temperatureModifier: 0.3,
+    temperatureModifier: 0.35,
     systemPromptOverride: `You are a rebellious creative director who believes the best
 advertising breaks every rule. You seek concepts that make people uncomfortable before
 they make them think. Your ideas should feel dangerous and unprecedented.`
@@ -156,7 +156,7 @@ into powerful positioning. You make brands memorable by making them uncomfortabl
     name: 'Empathy Engineer',
     perspective: 'Emotional resonance and human connection',
     vocabularyBias: ['intimate', 'vulnerable', 'authentic', 'tender'],
-    temperatureModifier: 0.05,
+    temperatureModifier: 0.15,
     systemPromptOverride: `You are an empathy engineer who designs emotional experiences.
 You believe the best advertising doesn't sell products—it creates moments of genuine
 human connection. Your concepts make people feel seen and understood.`

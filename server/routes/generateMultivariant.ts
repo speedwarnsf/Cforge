@@ -506,8 +506,8 @@ export async function generateMultivariant(req: Request, res: Response) {
           freshnessScore: Math.round(variant.scores.distinctiveness * 100),
           resonanceScore: Math.round(variant.scores.tropeAlignment * 100),
           awardsScore: Math.round(variant.scores.overall * 100),
-          passesAllThresholds: variant.scores.overall >= 0.6,
-          finalStatus: variant.scores.overall >= 0.7 ? 'Passed' : variant.scores.overall >= 0.5 ? 'Needs Review' : 'Failed',
+          passesAllThresholds: variant.scores.overall >= 0.55,
+          finalStatus: variant.scores.overall >= 0.65 ? 'Passed' : variant.scores.overall >= 0.45 ? 'Needs Review' : 'Failed',
           // Hybrid-specific metadata
           hybridMetadata: {
             creativeSeedOrigin: variant.creativeSeedOrigin,
