@@ -37,14 +37,14 @@ export function VideoProvider({ children }: { children: ReactNode }) {
     const video = videoRef.current;
     if (!video || hasPlayedInitial) return;
 
-    console.log('🎬 playInitialAnimation called');
+//     console.log('🎬 playInitialAnimation called');
     video.loop = false;
     video.currentTime = 0;
     video.style.opacity = "0.6";
 
     // Handle video end - pause at pre-anvil-drop frame
     const handleEnded = () => {
-      console.log('🎬 Initial animation ended, freezing at pre-anvil-drop frame');
+//       console.log('🎬 Initial animation ended, freezing at pre-anvil-drop frame');
       video.removeEventListener('ended', handleEnded);
       video.currentTime = PRE_ANVIL_DROP_TIME;
       video.pause();
@@ -53,11 +53,11 @@ export function VideoProvider({ children }: { children: ReactNode }) {
 
     video.play()
       .then(() => {
-        console.log('🎬 Initial animation playing successfully');
+//         console.log('🎬 Initial animation playing successfully');
         setHasPlayedInitial(true);
       })
       .catch((err) => {
-        console.log('🎬 Autoplay blocked:', err.message);
+//         console.log('🎬 Autoplay blocked:', err.message);
         // Still show the pre-anvil frame even if autoplay blocked
         video.currentTime = PRE_ANVIL_DROP_TIME;
         setHasPlayedInitial(true);
@@ -80,7 +80,7 @@ export function VideoProvider({ children }: { children: ReactNode }) {
 
   // Stop looping and freeze at pre-anvil-drop frame
   const stopForgeLoop = useCallback(() => {
-    console.log('🎬 stopForgeLoop called');
+//     console.log('🎬 stopForgeLoop called');
     loopingRef.current = false;
     setIsForgeAnimating(false);
 

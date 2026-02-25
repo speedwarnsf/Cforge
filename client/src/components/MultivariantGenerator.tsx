@@ -31,7 +31,7 @@ const PromptRefinementPanel = ({ query, onSelect }: { query: string, onSelect: (
     const initial = sessionStorage.getItem('preferredRefinement');
     if (initial && query !== initial) {
       // Auto-populate if we have a stored preference different from current query
-      console.log('Found stored refinement preference:', initial);
+//       console.log('Found stored refinement preference:', initial);
     }
   }, []);
 
@@ -1128,7 +1128,7 @@ export default function MultivariantGenerator({ onSubmit }: MultivariantGenerato
               handleFeedback(result.id, type as "more_like_this" | "less_like_this");
             } else if (type === 'favorite') {
               // Handle favorite action
-              console.log('Favorited concept:', result?.id);
+//               console.log('Favorited concept:', result?.id);
             }
           }}
         />

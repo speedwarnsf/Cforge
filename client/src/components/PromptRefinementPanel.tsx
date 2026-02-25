@@ -49,7 +49,7 @@ export function PromptRefinementPanel({ query, onSelect }: PromptRefinementPanel
     const initial = sessionStorage.getItem('preferredRefinement');
     if (initial && query !== initial) {
       // Auto-populate if we have a stored preference different from current query
-      console.log('Found stored refinement preference:', initial);
+//       console.log('Found stored refinement preference:', initial);
     }
   }, []);
 

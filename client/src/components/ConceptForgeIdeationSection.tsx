@@ -153,7 +153,7 @@ export default function ConceptForgeIdeationSection({ onSubmit, onGenerateComple
   };
 
   const handleGenerate = async () => {
-    console.log('Enhanced generation starting');
+//     console.log('Enhanced generation starting');
     setIsLoading(true);
     setResults([]);
 

@@ -56,7 +56,7 @@ export default function Home() {
       const enhancedGenerationData = {
         ...generationData,
         onCompleteCallback: () => {
-          console.log('Home: Generation completed, notifying ConceptForge');
+//           console.log('Home: Generation completed, notifying ConceptForge');
           if (originalOnComplete) {
             originalOnComplete();
           }
@@ -84,7 +84,7 @@ export default function Home() {
           preload="auto"
           poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjMUUyOTNiIi8+Cjwvc3ZnPgo=" // Dark placeholder
           onLoadedData={() => {
-            console.log('🎬 Optimized video loaded in Home, triggering initial animation');
+//             console.log('🎬 Optimized video loaded in Home, triggering initial animation');
             playInitialAnimation();
           }}
           onError={(e) => {
